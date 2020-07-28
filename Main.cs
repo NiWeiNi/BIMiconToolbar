@@ -11,7 +11,7 @@ namespace BIMiconToolbar
 
         public Result OnStartup(UIControlledApplication application)
         {
-            BIMiconUI.Toolbar(application);
+            Tab.BIMiconUI.Toolbar(application);
             return Result.Succeeded;
         }
     }
