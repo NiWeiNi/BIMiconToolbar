@@ -56,6 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DuplicateSheets\DuplicateSheets.cs" />
     <Compile Include="Tab\BIMiconUI.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="NumberDoors\NumberDoors.cs" />
@@ -66,6 +67,8 @@
     <Content Include="BIMicon.addin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="DuplicateSheets\Images\iconDupSheets.png" />
+    <Resource Include="DuplicateSheets\Images\iconDupSheetsSmall.png" />
     <EmbeddedResource Include="NumberDoors\Images\NumberDoorsHelp.mp4" />
     <None Include="README.md" />
   </ItemGroup>

@@ -17,6 +17,7 @@ namespace BIMiconToolbar.Tab
 
             // Create ribbon
             Autodesk.Revit.UI.RibbonPanel panelProject = application.CreateRibbonPanel(tabName, "Project");
+            Autodesk.Revit.UI.RibbonPanel panelSheets = application.CreateRibbonPanel(tabName, "Sheets");
 
             // Retrieve assembly path
             string assemblyPath = Assembly.GetExecutingAssembly().Location;
@@ -44,6 +45,24 @@ namespace BIMiconToolbar.Tab
                                                 "of the door, no number will be assigned.");
 
             Auxiliar.SetRibbonItemToolTip(pbNumberDoors, numberDoorsToolTip);
+            #endregion
+
+            /*---Ribbon Panel Sheets---*/
+            #region Ribbon Panel Sheets
+
+            PushButtonData buttonDuplicateSheets = new PushButtonData(
+               "DuplicateSheets",
+               "Duplicate\nSheets",
+               assemblyPath,
+               "BIMiconToolbar.DuplicateSheets.DuplicateSheets"
+            );
+
+            PushButton pbDuplicateSheets = panelSheets.AddItem(buttonDuplicateSheets) as PushButton;
+            pbDuplicateSheets.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/DuplicateSheets/Images/iconDupSheets.png"));
+            pbDuplicateSheets.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/DuplicateSheets/Images/iconDupSheetsSmall.png"));
+            pbDuplicateSheets.ToolTip = "Duplicate active sheet.";
+            pbDuplicateSheets.LongDescription = "Duplicate current active sheet with detailing and annotation elements.";
+
             #endregion
         }
     }
