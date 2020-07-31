@@ -50,6 +50,7 @@ namespace BIMiconToolbar.Tab
             /*---Ribbon Panel Sheets---*/
             #region Ribbon Panel Sheets
 
+            // Duplicate sheets
             PushButtonData buttonDuplicateSheets = new PushButtonData(
                "DuplicateSheets",
                "Duplicate\nSheets",
@@ -62,6 +63,20 @@ namespace BIMiconToolbar.Tab
             pbDuplicateSheets.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/DuplicateSheets/Images/iconDupSheetsSmall.png"));
             pbDuplicateSheets.ToolTip = "Duplicate active sheet.";
             pbDuplicateSheets.LongDescription = "Duplicate current active sheet with detailing and annotation elements.";
+
+            // View on Sheet
+            PushButtonData buttonViewOnSheet = new PushButtonData(
+               "ViewOnSheet",
+               "View on\nSheet",
+               assemblyPath,
+               "BIMiconToolbar.ViewOnSheet.ViewOnSheet"
+            );
+
+            PushButton pbViewOnSheet = panelSheets.AddItem(buttonViewOnSheet) as PushButton;
+            pbViewOnSheet.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/ViewOnSheet/Images/iconViewOnSheet.png"));
+            pbViewOnSheet.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/ViewOnSheet/Images/iconViewOnSheetSmall.png"));
+            pbViewOnSheet.ToolTip = "Place active view on selected sheet.";
+            pbViewOnSheet.LongDescription = "Place active view on selected sheet.";
 
             #endregion
         }
