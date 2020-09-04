@@ -22,29 +22,23 @@ namespace BIMiconToolbar.Tab
             // Retrieve assembly path
             string assemblyPath = Assembly.GetExecutingAssembly().Location;
 
-            /*---Ribbon Panel Project---*/
-            #region Ribbon Panel Project
-            //Create push buttons for panelProject
+            /*---Ribbon Panel Schedules---*/
+            #region Ribbon Panel Schedules
 
-            PushButtonData buttonNumberDoors = new PushButtonData(
-                "NumberDoors",
-                "Number\nDoors",
-                assemblyPath,
-                "BIMiconToolbar.NumberDoors.NumberDoors2020"
+            // Warnings Review
+            PushButtonData buttonWarningsReport = new PushButtonData(
+               "WarningsReport",
+               "Warnings\nReport",
+               assemblyPath,
+               "BIMiconToolbar.WarningsReport.WarningsReport"
             );
 
-            PushButton pbNumberDoors = panelProject.AddItem(buttonNumberDoors) as PushButton;
-            pbNumberDoors.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberDoors/Images/iconNumberDoors.png"));
-            pbNumberDoors.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberDoors/Images/iconNumberDoorsSmall.png"));
+            PushButton pbWarningsReport= panelSheets.AddItem(buttonWarningsReport) as PushButton;
+            pbWarningsReport.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/WarningsReport/Images/iconWarningsReview.png"));
+            pbWarningsReport.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/WarningsReport/Images/iconWarningsReviewSmall.png"));
+            pbWarningsReport.ToolTip = "Generate Warnings report.";
+            pbWarningsReport.LongDescription = "Exports a Warnings report classified by priority.";
 
-            RibbonToolTip numberDoorsToolTip = Auxiliar.ButtonToolTip("NumberDoorsHelp.mp4",
-                                                "BIMiconToolbar.NumberDoors.Images.NumberDoorsHelp.mp4",
-                                                "Number doors according to room number.",
-                                                "Assigns a door number according to room. The primary parameter to use for door number" +
-                                                "is picked from the ToRoom paramter from the door. If there is no room on either side" +
-                                                "of the door, no number will be assigned.");
-
-            Auxiliar.SetRibbonItemToolTip(pbNumberDoors, numberDoorsToolTip);
             #endregion
 
             /*---Ribbon Panel Sheets---*/
@@ -78,6 +72,31 @@ namespace BIMiconToolbar.Tab
             pbViewOnSheet.ToolTip = "Place active view on selected sheet.";
             pbViewOnSheet.LongDescription = "Place active view on selected sheet.";
 
+            #endregion
+
+            /*---Ribbon Panel Project---*/
+            #region Ribbon Panel Project
+            //Create push buttons for panelProject
+
+            PushButtonData buttonNumberDoors = new PushButtonData(
+                "NumberDoors",
+                "Number\nDoors",
+                assemblyPath,
+                "BIMiconToolbar.NumberDoors.NumberDoors2020"
+            );
+
+            PushButton pbNumberDoors = panelProject.AddItem(buttonNumberDoors) as PushButton;
+            pbNumberDoors.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberDoors/Images/iconNumberDoors.png"));
+            pbNumberDoors.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberDoors/Images/iconNumberDoorsSmall.png"));
+
+            RibbonToolTip numberDoorsToolTip = Auxiliar.ButtonToolTip("NumberDoorsHelp.mp4",
+                                                "BIMiconToolbar.NumberDoors.Images.NumberDoorsHelp.mp4",
+                                                "Number doors according to room number.",
+                                                "Assigns a door number according to room. The primary parameter to use for door number" +
+                                                "is picked from the ToRoom paramter from the door. If there is no room on either side" +
+                                                "of the door, no number will be assigned.");
+
+            Auxiliar.SetRibbonItemToolTip(pbNumberDoors, numberDoorsToolTip);
             #endregion
         }
     }
