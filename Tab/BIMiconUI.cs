@@ -25,20 +25,6 @@ namespace BIMiconToolbar.Tab
             /*---Ribbon Panel Schedules---*/
             #region Ribbon Panel Schedules
 
-            // Warnings Review
-            PushButtonData buttonWarningsReport = new PushButtonData(
-               "WarningsReport",
-               "Warnings\nReport",
-               assemblyPath,
-               "BIMiconToolbar.WarningsReport.WarningsReport"
-            );
-
-            PushButton pbWarningsReport= panelSheets.AddItem(buttonWarningsReport) as PushButton;
-            pbWarningsReport.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/WarningsReport/Images/iconWarningsReview.png"));
-            pbWarningsReport.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/WarningsReport/Images/iconWarningsReviewSmall.png"));
-            pbWarningsReport.ToolTip = "Generate Warnings report.";
-            pbWarningsReport.LongDescription = "Exports a Warnings report classified by priority.";
-
             #endregion
 
             /*---Ribbon Panel Sheets---*/
@@ -97,6 +83,21 @@ namespace BIMiconToolbar.Tab
                                                 "of the door, no number will be assigned.");
 
             Auxiliar.SetRibbonItemToolTip(pbNumberDoors, numberDoorsToolTip);
+
+            // Warnings Review
+            PushButtonData buttonWarningsReport = new PushButtonData(
+               "WarningsReport",
+               "Warnings\nReport",
+               assemblyPath,
+               "BIMiconToolbar.WarningsReport.WarningsReport"
+            );
+
+            PushButton pbWarningsReport = panelProject.AddItem(buttonWarningsReport) as PushButton;
+            pbWarningsReport.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/WarningsReport/Images/iconWarningsReview.png"));
+            pbWarningsReport.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/WarningsReport/Images/iconWarningsReviewSmall.png"));
+            pbWarningsReport.ToolTip = "Generate Warnings report.";
+            pbWarningsReport.LongDescription = "Exports a Warnings report classified by priority.";
+
             #endregion
         }
     }

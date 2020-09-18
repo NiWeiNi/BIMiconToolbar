@@ -51,7 +51,13 @@
     "There are too many  area boundary lines in area scheme might result in increased model sizes on disk and in memory. Please investigate if area scheme is used in a proper way.",
     "Option conflict between rooms in the Revit link \"Unnamed\".\nThe room boundary differs from the apparent boundary in the linked view \"View Name\".To resolve the issue, open the Revit link for editing, and use room separation lines to divide the space in the main model.",
     "One of the stairs inside multistory stairs bottom ends exceeds or cannot reach the base elevation of the stair.",
-    "Family occupies Number kilobytes of memory. Consider simplification of the family."
+    "Family occupies Number kilobytes of memory. Consider simplification of the family.",
+    "Roof exceeds user-specified maximum height",
+    "This array contains multiple copies of some identical geometry. Performance might be improved by using a nested family and arraying copies of its instances.",
+    "Stair components are not continuously connected. This may cause incorrect representation and annotation.",
+    "The geometry in this Mass instance is too complex to take advantage of the capabilities a Mass provides.  Please break it down into multiple Mass and family instances that are less complex.",
+    "Cannot create geometry for flex duct. The flex duct is intersecting itself or the start and end are too close together.",
+    "Highlighted walls overlap. One of them may be ignored when Revit finds room boundaries. Use Cut Geometry to embed one wall within the other..."
   ],
 
   "High": [
@@ -202,6 +208,7 @@
     "Mass contains both solid and mesh geometry.  Mass Floors, volume, and surface area, may appear incorrect.",
     "Family definition contains view specific imports. Such imports are inaccessible in the project - consider removal.",
     "Level is slightly off axis and may cause inaccuracies.",
+    "Space separation line is slightly off axis and may cause inaccuracies.",
     "Option Conflict between Rooms.\nRoom boundary in the Main Model differs from the apparent boundary in view \"View Name\".\nTo resolve, select the Main Model Room and use the Add to Design Option Set command.",
     "Possible Member Instability, based on Release Conditions",
     "Vertical Extensions on these Walls overlap. This can cause undesirable Joins. Try starting with no overlap and extend the Walls toward one another.",
@@ -217,7 +224,13 @@
     "There is an invalid Curtain Panel in the model. This is probably caused by two Grid Lines almost meeting at a border of the Curtain Wall or Sloped Glazing, but not exactly at a point. The Curtain Panel can't be displayed.",
     "Elements in element are not connected in a single physical network due to one or both of the following:\n- There are disconnects in the system's physical network.\n- Elements in the system are connected to more than one physical network.",
     "Can't end Stairs with Riser because Riser Thickness is too small.",
-    "Room's number of people or people load (sensible or latent) is too high.  This may be caused by an incorrect density value and must be corrected before this space can be included in the load calculations."
+    "Room's number of people or people load (sensible or latent) is too high.  This may be caused by an incorrect density value and must be corrected before this space can be included in the load calculations.",
+    "Option Conflict between Rooms.\nRoom boundary in the Main Model differs from the apparent boundary in view \"View Name\".\nTo resolve, divide space with Room Separation Lines in the Main Model.",
+    "Option Conflict between Rooms.\nRoom boundary differs from the apparent boundary in view \"View Name\".\nTo resolve, divide space with Room Separation Lines in the Main Model.",
+    "Family volume can't be computed. The bounding geometry (in 3D) can't be found for Room. Room will be ignored in the energy analysis model.",
+    "Monitored Link moved.",
+    "The current shape is only bent in a single plane. A multi-planar definition is not required. Please redefine the shape on the top plane only.",
+    "Notch thickness should not be larger than landing thickness."
   ],
 
   "Medium": [
@@ -288,6 +301,7 @@
     "There are no duct fittings defined in project. The default duct type for fittings will be set to none.",
     "These parts were not intersected by any references. They will not be divided.",
     "The calculation could not be performed due to overconstrained flow condition in the network.",
+    "The calculation could not be performed. Verify that Flow is specified for all required elements. If you have an instance parameter defined for Flow, be sure that it is mapped to the corresponding parameter on the connector.",
     "Some elements were not copied.Description",
     "The stair cannot join to the floor. To join the stair to the floor structure layer, the floor¡¯s top surface must be coplanar with the stair¡¯s bottom surface.",
     "Ref Plane is slightly off axis and may cause inaccuracies.",
@@ -347,7 +361,9 @@
     "Rebar Cover Side/Edge is too large for sketch. Bar placement may be inaccurate.",
     "Beam and Slab Analytical Models do not have the same Analytical Projection Plane.",
     "Can't compute elevation profile for one or more Rails",
-    "The zone does not have a mass floor as its bottom and will be classified as unconditioned space.  If this was not your intent, either join the form in the mass family to another form that has a mass floor, or add a mass floor to the mass instance touching the bottom of the form."
+    "The zone does not have a mass floor as its bottom and will be classified as unconditioned space.  If this was not your intent, either join the form in the mass family to another form that has a mass floor, or add a mass floor to the mass instance touching the bottom of the form.",
+    "The link between connector Index and connector Index is removed.",
+    "Fabric Wire Diameter is too large."
   ],
 
   "Low": [
@@ -686,6 +702,33 @@
     "The pressure calculation could not be performed.",
     "Loaded family curtain panels cannot be used in non-rectangular cells of the curtain host. Type-driven panels from non-rectangular cells were unlocked and left unchanged.",
     "Overall Length/Width is Too Small.",
-    "Some Dimensions lost some of their References on paste."
+    "Some Dimensions lost some of their References on paste.",
+    "You are attempting to connect incompatible connectors. No couplings can be added automatically. To continue, change connector(s) or add couplings.",
+    "Duplicate fields across key schedules will be removed after paste.",
+    "No Loss Defined",
+    "This element is not part of the network.",
+    "Duct Pressure Drop Calculator Not Available: ...",
+    "The model has no occupiable spaces.",
+    "No columns are joined to grid lines, or view parameters exclude all columns.",
+    "The chain formed by these curve elements has multiple sequential intersections with a gridline and so the chain will be ignored",
+    "One or more references of the highlighted element have become invalid.",
+    "Parts were not created because fabrication configuration is not available.",
+    "Stair components are not connected.",
+    "Switching element type to a non-Curtain element Family type. All data about Mullions, Grid Lines, and design units for the Curtain element will be lost.",
+    "... caps were added.",
+    "Switching element type to Curtain Family. All Split Face Regions in the element will be deleted.",
+    "Default Divide settings were not applied to Divided Surface. Please adjust grid spacing values manually.",
+    "Category Color Fill Legend can only be placed in a Floor Plan View.",
+    "The parameter Phase Created of the Toposurface is not set to the first Phase. No pre-existing toposurface were detected. The parameter will be reset to the first Phase unless Keep Phase Created option is picked.",
+    "This hydraulic loop is not separated at any junction. Use the Remove Separation tool to clean up undesired hydraulic separations.",
+    "Size Lookup Table is not available for type Family Symbol.",
+    "The column is already attached. It will be detached and attached to the new target.",
+    "Parts were not created because the element does not have a valid system.",
+    "Can't align Analytical Model with joined Walls.",
+    "Can't create Baluster Patterns for Railings",
+    "The links between connector Index and connector Index, connector Index and connector Index are removed.",
+    "Infilling element was automatically moved to keep it aligned to host.",
+    "Unable to generate some fabrication shape details",
+    "Parameter-defined type of curtain panels defined in a circular way and default panel type will be used instead."
   ]
 }
