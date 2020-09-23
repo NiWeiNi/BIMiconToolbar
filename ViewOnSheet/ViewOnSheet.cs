@@ -14,11 +14,9 @@ namespace BIMiconToolbar.ViewOnSheet
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            using (ViewOnSheetForm form = new ViewOnSheetForm())
-            {
-                form.ShowDialog();
-            }
-
+            Window1 VOSwindow = new Window1(commandData);
+            VOSwindow.ShowDialog();
+            
             return Result.Succeeded;
         }
     }
