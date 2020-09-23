@@ -84,6 +84,22 @@ namespace BIMiconToolbar.Tab
 
             Auxiliar.SetRibbonItemToolTip(pbNumberDoors, numberDoorsToolTip);
 
+            // Number Windows
+            PushButtonData buttonNumberWindows= new PushButtonData(
+               "NumberWindows",
+               "Number\nWindows",
+               assemblyPath,
+               "BIMiconToolbar.NumberWindows.NumberWindows"
+            );
+
+            PushButton pbNumberWindows = panelProject.AddItem(buttonNumberWindows) as PushButton;
+            pbNumberWindows.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberWindows/Images/iconNumberWindows.png"));
+            pbNumberWindows.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberWindows/Images/iconNumberWindowsSmall.png"));
+            pbNumberWindows.ToolTip = "Number windows according to room number.";
+            pbNumberWindows.LongDescription = "Assigns a window number according to room. The primary parameter to use for window number" +
+                                                "is picked from the ToRoom paramter from the window. If there is no room on either side" +
+                                                "of the window, no number will be assigned.";
+
             // Warnings Review
             PushButtonData buttonWarningsReport = new PushButtonData(
                "WarningsReport",
