@@ -16,13 +16,33 @@ namespace BIMiconToolbar.Tab
             application.CreateRibbonTab(tabName);
 
             // Create ribbon
+            Autodesk.Revit.UI.RibbonPanel panelLibrary = application.CreateRibbonPanel(tabName, "Library");
             Autodesk.Revit.UI.RibbonPanel panelProject = application.CreateRibbonPanel(tabName, "Project");
             Autodesk.Revit.UI.RibbonPanel panelSheets = application.CreateRibbonPanel(tabName, "Sheets");
 
             // Retrieve assembly path
             string assemblyPath = Assembly.GetExecutingAssembly().Location;
 
+            /*---Ribbon Panel Library---*/
+            #region Ribbon Panel Library
+            // Duplicate sheets
+            PushButtonData buttonRemoveBackups = new PushButtonData(
+               "RemoveBackups",
+               "Remove\nBackups",
+               assemblyPath,
+               "BIMiconToolbar.RemoveBackups.RemoveBackups"
+            );
+
+            PushButton pbRemoveBackups = panelLibrary.AddItem(buttonRemoveBackups) as PushButton;
+            pbRemoveBackups.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/RemoveBackups/Images/iconRemoveBackup.png"));
+            pbRemoveBackups.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/RemoveBackups/Images/iconRemoveBackupSmall.png"));
+            pbRemoveBackups.ToolTip = "Remove Revit backup files.";
+            pbRemoveBackups.LongDescription = "Remove Revit backup files from selected folder including subfolders.";
+            
+            #endregion
+
             /*---Ribbon Panel Schedules---*/
+
             #region Ribbon Panel Schedules
 
             #endregion
