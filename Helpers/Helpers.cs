@@ -109,9 +109,6 @@ namespace BIMiconToolbar.Helpers
                                               Dictionary<FamilyInstance, string> instanceNumbers,
                                               FamilyInstance familyInstance)
         {
-            // Letters to map from integers
-            const string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
             // Classify family instances
             if (instanceInRoomCount.ContainsKey(roomNumber))
             {
@@ -121,14 +118,14 @@ namespace BIMiconToolbar.Helpers
                     // Retrieve instance with single count from the dictionary that stores instance-room relationship
                     FamilyInstance keyInstance = instanceNumbers.FirstOrDefault(x => x.Value == roomNumber).Key;
                     // Change single count instance prefix
-                    instanceNumbers[keyInstance] = roomNumber + "-" + letters[instanceInRoomCount[roomNumber] - 1];
+                    instanceNumbers[keyInstance] = roomNumber + "-" + numberToLetter(instanceInRoomCount[roomNumber] - 1);
                     // Store current instance and room in dict
-                    instanceNumbers[familyInstance] = roomNumber + "-" + letters[instanceInRoomCount[roomNumber]];
+                    instanceNumbers[familyInstance] = roomNumber + "-" + numberToLetter(instanceInRoomCount[roomNumber]);
                 }
                 else
                 {
                     // Store current instance and room in dict
-                    instanceNumbers[familyInstance] = roomNumber + "-" + letters[instanceInRoomCount[roomNumber]];
+                    instanceNumbers[familyInstance] = roomNumber + "-" + numberToLetter(instanceInRoomCount[roomNumber]);
                 }
                 // Increase the instance count in room
                 instanceInRoomCount[roomNumber] = instanceInRoomCount[roomNumber] + 1;
@@ -139,6 +136,26 @@ namespace BIMiconToolbar.Helpers
                 instanceNumbers.Add(familyInstance, roomNumber);
                 instanceInRoomCount.Add(roomNumber, 1);
             }
+        }
+
+        // Map number to letter
+        static string numberToLetter(int index)
+        {
+            const string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            var value = "";
+
+            if (index >= letters.Length)
+            {
+                int orderPrefix = index / letters.Length;
+                index = index % letters.Length;
+
+                value += orderPrefix.ToString();
+            }
+
+            value += letters[index];
+
+            return value;
         }
     }
 }
