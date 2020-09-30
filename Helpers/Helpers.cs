@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
@@ -49,19 +50,34 @@ namespace BIMiconToolbar.Helpers
             using (FilteredElementCollector instances = new FilteredElementCollector(doc).OfCategory(builtInCategory)
                                             .WhereElementIsNotElementType().WherePasses(designOptionFilter).WherePasses(paraFilter))
             {
+                string roomNumber = "";
                 // Retrieve rooms from windows
                 foreach (FamilyInstance inst in instances)
                 {
-                    if (inst.ToRoom != null)
+                    if (builtInCategory == BuiltInCategory.OST_Doors)
                     {
-                        string roomNumber = inst.ToRoom.Number;
-                        Helpers.InstanceFromToRoom(instancesInRoomCount, roomNumber, instanceNumbers, inst);
+                        if (inst.ToRoom != null)
+                        {
+                            roomNumber = inst.ToRoom.Number;
+                        }
+                        else if (inst.FromRoom != null)
+                        {
+                            roomNumber = inst.FromRoom.Number;
+                        }
                     }
-                    else if (inst.FromRoom != null)
+                    else
                     {
-                        string roomNumber = inst.FromRoom.Number;
-                        Helpers.InstanceFromToRoom(instancesInRoomCount, roomNumber, instanceNumbers, inst);
+                        if (inst.FromRoom != null)
+                        {
+                            roomNumber = inst.FromRoom.Number;
+                        }
+                        else if (inst.ToRoom != null)
+                        {
+                            roomNumber = inst.ToRoom.Number;
+                        }
                     }
+
+                    Helpers.InstanceFromToRoom(instancesInRoomCount, roomNumber, instanceNumbers, inst);
                 }
             }
 
