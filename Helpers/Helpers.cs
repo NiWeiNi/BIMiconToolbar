@@ -10,6 +10,11 @@ namespace BIMiconToolbar.Helpers
 {
     class Helpers
     {
+        /// <summary>
+        /// A function to read and store content of a file even if it is in use
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public static string WriteSafeReadAllLines(string path)
         {
             using (var csv = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -25,6 +30,11 @@ namespace BIMiconToolbar.Helpers
             }
         }
 
+        /// <summary>
+        /// A function to number Family Instances
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="builtInCategory"></param>
         public static void numberFamilyInstance(Document doc,
                                                 BuiltInCategory builtInCategory)
         {
@@ -104,6 +114,13 @@ namespace BIMiconToolbar.Helpers
             }
         }
 
+        /// <summary>
+        /// A function to count number of windows or doors in room
+        /// </summary>
+        /// <param name="instanceInRoomCount"></param>
+        /// <param name="roomNumber"></param>
+        /// <param name="instanceNumbers"></param>
+        /// <param name="familyInstance"></param>
         public static void InstanceFromToRoom(Dictionary<string, int> instanceInRoomCount,
                                               string roomNumber,
                                               Dictionary<FamilyInstance, string> instanceNumbers,
@@ -138,7 +155,11 @@ namespace BIMiconToolbar.Helpers
             }
         }
 
-        // Map number to letter
+        /// <summary>
+        /// Map a number to a letter
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         static string numberToLetter(int index)
         {
             const string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
