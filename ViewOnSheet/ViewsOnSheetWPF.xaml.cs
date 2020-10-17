@@ -1,19 +1,10 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace BIMiconToolbar.ViewOnSheet
 {
@@ -22,6 +13,10 @@ namespace BIMiconToolbar.ViewOnSheet
     /// </summary>
     public partial class ViewSheetsWindow : Window, IDisposable
     {
+        /// <summary>
+        /// Create window for user input
+        /// </summary>
+        /// <param name="commandData"></param>
         public ViewSheetsWindow(ExternalCommandData commandData)
         {
             Autodesk.Revit.DB.Document doc = commandData.Application.ActiveUIDocument.Document;
@@ -30,16 +25,25 @@ namespace BIMiconToolbar.ViewOnSheet
             SheetCheckboxes(doc);
         }
 
+        /// <summary>
+        /// Make window disposable
+        /// </summary>
         public void Dispose()
         {
             this.Close();
         }
 
+        /// <summary>
+        /// Dynamically populate checkboxes
+        /// </summary>
+        /// <param name="doc"></param>
         private void SheetCheckboxes(Document doc)
         {
             FilteredElementCollector sheetsCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Sheets);
 
-            foreach (var sheet in sheetsCollector)
+            IOrderedEnumerable<ViewSheet> vSheets =  from ViewSheet vSheet in sheetsCollector orderby vSheet.Name ascending select vSheet;
+
+            foreach (var sheet in vSheets)
             {
                 CheckBox checkBox = new CheckBox();
                 checkBox.Content = sheet.Name;
@@ -48,6 +52,9 @@ namespace BIMiconToolbar.ViewOnSheet
             }
         }
 
+        /// <summary>
+        /// Store selected sheets for main programs use
+        /// </summary>
         public List<int> listIds = new List<int>();
 
         private void reset_Click(object sender, RoutedEventArgs e)
@@ -60,30 +67,35 @@ namespace BIMiconToolbar.ViewOnSheet
             }
         }
 
+        /// <summary>
+        /// Cancel button function to exit the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            this.Dispose();
         }
 
+        /// <summary>
+        /// Function to execute when click OK button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            
+            // Retrieve all checked checkboxes
             IEnumerable<CheckBox> list = this.sheets.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
 
+            // Add all checked checkboxes to global variable
             foreach (var x in list)
             {
+                // Retrieve ids of checked sheets
                 int intId = Int32.Parse(x.Name.Replace("ID", ""));
-
                 listIds.Add(intId);
-                // MessageBox.Show(sheet.Name);
             }
             
-            this.Close();
-        }
-
-        public void intIds()
-        {
-            List<int> intIds = listIds;
+            this.Dispose();
         }
     }
 }
