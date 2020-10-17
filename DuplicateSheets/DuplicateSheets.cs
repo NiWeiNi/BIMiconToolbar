@@ -13,6 +13,15 @@ namespace BIMiconToolbar.DuplicateSheets
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
+            // Retrieve active view and check if it is a sheet
+            View activeView = doc.ActiveView;
+            ViewType activeViewType = activeView.ViewType;
+            if (activeViewType != ViewType.DrawingSheet)
+            {
+                TaskDialog.Show("Error", "Current view is not a sheet. Please open a sheet.");
+                return Result.Succeeded;
+            }
+
             // Check the current active view
             View selView = doc.ActiveView;
             ViewSheet vSheet = doc.ActiveView as ViewSheet;
