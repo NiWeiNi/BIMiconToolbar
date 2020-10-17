@@ -52,11 +52,42 @@ namespace BIMiconToolbar.ViewOnSheet
                     {
                         ScheduleSheetInstance.Create(doc, sheet.Id, activeView.Id, new XYZ());
                     }
-                    // If activeView is already place on a sheet
-                    else if (isViewOnSheet || activeViewType != ViewType.Legend)
+                    // View is a legend
+                    else if (activeViewType == ViewType.Legend)
                     {
+                        // Place legend if it is not placed on any sheet
+                        if (isViewOnSheet == false)
+                        {
+                            Viewport.Create(doc, sheet.Id, activeView.Id, new XYZ());
+                        }
+                        // Check where is the legend placed on
+                        else
+                        {
+                            ISet<ElementId> viewIds = sheet.GetAllPlacedViews();
+                            bool flagLegend = true;
+                            // Check if legend is placed on selected sheet
+                            foreach (var vId in viewIds)
+                            {
+                                if (vId == activeView.Id)
+                                {
+                                    flagLegend = false;
+                                    TaskDialog.Show("Warning", $"Legend already placed on {sheet.Name}.");
+                                    break;
+                                }
+                            }
+                            // Placed on selected sheet if it is not placed already
+                            if (flagLegend)
+                            {
+                                Viewport.Create(doc, sheet.Id, activeView.Id, new XYZ());
+                            }
+                        }
+                    }
+                    // If activeView is already place on a sheet
+                    else if (isViewOnSheet)
+                    {
+                        // Duplicate view
                         ElementId viewId = activeView.Duplicate(ViewDuplicateOption.WithDetailing);
-
+                        // Place duplicated view on sheet
                         Viewport.Create(doc, sheet.Id, viewId, new XYZ());
                     }
                     // If activeView is not on sheet
