@@ -6,34 +6,29 @@
         xmlns:local="clr-namespace:BIMiconToolbar.Helpers.Browser"
         mc:Ignorable="d"
         Icon="../../Resources/Logos/iconBIMiconBlack.ico"
-        Loaded="Window_Loaded"
         Title="Select Folder or File" Height="450" Width="540">
     <Grid>
 
-        <StackPanel Orientation="Horizontal">
-            
-            
-        </StackPanel>
+        <TreeView x:Name="FolderView" ItemsSource="{Binding Items}">
 
-        <TreeView x:Name="FolderView">
-            <TreeView.Resources>
+            <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
-                    <Setter Property="HeaderTemplate">
-                        <Setter.Value>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="20" Margin="3" Source="{Binding 
-                                                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}},       
-                                                                        Path=Tag,
-                                                                        Converter={x:Static local:HeaderToImageConverter.Instance}}" />
-                                    <TextBlock VerticalAlignment="Center" Text="{Binding}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                 </Style>
-            </TreeView.Resources>
+            </TreeView.ItemContainerStyle>
+
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" Margin="3" 
+                                   Source="{Binding Type,
+                                            Converter={x:Static local:HeaderToImageConverter.Instance}}" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+
         </TreeView>
-        
+
     </Grid>
 </Window>
