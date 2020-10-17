@@ -2,6 +2,7 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Newtonsoft.Json.Linq;
+using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.Streaming;
 using NPOI.XSSF.UserModel;
@@ -83,9 +84,19 @@ namespace BIMiconToolbar.WarningsReport
             //Create a header row
             IRow row = excelSheet.CreateRow(0);
 
+            // Size columns
+            for (int i = 0; i < columnNames.Count(); i++)
+            {
+                if (i == 1)
+                {
+                    excelSheet.SetColumnWidth(i, 5000);
+                }
+                excelSheet.AutoSizeColumn(i);
+            }
+
             // Style for header
             var titleHeader = workbook.CreateFont();
-            titleHeader.FontHeightInPoints = 14;
+            titleHeader.FontHeightInPoints = 12;
             titleHeader.IsBold = true;
             ICellStyle boldStyle = workbook.CreateCellStyle();
             boldStyle.SetFont(titleHeader);

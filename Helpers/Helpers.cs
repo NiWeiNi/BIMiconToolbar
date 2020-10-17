@@ -178,5 +178,43 @@ namespace BIMiconToolbar.Helpers
 
             return value;
         }
+
+        /// <summary>
+        /// A function to check if view is on any sheet
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="view"></param>
+        /// <returns></returns>
+        public static bool IsViewOnSheet(Document doc, View view)
+        {
+            // Element Id of view to compare
+            ElementId viewId = view.Id;
+
+            // Select all sheets
+            List<ViewSheet> sheets = new FilteredElementCollector(doc)
+                                    .OfClass(typeof(ViewSheet))
+                                    .WhereElementIsNotElementType()
+                                    .Cast<ViewSheet>()
+                                    .Where(i => i.IsPlaceholder == false)
+                                    .ToList();
+
+            // Check if views placed on sheet match view
+            foreach (ViewSheet sheet in sheets)
+            {
+                // Collect all views on sheets
+                ISet<ElementId> viewsOnSheets = sheet.GetAllPlacedViews();
+
+                // Compare views on sheet to view to check
+                foreach (ElementId eId in viewsOnSheets)
+                {
+                    if (eId == viewId)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 }
