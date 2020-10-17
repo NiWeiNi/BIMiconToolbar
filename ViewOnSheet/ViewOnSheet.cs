@@ -2,7 +2,6 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System.Collections.Generic;
-using System.Windows;
 
 namespace BIMiconToolbar.ViewOnSheet
 {
@@ -18,10 +17,9 @@ namespace BIMiconToolbar.ViewOnSheet
             ViewType activeViewType = activeView.ViewType;
             if (activeViewType == ViewType.DrawingSheet)
             {
-                TaskDialog.Show("Error", "Current view is a sheet. Please open a view");
+                TaskDialog.Show("Error", "Current view is a sheet. Please open a view.");
                 return Result.Succeeded;
             }
-            MessageBox.Show(activeView.ViewType.ToString());
 
             using (ViewSheetsWindow VOSwindow = new ViewSheetsWindow(commandData))
             {
@@ -41,74 +39,36 @@ namespace BIMiconToolbar.ViewOnSheet
                 Transaction transactionViews = new Transaction(doc, "Place Views on Sheets");
                 transactionViews.Start();
 
-                if (intIds.Count > 1) //&& isViewOnSheet == false)
+                // Place view on selected sheets
+                foreach (var item in intIds)
                 {
-                    // Place view on selected sheets
-                    foreach (var item in intIds)
+                    ElementId eId = new ElementId(item);
+                    ViewSheet sheet = doc.GetElement(eId) as ViewSheet;
+
+                    // If activeView is a schedule
+                    if (activeViewType == ViewType.Schedule ||
+                        activeViewType == ViewType.ColumnSchedule ||
+                        activeViewType == ViewType.PanelSchedule)
                     {
-                        ElementId eId = new ElementId(item);
-                        ViewSheet sheet = doc.GetElement(eId) as ViewSheet;
+                        ScheduleSheetInstance.Create(doc, sheet.Id, activeView.Id, new XYZ());
+                    }
+                    // If activeView is already place on a sheet
+                    else if (isViewOnSheet || activeViewType != ViewType.Legend)
+                    {
+                        ElementId viewId = activeView.Duplicate(ViewDuplicateOption.WithDetailing);
 
-                        if (isViewOnSheet)
-                        {
-                            ElementId viewId = activeView.Duplicate(ViewDuplicateOption.WithDetailing);
-
-                            Viewport.Create(doc, sheet.Id, viewId, new XYZ());
-                        }
-                        else
-                        {
-                            Viewport.Create(doc, sheet.Id, activeView.Id, new XYZ());
-                        }
-                        
-
+                        Viewport.Create(doc, sheet.Id, viewId, new XYZ());
+                    }
+                    // If activeView is not on sheet
+                    else
+                    {
+                        Viewport.Create(doc, sheet.Id, activeView.Id, new XYZ());
                     }
                 }
 
                 // Commit transaction
                 transactionViews.Commit();
-
-
-                string prompt = "";
-                switch (activeView.ViewType)
-                {
-                    case ViewType.CostReport:
-                        prompt += "a cost report view.";
-                        break;
-                    case ViewType.Internal:
-                        prompt += "Revit's internal view.";
-                        break;
-                    case ViewType.Legend:
-                        prompt += "a legend view.";
-                        break;
-                    case ViewType.LoadsReport: // cannot be placed on sheets
-                        prompt += "a loads report view.";
-                        break;
-                    case ViewType.PanelSchedule: // schedules
-                        prompt += "a panel schedule view.";
-                        break;
-                    case ViewType.PresureLossReport: 
-                        prompt += "a pressure loss report view.";
-                        break;
-                    case ViewType.Report:
-                        prompt += "a report view.";
-                        break;
-                    case ViewType.Schedule:
-                        prompt += "a schedule view.";
-                        break;
-                    case ViewType.Undefined:
-                        prompt += "an undefined/unspecified view.";
-                        break;
-                    case ViewType.Walkthrough:
-                        prompt += "a walkthrough view.";
-                        break;
-                    default:
-                        // All views that cannot be placed more than once on sheets
-
-
-                        break;
-                }
             }
-            
             return Result.Succeeded;
         }
     }
