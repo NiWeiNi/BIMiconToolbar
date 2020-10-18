@@ -34,6 +34,7 @@ namespace BIMiconToolbar.ViewOnSheet
 
                 // Check if view is already on sheets
                 bool isViewOnSheet = Helpers.Helpers.IsViewOnSheet(doc, activeView);
+                bool viewPlaced = false;
 
                 // Transaction
                 Transaction transactionViews = new Transaction(doc, "Place Views on Sheets");
@@ -83,7 +84,7 @@ namespace BIMiconToolbar.ViewOnSheet
                         }
                     }
                     // If activeView is already place on a sheet
-                    else if (isViewOnSheet)
+                    else if (isViewOnSheet || viewPlaced == true)
                     {
                         // Duplicate view
                         ElementId viewId = activeView.Duplicate(ViewDuplicateOption.WithDetailing);
@@ -94,6 +95,7 @@ namespace BIMiconToolbar.ViewOnSheet
                     else
                     {
                         Viewport.Create(doc, sheet.Id, activeView.Id, new XYZ());
+                        viewPlaced = true;
                     }
                 }
 
