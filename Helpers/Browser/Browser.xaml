@@ -5,30 +5,60 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BIMiconToolbar.Helpers.Browser"
         mc:Ignorable="d"
+        FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../../Resources/Logos/iconBIMiconBlack.ico"
-        Title="Select Folder or File" Height="450" Width="540">
-    <Grid>
+        ResizeMode="NoResize"
+        Title="Select Folder or File" Height="480" Width="420"
+        WindowStartupLocation="CenterScreen">
 
-        <TreeView x:Name="FolderView" ItemsSource="{Binding Items}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\ResourceDictionaries\DictionaryWindows.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
 
-            <TreeView.ItemContainerStyle>
-                <Style TargetType="{x:Type TreeViewItem}">
-                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                </Style>
-            </TreeView.ItemContainerStyle>
+    <Border Padding="10 0">
+        <StackPanel>
+            
+            <Border CornerRadius="6" BorderBrush="#3399cc" BorderThickness="1" DockPanel.Dock="Top" Height="380" Padding="5 10 5 10">
+                <Grid ShowGridLines="False">
+                    <TreeView x:Name="FolderView" ItemsSource="{Binding Items}">
 
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Width="20" Margin="3" 
-                                   Source="{Binding Type,
-                                            Converter={x:Static local:HeaderToImageConverter.Instance}}" />
-                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="{x:Type TreeViewItem}">
+                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                            </Style>
+                        </TreeView.ItemContainerStyle>
 
-        </TreeView>
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="20" Margin="3" 
+                                       Source="{Binding Type,
+                                                Converter={x:Static local:HeaderToImageConverter.Instance}}" />
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
 
-    </Grid>
+                    </TreeView>
+                </Grid>
+            </Border>
+
+            <!-- Buttons End-->
+            <Grid Margin="0 15 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="1" IsDefault="True" Margin="0 0 10 0"></Button>
+                <Button x:Name="cancel" Click="cancel_Click" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
+            </Grid>
+        </StackPanel>
+        
+    </Border>
+
 </Window>

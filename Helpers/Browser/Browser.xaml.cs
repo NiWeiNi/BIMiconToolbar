@@ -1,9 +1,6 @@
 ﻿using BIMiconToolbar.Helpers.Browser.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace BIMiconToolbar.Helpers.Browser
 {
@@ -12,6 +9,9 @@ namespace BIMiconToolbar.Helpers.Browser
     /// </summary>
     public partial class BrowserWindow : Window, IDisposable 
     {
+        /// <summary>
+        /// Method to call window
+        /// </summary>
         public BrowserWindow()
         {
             InitializeComponent();
@@ -19,21 +19,42 @@ namespace BIMiconToolbar.Helpers.Browser
             this.DataContext = new BrowserStructureViewModel();
         }
 
+        /// <summary>
+        /// Implement Idisposable interface
+        /// </summary>
         public void Dispose()
         {
             this.Close();
         }
 
-        #region Folder expanded
-        private void Item_Expanded(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Method for cancel button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cancel_Click(object sender, RoutedEventArgs e)
         {
-            
+            this.Dispose();
         }
-        #endregion
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// String to store user's selected path
+        /// </summary>
+        public string selectedPath = null;
+
+        /// <summary>
+        /// Method for ok click to return selected path
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OK_Click(object sender, RoutedEventArgs e)
         {
+            BrowserItemViewModel selectedFolder = FolderView.SelectedItem as BrowserItemViewModel;
 
+            // Assign selected path to variable for use in main program
+            selectedPath = selectedFolder.FullPath;
+
+            this.Dispose();
         }
     }
 }
