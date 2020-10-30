@@ -22,10 +22,22 @@ namespace BIMiconToolbar.WarningsReport
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
+            // Check if the open document is a Family document
+            try
+            {
+                var check = doc.FamilyManager;
+                TaskDialog.Show("Warning", "Family document opened, please open a project");
+                return Result.Cancelled;
+            }
+            catch
+            {
+                // TODO: refactor Family document check
+            }
+
             // Retrieve current date
             string currentDate = DateTime.Today.ToString("dd/MM/yyyy");
 
-            string[] columnNames = { "Priority", "Warning", "Element Ids", "Date Detected", "Date Solved", "Fix by" };
+            string[] columnNames = { "Priority", "Warning", "Element Ids", "Date Detected", "Date Solved", "Fixed by" };
 
             string warningJSONPath = @"C:\ProgramData\Autodesk\Revit\Addins\2019\WarningsReport\RevitWarningsClassified.json";
             string warningsJsonString = Helpers.Helpers.WriteSafeReadAllLines(warningJSONPath);
@@ -84,16 +96,6 @@ namespace BIMiconToolbar.WarningsReport
             //Create a header row
             IRow row = excelSheet.CreateRow(0);
 
-            // Size columns
-            for (int i = 0; i < columnNames.Count(); i++)
-            {
-                if (i == 1)
-                {
-                    excelSheet.SetColumnWidth(i, 5000);
-                }
-                excelSheet.AutoSizeColumn(i);
-            }
-
             // Style for header
             var titleHeader = workbook.CreateFont();
             titleHeader.FontHeightInPoints = 12;
@@ -123,7 +125,26 @@ namespace BIMiconToolbar.WarningsReport
                         row.CreateCell(j).SetCellValue(dataTransfer[i][j]);
                     }
                 }
+
+                // Size columns
+                excelSheet.TrackAllColumnsForAutoSizing();
+
+                for (int i = 0; i < columnNames.Count(); i++)
+                {
+                    if (i == 1)
+                    {
+                        excelSheet.SetColumnWidth(i, 3800);
+                    }
+                    // Autosize needs to be after column has some data
+                    excelSheet.AutoSizeColumn(i);
+                }
+
+                excelSheet.UntrackAllColumnsForAutoSizing();
+
+                // Write to file
                 workbook.Write(fs);
+
+                TaskDialog.Show("Success", "Warnings report created in: " + excelPath);
             }
             return Result.Succeeded;
         }
