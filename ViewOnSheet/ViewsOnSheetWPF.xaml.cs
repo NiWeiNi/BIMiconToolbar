@@ -41,12 +41,12 @@ namespace BIMiconToolbar.ViewOnSheet
         {
             FilteredElementCollector sheetsCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Sheets);
 
-            IOrderedEnumerable<ViewSheet> vSheets =  from ViewSheet vSheet in sheetsCollector orderby vSheet.Name ascending select vSheet;
+            IOrderedEnumerable<ViewSheet> vSheets =  from ViewSheet vSheet in sheetsCollector orderby vSheet.SheetNumber ascending select vSheet;
 
             foreach (var sheet in vSheets)
             {
                 CheckBox checkBox = new CheckBox();
-                checkBox.Content = sheet.Name;
+                checkBox.Content = sheet.SheetNumber + " - " + sheet.Name;
                 checkBox.Name = "ID" + sheet.Id.ToString();
                 sheets.Children.Add(checkBox);
             }
