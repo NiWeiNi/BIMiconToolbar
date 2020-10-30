@@ -46,6 +46,13 @@ namespace BIMiconToolbar.WarningsReport
 
             IList<FailureMessage> docWarnings = doc.GetWarnings();
 
+            // Check if there is any warning in the document
+            if (docWarnings.Count == 0)
+            {
+                TaskDialog.Show("Warning", "This project doesn't contain any warnings. Congratulations!");
+                return Result.Succeeded;
+            }
+
             // Store data to transfer to database
             List<string[]> dataTransfer = new List<string[]>();
 
