@@ -18,6 +18,7 @@ namespace BIMiconToolbar.Tab
             // Create ribbon
             Autodesk.Revit.UI.RibbonPanel panelLibrary = application.CreateRibbonPanel(tabName, "Library");
             Autodesk.Revit.UI.RibbonPanel panelProject = application.CreateRibbonPanel(tabName, "Project");
+            Autodesk.Revit.UI.RibbonPanel panelSchedules = application.CreateRibbonPanel(tabName, "Schedules");
             Autodesk.Revit.UI.RibbonPanel panelSheets = application.CreateRibbonPanel(tabName, "Sheets");
 
             // Retrieve assembly path
@@ -38,12 +39,25 @@ namespace BIMiconToolbar.Tab
             pbRemoveBackups.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/RemoveBackups/Images/iconRemoveBackupSmall.png"));
             pbRemoveBackups.ToolTip = "Remove Revit backup files.";
             pbRemoveBackups.LongDescription = "Remove Revit backup files from selected folder including subfolders.";
-            
+
             #endregion
 
             /*---Ribbon Panel Schedules---*/
-
             #region Ribbon Panel Schedules
+
+            // Warnings Review
+            PushButtonData buttonWarningsReport = new PushButtonData(
+               "WarningsReport",
+               "Warnings\nReport",
+               assemblyPath,
+               "BIMiconToolbar.WarningsReport.WarningsReport"
+            );
+
+            PushButton pbWarningsReport = panelSchedules.AddItem(buttonWarningsReport) as PushButton;
+            pbWarningsReport.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/WarningsReport/Images/iconWarningsReview.png"));
+            pbWarningsReport.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/WarningsReport/Images/iconWarningsReviewSmall.png"));
+            pbWarningsReport.ToolTip = "Generate Warnings report.";
+            pbWarningsReport.LongDescription = "Exports a Warnings report classified by priority.";
 
             #endregion
 
@@ -119,20 +133,6 @@ namespace BIMiconToolbar.Tab
             pbNumberWindows.LongDescription = "Assigns a window number according to room. The primary parameter to use for window number" +
                                                 "is picked from the ToRoom paramter from the window. If there is no room on either side" +
                                                 "of the window, no number will be assigned.";
-
-            // Warnings Review
-            PushButtonData buttonWarningsReport = new PushButtonData(
-               "WarningsReport",
-               "Warnings\nReport",
-               assemblyPath,
-               "BIMiconToolbar.WarningsReport.WarningsReport"
-            );
-
-            PushButton pbWarningsReport = panelProject.AddItem(buttonWarningsReport) as PushButton;
-            pbWarningsReport.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/WarningsReport/Images/iconWarningsReview.png"));
-            pbWarningsReport.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/WarningsReport/Images/iconWarningsReviewSmall.png"));
-            pbWarningsReport.ToolTip = "Generate Warnings report.";
-            pbWarningsReport.LongDescription = "Exports a Warnings report classified by priority.";
 
             #endregion
         }
