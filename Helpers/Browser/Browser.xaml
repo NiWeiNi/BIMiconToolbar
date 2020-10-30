@@ -24,7 +24,7 @@
             
             <Border CornerRadius="6" BorderBrush="#3399cc" BorderThickness="1" DockPanel.Dock="Top" Height="380" Padding="5 10 5 10">
                 <Grid ShowGridLines="False">
-                    <TreeView x:Name="FolderView" ItemsSource="{Binding Items}">
+                    <TreeView x:Name="FolderView" ItemsSource="{Binding Items}" Background="{x:Null}" BorderBrush="{x:Null}">
 
                         <TreeView.ItemContainerStyle>
                             <Style TargetType="{x:Type TreeViewItem}">
