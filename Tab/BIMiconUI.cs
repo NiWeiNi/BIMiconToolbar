@@ -45,6 +45,20 @@ namespace BIMiconToolbar.Tab
             /*---Ribbon Panel Schedules---*/
             #region Ribbon Panel Schedules
 
+            // Export Schedules
+            PushButtonData buttonExportSchedules = new PushButtonData(
+               "ExportSchedules",
+               "Export\nSchedules",
+               assemblyPath,
+               "BIMiconToolbar.ExportSchedules.ExportSchedules"
+            );
+
+            PushButton pbExportSchedules = panelSchedules.AddItem(buttonExportSchedules) as PushButton;
+            pbExportSchedules.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/ExportSchedules/Images/iconSchedulesExcel.png"));
+            pbExportSchedules.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/ExportSchedules/Images/iconSchedulesExcelSmall.png"));
+            pbExportSchedules.ToolTip = "Export selected schedules.";
+            pbExportSchedules.LongDescription = "Export selected schedules to the selected destination.";
+
             // Warnings Review
             PushButtonData buttonWarningsReport = new PushButtonData(
                "WarningsReport",
@@ -133,6 +147,20 @@ namespace BIMiconToolbar.Tab
             pbNumberWindows.LongDescription = "Assigns a window number according to room. The primary parameter to use for window number" +
                                                 "is picked from the ToRoom paramter from the window. If there is no room on either side" +
                                                 "of the window, no number will be assigned.";
+
+            // Number Windows
+            PushButtonData buttonMatchGrids = new PushButtonData(
+               "MatchGrids",
+               "Match\nGrids",
+               assemblyPath,
+               "BIMiconToolbar.MatchGrids.MatchGrids"
+            );
+
+            PushButton pbMatchGrids = panelProject.AddItem(buttonMatchGrids) as PushButton;
+            pbMatchGrids.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/MatchGrids/Images/iconMatchGrids.png"));
+            pbMatchGrids.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/MatchGrids/Images/iconMatchGridsSmall.png"));
+            pbMatchGrids.ToolTip = "Match grids display from one view to all selected views";
+            pbMatchGrids.LongDescription = "Match grids display from one view to all other selected views.";
 
             #endregion
         }

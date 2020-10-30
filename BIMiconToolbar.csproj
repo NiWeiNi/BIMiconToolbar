@@ -102,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DuplicateSheets\DuplicateSheets.cs" />
+    <Compile Include="ExportSchedules\ExportSchedules.cs" />
     <Compile Include="Helpers\Browser\Browser.xaml.cs">
       <DependentUpon>Browser.xaml</DependentUpon>
     </Compile>
@@ -114,6 +115,7 @@
     <Compile Include="Helpers\Browser\ViewModels\Base\RelayCommand.cs" />
     <Compile Include="Helpers\Browser\ViewModels\BrowserStructureViewModel.cs" />
     <Compile Include="Helpers\Helpers.cs" />
+    <Compile Include="MatchGrids\MatchGrids.cs" />
     <Compile Include="NumberWindows\NumberWindows.cs" />
     <Compile Include="RemoveBackups\Helpers\RemoveBackupHelpers.cs" />
     <Compile Include="RemoveBackups\RemoveBackups.cs" />
@@ -152,6 +154,10 @@
     <Resource Include="Helpers\Browser\Images\txt.png" />
     <Resource Include="Helpers\Browser\Images\xls.png" />
     <Resource Include="Resources\Logos\BIMiconRound.ico" />
+    <Resource Include="MatchGrids\Images\iconMatchGrids.png" />
+    <Resource Include="MatchGrids\Images\iconMatchGridsSmall.png" />
+    <Resource Include="ExportSchedules\Images\iconSchedulesExcel.png" />
+    <Resource Include="ExportSchedules\Images\iconSchedulesExcelSmall.png" />
     <Content Include="WarningsReport\RevitWarningsClassified.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
