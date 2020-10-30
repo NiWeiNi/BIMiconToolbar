@@ -139,6 +139,8 @@ namespace BIMiconToolbar.DuplicateSheets
                 // Commit transaction
                 t.Commit();
 
+                TaskDialog.Show("Success", "Sheet " + vSheet.SheetNumber + vSheet.Name + " has been duplicated");
+
                 return Result.Succeeded;
             }
         }

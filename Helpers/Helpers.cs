@@ -1,6 +1,4 @@
 ﻿using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Architecture;
-using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,7 +34,8 @@ namespace BIMiconToolbar.Helpers
         /// <param name="doc"></param>
         /// <param name="builtInCategory"></param>
         public static void numberFamilyInstance(Document doc,
-                                                BuiltInCategory builtInCategory)
+                                                BuiltInCategory builtInCategory,
+                                                ref int countInstances)
         {
             // Create dictionary to store window-room values
             Dictionary<FamilyInstance, string> instanceNumbers = new Dictionary<FamilyInstance, string>();
@@ -107,7 +106,11 @@ namespace BIMiconToolbar.Helpers
                 foreach (KeyValuePair<FamilyInstance, string> entry in instanceNumbers)
                 {
                     Parameter instanceMark = entry.Key.get_Parameter(BuiltInParameter.ALL_MODEL_MARK);
-                    instanceMark.Set(entry.Value);
+                    if (entry.Value != "")
+                    {
+                        instanceMark.Set(entry.Value);
+                        countInstances += 1;
+                    }
                 }
 
                 t.Commit();

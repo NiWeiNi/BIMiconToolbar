@@ -12,9 +12,11 @@ namespace BIMiconToolbar.NumberDoors
             Document doc = commandData.Application.ActiveUIDocument.Document;
             BuiltInCategory builtInCategory = BuiltInCategory.OST_Doors;
 
-            Helpers.Helpers.numberFamilyInstance(doc, builtInCategory);
+            int countInstances = 0;
 
-            TaskDialog.Show("Number Doors", "Doors numbered");
+            Helpers.Helpers.numberFamilyInstance(doc, builtInCategory, ref countInstances);
+
+            TaskDialog.Show("Success", countInstances.ToString() + " doors numbered");
 
             return Result.Succeeded;
         }

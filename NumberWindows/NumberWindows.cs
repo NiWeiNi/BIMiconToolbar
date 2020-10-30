@@ -12,9 +12,11 @@ namespace BIMiconToolbar.NumberWindows
             Document doc = commandData.Application.ActiveUIDocument.Document;
             BuiltInCategory builtInCategory = BuiltInCategory.OST_Windows;
 
-            Helpers.Helpers.numberFamilyInstance(doc, builtInCategory);
+            int countInstances = 0;
 
-            TaskDialog.Show("Number Windows", "Windows numbered");
+            Helpers.Helpers.numberFamilyInstance(doc, builtInCategory, ref countInstances);
+
+            TaskDialog.Show("Success", countInstances.ToString() + " windows numbered");
 
             return Result.Succeeded;
         }
