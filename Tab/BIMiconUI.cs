@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.UI;
 using Autodesk.Windows;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 
@@ -19,6 +20,7 @@ namespace BIMiconToolbar.Tab
             Autodesk.Revit.UI.RibbonPanel panelProject = application.CreateRibbonPanel(tabName, "Project");
             Autodesk.Revit.UI.RibbonPanel panelSchedules = application.CreateRibbonPanel(tabName, "Schedules");
             Autodesk.Revit.UI.RibbonPanel panelSheets = application.CreateRibbonPanel(tabName, "Sheets");
+            Autodesk.Revit.UI.RibbonPanel panelSupport = application.CreateRibbonPanel(tabName, "Support");
 
             // Retrieve assembly path
             string assemblyPath = Assembly.GetExecutingAssembly().Location;
@@ -174,6 +176,52 @@ namespace BIMiconToolbar.Tab
             pbInteriorElevations.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/InteriorElevations/Images/iconInteriorElevSmall.png"));
             pbInteriorElevations.ToolTip = "Creates interior elevations from selected rooms";
             pbInteriorElevations.LongDescription = "Creates interior elevations from selected rooms and place them onto sheets";
+
+            #endregion
+
+            /*--- Ribbon Panel Support ---*/
+            #region Panel Support
+
+            //Create buttons for panelSupport
+            PushButtonData buttonVersion = new PushButtonData(
+                "Version",
+                "Version",
+                assemblyPath,
+                "BIMiconToolbar.Support.Version.Version");
+
+            PushButtonData buttonDocumentation = new PushButtonData(
+                "Documentation",
+                "Docs",
+                assemblyPath,
+                "BIMiconToolbar.Support.Docs.Docs");
+
+            PushButtonData buttonHelp = new PushButtonData(
+                "Help",
+                "Help",
+                assemblyPath,
+                "BIMiconToolbar.Support.Help.Help");
+
+            // Stacked items for stacked buttons
+            IList<Autodesk.Revit.UI.RibbonItem> stackedSupport = panelSupport.AddStackedItems(buttonHelp, buttonDocumentation, buttonVersion);
+
+            // Defining buttons
+            PushButton pbHelp = stackedSupport[0] as PushButton;
+            pbHelp.ToolTip = "Get Help";
+            pbHelp.LongDescription = "Contact us for any query or help";
+            BitmapImage pbHelpImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Support/Help/Images/iconHelpSmall.png"));
+            pbHelp.Image = pbHelpImage;
+
+            PushButton pbDocumentation = stackedSupport[1] as PushButton;
+            pbDocumentation.ToolTip = "Documentation";
+            pbDocumentation.LongDescription = "Check our online documentation";
+            BitmapImage pbDocumentationImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Support/Docs/Images/iconDocSmall.png"));
+            pbDocumentation.Image = pbDocumentationImage;
+
+            PushButton pbVersion = stackedSupport[2] as PushButton;
+            pbVersion.ToolTip = "Display current version";
+            pbVersion.LongDescription = "Retrieves current version";
+            BitmapImage pbVersionImageSmall = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Support/Version/Images/iconVersionSmall.png"));
+            pbVersion.Image = pbVersionImageSmall;
 
             #endregion
         }
