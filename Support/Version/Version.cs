@@ -9,7 +9,11 @@ namespace BIMiconToolbar.Support.Version
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            TaskDialog.Show("Warning", "Sorry, the tool is WIP");
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+            string version = fvi.FileVersion;
+
+            TaskDialog.Show("Version", "Current version is: " + version);
 
             return Result.Succeeded;
         }

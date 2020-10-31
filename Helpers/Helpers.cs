@@ -219,5 +219,32 @@ namespace BIMiconToolbar.Helpers
 
             return false;
         }
+
+        /// <summary>
+        /// Check if Uri is valid
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
+        public static bool IsValidUri(string uri)
+        {
+            if (!Uri.IsWellFormedUriString(uri, UriKind.Absolute))
+                return false;
+            if (!Uri.TryCreate(uri, UriKind.Absolute, out Uri tmp))
+                return false;
+            return tmp.Scheme == Uri.UriSchemeHttp || tmp.Scheme == Uri.UriSchemeHttps;
+        }
+
+        /// <summary>
+        /// Open Uri
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
+        public static bool OpenUri(string uri)
+        {
+            if (!IsValidUri(uri))
+                return false;
+            System.Diagnostics.Process.Start(uri);
+            return true;
+        }
     }
 }

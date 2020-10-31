@@ -7,10 +7,10 @@ namespace BIMiconToolbar.Support.Help
     [TransactionAttribute(TransactionMode.ReadOnly)]
     class Help : IExternalCommand
     {
+        private readonly string _helpWeb = "https://www.bimicon.com/contact/";
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            TaskDialog.Show("Warning", "Sorry, the tool is WIP");
-
+            Helpers.Helpers.OpenUri(_helpWeb);
             return Result.Succeeded;
         }
     }
