@@ -11,7 +11,12 @@ namespace BIMiconToolbar.MatchGrids
         {
             TaskDialog.Show("Warning", "Sorry, the tool is WIP");
 
-            return Result.Succeeded;
+            using (MatchGridsWPF customWindow = new MatchGridsWPF(commandData))
+            {
+                customWindow.ShowDialog();
+            }
+
+                return Result.Succeeded;
         }
     }
 }

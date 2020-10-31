@@ -19,7 +19,7 @@ namespace BIMiconToolbar.ViewOnSheet
         /// <param name="commandData"></param>
         public ViewSheetsWindow(ExternalCommandData commandData)
         {
-            Autodesk.Revit.DB.Document doc = commandData.Application.ActiveUIDocument.Document;
+            Document doc = commandData.Application.ActiveUIDocument.Document;
 
             InitializeComponent();
             SheetCheckboxes(doc);

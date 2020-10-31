@@ -19,10 +19,10 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Border Padding="10 0">
+    <Border Style="{StaticResource SingleContainer}">
         <StackPanel>
-            
-            <Border CornerRadius="6" BorderBrush="#3399cc" BorderThickness="1" DockPanel.Dock="Top" Height="380" Padding="5 10 5 10">
+
+            <Border Style="{StaticResource OuterBorder}">
                 <Grid ShowGridLines="False">
                     <TreeView x:Name="FolderView" ItemsSource="{Binding Items}" Background="{x:Null}" BorderBrush="{x:Null}">
 

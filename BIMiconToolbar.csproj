@@ -117,6 +117,9 @@
     <Compile Include="Helpers\Helpers.cs" />
     <Compile Include="InteriorElevations\InteriorElevations.cs" />
     <Compile Include="MatchGrids\MatchGrids.cs" />
+    <Compile Include="MatchGrids\MatchGridsWPF.xaml.cs">
+      <DependentUpon>MatchGridsWPF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NumberWindows\NumberWindows.cs" />
     <Compile Include="RemoveBackups\Helpers\RemoveBackupHelpers.cs" />
     <Compile Include="RemoveBackups\RemoveBackups.cs" />
@@ -185,6 +188,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Helpers\ResourceDictionaries\DictionaryWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MatchGrids\MatchGridsWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -19,19 +19,20 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Border Padding="10 0">
+    <Border Style="{StaticResource SingleContainer}">
         <StackPanel>
-            <TextBlock Text="Please select sheet/s to place current view:" />
-            <Border CornerRadius="6" BorderBrush="#3399cc" BorderThickness="1" DockPanel.Dock="Top" Height="380" Padding="5 10 5 10">
-                <Grid>
-                    <ScrollViewer HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible" Width="375">
-                        <StackPanel x:Name="sheets" />
-                    </ScrollViewer>
-                </Grid>
+            <TextBlock Style="{StaticResource Title}">
+                Please select sheet/s to place current view:
+            </TextBlock>
+
+            <Border Style="{StaticResource OuterBorder}">
+                <ScrollViewer HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible" Width="375">
+                    <StackPanel x:Name="sheets" />
+                </ScrollViewer>
             </Border>
 
-            <!-- Buttons End-->
-            <Grid Margin="0 15 0 0">
+            <!-- Buttons End -->
+            <Grid Style="{StaticResource MainButtons}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -41,7 +42,7 @@
                 <Button x:Name="reset" Click="reset_Click" Content="Reset" Grid.Column="1"  Margin="5 0 5 0"></Button>
                 <Button x:Name="cancel" Click="cancel_Click" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
             </Grid>
-
         </StackPanel>
     </Border>
+
 </Window>
