@@ -115,6 +115,7 @@
     <Compile Include="Helpers\Browser\ViewModels\Base\RelayCommand.cs" />
     <Compile Include="Helpers\Browser\ViewModels\BrowserStructureViewModel.cs" />
     <Compile Include="Helpers\Helpers.cs" />
+    <Compile Include="InteriorElevations\InteriorElevations.cs" />
     <Compile Include="MatchGrids\MatchGrids.cs" />
     <Compile Include="NumberWindows\NumberWindows.cs" />
     <Compile Include="RemoveBackups\Helpers\RemoveBackupHelpers.cs" />
@@ -158,6 +159,8 @@
     <Resource Include="MatchGrids\Images\iconMatchGridsSmall.png" />
     <Resource Include="ExportSchedules\Images\iconSchedulesExcel.png" />
     <Resource Include="ExportSchedules\Images\iconSchedulesExcelSmall.png" />
+    <Resource Include="InteriorElevations\Images\iconInteriorElev.png" />
+    <Resource Include="InteriorElevations\Images\iconInteriorElevSmall.png" />
     <Content Include="WarningsReport\RevitWarningsClassified.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

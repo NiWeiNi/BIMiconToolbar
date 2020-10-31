@@ -1,7 +1,6 @@
 ﻿using Autodesk.Revit.UI;
 using Autodesk.Windows;
 using System;
-using System.IO;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 
@@ -161,6 +160,20 @@ namespace BIMiconToolbar.Tab
             pbMatchGrids.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/MatchGrids/Images/iconMatchGridsSmall.png"));
             pbMatchGrids.ToolTip = "Match grids display from one view to all selected views";
             pbMatchGrids.LongDescription = "Match grids display from one view to all other selected views.";
+
+            // Interior Elevations
+            PushButtonData buttonInteriorElevations = new PushButtonData(
+               "InteriorElevations",
+               "Interior\nElevations",
+               assemblyPath,
+               "BIMiconToolbar.InteriorElevations.InteriorElevations"
+            );
+
+            PushButton pbInteriorElevations = panelProject.AddItem(buttonInteriorElevations) as PushButton;
+            pbInteriorElevations.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/InteriorElevations/Images/iconInteriorElev.png"));
+            pbInteriorElevations.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/InteriorElevations/Images/iconInteriorElevSmall.png"));
+            pbInteriorElevations.ToolTip = "Creates interior elevations from selected rooms";
+            pbInteriorElevations.LongDescription = "Creates interior elevations from selected rooms and place them onto sheets";
 
             #endregion
         }
