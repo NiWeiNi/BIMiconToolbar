@@ -20,6 +20,7 @@ namespace BIMiconToolbar.MatchGrids
         public ObservableCollection<ComboBoxItem> CbItems { get; set; }
         public ComboBoxItem SelectedComboItem { get; set; }
         public IEnumerable<View> FilteredViewsCheckBox { get; set; }
+        public List<int> IntegerIds { get; set; }
         
 
         /// <summary>
@@ -124,6 +125,54 @@ namespace BIMiconToolbar.MatchGrids
                 checkBox.Name = "ID" + v.Id.ToString();
                 viewsCheckBox.Children.Add(checkBox);
             }
+        }
+
+        /// <summary>
+        /// Set properties once clicked Ok
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OK_Click(object sender, RoutedEventArgs e)
+        {
+            // Retrieve all checked checkboxes
+            IEnumerable<CheckBox> list = this.viewsCheckBox.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
+
+            IntegerIds = new List<int>();
+
+            // Add all checked checkboxes to global variable
+            foreach (var x in list)
+            {
+                // Retrieve ids of checked sheets
+                int intId = Int32.Parse(x.Name.Replace("ID", ""));
+                IntegerIds.Add(intId);
+            }
+
+            this.Dispose();
+        }
+
+        /// <summary>
+        /// Function to reset selected views
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void reset_Click(object sender, RoutedEventArgs e)
+        {
+            var list = this.viewsCheckBox.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
+
+            foreach (var x in list)
+            {
+                x.IsChecked = false;
+            }
+        }
+
+        /// <summary>
+        /// Function to cancel current operation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cancel_Click(object sender, RoutedEventArgs e)
+        {
+            Dispose();
         }
     }
 }
