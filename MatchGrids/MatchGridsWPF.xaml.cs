@@ -4,16 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace BIMiconToolbar.MatchGrids
 {
@@ -25,8 +17,10 @@ namespace BIMiconToolbar.MatchGrids
         /// <summary>
         ///  Properties to store ComboBox items
         /// </summary>
-        public ObservableCollection<ComboBoxItem> cbItems { get; set; }
+        public ObservableCollection<ComboBoxItem> CbItems { get; set; }
         public ComboBoxItem SelectedComboItem { get; set; }
+        public IEnumerable<View> FilteredViewsCheckBox { get; set; }
+        
 
         /// <summary>
         /// MatchGrids main window
@@ -39,10 +33,22 @@ namespace BIMiconToolbar.MatchGrids
             InitializeComponent();
             DataContext = this;
 
-            cbItems = new ObservableCollection<ComboBoxItem>();
+            CbItems = new ObservableCollection<ComboBoxItem>();
 
             FilteredElementCollector viewsCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views);
-            IOrderedEnumerable<View> views = from View view in viewsCollector orderby view.Name ascending select view;
+
+            List<View> filteredV = viewsCollector.Cast<View>().Where(sh => 
+                                   sh.ViewType == ViewType.AreaPlan ||
+                                   sh.ViewType == ViewType.CeilingPlan ||
+                                   sh.ViewType == ViewType.Elevation ||
+                                   sh.ViewType == ViewType.FloorPlan ||
+                                   sh.ViewType == ViewType.Section ||
+                                   sh.ViewType == ViewType.ThreeD).ToList();
+
+            IEnumerable<View> filteredViews = from View view in filteredV where !view.IsTemplate select view;
+            IOrderedEnumerable<View> views = from View view in filteredViews orderby view.Name ascending select view;
+
+            FilteredViewsCheckBox = filteredViews;
 
             int count = 0;
 
@@ -50,7 +56,8 @@ namespace BIMiconToolbar.MatchGrids
             {
                 ComboBoxItem comb = new ComboBoxItem();
                 comb.Content = v.Name;
-                cbItems.Add(comb);
+                comb.Tag = v;
+                CbItems.Add(comb);
 
                 if (count == 0)
                 {
@@ -59,6 +66,12 @@ namespace BIMiconToolbar.MatchGrids
 
                 count++;
             }
+
+            // Associate the event-handling method with the SelectedIndexChanged event
+            this.comboDisplay.SelectionChanged += new SelectionChangedEventHandler(MyComboChanged);
+
+
+            ViewCheckBoxes(doc);
         }
 
         /// <summary>
@@ -69,5 +82,48 @@ namespace BIMiconToolbar.MatchGrids
             this.Close();
         }
 
+        private void MyComboChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int selectedItemIndex = CbItems.IndexOf(SelectedComboItem);
+            ViewType selectedViewType = ((View)CbItems[selectedItemIndex].Tag).ViewType;
+
+            IEnumerable<View> views = FilteredViewsCheckBox.Where(v => v.ViewType == selectedViewType);
+
+            UpdateViewCheckBoxes(views);
+        }
+
+        private void UpdateViewCheckBoxes(IEnumerable<View> views)
+        {
+            viewsCheckBox.Children.Clear();
+
+            IOrderedEnumerable<View> orderViews = from View view in views orderby view.Name ascending select view;
+
+            foreach (var v in orderViews)
+            {
+                CheckBox checkBox = new CheckBox();
+                checkBox.Content = v.Name;
+                checkBox.Name = "ID" + v.Id.ToString();
+                viewsCheckBox.Children.Add(checkBox);
+            }
+        }
+
+        /// <summary>
+        /// Dynamically populate checkboxes
+        /// </summary>
+        /// <param name="doc"></param>
+        private void ViewCheckBoxes(Document doc)
+        {
+            FilteredElementCollector viewsCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views);
+
+            IOrderedEnumerable<View> views = from View view in viewsCollector orderby view.Name ascending select view;
+
+            foreach (var v in views)
+            {
+                CheckBox checkBox = new CheckBox();
+                checkBox.Content = v.Name;
+                checkBox.Name = "ID" + v.Id.ToString();
+                viewsCheckBox.Children.Add(checkBox);
+            }
+        }
     }
 }

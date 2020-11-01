@@ -8,7 +8,7 @@
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
-        Title="Views On Sheet" Height="620" Width="420"
+        Title="Views On Sheet" Height="640" Width="420"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -26,7 +26,8 @@
             </TextBlock>
 
             <ComboBox x:Name="comboDisplay"
-                              ItemsSource="{Binding cbItems}" SelectedItem="{Binding SelectedComboItem}">
+                      ItemsSource="{Binding CbItems}" 
+                      SelectedItem="{Binding SelectedComboItem}">
             </ComboBox>
 
             <TextBlock Style="{StaticResource Title}">
@@ -51,9 +52,9 @@
             </TextBlock>
 
             <Border Style="{StaticResource OuterBorder}">
-                <Grid>
-
-                </Grid>
+                <ScrollViewer>
+                    <StackPanel x:Name="viewsCheckBox" />
+                </ScrollViewer>
             </Border>
 
             <!-- Buttons End -->

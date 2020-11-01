@@ -57,7 +57,7 @@ namespace BIMiconToolbar.ViewOnSheet
         /// </summary>
         public List<int> listIds = new List<int>();
 
-        private void reset_Click(object sender, RoutedEventArgs e)
+        private void Reset_Click(object sender, RoutedEventArgs e)
         {
             var list = this.sheets.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
 
@@ -72,7 +72,7 @@ namespace BIMiconToolbar.ViewOnSheet
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cancel_Click(object sender, RoutedEventArgs e)
+        private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Dispose();
         }
