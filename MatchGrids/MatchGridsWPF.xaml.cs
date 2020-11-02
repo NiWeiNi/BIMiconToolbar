@@ -86,9 +86,12 @@ namespace BIMiconToolbar.MatchGrids
         private void MyComboChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedItemIndex = CbItems.IndexOf(SelectedComboItem);
-            ViewType selectedViewType = ((View)CbItems[selectedItemIndex].Tag).ViewType;
+            View selectedView= (View)CbItems[selectedItemIndex].Tag;
+            ViewType selectedViewType = selectedView.ViewType;
 
-            IEnumerable<View> views = FilteredViewsCheckBox.Where(v => v.ViewType == selectedViewType);
+            IEnumerable<View> views = FilteredViewsCheckBox
+                                    .Where(v => v.ViewType == selectedViewType)
+                                    .Where(v => v != selectedView);
 
             UpdateViewCheckBoxes(views);
         }
