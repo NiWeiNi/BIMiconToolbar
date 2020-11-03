@@ -42,6 +42,9 @@ namespace BIMiconToolbar.MatchGrids
                                                         .OfCategory(BuiltInCategory.OST_Grids)
                                                         .WhereElementIsNotElementType();
 
+                // Grid Ids
+                ICollection<ElementId> gridIds = gridsCollector.ToElementIds();
+
                 // Template for grids display
                 var gridsTemplate = new Dictionary<ElementId, bool[]>();
 
@@ -82,29 +85,32 @@ namespace BIMiconToolbar.MatchGrids
                         // Match each visible grid in view
                         foreach (Grid gMatch in gridsMatchCollector)
                         {
-                            bool end0GridMatch = gMatch.IsBubbleVisibleInView(DatumEnds.End0, vMatch);
-                            bool end1GridMatch = gMatch.IsBubbleVisibleInView(DatumEnds.End1, vMatch);
-
                             ElementId gId = gMatch.Id;
 
-                            bool end0Temp = gridsTemplate[gId][0];
-                            bool end1Temp = gridsTemplate[gId][1];
+                            if (gridIds.Contains(gId))
+                            {
+                                bool end0GridMatch = gMatch.IsBubbleVisibleInView(DatumEnds.End0, vMatch);
+                                bool end1GridMatch = gMatch.IsBubbleVisibleInView(DatumEnds.End1, vMatch);
 
-                            if (end0Temp == true && end0GridMatch == false)
-                            {
-                                gMatch.ShowBubbleInView(DatumEnds.End0, vMatch);
-                            }
-                            else if (end0Temp == false && end0GridMatch)
-                            {
-                                gMatch.HideBubbleInView(DatumEnds.End0, vMatch);
-                            }
-                            else if (end1Temp == true && end1GridMatch == false)
-                            {
-                                gMatch.ShowBubbleInView(DatumEnds.End1, vMatch);
-                            }
-                            else if (end1Temp == false && end1GridMatch)
-                            {
-                                gMatch.HideBubbleInView(DatumEnds.End1, vMatch);
+                                bool end0Temp = gridsTemplate[gId][0];
+                                bool end1Temp = gridsTemplate[gId][1];
+
+                                if (end0Temp == true && end0GridMatch == false)
+                                {
+                                    gMatch.ShowBubbleInView(DatumEnds.End0, vMatch);
+                                }
+                                else if (end0Temp == false && end0GridMatch)
+                                {
+                                    gMatch.HideBubbleInView(DatumEnds.End0, vMatch);
+                                }
+                                else if (end1Temp == true && end1GridMatch == false)
+                                {
+                                    gMatch.ShowBubbleInView(DatumEnds.End1, vMatch);
+                                }
+                                else if (end1Temp == false && end1GridMatch)
+                                {
+                                    gMatch.HideBubbleInView(DatumEnds.End1, vMatch);
+                                }
                             }
                         }
                     }
@@ -116,9 +122,6 @@ namespace BIMiconToolbar.MatchGrids
                         FilteredElementCollector dimensionsCollector = new FilteredElementCollector(doc, selectedView.Id)
                                                                 .OfCategory(BuiltInCategory.OST_Dimensions)
                                                                 .WhereElementIsNotElementType();
-
-                        // Grid Ids
-                        ICollection<ElementId> gridIds = gridsCollector.ToElementIds();
 
                         // Dimensions to copy
                         List<ElementId> dimsToCopy = new List<ElementId>();
@@ -146,12 +149,15 @@ namespace BIMiconToolbar.MatchGrids
                             }
                         }
 
-                        CopyPasteOptions cp = new CopyPasteOptions();
-
                         // Copy dimensions
-                        foreach (View v in viewsToMatch)
+                        if (dimsToCopy.Count > 0)
                         {
-                            ElementTransformUtils.CopyElements(selectedView, dimsToCopy, v, null, cp);
+                            CopyPasteOptions cp = new CopyPasteOptions();
+
+                            foreach (View v in viewsToMatch)
+                            {
+                                ElementTransformUtils.CopyElements(selectedView, dimsToCopy, v, null, cp);
+                            }
                         }
                     }
 
