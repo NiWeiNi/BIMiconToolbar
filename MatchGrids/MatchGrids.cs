@@ -109,6 +109,52 @@ namespace BIMiconToolbar.MatchGrids
                         }
                     }
 
+                    // Copy grid dimensions
+                    if (true)
+                    {
+                        // Collect dimensions in selected view
+                        FilteredElementCollector dimensionsCollector = new FilteredElementCollector(doc, selectedView.Id)
+                                                                .OfCategory(BuiltInCategory.OST_Dimensions)
+                                                                .WhereElementIsNotElementType();
+
+                        // Grid Ids
+                        ICollection<ElementId> gridIds = gridsCollector.ToElementIds();
+
+                        // Dimensions to copy
+                        List<ElementId> dimsToCopy = new List<ElementId>();
+
+                        // Check dimensions only take grids as references 
+                        foreach (Dimension d in dimensionsCollector)
+                        {
+                            ReferenceArray dReferences = d.References;
+                            bool gridDim = true;
+
+                            foreach (Reference dRef in dReferences)
+                            {
+                                ElementId dRefId = dRef.ElementId;
+
+                                if (!gridIds.Contains(dRefId))
+                                {
+                                    gridDim = false;
+                                    break;
+                                }
+                            }
+
+                            if (gridDim)
+                            {
+                                dimsToCopy.Add(d.Id);
+                            }
+                        }
+
+                        CopyPasteOptions cp = new CopyPasteOptions();
+
+                        // Copy dimensions
+                        foreach (View v in viewsToMatch)
+                        {
+                            ElementTransformUtils.CopyElements(selectedView, dimsToCopy, v, null, cp);
+                        }
+                    }
+
                     gridTransacation.Commit();
                 }
             }
