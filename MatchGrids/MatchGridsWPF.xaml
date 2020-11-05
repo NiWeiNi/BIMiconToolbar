@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BIMiconToolbar.MatchGrids"
-        xmlns:viewmodel="clr-namespace:BIMiconToolbar.MatchGrids.ViewModel"
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
@@ -43,11 +42,11 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <RadioButton Grid.Column="0" GroupName="copyDims" x:Name="dimYes"
-                                 IsChecked="{Binding CopyOptions}">
+                                 ToggleButton.Checked="dimYes_Checked" ToggleButton.Unchecked="dimYes_Checked">
                         Yes
                     </RadioButton>
-                    <RadioButton Grid.Column="1" GroupName="copyDims" x:Name="dimNo"
-                                 IsChecked="True">
+                    <RadioButton Grid.Column="1" GroupName="copyDims" x:Name="dimNo" 
+                                 IsChecked="True" >
                         No
                     </RadioButton>
                 </Grid>

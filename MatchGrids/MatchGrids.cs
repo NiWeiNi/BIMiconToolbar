@@ -2,6 +2,7 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace BIMiconToolbar.MatchGrids
 {
@@ -21,6 +22,7 @@ namespace BIMiconToolbar.MatchGrids
             using (MatchGridsWPF customWindow = new MatchGridsWPF(commandData))
             {
                 customWindow.ShowDialog();
+                copyDims = customWindow.copyDim;
                 selectedView = customWindow.SelectedComboItem.Tag as View;
                 selectedIntIds = customWindow.IntegerIds;
             }
@@ -116,7 +118,7 @@ namespace BIMiconToolbar.MatchGrids
                     }
 
                     // Copy grid dimensions
-                    if (true)
+                    if (copyDims)
                     {
                         // Collect dimensions in selected view
                         FilteredElementCollector dimensionsCollector = new FilteredElementCollector(doc, selectedView.Id)

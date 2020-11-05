@@ -21,7 +21,8 @@ namespace BIMiconToolbar.MatchGrids
         public ComboBoxItem SelectedComboItem { get; set; }
         public IEnumerable<View> FilteredViewsCheckBox { get; set; }
         public List<int> IntegerIds { get; set; }
-        
+        public bool copyDim = false;
+
 
         /// <summary>
         /// MatchGrids main window
@@ -83,6 +84,11 @@ namespace BIMiconToolbar.MatchGrids
             this.Close();
         }
 
+        /// <summary>
+        /// Method to update views according to initial view selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MyComboChanged(object sender, SelectionChangedEventArgs e)
         {
             int selectedItemIndex = CbItems.IndexOf(SelectedComboItem);
@@ -96,6 +102,10 @@ namespace BIMiconToolbar.MatchGrids
             UpdateViewCheckBoxes(views);
         }
 
+        /// <summary>
+        /// Update views for selection
+        /// </summary>
+        /// <param name="views"></param>
         private void UpdateViewCheckBoxes(IEnumerable<View> views)
         {
             viewsCheckBox.Children.Clear();
@@ -176,6 +186,16 @@ namespace BIMiconToolbar.MatchGrids
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
             Dispose();
+        }
+
+        /// <summary>
+        /// Reverse boolean property to copy dimensions
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dimYes_Checked(object sender, RoutedEventArgs e)
+        {
+            this.copyDim = !copyDim;
         }
     }
 }
