@@ -97,6 +97,7 @@ namespace BIMiconToolbar.MatchGrids
                                 bool end0Temp = gridsTemplate[gId][0];
                                 bool end1Temp = gridsTemplate[gId][1];
 
+                                // Match End0
                                 if (end0Temp == true && end0GridMatch == false)
                                 {
                                     gMatch.ShowBubbleInView(DatumEnds.End0, vMatch);
@@ -105,7 +106,9 @@ namespace BIMiconToolbar.MatchGrids
                                 {
                                     gMatch.HideBubbleInView(DatumEnds.End0, vMatch);
                                 }
-                                else if (end1Temp == true && end1GridMatch == false)
+
+                                // Match End1
+                                if (end1Temp == true && end1GridMatch == false)
                                 {
                                     gMatch.ShowBubbleInView(DatumEnds.End1, vMatch);
                                 }
