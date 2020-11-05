@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BIMiconToolbar.MatchGrids"
+        xmlns:viewmodel="clr-namespace:BIMiconToolbar.MatchGrids.ViewModel"
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
-        Title="Views On Sheet" Height="640" Width="420"
+        Title="Views On Sheet" Height="680" Width="420"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -21,31 +22,36 @@
 
     <Border Style="{StaticResource SingleContainer}">
         <StackPanel>
-            <TextBlock Style="{StaticResource Title}">
+            <TextBlock Style="{StaticResource FirstTitle}">
                 Please select the view to copy grids display:
             </TextBlock>
 
             <ComboBox x:Name="comboDisplay"
                       ItemsSource="{Binding CbItems}" 
-                      SelectedItem="{Binding SelectedComboItem}">
+                      SelectedItem="{Binding SelectedComboItem}"
+                      Style="{StaticResource comboDisplay}">
             </ComboBox>
 
             <TextBlock Style="{StaticResource Title}">
                 Copy dimensions?
             </TextBlock>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <RadioButton Grid.Column="0">
-                    Yes
-                </RadioButton>
-                <RadioButton Grid.Column="1">
-                    No
-                </RadioButton>
-            </Grid>
+            <Border Style="{StaticResource radioButtonBorder}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <RadioButton Grid.Column="0" GroupName="copyDims" x:Name="dimYes"
+                                 IsChecked="{Binding CopyOptions}">
+                        Yes
+                    </RadioButton>
+                    <RadioButton Grid.Column="1" GroupName="copyDims" x:Name="dimNo"
+                                 IsChecked="True">
+                        No
+                    </RadioButton>
+                </Grid>
+            </Border>
 
             <TextBlock Style="{StaticResource Title}">
                 Select views to apply grids style:
@@ -70,5 +76,5 @@
             </Grid>
         </StackPanel>
     </Border>
-    
+
 </Window>
