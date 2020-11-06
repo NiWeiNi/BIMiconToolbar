@@ -34,7 +34,7 @@
 
                 <Border Style="{StaticResource OuterBorder}">
                     <ScrollViewer HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible" Width="375">
-                        <StackPanel x:Name="sheets" />
+                        <StackPanel x:Name="viewSchedules" />
                     </ScrollViewer>
                 </Border>
             </StackPanel>
@@ -77,7 +77,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="OK" Content="OK" Grid.Column="1" IsDefault="True" Margin="0 0 10 0"></Button>
+                    <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="1" IsDefault="True" Margin="0 0 10 0"></Button>
                     <Button x:Name="cancel" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
                 </Grid>
             </StackPanel>

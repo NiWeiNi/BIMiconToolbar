@@ -17,51 +17,58 @@ namespace BIMiconToolbar.ExportSchedules
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
+            // Variables to store user input
+            List<int> listIds;
+
             // Export destination folder
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string excelPath = desktopPath + @"\Schedule.xlsx";
 
-            // Collect schedules
-            FilteredElementCollector viewsCollector = new FilteredElementCollector(doc)
-                                                    .OfCategory(BuiltInCategory.OST_Schedules);
-
-            List<ViewSchedule> schedules = viewsCollector.Cast<ViewSchedule>().Where(sh =>
-                                   sh.Name != "<Revision Schedule>").ToList();
-
-            // Extract data from schedule
-            ViewSchedule sched = schedules[0] as ViewSchedule;
-            TableData tD = sched.GetTableData();
-            TableSectionData sectionData = tD.GetSectionData(SectionType.Body);
-            int numbRows = sectionData.NumberOfRows;
-            int numbCols = sectionData.NumberOfColumns;
-
-            // Create excel file
-            SXSSFWorkbook workbook = new SXSSFWorkbook();
-            SXSSFSheet excelSheet = (SXSSFSheet)workbook.CreateSheet("Sheet1");
-            excelSheet.SetRandomAccessWindowSize(100);
-
-            //Create a header row
-            IRow row = excelSheet.CreateRow(0);
-
-            // Write to excel
-            using (var fs = new FileStream(excelPath, FileMode.Create, FileAccess.Write))
+            // Prompt window to collect user input
+            using (BrowserCheckboxes customWindow = new BrowserCheckboxes(commandData))
             {
-                // Write content
-                for (int i = 0; i < numbRows; i++)
+                customWindow.ShowDialog();
+                listIds = customWindow.listIds;
+            }
+
+            // Loop through each selected schedule
+            foreach (int id in listIds)
+            {
+                // Extract data from schedule
+                ViewSchedule sched = doc.GetElement(new ElementId(id)) as ViewSchedule;
+                TableData tD = sched.GetTableData();
+                TableSectionData sectionData = tD.GetSectionData(SectionType.Body);
+                int numbRows = sectionData.NumberOfRows;
+                int numbCols = sectionData.NumberOfColumns;
+
+                // Create excel file
+                SXSSFWorkbook workbook = new SXSSFWorkbook();
+                SXSSFSheet excelSheet = (SXSSFSheet)workbook.CreateSheet("Sheet1");
+                excelSheet.SetRandomAccessWindowSize(100);
+
+                //Create a header row
+                IRow row = excelSheet.CreateRow(0);
+
+                // Write to excel
+                using (var fs = new FileStream(excelPath, FileMode.Create, FileAccess.Write))
                 {
-                    row = excelSheet.CreateRow(i + 1);
-
-                    for (int j = 0; j < numbCols; j++)
+                    // Write content
+                    for (int i = 0; i < numbRows; i++)
                     {
-                        string content = sched.GetCellText(SectionType.Body, i, j);
-                        row.CreateCell(j).SetCellValue(content);
+                        row = excelSheet.CreateRow(i + 1);
+
+                        for (int j = 0; j < numbCols; j++)
+                        {
+                            string content = sched.GetCellText(SectionType.Body, i, j);
+                            row.CreateCell(j).SetCellValue(content);
+                        }
                     }
+
+                    // Write to file
+                    workbook.Write(fs);
+
+                    TaskDialog.Show("Success", "Warnings report created in: " + excelPath);
                 }
-
-                // Write to file
-                workbook.Write(fs);
-
-                TaskDialog.Show("Success", "Warnings report created in: " + excelPath);
             }
 
             return Result.Succeeded;
