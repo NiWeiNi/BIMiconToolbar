@@ -48,7 +48,7 @@
             </Border>
 
             <!-- Buttons End-->
-            <Grid Margin="0 15 0 0">
+            <Grid Style="{StaticResource MainButtons}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>

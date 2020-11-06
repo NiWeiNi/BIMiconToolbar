@@ -21,7 +21,7 @@
 
     <Border Style="{StaticResource SingleContainer}">
         <StackPanel>
-            <TextBlock Style="{StaticResource Title}">
+            <TextBlock Style="{StaticResource FirstTitle}">
                 Please select sheet/s to place current view:
             </TextBlock>
 

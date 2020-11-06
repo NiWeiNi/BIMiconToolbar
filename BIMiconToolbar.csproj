@@ -102,6 +102,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DuplicateSheets\DuplicateSheets.cs" />
+    <Compile Include="ExportSchedules\BrowserCheckboxes.xaml.cs">
+      <DependentUpon>BrowserCheckboxes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExportSchedules\ExportSchedules.cs" />
     <Compile Include="Helpers\Browser\Browser.xaml.cs">
       <DependentUpon>Browser.xaml</DependentUpon>
@@ -183,6 +186,10 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ExportSchedules\BrowserCheckboxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Helpers\Browser\Browser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
