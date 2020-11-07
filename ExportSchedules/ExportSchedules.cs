@@ -18,10 +18,11 @@ namespace BIMiconToolbar.ExportSchedules
 
             // Variables to store user input
             List<int> listIds;
-
-            // Export destination folder
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string excelPath = desktopPath + @"\Schedule.xlsx";
+
+            // Variables to store log
+            var schedSuccess = new List<string>();
+            var schedFail = new List<string>();
 
             // Prompt window to collect user input
             using (BrowserCheckboxes customWindow = new BrowserCheckboxes(commandData))
@@ -43,13 +44,23 @@ namespace BIMiconToolbar.ExportSchedules
                     int numbRows = sectionData.NumberOfRows;
                     int numbCols = sectionData.NumberOfColumns;
 
+                    // Name of the file
+                    string excelPath = desktopPath + @"\" + sched.Name + ".xlsx";
+
                     // Create excel file
                     SXSSFWorkbook workbook = new SXSSFWorkbook();
-                    SXSSFSheet excelSheet = (SXSSFSheet)workbook.CreateSheet("Sheet1");
+                    SXSSFSheet excelSheet = (SXSSFSheet)workbook.CreateSheet(sched.Name);
                     excelSheet.SetRandomAccessWindowSize(100);
 
                     //Create a header row
                     IRow row = excelSheet.CreateRow(0);
+
+                    // Define format for cells
+                    var fontStyle = workbook.CreateFont();
+                    fontStyle.IsBold = true;
+                    fontStyle.FontHeightInPoints = 12;
+                    var titleStyle = workbook.CreateCellStyle();
+                    titleStyle.SetFont(fontStyle);
 
                     // Write to excel
                     using (var fs = new FileStream(excelPath, FileMode.Create, FileAccess.Write))
@@ -57,21 +68,45 @@ namespace BIMiconToolbar.ExportSchedules
                         // Write content
                         for (int i = 0; i < numbRows; i++)
                         {
-                            row = excelSheet.CreateRow(i + 1);
+                            row = excelSheet.CreateRow(i);
 
                             for (int j = 0; j < numbCols; j++)
                             {
                                 string content = sched.GetCellText(SectionType.Body, i, j);
-                                row.CreateCell(j).SetCellValue(content);
+                                var cell = row.CreateCell(j);
+                                cell.SetCellValue(content);
+
+                                if (i == 0)
+                                {
+                                    cell.CellStyle = titleStyle;
+                                }
                             }
                         }
 
-                        // Write to file
-                        workbook.Write(fs);
+                        // Size columns
+                        excelSheet.TrackAllColumnsForAutoSizing();
+                        for (int i = 0; i < numbCols; i++)
+                        {
+                            excelSheet.AutoSizeColumn(i);
+                        }
+                        excelSheet.UntrackAllColumnsForAutoSizing();
 
-                        TaskDialog.Show("Success", "Warnings report created in: " + excelPath);
+                        // Write to file
+                        try
+                        {
+                            workbook.Write(fs);
+                            // Log success export schedule name
+                            schedSuccess.Add(sched.Name);
+                        }
+                        catch
+                        {
+                            schedFail.Add(sched.Name);
+                        }
                     }
                 }
+
+                TaskDialog.Show("Success", "The following schedules have been exported: " +
+                                string.Join("\n", schedSuccess.ToArray()));
 
                 return Result.Succeeded;
             }
