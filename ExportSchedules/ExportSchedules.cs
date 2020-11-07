@@ -6,7 +6,6 @@ using NPOI.XSSF.Streaming;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace BIMiconToolbar.ExportSchedules
 {
@@ -31,47 +30,56 @@ namespace BIMiconToolbar.ExportSchedules
                 listIds = customWindow.listIds;
             }
 
-            // Loop through each selected schedule
-            foreach (int id in listIds)
+            // Check there are schedules selected
+            if (listIds != null)
             {
-                // Extract data from schedule
-                ViewSchedule sched = doc.GetElement(new ElementId(id)) as ViewSchedule;
-                TableData tD = sched.GetTableData();
-                TableSectionData sectionData = tD.GetSectionData(SectionType.Body);
-                int numbRows = sectionData.NumberOfRows;
-                int numbCols = sectionData.NumberOfColumns;
-
-                // Create excel file
-                SXSSFWorkbook workbook = new SXSSFWorkbook();
-                SXSSFSheet excelSheet = (SXSSFSheet)workbook.CreateSheet("Sheet1");
-                excelSheet.SetRandomAccessWindowSize(100);
-
-                //Create a header row
-                IRow row = excelSheet.CreateRow(0);
-
-                // Write to excel
-                using (var fs = new FileStream(excelPath, FileMode.Create, FileAccess.Write))
+                // Loop through each selected schedule
+                foreach (int id in listIds)
                 {
-                    // Write content
-                    for (int i = 0; i < numbRows; i++)
+                    // Extract data from schedule
+                    ViewSchedule sched = doc.GetElement(new ElementId(id)) as ViewSchedule;
+                    TableData tD = sched.GetTableData();
+                    TableSectionData sectionData = tD.GetSectionData(SectionType.Body);
+                    int numbRows = sectionData.NumberOfRows;
+                    int numbCols = sectionData.NumberOfColumns;
+
+                    // Create excel file
+                    SXSSFWorkbook workbook = new SXSSFWorkbook();
+                    SXSSFSheet excelSheet = (SXSSFSheet)workbook.CreateSheet("Sheet1");
+                    excelSheet.SetRandomAccessWindowSize(100);
+
+                    //Create a header row
+                    IRow row = excelSheet.CreateRow(0);
+
+                    // Write to excel
+                    using (var fs = new FileStream(excelPath, FileMode.Create, FileAccess.Write))
                     {
-                        row = excelSheet.CreateRow(i + 1);
-
-                        for (int j = 0; j < numbCols; j++)
+                        // Write content
+                        for (int i = 0; i < numbRows; i++)
                         {
-                            string content = sched.GetCellText(SectionType.Body, i, j);
-                            row.CreateCell(j).SetCellValue(content);
+                            row = excelSheet.CreateRow(i + 1);
+
+                            for (int j = 0; j < numbCols; j++)
+                            {
+                                string content = sched.GetCellText(SectionType.Body, i, j);
+                                row.CreateCell(j).SetCellValue(content);
+                            }
                         }
+
+                        // Write to file
+                        workbook.Write(fs);
+
+                        TaskDialog.Show("Success", "Warnings report created in: " + excelPath);
                     }
-
-                    // Write to file
-                    workbook.Write(fs);
-
-                    TaskDialog.Show("Success", "Warnings report created in: " + excelPath);
                 }
-            }
 
-            return Result.Succeeded;
+                return Result.Succeeded;
+            }
+            else
+            {
+                TaskDialog.Show("Warning", "No schedule selected");
+                return Result.Cancelled;
+            }
         }
     }
 }

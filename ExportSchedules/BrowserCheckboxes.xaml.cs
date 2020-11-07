@@ -42,9 +42,9 @@ namespace BIMiconToolbar.ExportSchedules
                                                     .OfCategory(BuiltInCategory.OST_Schedules);
 
             List<ViewSchedule> schedules = viewsCollector.Cast<ViewSchedule>().Where(sh =>
-                                   sh.Name.Contains("<Revision Schedule>") != false).ToList();
+                                   sh.Name.Contains(@"<Revision Schedule>") == false).ToList();
 
-            IOrderedEnumerable<ViewSchedule> views = from ViewSchedule view in viewsCollector orderby view.Name ascending select view;
+            IOrderedEnumerable<ViewSchedule> views = from ViewSchedule view in schedules orderby view.Name ascending select view;
 
             foreach (var v in views)
             {
