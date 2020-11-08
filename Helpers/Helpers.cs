@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -246,5 +247,65 @@ namespace BIMiconToolbar.Helpers
             System.Diagnostics.Process.Start(uri);
             return true;
         }
+
+        /// <summary>
+        /// Retrieve spatial element boundaries
+        /// </summary>
+        /// <param name="spaEl"></param>
+        /// <returns></returns>
+        public static IList<IList<BoundarySegment>> SpatialBoundaries(SpatialElement spaEl)
+        {
+            var boundaries = spaEl.GetBoundarySegments(new SpatialElementBoundaryOptions());
+            return boundaries;
+        }
+
+        /// <summary>
+        /// Function to extract points from boundary
+        /// </summary>
+        /// <param name="segs"></param>
+        /// <returns></returns>
+        public static List<XYZ> BoundaPoints(IList<IList<BoundarySegment>> boundary)
+        {
+            var points = new List<XYZ>();
+
+            foreach(var segments in boundary)
+            {
+                foreach(var s in segments)
+                {
+                    Curve curve = s.GetCurve();
+                    XYZ point = curve.GetEndPoint(0);
+
+                    points.Add(point);
+                }
+            }
+
+            return points;
+        }
+
+        /// <summary>
+        /// Function to retrieve centroid
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        public static XYZ Centroid(List<XYZ> points)
+        {
+            // Retrieve single coordinates
+            IEnumerable<double> xCoor = from XYZ point in points select point.X;
+            IEnumerable<double> yCoor = from XYZ point in points select point.Y;
+            IEnumerable<double> zCoor = from XYZ point in points select point.Z;
+
+            int pointsCount = points.Count;
+
+            // Center coordinates
+            double xCenter = xCoor.Sum();
+            double yCenter = yCoor.Sum();
+            double zCenter = zCoor.Sum();
+
+            return new XYZ(xCenter, yCenter, zCenter);
+        }
+ 
+	
+
+
     }
 }

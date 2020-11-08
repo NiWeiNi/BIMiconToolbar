@@ -8,7 +8,7 @@
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
-        Title="Interior Elevations" Height="520" Width="420"
+        Title="Interior Elevations" Height="740" Width="420"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -21,10 +21,40 @@
 
     <Border Style="{StaticResource SingleContainer}">
         <StackPanel>
+            <!-- Select view type -->
             <TextBlock Style="{StaticResource FirstTitle}">
-                Please select rooms to create interior elevations:
+                Please select elevation symbol:
             </TextBlock>
-
+            <ComboBox x:Name="comboDisplayViewType"
+                      ItemsSource="{Binding CbItemsViewType}"
+                      SelectedItem="{Binding SelectedComboItemViewType}"
+                      Style="{StaticResource comboDisplay}">
+            </ComboBox>
+            
+            <!-- Select title block -->
+            <TextBlock Style="{StaticResource Title}">
+                Select title block:
+            </TextBlock>
+            <ComboBox x:Name="comboDisplayTitleBlock"
+                      ItemsSource="{Binding CbItemsTitleBlock}" 
+                      SelectedItem="{Binding SelectedComboItemTitleBlock}"
+                      Style="{StaticResource comboDisplay}">
+            </ComboBox>
+            
+            <!-- Select view template to apply to views -->
+            <TextBlock Style="{StaticResource Title}">
+                Select view template:
+            </TextBlock>
+            <ComboBox x:Name="comboDisplayViewTemplate"
+                      ItemsSource="{Binding CbItemsViewTemplate}" 
+                      SelectedItem="{Binding SelectedComboItemViewTemplate}"
+                      Style="{StaticResource comboDisplay}">
+            </ComboBox>
+            
+            <!-- Select rooms -->
+            <TextBlock Style="{StaticResource Title}">
+                Select rooms to create interior elevations:
+            </TextBlock>
             <Border Style="{StaticResource OuterBorder}">
                 <ScrollViewer HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible" Width="375">
                     <StackPanel x:Name="roomsCheckBoxes" />

@@ -26,32 +26,25 @@ namespace BIMiconToolbar.InteriorElevations
             if (selectedIntIds != null)
             {
                 // Collect rooms
-                var rooms = new List<Room>();
-
                 foreach(int id in selectedIntIds)
                 {
                     Room room = doc.GetElement(new ElementId(id)) as Room;
-                    rooms.Add(room);
-                }
 
-                // Retrieve boudnaries
-                IList<IList<BoundarySegment>> segments = rooms[0].GetBoundarySegments(new SpatialElementBoundaryOptions());
+                    // Retrieve boundaries
+                    IList<IList<BoundarySegment>> boundaries = Helpers.Helpers.SpatialBoundaries(room);
 
-                if (segments != null)
-                {
-                
-
-                    foreach (IList<BoundarySegment> segmentList in segments)
-                    { 
-                
-                    }
-                    
-
-                    if (segments.Count == 4)
+                    if (boundaries != null)
                     {
+                        List<XYZ> points = Helpers.Helpers.BoundaPoints(boundaries);
+                        XYZ centroid = Helpers.Helpers.Centroid(points); 
+
+                        if (boundaries.Count == 4)
+                        {
                     
+                        }
                     }
                 }
+
             }
 
             return Result.Succeeded;
