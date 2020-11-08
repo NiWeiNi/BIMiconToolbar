@@ -119,6 +119,9 @@
     <Compile Include="Helpers\Browser\ViewModels\BrowserStructureViewModel.cs" />
     <Compile Include="Helpers\Helpers.cs" />
     <Compile Include="InteriorElevations\InteriorElevations.cs" />
+    <Compile Include="InteriorElevations\InteriorElevationsWindow.xaml.cs">
+      <DependentUpon>InteriorElevationsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MatchGrids\MatchGrids.cs" />
     <Compile Include="MatchGrids\MatchGridsWPF.xaml.cs">
       <DependentUpon>MatchGridsWPF.xaml</DependentUpon>
@@ -195,6 +198,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Helpers\ResourceDictionaries\DictionaryWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InteriorElevations\InteriorElevationsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

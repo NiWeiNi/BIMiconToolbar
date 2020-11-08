@@ -3,7 +3,6 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace BIMiconToolbar.InteriorElevations
 {
@@ -14,29 +13,46 @@ namespace BIMiconToolbar.InteriorElevations
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
-            // Collect rooms
-            Room room = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Rooms).FirstOrDefault() as Room;
+            // Variables to store user input
+            List<int> selectedIntIds;
 
-            // Retrieve boudnaries
-            IList<IList<BoundarySegment>> segments = room.GetBoundarySegments(new SpatialElementBoundaryOptions());
-
-            if (segments != null)
+            // Prompt window to collect user input
+            using (InteriorElevationsWindow customWindow = new InteriorElevationsWindow(commandData))
             {
-                
-
-                foreach (IList<BoundarySegment> segmentList in segments)
-                { 
-                
-                }
-                    
-
-                if (segments.Count == 4)
-                {
-                    
-                }
+                customWindow.ShowDialog();
+                selectedIntIds = customWindow.IntegerIds;
             }
 
-            TaskDialog.Show("Warning", "Sorry, the tool is WIP");
+            if (selectedIntIds != null)
+            {
+                // Collect rooms
+                var rooms = new List<Room>();
+
+                foreach(int id in selectedIntIds)
+                {
+                    Room room = doc.GetElement(new ElementId(id)) as Room;
+                    rooms.Add(room);
+                }
+
+                // Retrieve boudnaries
+                IList<IList<BoundarySegment>> segments = rooms[0].GetBoundarySegments(new SpatialElementBoundaryOptions());
+
+                if (segments != null)
+                {
+                
+
+                    foreach (IList<BoundarySegment> segmentList in segments)
+                    { 
+                
+                    }
+                    
+
+                    if (segments.Count == 4)
+                    {
+                    
+                    }
+                }
+            }
 
             return Result.Succeeded;
         }
