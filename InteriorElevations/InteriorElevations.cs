@@ -3,6 +3,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 
 namespace BIMiconToolbar.InteriorElevations
@@ -75,8 +76,19 @@ namespace BIMiconToolbar.InteriorElevations
             // Room selected
             else if (selectedIntIds != null)
             {
+                // Select first plan view
+                FilteredElementCollector floorPlansCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views);
+                View floorPlan = floorPlansCollector.Cast<View>().Where(v =>
+                                   v.ViewType == ViewType.FloorPlan).Where(v => v.IsTemplate == false).FirstOrDefault();
+
+                if (floorPlan == null)
+                {
+                    TaskDialog.Show("Warning", "Plese create a floor plan");
+                    return Result.Cancelled;
+                }
+
                 // Collect rooms
-                foreach(int id in selectedIntIds)
+                foreach (int id in selectedIntIds)
                 {
                     Room room = doc.GetElement(new ElementId(id)) as Room;
 
@@ -96,21 +108,25 @@ namespace BIMiconToolbar.InteriorElevations
 
                             // Create sheet
                             ViewSheet sheet = ViewSheet.Create(doc, titleBlock.Id);
-                            sheet.Name = sheet.SheetNumber + " - " + "INTERIOR ELEVATIONS";
+                            sheet.Name = room.Number + "-" + "INTERIOR ELEVATIONS";
 
                             // Create elevation marker
-                            ElevationMarker marker = ElevationMarker.CreateElevationMarker(doc, viewFamilyType.Id, centroid, 5);
+                            ElevationMarker marker = ElevationMarker.CreateElevationMarker(doc, viewFamilyType.Id, centroid, viewTemplate.Scale);
 
                             for (int i = 0; i < 4; i++)
                             {
-                                View view = marker.CreateElevation(doc, doc.ActiveView.Id, i);
+                                View view = marker.CreateElevation(doc, floorPlan.Id, i);
                                 view.ViewTemplateId = viewTemplate.Id;
+                                // Regenerate document to pick view scale for title
+                                doc.Regenerate();
                                 Viewport.Create(doc, sheet.Id, view.Id, new XYZ());
                             }
+
+                            // Commit transaction
+                            t.Commit();
                         }
 
-                        // Commit transaction
-                        t.Commit();
+
                     }
                 }
 
