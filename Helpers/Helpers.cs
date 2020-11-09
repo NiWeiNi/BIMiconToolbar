@@ -297,15 +297,11 @@ namespace BIMiconToolbar.Helpers
             int pointsCount = points.Count;
 
             // Center coordinates
-            double xCenter = xCoor.Sum();
-            double yCenter = yCoor.Sum();
-            double zCenter = zCoor.Sum();
+            double xCenter = xCoor.Sum() / pointsCount;
+            double yCenter = yCoor.Sum() / pointsCount;
+            double zCenter = zCoor.Sum() / pointsCount;
 
             return new XYZ(xCenter, yCenter, zCenter);
         }
- 
-	
-
-
     }
 }
