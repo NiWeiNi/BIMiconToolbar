@@ -4,6 +4,7 @@ using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace BIMiconToolbar.InteriorElevations
@@ -113,23 +114,62 @@ namespace BIMiconToolbar.InteriorElevations
                             // Create elevation marker
                             ElevationMarker marker = ElevationMarker.CreateElevationMarker(doc, viewFamilyType.Id, centroid, viewTemplate.Scale);
 
+                            // Get settings of current document
+                            Settings documentSettings = doc.Settings;
+
+                            // Retrieve annotation categories
+                            Categories cats = documentSettings.Categories;
+
+                            var annoCategories = new List<ElementId>();
+
+                            foreach(Category cat in cats)
+                            {
+                                if (cat.CategoryType == CategoryType.Annotation)
+                                {
+                                    annoCategories.Add(cat.Id);
+                                }
+                            }
+
+                            // Viewport dimensions
+                            var vPOutlines = new List<Outline>();
+                            var labelOutlines = new List<Outline>();
+
+                            // Place views on sheet
                             for (int i = 0; i < 4; i++)
                             {
                                 View view = marker.CreateElevation(doc, floorPlan.Id, i);
                                 view.ViewTemplateId = viewTemplate.Id;
+
+                                // Hide annotation categories to reduce viewport outline to minimum size
+                                // This allows labels to align to the base
+                                view.HideCategoriesTemporary(annoCategories);
+
                                 // Regenerate document to pick view scale for title
                                 doc.Regenerate();
-                                Viewport.Create(doc, sheet.Id, view.Id, new XYZ());
+
+                                // Create viewports
+                                Viewport viewP = Viewport.Create(doc, sheet.Id, view.Id, new XYZ());
+
+                                // Retrieve outlines
+                                Outline vPOutline = viewP.GetBoxOutline();
+                                Outline labelOutline = viewP.GetLabelOutline();
+                                vPOutlines.Add(vPOutline);
+                                labelOutlines.Add(labelOutline);
+
+                                // Disable temporary hide
+                                view.DisableTemporaryViewMode(TemporaryViewMode.TemporaryHideIsolate);
+                            }
+
+                            foreach(Outline vpOut in vPOutlines)
+                            {
+                                // TODO: move views to final position
                             }
 
                             // Commit transaction
                             t.Commit();
                         }
-
-
                     }
                 }
-
             }
 
             return Result.Succeeded;
