@@ -134,6 +134,8 @@ namespace BIMiconToolbar.InteriorElevations
                             var vPOutlines = new List<Outline>();
                             var labelOutlines = new List<Outline>();
 
+                            var viewports = new List<Viewport>();
+
                             // Place views on sheet
                             for (int i = 0; i < 4; i++)
                             {
@@ -158,11 +160,72 @@ namespace BIMiconToolbar.InteriorElevations
 
                                 // Disable temporary hide
                                 view.DisableTemporaryViewMode(TemporaryViewMode.TemporaryHideIsolate);
+
+                                // Store viewports
+                                viewports.Add(viewP);
                             }
 
-                            foreach(Outline vpOut in vPOutlines)
+                            // Dictitionary to store viewport dimensions
+                            var viewportDims = new Dictionary<Viewport, double[]>();
+
+                            foreach(Viewport vp in viewports)
                             {
-                                // TODO: move views to final position
+                                Outline vpOut = vp.GetBoxOutline();
+                                Outline labelOut = vp.GetLabelOutline();
+
+                                // Viewport dimensions
+                                XYZ maxPoint = vpOut.MaximumPoint;
+                                XYZ minPoint = vpOut.MinimumPoint;
+
+                                double vPxMax = maxPoint.X;
+                                double vPxMin = minPoint.X;
+
+                                double vPyMax = maxPoint.Y;
+                                double vPyMin = minPoint.Y;
+
+                                double vPxDist = vPxMax - vPxMin;
+                                double vPyDist = vPyMax - vPyMin;
+
+                                // Label dimensions
+                                XYZ labelMaxPoint = labelOut.MaximumPoint;
+                                XYZ labelMinPoint = labelOut.MinimumPoint;
+
+                                double labelxMax = labelMaxPoint.X;
+                                double labelxMin = labelMinPoint.X;
+
+                                double labelyMax = labelMaxPoint.Y;
+                                double labelyMin = labelMinPoint.Y;
+
+                                double labelxDist = labelxMax - labelxMin;
+                                double labelyDist = labelyMax - labelyMin;
+
+                                // Store results
+                                double[] dims = { vPxDist, vPyDist };
+                                viewportDims.Add(vp, dims); 
+                            }
+
+                            // Retrieve overall dimensions
+                            List<double> firstRowX = new List<double>();
+                            List<double> firstRowY = new List<double>();
+
+                            List<double> secondRowX = new List<double>();
+                            List<double> secondRowY = new List<double>();
+
+                            foreach (KeyValuePair<Viewport, double[]> entry in viewportDims)
+                            {
+                                Viewport vp = entry.Key;
+                                string detailNumber = vp.get_Parameter(BuiltInParameter.VIEWER_DETAIL_NUMBER).AsString();
+                                
+                                if (detailNumber == "1" || detailNumber == "2")
+                                {
+                                    firstRowX.Add(entry.Value[0]);
+                                    firstRowY.Add(entry.Value[1]);
+                                }
+                                else
+                                {
+                                    secondRowX.Add(entry.Value[0]);
+                                    secondRowY.Add(entry.Value[1]);
+                                }
                             }
 
                             // Commit transaction
