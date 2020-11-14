@@ -303,5 +303,39 @@ namespace BIMiconToolbar.Helpers
 
             return new XYZ(xCenter, yCenter, zCenter);
         }
+
+        /// <summary>
+        /// Method to convert millimeters to feet
+        /// </summary>
+        /// <param name="millimeters"></param>
+        /// <returns></returns>
+        public static double MillimetersToFeet(double millimeters)
+        {
+            double feet;
+
+            if (millimeters != 0)
+            {
+                feet = millimeters / 304.8;
+                return feet;
+            }
+            else
+            {
+                throw new DivideByZeroException();
+            }
+        }
+
+        /// <summary>
+        /// Method to convert feet to milimeters
+        /// </summary>
+        /// <param name="feet"></param>
+        /// <returns></returns>
+        public static double FeetToMillimeters(double feet)
+        {
+            double millimeters;
+
+            millimeters = feet * 304.8;
+            return millimeters;
+        }
+
     }
 }
