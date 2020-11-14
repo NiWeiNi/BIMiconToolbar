@@ -9,7 +9,7 @@
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
         Title="Select Schedules and Destination Folder" 
-        Height="520" Width="800"
+        Height="520" Width="420"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -21,13 +21,9 @@
     </Window.Resources>
 
     <Border Style="{StaticResource SingleContainer}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <StackPanel>
 
-            <StackPanel Grid.Column="0" Margin="0 0 6 0">
+            <StackPanel>
                 <TextBlock Style="{StaticResource FirstTitle}">
                     Please select schedule/s to export to Excel:
                 </TextBlock>
@@ -38,52 +34,19 @@
                     </ScrollViewer>
                 </Border>
             </StackPanel>
-            
-            <StackPanel Grid.Column="1" Margin="6 0 0 0">
 
-                <TextBlock Style="{StaticResource FirstTitle}">
-                    Select destination folder:
-                </TextBlock>
+            <!-- Buttons End-->
+            <Grid Style="{StaticResource MainButtons}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="1" IsDefault="True" Margin="0 0 10 0"></Button>
+                <Button x:Name="cancel" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
+            </Grid>
+        </StackPanel>
 
-                <Border Style="{StaticResource OuterBorder}">
-                    <Grid ShowGridLines="False">
-                        <TreeView x:Name="FolderView" ItemsSource="{Binding Items}" Background="{x:Null}" BorderBrush="{x:Null}">
-
-                            <TreeView.ItemContainerStyle>
-                                <Style TargetType="{x:Type TreeViewItem}">
-                                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                                </Style>
-                            </TreeView.ItemContainerStyle>
-
-                            <TreeView.ItemTemplate>
-                                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Width="20" Margin="3" 
-                                           Source="{Binding Type,
-                                                    Converter={x:Static local:HeaderToImageConverter.Instance}}" />
-                                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
-                                    </StackPanel>
-                                </HierarchicalDataTemplate>
-                            </TreeView.ItemTemplate>
-
-                        </TreeView>
-                    </Grid>
-                </Border>
-
-                <!-- Buttons End-->
-                <Grid Style="{StaticResource MainButtons}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="1" IsDefault="True" Margin="0 0 10 0"></Button>
-                    <Button x:Name="cancel" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
-                </Grid>
-            </StackPanel>
-        </Grid>
-        
-        
     </Border>
     
 </Window>

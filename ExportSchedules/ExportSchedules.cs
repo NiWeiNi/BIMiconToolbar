@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMiconToolbar.Helpers.Browser;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.Streaming;
 using System;
@@ -34,87 +35,101 @@ namespace BIMiconToolbar.ExportSchedules
             // Check there are schedules selected
             if (listIds != null)
             {
-                // Loop through each selected schedule
-                foreach (int id in listIds)
+                using (BrowserWindow browserWindow = new BrowserWindow())
                 {
-                    // Extract data from schedule
-                    ViewSchedule sched = doc.GetElement(new ElementId(id)) as ViewSchedule;
-                    TableData tD = sched.GetTableData();
-                    TableSectionData sectionData = tD.GetSectionData(SectionType.Body);
-                    int numbRows = sectionData.NumberOfRows;
-                    int numbCols = sectionData.NumberOfColumns;
+                    browserWindow.ShowDialog();
 
-                    // Name of the file
-                    string excelPath = desktopPath + @"\" + sched.Name + ".xlsx";
+                    // Variables
+                    string fullPath = browserWindow.selectedPath;
 
-                    // Create excel file
-                    SXSSFWorkbook workbook = new SXSSFWorkbook();
-                    SXSSFSheet excelSheet = (SXSSFSheet)workbook.CreateSheet(sched.Name);
-                    excelSheet.SetRandomAccessWindowSize(100);
-
-                    //Create a header row
-                    IRow row = excelSheet.CreateRow(0);
-
-                    // Define format for cells
-                    var fontStyle = workbook.CreateFont();
-                    fontStyle.IsBold = true;
-                    fontStyle.FontHeightInPoints = 12;
-                    var titleStyle = workbook.CreateCellStyle();
-                    titleStyle.SetFont(fontStyle);
-
-                    // Write to excel
-                    using (var fs = new FileStream(excelPath, FileMode.Create, FileAccess.Write))
+                    // CHeck that path is not empty and path is a folder
+                    if (fullPath == null || !Directory.Exists(fullPath))
                     {
-                        // Write content
-                        for (int i = 0; i < numbRows; i++)
+                        TaskDialog.Show("Warning", "No folder has been selected");
+                        return Result.Cancelled;
+                    }
+                    else
+                    {
+                        // Loop through each selected schedule
+                        foreach (int id in listIds)
                         {
-                            row = excelSheet.CreateRow(i);
+                            // Extract data from schedule
+                            ViewSchedule sched = doc.GetElement(new ElementId(id)) as ViewSchedule;
+                            TableData tD = sched.GetTableData();
+                            TableSectionData sectionData = tD.GetSectionData(SectionType.Body);
+                            int numbRows = sectionData.NumberOfRows;
+                            int numbCols = sectionData.NumberOfColumns;
 
-                            for (int j = 0; j < numbCols; j++)
+                            // Name of the file
+                            string excelPath = fullPath + @"\" + sched.Name + ".xlsx";
+
+                            // Create excel file
+                            SXSSFWorkbook workbook = new SXSSFWorkbook();
+                            SXSSFSheet excelSheet = (SXSSFSheet)workbook.CreateSheet(sched.Name);
+                            excelSheet.SetRandomAccessWindowSize(100);
+
+                            //Create a header row
+                            IRow row = excelSheet.CreateRow(0);
+
+                            // Define format for cells
+                            var fontStyle = workbook.CreateFont();
+                            fontStyle.IsBold = true;
+                            fontStyle.FontHeightInPoints = 12;
+                            var titleStyle = workbook.CreateCellStyle();
+                            titleStyle.SetFont(fontStyle);
+
+                            // Write to excel
+                            using (var fs = new FileStream(excelPath, FileMode.Create, FileAccess.Write))
                             {
-                                string content = sched.GetCellText(SectionType.Body, i, j);
-                                var cell = row.CreateCell(j);
-                                cell.SetCellValue(content);
-
-                                if (i == 0)
+                                // Write content
+                                for (int i = 0; i < numbRows; i++)
                                 {
-                                    cell.CellStyle = titleStyle;
+                                    row = excelSheet.CreateRow(i);
+
+                                    for (int j = 0; j < numbCols; j++)
+                                    {
+                                        string content = sched.GetCellText(SectionType.Body, i, j);
+                                        var cell = row.CreateCell(j);
+                                        cell.SetCellValue(content);
+
+                                        if (i == 0)
+                                        {
+                                            cell.CellStyle = titleStyle;
+                                        }
+                                    }
+                                }
+
+                                // Size columns
+                                excelSheet.TrackAllColumnsForAutoSizing();
+                                for (int i = 0; i < numbCols; i++)
+                                {
+                                    excelSheet.AutoSizeColumn(i);
+                                }
+                                excelSheet.UntrackAllColumnsForAutoSizing();
+
+                                // Write to file
+                                try
+                                {
+                                    workbook.Write(fs);
+                                    // Log success export schedule name
+                                    schedSuccess.Add(sched.Name);
+                                }
+                                catch
+                                {
+                                    schedFail.Add(sched.Name);
                                 }
                             }
                         }
 
-                        // Size columns
-                        excelSheet.TrackAllColumnsForAutoSizing();
-                        for (int i = 0; i < numbCols; i++)
-                        {
-                            excelSheet.AutoSizeColumn(i);
-                        }
-                        excelSheet.UntrackAllColumnsForAutoSizing();
+                        TaskDialog.Show("Success", "The following schedules have been exported: " +
+                                        string.Join("\n", schedSuccess.ToArray()));
 
-                        // Write to file
-                        try
-                        {
-                            workbook.Write(fs);
-                            // Log success export schedule name
-                            schedSuccess.Add(sched.Name);
-                        }
-                        catch
-                        {
-                            schedFail.Add(sched.Name);
-                        }
+                        return Result.Succeeded;
                     }
                 }
-
-                TaskDialog.Show("Success", "The following schedules have been exported: " +
-                                string.Join("\n", schedSuccess.ToArray()));
-
-                return Result.Succeeded;
             }
-            else
-            {
-                TaskDialog.Show("Warning", "No schedule selected");
-                return Result.Cancelled;
-            }
+
+            return Result.Cancelled;
         }
     }
 }

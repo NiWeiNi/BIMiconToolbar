@@ -8,7 +8,7 @@
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
-        Title="Select Folder or File" Height="480" Width="420"
+        Title="Select Folder" Height="490" Width="420"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
