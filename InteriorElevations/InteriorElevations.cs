@@ -4,8 +4,6 @@ using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace BIMiconToolbar.InteriorElevations
 {
@@ -110,6 +108,18 @@ namespace BIMiconToolbar.InteriorElevations
                             // Create sheet
                             ViewSheet sheet = ViewSheet.Create(doc, titleBlock.Id);
                             sheet.Name = room.Number + "-" + "INTERIOR ELEVATIONS";
+
+                            // Retrieve title block
+                            FamilyInstance tBlock = new FilteredElementCollector(doc, sheet.Id)
+                                                    .OfCategory(BuiltInCategory.OST_TitleBlocks)
+                                                    .FirstElement() as FamilyInstance;
+
+                            // Retrieve title block size
+                            double sheetHeight = tBlock.get_Parameter(BuiltInParameter.SHEET_HEIGHT).AsDouble();
+                            double sheetWidth = tBlock.get_Parameter(BuiltInParameter.SHEET_WIDTH).AsDouble();
+
+                            // Center of title block
+                            XYZ centerTitleBlock = new XYZ(sheetWidth / 2, sheetHeight / 2, 0);
 
                             // Create elevation marker
                             ElevationMarker marker = ElevationMarker.CreateElevationMarker(doc, viewFamilyType.Id, centroid, viewTemplate.Scale);
@@ -225,6 +235,90 @@ namespace BIMiconToolbar.InteriorElevations
                                 {
                                     secondRowX.Add(entry.Value[0]);
                                     secondRowY.Add(entry.Value[1]);
+                                }
+                            }
+
+                            // Calculate X spacing
+                            double spacingViewX = Helpers.Helpers.MillimetersToFeet(30);
+                            double overallX = spacingViewX;
+
+                            if (firstRowX.Sum() > secondRowX.Sum())
+                            {
+                                overallX += firstRowX.Sum();
+                            }
+                            else
+                            {
+                                overallX += secondRowX.Sum();
+                            }
+
+                            // Calculate Y spacing
+                            double spacingViewY = Helpers.Helpers.MillimetersToFeet(30);
+                            double overallY = spacingViewY;
+
+                            if (firstRowY.Sum() > secondRowY.Sum())
+                            {
+                                overallY += firstRowY.Sum();
+                            }
+                            else
+                            {
+                                overallY += secondRowY.Sum();
+                            }
+
+                            // Closest and furthest X points
+                            double centerTitleBlockX = centerTitleBlock.X;
+                            double furthestX = overallX / 2 + centerTitleBlockX;
+                            double closestX = centerTitleBlockX - overallX / 2;
+
+                            // Closest and furthest Y points
+                            double centerTitleBlockY = centerTitleBlock.Y;
+                            double furthestY = overallY / 2 + centerTitleBlockY;
+                            double closestY = centerTitleBlockY - overallY / 2;
+
+                            // Points boundary
+                            XYZ lowestRight = new XYZ(furthestX, closestY, 0);
+                            XYZ lowestLeft = new XYZ(closestX, closestY, 0);
+                            XYZ heightestLeft = new XYZ(closestX, furthestY, 0);
+                            XYZ heightestRight = new XYZ(furthestX, furthestY, 0);
+
+                            // Move viewports
+                            foreach (Viewport vp in viewports)
+                            {
+                                Outline vpOut = vp.GetBoxOutline();
+                                Outline labelOut = vp.GetLabelOutline();
+
+                                // Viewport dimensions
+                                XYZ maxPoint = vpOut.MaximumPoint;
+                                XYZ minPoint = vpOut.MinimumPoint;
+
+                                string detailNumber = vp.get_Parameter(BuiltInParameter.VIEWER_DETAIL_NUMBER).AsString();
+
+                                if (detailNumber == "4")
+                                {
+                                    XYZ lowRightPoint = new XYZ(maxPoint.X, minPoint.Y, 0);
+                                    XYZ moveVec = lowestRight - lowRightPoint;
+
+                                    ElementTransformUtils.MoveElement(doc, vp.Id, moveVec);
+                                }
+                                else if (detailNumber == "3")
+                                {
+                                    XYZ lowLeftPoint = new XYZ(minPoint.X, minPoint.Y, 0);
+                                    XYZ moveVec = lowestLeft - lowLeftPoint;
+
+                                    ElementTransformUtils.MoveElement(doc, vp.Id, moveVec);
+                                }
+                                else if (detailNumber == "2")
+                                {
+                                    XYZ highRightPoint = new XYZ(maxPoint.X, maxPoint.Y, 0);
+                                    XYZ moveVec = heightestRight - highRightPoint;
+
+                                    ElementTransformUtils.MoveElement(doc, vp.Id, moveVec);
+                                }
+                                else if (detailNumber == "1")
+                                {
+                                    XYZ highLeftPoint = new XYZ(minPoint.X, maxPoint.Y, 0);
+                                    XYZ moveVec = heightestLeft - highLeftPoint;
+
+                                    ElementTransformUtils.MoveElement(doc, vp.Id, moveVec);
                                 }
                             }
 
