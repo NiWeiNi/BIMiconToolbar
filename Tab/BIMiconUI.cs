@@ -163,6 +163,20 @@ namespace BIMiconToolbar.Tab
             pbMatchGrids.ToolTip = "Match grids display from one view to all selected views";
             pbMatchGrids.LongDescription = "Match grids display from one view to all other selected views.";
 
+            // Mark Origin
+            PushButtonData buttonMarkOrigin = new PushButtonData(
+               "MarkerOrigin",
+               "Mark\nOrigin",
+               assemblyPath,
+               "BIMiconToolbar.MarkOrigin.MarkOrigin"
+            );
+
+            PushButton pbMarkOrigin = panelProject.AddItem(buttonMarkOrigin) as PushButton;
+            pbMarkOrigin.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/MarkOrigin/Images/iconMarkerOrigin.png"));
+            pbMarkOrigin.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/MarkOrigin/Images/iconMarkerOrigin.png"));
+            pbMarkOrigin.ToolTip = "Marks in the current view Revit's internal origin";
+            pbMarkOrigin.LongDescription = "Marks in the current view Revit's internal origin";
+
             // Interior Elevations
             PushButtonData buttonInteriorElevations = new PushButtonData(
                "InteriorElevations",

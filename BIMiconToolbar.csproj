@@ -122,6 +122,7 @@
     <Compile Include="InteriorElevations\InteriorElevationsWindow.xaml.cs">
       <DependentUpon>InteriorElevationsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MarkOrigin\MarkOrigin.cs" />
     <Compile Include="MatchGrids\MatchGrids.cs" />
     <Compile Include="MatchGrids\MatchGridsWPF.xaml.cs">
       <DependentUpon>MatchGridsWPF.xaml</DependentUpon>
@@ -176,6 +177,8 @@
     <Resource Include="Support\Docs\Images\iconDocSmall.png" />
     <Resource Include="Support\Help\Images\iconHelpSmall.png" />
     <Resource Include="Support\Version\Images\iconVersionSmall.png" />
+    <Resource Include="MarkOrigin\Images\iconMarkerOrigin.png" />
+    <Resource Include="MarkOrigin\Images\iconMarkerOriginSmall.png" />
     <Content Include="WarningsReport\RevitWarningsClassified.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

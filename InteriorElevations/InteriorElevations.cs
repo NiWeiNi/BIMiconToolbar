@@ -96,12 +96,12 @@ namespace BIMiconToolbar.InteriorElevations
 
                     if (boundaries != null)
                     {
-                        // Transaction
-                        Transaction t = new Transaction(doc, "Create Interior Elevations");
-                        t.Start();
-
                         if (boundaries.Count == 1)
                         {
+                            // Transaction
+                            Transaction t = new Transaction(doc, "Create Interior Elevations");
+                            t.Start();
+
                             List<XYZ> points = Helpers.Helpers.BoundaPoints(boundaries);
                             XYZ centroid = Helpers.Helpers.Centroid(points);
 
@@ -321,9 +321,15 @@ namespace BIMiconToolbar.InteriorElevations
                                     ElementTransformUtils.MoveElement(doc, vp.Id, moveVec);
                                 }
                             }
-
                             // Commit transaction
                             t.Commit();
+                        }
+                        // When room has more than 4 sides
+                        else
+                        {
+                            string messageWarning = "Elevation not created for room: " + room.Number + " - " + room.Name;
+                            string messageReason = "This part of the script is still WIP, apologies for any inconvenience";
+                            TaskDialog.Show("Warning", messageWarning + "\n" + messageReason);
                         }
                     }
                 }
