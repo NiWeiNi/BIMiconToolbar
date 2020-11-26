@@ -337,5 +337,42 @@ namespace BIMiconToolbar.Helpers
             return millimeters;
         }
 
+        /// <summary>
+        /// Method to check if a polygon is a rectangle
+        /// </summary>
+        /// <param name="curves"></param>
+        /// <returns></returns>
+        public static bool IsRectangle(IList<BoundarySegment> curves)
+        {
+            // If there are more than 4 sides or it is empty, not a rectangle
+            if (curves.Count > 4 || curves == null)
+            {
+                return false;
+            }
+
+            // Create list of vertices
+            List<XYZ> vertices = new List<XYZ>();
+
+            foreach (var curve in curves)
+            {
+                vertices.Add(curve.GetCurve().GetEndPoint(0));
+            }
+
+            // Check the distance from center to vertices are equal
+            int round = 10;
+
+            double cx, cy;
+            double dd1, dd2, dd3, dd4;
+
+            cx = (vertices[0].X + vertices[1].X + vertices[2].X + vertices[3].X) / 4;
+            cy = (vertices[0].Y + vertices[1].Y + vertices[2].Y + vertices[3].Y) / 4;
+
+            dd1 = Math.Round(Math.Pow(cx - vertices[0].X, 2) + Math.Pow(cy - vertices[0].Y, 2), round);
+            dd2 = Math.Round(Math.Pow(cx - vertices[1].X, 2) + Math.Pow(cy - vertices[1].Y, 2), round);
+            dd3 = Math.Round(Math.Pow(cx - vertices[2].X, 2) + Math.Pow(cy - vertices[2].Y, 2), round);
+            dd4 = Math.Round(Math.Pow(cx - vertices[3].X, 2) + Math.Pow(cy - vertices[3].Y, 2), round);
+
+            return dd1 == dd2 && dd1 == dd3 && dd1 == dd4;
+        }
     }
 }

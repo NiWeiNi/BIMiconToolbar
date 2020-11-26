@@ -94,9 +94,10 @@ namespace BIMiconToolbar.InteriorElevations
                     // Retrieve boundaries
                     IList<IList<BoundarySegment>> boundaries = Helpers.Helpers.SpatialBoundaries(room);
 
+                    // Check boundaries list is not empty
                     if (boundaries != null)
                     {
-                        if (boundaries.Count == 1)
+                        if (boundaries[0].Count == 4 && Helpers.Helpers.IsRectangle(boundaries[0]))
                         {
                             // Transaction
                             Transaction t = new Transaction(doc, "Create Interior Elevations");
