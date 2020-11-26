@@ -2,6 +2,7 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -97,10 +98,26 @@ namespace BIMiconToolbar.InteriorElevations
                     // Check boundaries list is not empty
                     if (boundaries != null)
                     {
+                        // Get settings of current document
+                        Settings documentSettings = doc.Settings;
+
+                        // Retrieve annotation categories
+                        Categories cats = documentSettings.Categories;
+
+                        var annoCategories = new List<ElementId>();
+
+                        foreach (Category cat in cats)
+                        {
+                            if (cat.CategoryType == CategoryType.Annotation)
+                            {
+                                annoCategories.Add(cat.Id);
+                            }
+                        }
+
                         if (boundaries[0].Count == 4 && Helpers.Helpers.IsRectangle(boundaries[0]))
                         {
                             // Transaction
-                            Transaction t = new Transaction(doc, "Create Interior Elevations");
+                            Transaction t = new Transaction(doc, "Create Single Marker Interior Elevations");
                             t.Start();
 
                             List<XYZ> points = Helpers.Helpers.BoundaPoints(boundaries);
@@ -124,22 +141,6 @@ namespace BIMiconToolbar.InteriorElevations
 
                             // Create elevation marker
                             ElevationMarker marker = ElevationMarker.CreateElevationMarker(doc, viewFamilyType.Id, centroid, viewTemplate.Scale);
-
-                            // Get settings of current document
-                            Settings documentSettings = doc.Settings;
-
-                            // Retrieve annotation categories
-                            Categories cats = documentSettings.Categories;
-
-                            var annoCategories = new List<ElementId>();
-
-                            foreach(Category cat in cats)
-                            {
-                                if (cat.CategoryType == CategoryType.Annotation)
-                                {
-                                    annoCategories.Add(cat.Id);
-                                }
-                            }
 
                             // Viewport dimensions
                             var vPOutlines = new List<Outline>();
@@ -325,9 +326,54 @@ namespace BIMiconToolbar.InteriorElevations
                             // Commit transaction
                             t.Commit();
                         }
-                        // When room has more than 4 sides
+                        // When room has more or less than 4 sides
                         else
                         {
+                            // Offset distanceof the elevation marker
+                            double offsetElevation = Helpers.Helpers.MillimetersToFeet(-100);
+                            // Vector Z
+                            XYZ zAxis = new XYZ(0, 0, 1);
+
+                            // Transaction to create single elevations
+                            Transaction t2 = new Transaction(doc, "Create single elevations");
+                            t2.Start();
+
+                            // Loop through each boundary
+                            foreach (var boundary in boundaries[0])
+                            {
+                                Curve originalCurve = boundary.GetCurve();
+                                Curve offsetCurve = originalCurve.CreateOffset(offsetElevation, zAxis);
+
+                                // Curve centers
+                                XYZ origCenter = (originalCurve.GetEndPoint(0) + originalCurve.GetEndPoint(1)) / 2;
+                                XYZ offsetCenter = (offsetCurve.GetEndPoint(0) + offsetCurve.GetEndPoint(1)) / 2;
+
+                                // Vector marker to center of original boundary
+                                XYZ vec = origCenter - offsetCenter;
+
+                                // Create elevation marker
+                                ElevationMarker marker = ElevationMarker.CreateElevationMarker(doc, viewFamilyType.Id, offsetCenter, viewTemplate.Scale);
+
+                                // Calculate rotation angle
+                                double vProduct = 1 * offsetCenter.Y;
+                                double vNorth = 1;
+                                double vModuleNormal = Math.Sqrt(Math.Pow(vec.X, 2) + Math.Pow(vec.Y, 2));
+                                double angleRotate = Math.Acos(vProduct / vNorth * vModuleNormal);
+
+                                // Line along z axis
+                                Line zLine = Line.CreateBound(new XYZ(offsetCenter.X, offsetCenter.Y, offsetCenter.Z), new XYZ(offsetCenter.X, offsetCenter.Y, offsetCenter.Z + 10));
+
+                                // Create Elevation View
+                                View view = marker.CreateElevation(doc, floorPlan.Id, 1);
+
+                                // Rotate marker to be perpendicular to boundary
+                                ElementTransformUtils.RotateElement(doc, marker.Id, zLine, 2.35);
+
+                            }
+
+                            // Commit transaction
+                            t2.Commit();
+
                             string messageWarning = "Elevation not created for room: " + room.Number + " - " + room.Name;
                             string messageReason = "This part of the script is still WIP, apologies for any inconvenience";
                             TaskDialog.Show("Warning", messageWarning + "\n" + messageReason);
