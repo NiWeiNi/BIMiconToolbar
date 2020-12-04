@@ -374,5 +374,23 @@ namespace BIMiconToolbar.Helpers
 
             return dd1 == dd2 && dd1 == dd3 && dd1 == dd4;
         }
+
+        /// <summary>
+        /// Function to calculate angle between two vectors
+        /// </summary>
+        /// <param name="v1"></param>
+        /// <param name="v2"></param>
+        /// <returns></returns>
+        public static double AngleTwoVectors(XYZ v1, XYZ v2)
+        {
+            double crossProduct = v1.X * v2.X + v1.Y * v2.Y;
+
+            double v1Module = Math.Sqrt(Math.Pow(v1.X, 2) + Math.Pow(v1.Y, 2));
+            double v2Module = Math.Sqrt(Math.Pow(v2.X, 2) + Math.Pow(v2.Y, 2));
+
+            double angle = Math.Acos(crossProduct / (v1Module * v2Module));
+
+            return angle;
+        }
     }
 }

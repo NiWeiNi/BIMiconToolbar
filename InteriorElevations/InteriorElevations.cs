@@ -330,7 +330,7 @@ namespace BIMiconToolbar.InteriorElevations
                         else
                         {
                             // Offset distanceof the elevation marker
-                            double offsetElevation = Helpers.Helpers.MillimetersToFeet(-100);
+                            double offsetElevation = Helpers.Helpers.MillimetersToFeet(-1000);
                             // Vector Z
                             XYZ zAxis = new XYZ(0, 0, 1);
 
@@ -355,10 +355,14 @@ namespace BIMiconToolbar.InteriorElevations
                                 ElevationMarker marker = ElevationMarker.CreateElevationMarker(doc, viewFamilyType.Id, offsetCenter, viewTemplate.Scale);
 
                                 // Calculate rotation angle
-                                double vProduct = 1 * offsetCenter.Y;
-                                double vNorth = 1;
-                                double vModuleNormal = Math.Sqrt(Math.Pow(vec.X, 2) + Math.Pow(vec.Y, 2));
-                                double angleRotate = Math.Acos(vProduct / vNorth * vModuleNormal);
+                                double angle = Helpers.Helpers.AngleTwoVectors(new XYZ(0, 100, 0), vec);
+
+                                // Check the component X of the translated vector to new origin is positive
+                                // this means angle to rotate clockwise
+                                if (vec.X > 0)
+                                {
+                                    angle = angle * -1;
+                                }
 
                                 // Line along z axis
                                 Line zLine = Line.CreateBound(new XYZ(offsetCenter.X, offsetCenter.Y, offsetCenter.Z), new XYZ(offsetCenter.X, offsetCenter.Y, offsetCenter.Z + 10));
@@ -367,8 +371,7 @@ namespace BIMiconToolbar.InteriorElevations
                                 View view = marker.CreateElevation(doc, floorPlan.Id, 1);
 
                                 // Rotate marker to be perpendicular to boundary
-                                ElementTransformUtils.RotateElement(doc, marker.Id, zLine, 2.35);
-
+                                ElementTransformUtils.RotateElement(doc, marker.Id, zLine, angle);
                             }
 
                             // Commit transaction
