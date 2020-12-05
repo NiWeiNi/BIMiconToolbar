@@ -117,7 +117,7 @@ namespace BIMiconToolbar.InteriorElevations
                             }
                         }
 
-                        if (boundaries[0].Count == 4 && Helpers.Helpers.IsRectangle(boundaries[0]))
+                        if (boundaries[0].Count == 4 && boundaries.Count == 1 && Helpers.Helpers.IsRectangle(boundaries[0]))
                         {
                             // Transaction
                             Transaction t = new Transaction(doc, "Create Single Marker Interior Elevations");
@@ -366,9 +366,14 @@ namespace BIMiconToolbar.InteriorElevations
 
                                 // Check the component X of the translated vector to new origin is positive
                                 // this means angle to rotate clockwise
-                                if (vec.X > 0)
+                                if (angle != 0 && vec.X > 0)
                                 {
                                     angle = angle * -1;
+                                }
+                                // Check if rotation needs to be 180 degrees
+                                else if (angle == 0 && origCenter.Y < offsetCenter.Y)
+                                {
+                                    angle = Math.PI;
                                 }
 
                                 // Line along z axis
@@ -378,7 +383,19 @@ namespace BIMiconToolbar.InteriorElevations
                                 View view = marker.CreateElevation(doc, floorPlan.Id, 1);
 
                                 // Rotate marker to be perpendicular to boundary
-                                ElementTransformUtils.RotateElement(doc, marker.Id, zLine, angle);
+                                switch (angle)
+                                {
+                                    // Rotate twice as Revit API doesn't rotate 180 degrees
+                                    case Math.PI:
+                                        ElementTransformUtils.RotateElement(doc, marker.Id, zLine, angle/2);
+                                        ElementTransformUtils.RotateElement(doc, marker.Id, zLine, angle/2);
+                                        break;
+
+                                    // Rotate normally
+                                    default:
+                                        ElementTransformUtils.RotateElement(doc, marker.Id, zLine, angle);
+                                        break;
+                                }
                             }
 
                             // Append room number to success list
