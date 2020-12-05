@@ -396,6 +396,60 @@ namespace BIMiconToolbar.InteriorElevations
                                         ElementTransformUtils.RotateElement(doc, marker.Id, zLine, angle);
                                         break;
                                 }
+
+                                // Retrieve crop shape
+                                ViewCropRegionShapeManager cropShapeManag = view.GetCropRegionShapeManager();
+                                IList<CurveLoop> cropCurves = cropShapeManag.GetCropShape();
+
+                                // Retrieve max and min height
+                                double minHeight = 0;
+                                double maxHeight = 0;
+
+                                foreach (Curve curve in cropCurves[0])
+                                {
+                                    XYZ point = curve.GetEndPoint(0);
+                                    double height = point.Z;
+
+                                    if (height > maxHeight)
+                                    {
+                                        maxHeight = height;
+                                    }
+                                    else if (height < minHeight)
+                                    {
+                                        minHeight = height;
+                                    }
+                                }
+
+                                // Crop region offset
+                                double topOffset = Helpers.Helpers.MillimetersToFeet(25);
+
+                                // Create curves for crop region
+                                XYZ bottomStartPoint = offsetCurve.GetEndPoint(0);
+                                XYZ bottomEndPoint = offsetCurve.GetEndPoint(1);
+
+                                XYZ startBase = new XYZ(bottomStartPoint.X, bottomStartPoint.Y, bottomStartPoint.Z + minHeight);
+                                XYZ endBase = new XYZ(bottomEndPoint.X, bottomEndPoint.Y, bottomEndPoint.Z + minHeight);
+
+                                XYZ startTop = new XYZ(bottomStartPoint.X, bottomStartPoint.Y, bottomStartPoint.Z + maxHeight + topOffset);
+                                XYZ endTop = new XYZ(bottomEndPoint.X, bottomEndPoint.Y, bottomEndPoint.Z + maxHeight + topOffset);
+
+                                // Create CurveLoop for new crop shape
+                                List<Curve> curvesNewCrop = new List<Curve>();
+
+                                // Create contiguous lines
+                                Line sideOne = Line.CreateBound(startBase, startTop);
+                                Line sideTwo = Line.CreateBound(endTop, endBase);
+                                Line top = Line.CreateBound(startTop, endTop);
+                                Line baseLine = Line.CreateBound(endBase, startBase);
+
+                                // Add the curves in order to the CurveLoop list
+                                curvesNewCrop.Add(baseLine);
+                                curvesNewCrop.Add(sideOne);
+                                curvesNewCrop.Add(top);
+                                curvesNewCrop.Add(sideTwo);
+
+                                // Apply new crop shape
+                                cropShapeManag.SetCropShape(CurveLoop.Create(curvesNewCrop));
                             }
 
                             // Append room number to success list
@@ -407,6 +461,7 @@ namespace BIMiconToolbar.InteriorElevations
                     }
                 }
 
+                // Display results to user
                 if (roomsSucceeded.Count > 0)
                 {
                     string messageSuccess = string.Join("\n", roomsSucceeded.ToArray());
