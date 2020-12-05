@@ -87,6 +87,9 @@ namespace BIMiconToolbar.InteriorElevations
                     return Result.Cancelled;
                 }
 
+                // Store rooms with elevations created
+                List<string> roomsSucceeded = new List<string>();
+
                 // Collect rooms
                 foreach (int id in selectedIntIds)
                 {
@@ -323,6 +326,10 @@ namespace BIMiconToolbar.InteriorElevations
                                     ElementTransformUtils.MoveElement(doc, vp.Id, moveVec);
                                 }
                             }
+
+                            // Append room number to success list
+                            roomsSucceeded.Add(room.Number);
+
                             // Commit transaction
                             t.Commit();
                         }
@@ -374,14 +381,23 @@ namespace BIMiconToolbar.InteriorElevations
                                 ElementTransformUtils.RotateElement(doc, marker.Id, zLine, angle);
                             }
 
+                            // Append room number to success list
+                            roomsSucceeded.Add(room.Number);
+
                             // Commit transaction
                             t2.Commit();
-
-                            string messageWarning = "Elevation not created for room: " + room.Number + " - " + room.Name;
-                            string messageReason = "This part of the script is still WIP, apologies for any inconvenience";
-                            TaskDialog.Show("Warning", messageWarning + "\n" + messageReason);
                         }
                     }
+                }
+
+                if (roomsSucceeded.Count > 0)
+                {
+                    string messageSuccess = string.Join("\n", roomsSucceeded.ToArray());
+                    TaskDialog.Show("Success", "The following room elevations have been created: " + "\n" + messageSuccess);
+                }
+                else
+                {
+                    TaskDialog.Show("Error", "No room elevations have been created");
                 }
             }
 
