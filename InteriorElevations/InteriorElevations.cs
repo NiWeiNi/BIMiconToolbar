@@ -155,44 +155,8 @@ namespace BIMiconToolbar.InteriorElevations
                                                                    annoCategories, sheet, ref viewports);
                             }
 
-                            // Dictitionary to store viewport dimensions
-                            var viewportDims = new Dictionary<Viewport, double[]>();
-
-                            foreach(Viewport vp in viewports)
-                            {
-                                Outline vpOut = vp.GetBoxOutline();
-                                Outline labelOut = vp.GetLabelOutline();
-
-                                // Viewport dimensions
-                                XYZ maxPoint = vpOut.MaximumPoint;
-                                XYZ minPoint = vpOut.MinimumPoint;
-
-                                double vPxMax = maxPoint.X;
-                                double vPxMin = minPoint.X;
-
-                                double vPyMax = maxPoint.Y;
-                                double vPyMin = minPoint.Y;
-
-                                double vPxDist = vPxMax - vPxMin;
-                                double vPyDist = vPyMax - vPyMin;
-
-                                // Label dimensions
-                                XYZ labelMaxPoint = labelOut.MaximumPoint;
-                                XYZ labelMinPoint = labelOut.MinimumPoint;
-
-                                double labelxMax = labelMaxPoint.X;
-                                double labelxMin = labelMinPoint.X;
-
-                                double labelyMax = labelMaxPoint.Y;
-                                double labelyMin = labelMinPoint.Y;
-
-                                double labelxDist = labelxMax - labelxMin;
-                                double labelyDist = labelyMax - labelyMin;
-
-                                // Store results
-                                double[] dims = { vPxDist, vPyDist };
-                                viewportDims.Add(vp, dims); 
-                            }
+                            // Dictionary to store viewport dimensions
+                            var viewportDims = Helpers.HelpersView.ViewportDimensions(viewports);
 
                             // Retrieve overall dimensions
                             List<double> firstRowX = new List<double>();

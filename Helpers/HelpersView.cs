@@ -25,7 +25,17 @@ namespace BIMiconToolbar.Helpers
             return sheet;
         }
 
-
+        /// <summary>
+        /// Function to create viewport
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="marker"></param>
+        /// <param name="floorPlan"></param>
+        /// <param name="i"></param>
+        /// <param name="viewTemplate"></param>
+        /// <param name="annoCategories"></param>
+        /// <param name="sheet"></param>
+        /// <param name="viewports"></param>
         public static void CreateViewport(Document doc, ElevationMarker marker, View floorPlan, int i, View viewTemplate,
                                         List<ElementId> annoCategories, ViewSheet sheet, ref List<Viewport> viewports)
         {
@@ -47,6 +57,138 @@ namespace BIMiconToolbar.Helpers
 
             // Store viewports
             viewports.Add(viewP);
+        }
+
+        /// <summary>
+        /// Function to retrieve viewport dimensions
+        /// </summary>
+        /// <param name="viewports"></param>
+        /// <returns></returns>
+        public static Dictionary<Viewport, double[]> ViewportDimensions(List<Viewport> viewports)
+        {
+            // Dictionary to store viewport dimensions
+            var viewportDims = new Dictionary<Viewport, double[]>();
+
+            foreach (Viewport vp in viewports)
+            {
+                Outline vpOut = vp.GetBoxOutline();
+
+                // Viewport dimensions
+                XYZ maxPoint = vpOut.MaximumPoint;
+                XYZ minPoint = vpOut.MinimumPoint;
+
+                double vPxMax = maxPoint.X;
+                double vPxMin = minPoint.X;
+
+                double vPyMax = maxPoint.Y;
+                double vPyMin = minPoint.Y;
+
+                double vPxDist = vPxMax - vPxMin;
+                double vPyDist = vPyMax - vPyMin;
+
+                // Store results
+                double[] dims = { vPxDist, vPyDist };
+                viewportDims.Add(vp, dims);
+            }
+
+            return viewportDims;
+        }
+
+        /// <summary>
+        /// Function to retrieve viewport label dimensions
+        /// </summary>
+        /// <param name="viewports"></param>
+        /// <returns></returns>
+        public static Dictionary<Viewport, double[]> LabelDimensions(List<Viewport> viewports)
+        {
+            // Dictionary to store viewport dimensions
+            var labelDims = new Dictionary<Viewport, double[]>();
+
+            foreach (Viewport vp in viewports)
+            {
+                Outline labelOut = vp.GetLabelOutline();
+
+                // Label dimensions
+                XYZ labelMaxPoint = labelOut.MaximumPoint;
+                XYZ labelMinPoint = labelOut.MinimumPoint;
+
+                double labelxMax = labelMaxPoint.X;
+                double labelxMin = labelMinPoint.X;
+
+                double labelyMax = labelMaxPoint.Y;
+                double labelyMin = labelMinPoint.Y;
+
+                double labelxDist = labelxMax - labelxMin;
+                double labelyDist = labelyMax - labelyMin;
+
+                // Store results
+                double[] dims = { labelxDist, labelyDist };
+                labelDims.Add(vp, dims);
+            }
+
+            return labelDims;
+        }
+
+        public static void ViewportRowsColumns(Dictionary<Viewport, double[]> viewportDims, double sheetWidth, double sheetHeight)
+        {
+            // Viewport rows
+            List<Viewport> viewportSingleRow = new List<Viewport>();
+            List<List<Viewport>> viewportRows = new List<List<Viewport>>();
+
+            // Store viewport dimension
+            List<double> width = new List<double>();
+            List<List<double>> viewportWidths = new List<List<double>>();
+
+            // Maximum dimension
+            double maxViewportHeight = 0;
+            List<double> maxHeights = new List<double>();
+
+            // Divide the viewports in rows
+            foreach (KeyValuePair<Viewport, double[]> entry in viewportDims)
+            {
+                Viewport vp = entry.Key;
+                
+                // Check the latest view does not exceed the max width
+                if (width.Sum() + width.Count * Helpers.MillimetersToFeet(30) <= sheetWidth)
+                {
+                    width.Add(entry.Value[0]);
+                    viewportSingleRow.Add(vp);
+
+                    if (entry.Value[1] > maxViewportHeight)
+                    {
+                        maxViewportHeight = entry.Value[1];
+                    }
+                }
+                // Add exceding viewport to next row
+                else
+                {
+                    viewportRows.Add(viewportSingleRow);
+                    maxHeights.Add(maxViewportHeight);
+                    viewportWidths.Add(width);
+                    width.Clear();
+                    width.Add(entry.Value[0]);
+                    viewportSingleRow.Clear();
+                    viewportSingleRow.Add(vp);
+                    maxViewportHeight = 0;
+                }
+            }
+
+            for (int i = 0; i < viewportRows.Count; i++)
+            {
+                var vpList = viewportRows[i];
+
+                for (int j = 0; j < vpList.Count; j++)
+                {
+                    double Y = sheetHeight - Helpers.MillimetersToFeet(30);
+                    double X = Helpers.MillimetersToFeet(30);
+
+                    XYZ maxP = new XYZ(X + viewportWidths[i][j], Y, 0);
+                    XYZ minP = new XYZ(X, Y - viewportDims[viewportRows[i][j]][1], 0);
+
+                    XYZ vpCenter = (maxP - minP) / 2;
+                }
+            }
+
         }
     }
 }
