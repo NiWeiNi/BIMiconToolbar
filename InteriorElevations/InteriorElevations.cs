@@ -127,8 +127,9 @@ namespace BIMiconToolbar.InteriorElevations
                             XYZ centroid = Helpers.Helpers.Centroid(points);
 
                             // Create sheet
-                            ViewSheet sheet = ViewSheet.Create(doc, titleBlock.Id);
-                            sheet.Name = room.Number + "-" + "INTERIOR ELEVATIONS";
+                            ViewSheet sheet = Helpers.HelpersView.CreateSheet(doc,
+                                                                            titleBlock.Id,
+                                                                            room.Number + "-" + "INTERIOR ELEVATIONS");
 
                             // Retrieve title block
                             FamilyInstance tBlock = new FilteredElementCollector(doc, sheet.Id)
@@ -145,39 +146,13 @@ namespace BIMiconToolbar.InteriorElevations
                             // Create elevation marker
                             ElevationMarker marker = ElevationMarker.CreateElevationMarker(doc, viewFamilyType.Id, centroid, viewTemplate.Scale);
 
-                            // Viewport dimensions
-                            var vPOutlines = new List<Outline>();
-                            var labelOutlines = new List<Outline>();
-
+                            // Place views on sheet
                             var viewports = new List<Viewport>();
 
-                            // Place views on sheet
                             for (int i = 0; i < 4; i++)
                             {
-                                View view = marker.CreateElevation(doc, floorPlan.Id, i);
-                                view.ViewTemplateId = viewTemplate.Id;
-
-                                // Hide annotation categories to reduce viewport outline to minimum size
-                                // This allows labels to align to the base
-                                view.HideCategoriesTemporary(annoCategories);
-
-                                // Regenerate document to pick view scale for title
-                                doc.Regenerate();
-
-                                // Create viewports
-                                Viewport viewP = Viewport.Create(doc, sheet.Id, view.Id, new XYZ());
-
-                                // Retrieve outlines
-                                Outline vPOutline = viewP.GetBoxOutline();
-                                Outline labelOutline = viewP.GetLabelOutline();
-                                vPOutlines.Add(vPOutline);
-                                labelOutlines.Add(labelOutline);
-
-                                // Disable temporary hide
-                                view.DisableTemporaryViewMode(TemporaryViewMode.TemporaryHideIsolate);
-
-                                // Store viewports
-                                viewports.Add(viewP);
+                                Helpers.HelpersView.CreateViewport(doc, marker, floorPlan, i, viewTemplate,
+                                                                   annoCategories, sheet, ref viewports);
                             }
 
                             // Dictitionary to store viewport dimensions
