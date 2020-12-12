@@ -284,6 +284,14 @@ namespace BIMiconToolbar.InteriorElevations
                             Transaction t2 = new Transaction(doc, "Create single elevations");
                             t2.Start();
 
+                            // Create sheet
+                            ViewSheet sheet = Helpers.HelpersView.CreateSheet(doc,
+                                                 titleBlock.Id,
+                                                 room.Number + "-" + "INTERIOR ELEVATIONS");
+
+                            // Store viewports on sheet
+                            var viewports = new List<Viewport>();
+
                             // Loop through each boundary
                             foreach (var boundary in boundaries[0])
                             {

@@ -46,12 +46,35 @@ namespace BIMiconToolbar.ViewOnSheet
                     ElementId eId = new ElementId(item);
                     ViewSheet sheet = doc.GetElement(eId) as ViewSheet;
 
+                    // Set view placement point
+                    XYZ centerTitleBlock;
+
+                    try
+                    {
+                        // Retrieve title block
+                        FamilyInstance tBlock = new FilteredElementCollector(doc, sheet.Id)
+                                                .OfCategory(BuiltInCategory.OST_TitleBlocks)
+                                                .FirstElement() as FamilyInstance;
+
+                        // Retrieve title block size
+                        double sheetHeight = tBlock.get_Parameter(BuiltInParameter.SHEET_HEIGHT).AsDouble();
+                        double sheetWidth = tBlock.get_Parameter(BuiltInParameter.SHEET_WIDTH).AsDouble();
+
+                        // Center of title block
+                        centerTitleBlock = new XYZ(sheetWidth / 2, sheetHeight / 2, 0);
+                    }
+                    catch
+                    {
+                        centerTitleBlock = new XYZ();
+                        // TODO: Error log
+                    }
+
                     // If activeView is a schedule
                     if (activeViewType == ViewType.Schedule ||
                         activeViewType == ViewType.ColumnSchedule ||
                         activeViewType == ViewType.PanelSchedule)
                     {
-                        ScheduleSheetInstance.Create(doc, sheet.Id, activeView.Id, new XYZ());
+                        ScheduleSheetInstance.Create(doc, sheet.Id, activeView.Id, centerTitleBlock);
                     }
                     // View is a legend
                     else if (activeViewType == ViewType.Legend)
@@ -59,7 +82,7 @@ namespace BIMiconToolbar.ViewOnSheet
                         // Place legend if it is not placed on any sheet
                         if (isViewOnSheet == false)
                         {
-                            Viewport.Create(doc, sheet.Id, activeView.Id, new XYZ());
+                            Viewport.Create(doc, sheet.Id, activeView.Id, centerTitleBlock);
                         }
                         // Check where is the legend placed on
                         else
@@ -79,7 +102,7 @@ namespace BIMiconToolbar.ViewOnSheet
                             // Placed on selected sheet if it is not placed already
                             if (flagLegend)
                             {
-                                Viewport.Create(doc, sheet.Id, activeView.Id, new XYZ());
+                                Viewport.Create(doc, sheet.Id, activeView.Id, centerTitleBlock);
                             }
                         }
                     }
@@ -89,12 +112,12 @@ namespace BIMiconToolbar.ViewOnSheet
                         // Duplicate view
                         ElementId viewId = activeView.Duplicate(ViewDuplicateOption.WithDetailing);
                         // Place duplicated view on sheet
-                        Viewport.Create(doc, sheet.Id, viewId, new XYZ());
+                        Viewport.Create(doc, sheet.Id, viewId, centerTitleBlock);
                     }
                     // If activeView is not on sheet
                     else
                     {
-                        Viewport.Create(doc, sheet.Id, activeView.Id, new XYZ());
+                        Viewport.Create(doc, sheet.Id, activeView.Id, centerTitleBlock);
                         viewPlaced = true;
                     }
                 }

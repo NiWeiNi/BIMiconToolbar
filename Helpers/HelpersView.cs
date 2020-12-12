@@ -129,7 +129,7 @@ namespace BIMiconToolbar.Helpers
             return labelDims;
         }
 
-        public static void ViewportRowsColumns(Dictionary<Viewport, double[]> viewportDims, double sheetWidth, double sheetHeight)
+        public static List<List<XYZ>> ViewportRowsColumns(Dictionary<Viewport, double[]> viewportDims, double sheetWidth, double sheetHeight)
         {
             // Viewport rows
             List<Viewport> viewportSingleRow = new List<Viewport>();
@@ -173,22 +173,34 @@ namespace BIMiconToolbar.Helpers
                 }
             }
 
+            double X = Helpers.MillimetersToFeet(30);
+            double Y = sheetHeight - Helpers.MillimetersToFeet(30);
+
+            var vpCoordinates = new List<List<XYZ>>();
+
             for (int i = 0; i < viewportRows.Count; i++)
             {
                 var vpList = viewportRows[i];
+                var coordinates = new List<XYZ>();
 
                 for (int j = 0; j < vpList.Count; j++)
                 {
-                    double Y = sheetHeight - Helpers.MillimetersToFeet(30);
-                    double X = Helpers.MillimetersToFeet(30);
+                    double vPwidth = viewportWidths[i][j];
 
-                    XYZ maxP = new XYZ(X + viewportWidths[i][j], Y, 0);
+                    XYZ maxP = new XYZ(X + vPwidth, Y, 0);
                     XYZ minP = new XYZ(X, Y - viewportDims[viewportRows[i][j]][1], 0);
 
+                    X = X + vPwidth;
+
                     XYZ vpCenter = (maxP - minP) / 2;
+                    coordinates.Add(vpCenter);
                 }
+
+                vpCoordinates.Add(coordinates);
+                coordinates.Clear();
             }
 
+            return vpCoordinates;
         }
     }
 }
