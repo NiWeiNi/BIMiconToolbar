@@ -23,10 +23,10 @@ namespace BIMiconToolbar.ViewOnSheet
 
             using (ViewSheetsWindow VOSwindow = new ViewSheetsWindow(commandData))
             {
-                // the following two lines let the Revit application be this window's owner, so that it will always be on top of the Revit screen even when the user tries to switch the current screen.
+                // Revit application as window's owner
                 System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(VOSwindow);
                 helper.Owner = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
-                //VOSwindow.ResizeMode = ResizeMode.NoResize;
+
                 VOSwindow.ShowDialog();
 
                 // List with all selected sheets
@@ -35,6 +35,9 @@ namespace BIMiconToolbar.ViewOnSheet
                 // Check if view is already on sheets
                 bool isViewOnSheet = Helpers.Helpers.IsViewOnSheet(doc, activeView);
                 bool viewPlaced = false;
+
+                // List to store views placed on sheet
+                var viewSheetSuccess = new List<string>();
 
                 // Transaction
                 Transaction transactionViews = new Transaction(doc, "Place Views on Sheets");
@@ -75,6 +78,8 @@ namespace BIMiconToolbar.ViewOnSheet
                         activeViewType == ViewType.PanelSchedule)
                     {
                         ScheduleSheetInstance.Create(doc, sheet.Id, activeView.Id, centerTitleBlock);
+                        // Mark sheet as successfully placed
+                        viewSheetSuccess.Add(sheet.SheetNumber);
                     }
                     // View is a legend
                     else if (activeViewType == ViewType.Legend)
@@ -83,6 +88,8 @@ namespace BIMiconToolbar.ViewOnSheet
                         if (isViewOnSheet == false)
                         {
                             Viewport.Create(doc, sheet.Id, activeView.Id, centerTitleBlock);
+                            // Mark sheet as successfully placed
+                            viewSheetSuccess.Add(sheet.SheetNumber);
                         }
                         // Check where is the legend placed on
                         else
@@ -103,6 +110,8 @@ namespace BIMiconToolbar.ViewOnSheet
                             if (flagLegend)
                             {
                                 Viewport.Create(doc, sheet.Id, activeView.Id, centerTitleBlock);
+                                // Mark sheet as successfully placed
+                                viewSheetSuccess.Add(sheet.SheetNumber);
                             }
                         }
                     }
@@ -113,18 +122,29 @@ namespace BIMiconToolbar.ViewOnSheet
                         ElementId viewId = activeView.Duplicate(ViewDuplicateOption.WithDetailing);
                         // Place duplicated view on sheet
                         Viewport.Create(doc, sheet.Id, viewId, centerTitleBlock);
+                        // Mark sheet as successfully placed
+                        viewSheetSuccess.Add(sheet.SheetNumber);
                     }
                     // If activeView is not on sheet
                     else
                     {
                         Viewport.Create(doc, sheet.Id, activeView.Id, centerTitleBlock);
                         viewPlaced = true;
+                        // Mark sheet as successfully placed
+                        viewSheetSuccess.Add(sheet.SheetNumber);
                     }
                 }
 
                 // Commit transaction
                 transactionViews.Commit();
+
+                // Display result message to user
+                if (viewSheetSuccess.Count > 0)
+                {
+                    TaskDialog.Show("Success", activeView.Name + " has been placed on: \n" + string.Join("\n", viewSheetSuccess));
+                }
             }
+
             return Result.Succeeded;
         }
     }

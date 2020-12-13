@@ -57,6 +57,11 @@ namespace BIMiconToolbar.ViewOnSheet
         /// </summary>
         public List<int> listIds = new List<int>();
 
+        /// <summary>
+        /// Function to reset selected elements
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Reset_Click(object sender, RoutedEventArgs e)
         {
             var list = this.sheets.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
