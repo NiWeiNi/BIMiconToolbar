@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BIMiconToolbar.ViewOnSheet"
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
@@ -11,6 +10,7 @@
         Title="Views On Sheet" Height="520" Width="420"
         WindowStartupLocation="CenterScreen">
 
+    <!-- Use dictionary as style -->
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -19,12 +19,15 @@
         </ResourceDictionary>
     </Window.Resources>
 
+    <!-- Content displayed to user -->
     <Border Style="{StaticResource SingleContainer}">
         <StackPanel>
+            <!-- First title -->
             <TextBlock Style="{StaticResource FirstTitle}">
                 Please select sheet/s to place current view:
             </TextBlock>
 
+            <!-- Scroll to display selectable elements -->
             <Border Style="{StaticResource OuterBorder}">
                 <ScrollViewer HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible" Width="375">
                     <StackPanel x:Name="sheets" />
