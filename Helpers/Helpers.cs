@@ -391,5 +391,31 @@ namespace BIMiconToolbar.Helpers
 
             return angle;
         }
+
+        /// <summary>
+        /// Return list of annotation categories in document
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        public static List<ElementId> AnnoCatIds(Document doc)
+        {
+            // Get settings of current document
+            Settings documentSettings = doc.Settings;
+
+            // Retrieve annotation categories
+            Categories cats = documentSettings.Categories;
+
+            var annoCategories = new List<ElementId>();
+
+            foreach (Category cat in cats)
+            {
+                if (cat.CategoryType == CategoryType.Annotation)
+                {
+                    annoCategories.Add(cat.Id);
+                }
+            }
+
+            return annoCategories;
+        }
     }
 }

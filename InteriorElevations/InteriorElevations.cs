@@ -105,23 +105,8 @@ namespace BIMiconToolbar.InteriorElevations
                     // Check boundaries list is not empty
                     if (boundaries != null)
                     {
-                        #region Categories ids
-                        // Get settings of current document
-                        Settings documentSettings = doc.Settings;
-
-                        // Retrieve annotation categories
-                        Categories cats = documentSettings.Categories;
-
-                        var annoCategories = new List<ElementId>();
-
-                        foreach (Category cat in cats)
-                        {
-                            if (cat.CategoryType == CategoryType.Annotation)
-                            {
-                                annoCategories.Add(cat.Id);
-                            }
-                        }
-                        #endregion
+                        // Retrieve doc annotation categories
+                        var annoCategories = Helpers.Helpers.AnnoCatIds(doc);
 
                         #region Rectangular rooms without interior boundaries
                         if (boundaries[0].Count == 4 && boundaries.Count == 1 && Helpers.Helpers.IsRectangle(boundaries[0]))
