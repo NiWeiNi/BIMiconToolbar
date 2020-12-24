@@ -31,6 +31,8 @@ namespace BIMiconToolbar.InteriorElevations
                 viewFamilyType = customWindow.SelectedComboItemViewType.Tag as ViewFamilyType;
             }
 
+            #region Required elements for this tool
+
             // No required elements loaded
             if (titleBlock == null && viewTemplate == null && viewFamilyType == null)
             {
@@ -73,6 +75,8 @@ namespace BIMiconToolbar.InteriorElevations
                 TaskDialog.Show("Warning", "Please create a view template");
                 return Result.Cancelled;
             }
+            #endregion
+
             // Room selected
             else if (selectedIntIds != null)
             {
@@ -83,7 +87,7 @@ namespace BIMiconToolbar.InteriorElevations
 
                 if (floorPlan == null)
                 {
-                    TaskDialog.Show("Warning", "Plese create a floor plan");
+                    TaskDialog.Show("Warning", "Please create a floor plan");
                     return Result.Cancelled;
                 }
 
@@ -101,6 +105,7 @@ namespace BIMiconToolbar.InteriorElevations
                     // Check boundaries list is not empty
                     if (boundaries != null)
                     {
+                        #region Categories ids
                         // Get settings of current document
                         Settings documentSettings = doc.Settings;
 
@@ -116,7 +121,9 @@ namespace BIMiconToolbar.InteriorElevations
                                 annoCategories.Add(cat.Id);
                             }
                         }
+                        #endregion
 
+                        #region Rectangular rooms without interior boundaries
                         if (boundaries[0].Count == 4 && boundaries.Count == 1 && Helpers.Helpers.IsRectangle(boundaries[0]))
                         {
                             // Transaction
@@ -272,6 +279,9 @@ namespace BIMiconToolbar.InteriorElevations
                             // Commit transaction
                             t.Commit();
                         }
+                        #endregion
+
+                        #region Rest of rooms
                         // When room has more or less than 4 sides
                         else
                         {
@@ -405,9 +415,11 @@ namespace BIMiconToolbar.InteriorElevations
                             // Commit transaction
                             t2.Commit();
                         }
+                        #endregion
                     }
                 }
 
+                #region Display results to user
                 // Display results to user
                 if (roomsSucceeded.Count > 0)
                 {
@@ -418,6 +430,7 @@ namespace BIMiconToolbar.InteriorElevations
                 {
                     TaskDialog.Show("Error", "No room elevations have been created");
                 }
+                #endregion
             }
 
             return Result.Succeeded;
