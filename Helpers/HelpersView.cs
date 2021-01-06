@@ -129,13 +129,20 @@ namespace BIMiconToolbar.Helpers
             return labelDims;
         }
 
-        public static List<List<XYZ>> ViewportRowsColumns(Dictionary<Viewport, double[]> viewportDims, double sheetWidth, double sheetHeight)
+        /// <summary>
+        /// Function to return final coordinates of viewports
+        /// </summary>
+        /// <param name="viewportDims"></param>
+        /// <param name="sheetWidth"></param>
+        /// <param name="sheetHeight"></param>
+        /// <returns></returns>
+        public static List<XYZ> ViewportRowsColumns(Dictionary<Viewport, double[]> viewportDims, double sheetWidth, double sheetHeight)
         {
-            // Viewport rows
+            // Lists to store single row of viewports and all rows on sheet
             List<Viewport> viewportSingleRow = new List<Viewport>();
             List<List<Viewport>> viewportRows = new List<List<Viewport>>();
 
-            // Store viewport dimension
+            // Store viewport row dimension and all rows dimensions
             List<double> width = new List<double>();
             List<List<double>> viewportWidths = new List<List<double>>();
 
@@ -143,64 +150,115 @@ namespace BIMiconToolbar.Helpers
             double maxViewportHeight = 0;
             List<double> maxHeights = new List<double>();
 
+            // Spacing between viewports
+            double X = Helpers.MillimetersToFeet(30);
+            double Y = Helpers.MillimetersToFeet(30);
+
+            // Count number of elements in dict
+            int vpCount = viewportDims.Count;
+            int count = 0;
+
             // Divide the viewports in rows
             foreach (KeyValuePair<Viewport, double[]> entry in viewportDims)
             {
                 Viewport vp = entry.Key;
-                
-                // Check the latest view does not exceed the max width
-                if (width.Sum() + width.Count * Helpers.MillimetersToFeet(30) <= sheetWidth)
-                {
-                    width.Add(entry.Value[0]);
-                    viewportSingleRow.Add(vp);
 
+                // Last element in list
+                if (count + 1 == vpCount)
+                {
+                    // Store the heightest vertical viewport dimension
                     if (entry.Value[1] > maxViewportHeight)
                     {
                         maxViewportHeight = entry.Value[1];
                     }
+
+                    // Clone single row list to total row list
+                    viewportSingleRow.Add(vp);
+                    viewportRows.Add(new List<Viewport>(viewportSingleRow));
+
+                    // Store max height and reset previous value
+                    maxHeights.Add(entry.Value[1]);
+
+                    // Store width
+                    width.Add(entry.Value[0]);
+                    viewportWidths.Add(new List<double>(width));
                 }
-                // Add exceding viewport to next row
+                // Failsafe that last viewport does not exceed the max width
+                else if (width.Sum() + width.Count * X <= sheetWidth)
+                {
+                    width.Add(entry.Value[0]);
+                    viewportSingleRow.Add(vp);
+
+                    // Store the heightest vertical viewport dimension
+                    if (entry.Value[1] > maxViewportHeight)
+                    {
+                        maxViewportHeight = entry.Value[1];
+                    }
+
+                    count++;
+                }
+                // Add exceeding viewport to next row
                 else
                 {
-                    viewportRows.Add(viewportSingleRow);
-                    maxHeights.Add(maxViewportHeight);
-                    viewportWidths.Add(width);
-                    width.Clear();
-                    width.Add(entry.Value[0]);
+                    // Store the heightest vertical viewport dimension
+                    if (entry.Value[1] > maxViewportHeight)
+                    {
+                        maxViewportHeight = entry.Value[1];
+                    }
+
+                    // Clone single row list to total row list
+                    // Clear single row list and start the single row list over again
+                    viewportRows.Add(new List<Viewport>(viewportSingleRow));
                     viewportSingleRow.Clear();
                     viewportSingleRow.Add(vp);
+
+                    // Store max height and reset previous value
+                    maxHeights.Add(entry.Value[1]);
                     maxViewportHeight = 0;
+
+                    // Store width and reset max width
+                    viewportWidths.Add(new List<double>(width));
+                    width.Clear();
+                    width.Add(entry.Value[0]);
+
+                    count++;
                 }
             }
 
-            double X = Helpers.MillimetersToFeet(30);
-            double Y = sheetHeight - Helpers.MillimetersToFeet(30);
-
-            var vpCoordinates = new List<List<XYZ>>();
+            // Calculate center coordinates of viewports on sheets
+            var coordinates = new List<XYZ>();
 
             for (int i = 0; i < viewportRows.Count; i++)
             {
                 var vpList = viewportRows[i];
-                var coordinates = new List<XYZ>();
+                //var coordinates = new List<XYZ>();
+
+                double widthIncrease = 0;
+
+                // Y distance for viewports
+                double heightIncrease = sheetHeight - (i + 1) * Y;
 
                 for (int j = 0; j < vpList.Count; j++)
                 {
+                    // Retrieve max and min point
                     double vPwidth = viewportWidths[i][j];
 
                     XYZ maxP = new XYZ(X + vPwidth, Y, 0);
                     XYZ minP = new XYZ(X, Y - viewportDims[viewportRows[i][j]][1], 0);
 
-                    X = X + vPwidth;
+                    // Increase spacing for next viewport
+                    widthIncrease = X + vPwidth;
 
                     XYZ vpCenter = (maxP - minP) / 2;
                     coordinates.Add(vpCenter);
                 }
 
-                vpCoordinates.Add(coordinates);
-                coordinates.Clear();
+                //vpCoordinates.Add(coordinates);
+                //coordinates.Clear();
             }
 
-            return vpCoordinates;
+            return coordinates;
         }
+        
     }
 }

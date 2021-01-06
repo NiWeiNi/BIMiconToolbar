@@ -284,6 +284,15 @@ namespace BIMiconToolbar.InteriorElevations
                                                  titleBlock.Id,
                                                  room.Number + "-" + "INTERIOR ELEVATIONS");
 
+                            // Retrieve title block
+                            FamilyInstance tBlock = new FilteredElementCollector(doc, sheet.Id)
+                                                    .OfCategory(BuiltInCategory.OST_TitleBlocks)
+                                                    .FirstElement() as FamilyInstance;
+
+                            // Retrieve title block size
+                            double sheetHeight = tBlock.get_Parameter(BuiltInParameter.SHEET_HEIGHT).AsDouble();
+                            double sheetWidth = tBlock.get_Parameter(BuiltInParameter.SHEET_WIDTH).AsDouble();
+
                             // Store viewports on sheet
                             var viewports = new List<Viewport>();
 
@@ -392,6 +401,19 @@ namespace BIMiconToolbar.InteriorElevations
 
                                 // Apply new crop shape
                                 cropShapeManag.SetCropShape(CurveLoop.Create(curvesNewCrop));
+
+                                // Create viewports
+                                Viewport viewP = Viewport.Create(doc, sheet.Id, view.Id, new XYZ());
+                                viewports.Add(viewP);
+                            }
+
+                            // Final viewport translation coordinates
+                            var viewportDims = Helpers.HelpersView.ViewportDimensions(viewports);
+                            var coordinates = Helpers.HelpersView.ViewportRowsColumns(viewportDims, sheetWidth, sheetHeight);
+
+                            for (int i = 0; i < viewports.Count; i++)
+                            {
+                                ElementTransformUtils.MoveElement(doc, viewports[i].Id, coordinates[i]);
                             }
 
                             // Append room number to success list
