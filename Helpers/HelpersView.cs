@@ -39,6 +39,33 @@ namespace BIMiconToolbar.Helpers
         public static void CreateViewport(Document doc, ElevationMarker marker, View floorPlan, int i, View viewTemplate,
                                         List<ElementId> annoCategories, ViewSheet sheet, ref List<Viewport> viewports)
         {
+            // Create elevation
+            View view = CreateViewElevation(doc, marker, floorPlan, i, viewTemplate, annoCategories);
+
+            // Create viewports
+            Viewport viewP = Viewport.Create(doc, sheet.Id, view.Id, new XYZ());
+
+            // Disable temporary hide
+            view.DisableTemporaryViewMode(TemporaryViewMode.TemporaryHideIsolate);
+
+            // Store viewports
+            viewports.Add(viewP);
+        }
+
+        /// <summary>
+        /// Function to create view elevation
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="marker"></param>
+        /// <param name="floorPlan"></param>
+        /// <param name="i"></param>
+        /// <param name="viewTemplate"></param>
+        /// <param name="annoCategories"></param>
+        /// <returns></returns>
+        public static View CreateViewElevation(Document doc, ElevationMarker marker, View floorPlan, int i, 
+                                            View viewTemplate, List<ElementId> annoCategories)
+        {
+            // Create view elevation
             View view = marker.CreateElevation(doc, floorPlan.Id, i);
             view.ViewTemplateId = viewTemplate.Id;
 
@@ -49,14 +76,7 @@ namespace BIMiconToolbar.Helpers
             // Regenerate document to pick view scale for title
             doc.Regenerate();
 
-            // Create viewports
-            Viewport viewP = Viewport.Create(doc, sheet.Id, view.Id, new XYZ());
-
-            // Disable temporary hide
-            view.DisableTemporaryViewMode(TemporaryViewMode.TemporaryHideIsolate);
-
-            // Store viewports
-            viewports.Add(viewP);
+            return view;
         }
 
         /// <summary>

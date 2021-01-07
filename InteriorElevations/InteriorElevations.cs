@@ -330,8 +330,8 @@ namespace BIMiconToolbar.InteriorElevations
                                 // Line along z axis
                                 Line zLine = Line.CreateBound(new XYZ(offsetCenter.X, offsetCenter.Y, offsetCenter.Z), new XYZ(offsetCenter.X, offsetCenter.Y, offsetCenter.Z + 10));
 
-                                // Create Elevation View
-                                View view = marker.CreateElevation(doc, floorPlan.Id, 1);
+                                // Create Elevation View as marker needs to have at least one elevation to rotate
+                                View view = Helpers.HelpersView.CreateViewElevation(doc, marker, floorPlan, 1, viewTemplate, annoCategories);
 
                                 // Rotate marker to be perpendicular to boundary
                                 switch (angle)
