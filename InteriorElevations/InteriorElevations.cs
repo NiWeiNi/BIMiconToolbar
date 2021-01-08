@@ -143,8 +143,10 @@ namespace BIMiconToolbar.InteriorElevations
 
                             for (int i = 0; i < 4; i++)
                             {
-                                Helpers.HelpersView.CreateViewport(doc, marker, floorPlan, i, viewTemplate,
-                                                                   annoCategories, sheet, ref viewports);
+                                // Create elevation
+                                View view = Helpers.HelpersView.CreateViewElevation(doc, marker, floorPlan, i, viewTemplate,
+                                                                                    annoCategories);
+                                Helpers.HelpersView.CreateViewport(doc, sheet, ref viewports, view);
                             }
 
                             // Dictionary to store viewport dimensions
@@ -401,10 +403,11 @@ namespace BIMiconToolbar.InteriorElevations
 
                                 // Apply new crop shape
                                 cropShapeManag.SetCropShape(CurveLoop.Create(curvesNewCrop));
+                                // Update document to reflect new crop shape when placing viewports
+                                doc.Regenerate();
 
                                 // Create viewports
-                                Viewport viewP = Viewport.Create(doc, sheet.Id, view.Id, new XYZ());
-                                viewports.Add(viewP);
+                                Helpers.HelpersView.CreateViewport(doc, sheet, ref viewports, view);
                             }
 
                             // Final viewport translation coordinates

@@ -36,12 +36,8 @@ namespace BIMiconToolbar.Helpers
         /// <param name="annoCategories"></param>
         /// <param name="sheet"></param>
         /// <param name="viewports"></param>
-        public static void CreateViewport(Document doc, ElevationMarker marker, View floorPlan, int i, View viewTemplate,
-                                        List<ElementId> annoCategories, ViewSheet sheet, ref List<Viewport> viewports)
+        public static void CreateViewport(Document doc, ViewSheet sheet, ref List<Viewport> viewports, View view)
         {
-            // Create elevation
-            View view = CreateViewElevation(doc, marker, floorPlan, i, viewTemplate, annoCategories);
-
             // Create viewports
             Viewport viewP = Viewport.Create(doc, sheet.Id, view.Id, new XYZ());
 
@@ -263,18 +259,14 @@ namespace BIMiconToolbar.Helpers
                     // Retrieve max and min point
                     double vPwidth = viewportWidths[i][j];
 
-                    XYZ maxP = new XYZ(X + vPwidth, Y, 0);
-                    XYZ minP = new XYZ(X, Y - viewportDims[viewportRows[i][j]][1], 0);
+                    // Calculate final center of viewports
+                    XYZ vpCenter = new XYZ(widthIncrease + vPwidth / 2, Y - viewportDims[viewportRows[i][j]][1], 0);
 
                     // Increase spacing for next viewport
-                    widthIncrease = X + vPwidth;
+                    widthIncrease = widthIncrease + X + vPwidth;
 
-                    XYZ vpCenter = (maxP - minP) / 2;
                     coordinates.Add(vpCenter);
                 }
-
-                //vpCoordinates.Add(coordinates);
-                //coordinates.Clear();
             }
 
             return coordinates;
