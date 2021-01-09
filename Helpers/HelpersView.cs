@@ -1,9 +1,6 @@
 ﻿using Autodesk.Revit.DB;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BIMiconToolbar.Helpers
 {
@@ -260,12 +257,17 @@ namespace BIMiconToolbar.Helpers
                     double vPwidth = viewportWidths[i][j];
 
                     // Calculate final center of viewports
-                    XYZ vpCenter = new XYZ(widthIncrease + vPwidth / 2, Y - viewportDims[viewportRows[i][j]][1], 0);
+                    XYZ vpCenter = new XYZ(widthIncrease + vPwidth / 2, heightIncrease - viewportDims[viewportRows[i][j]][1] / 2, 0);
 
                     // Increase spacing for next viewport
                     widthIncrease = widthIncrease + X + vPwidth;
 
                     coordinates.Add(vpCenter);
+
+                    if (j == vpList.Count - 1)
+                    {
+                        heightIncrease += viewportDims[viewportRows[i][j]][1];
+                    }
                 }
             }
 
