@@ -25,6 +25,11 @@
         <Setter Property="Margin" Value="0 14 0 5"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
     </Style>
+    
+    <!-- Style for grid menu -->
+    <Style TargetType="Grid" x:Key="Menu">
+        <Setter Property="Margin" Value="0"/>
+    </Style>
 
     <!-- Style for sub menu title Textblock -->
     <Style TargetType="Label" x:Key="SubTitle">
@@ -35,6 +40,13 @@
     <!-- Style for grid SubMenu -->
     <Style TargetType="Grid" x:Key="SubMenu">
         <Setter Property="Margin" Value="6 6 0 0"/>
+    </Style>
+    
+    <!-- Style for TextBox-->
+    <Style TargetType="TextBox" x:Key="TextBox">
+        <Setter Property="FontWeight" Value="DemiBold"/>
+        <Setter Property="Margin" Value="0 15 0 0"/>
+        <Setter Property="TextAlignment" Value="Center"/>
     </Style>
 
     <!-- Style for radio button border -->

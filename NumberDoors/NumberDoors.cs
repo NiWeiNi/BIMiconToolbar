@@ -12,6 +12,12 @@ namespace BIMiconToolbar.NumberDoors
             Document doc = commandData.Application.ActiveUIDocument.Document;
             BuiltInCategory builtInCategory = BuiltInCategory.OST_Doors;
 
+            // Call WPF for user input
+            using (NumberDoorsWPF customWindow = new NumberDoorsWPF(commandData))
+            {
+                customWindow.ShowDialog();
+            }
+
             int countInstances = 0;
 
             Helpers.Helpers.numberFamilyInstance(doc, builtInCategory, ref countInstances);

@@ -128,6 +128,9 @@
     <Compile Include="MatchGrids\MatchGridsWPF.xaml.cs">
       <DependentUpon>MatchGridsWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NumberDoors\NumberDoorsWPF.xaml.cs">
+      <DependentUpon>NumberDoorsWPF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NumberWindows\NumberWindows.cs" />
     <Compile Include="RemoveBackups\Helpers\RemoveBackupHelpers.cs" />
     <Compile Include="RemoveBackups\RemoveBackups.cs" />
@@ -210,6 +213,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MatchGrids\MatchGridsWPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NumberDoors\NumberDoorsWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
