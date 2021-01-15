@@ -238,18 +238,17 @@ namespace BIMiconToolbar.Helpers
                 }
             }
 
+            // Y distance for viewports
+            double heightIncrease = sheetHeight;
+
             // Calculate center coordinates of viewports on sheets
             var coordinates = new List<XYZ>();
 
             for (int i = 0; i < viewportRows.Count; i++)
             {
                 var vpList = viewportRows[i];
-                //var coordinates = new List<XYZ>();
 
-                double widthIncrease = 0;
-
-                // Y distance for viewports
-                double heightIncrease = sheetHeight - (i + 1) * Y;
+                double widthIncrease = X;
 
                 for (int j = 0; j < vpList.Count; j++)
                 {
@@ -257,7 +256,7 @@ namespace BIMiconToolbar.Helpers
                     double vPwidth = viewportWidths[i][j];
 
                     // Calculate final center of viewports
-                    XYZ vpCenter = new XYZ(widthIncrease + vPwidth / 2, heightIncrease - viewportDims[viewportRows[i][j]][1] / 2, 0);
+                    XYZ vpCenter = new XYZ(widthIncrease + vPwidth / 2, (heightIncrease - (i + 1) * Y) - viewportDims[viewportRows[i][j]][1] / 2, 0);
 
                     // Increase spacing for next viewport
                     widthIncrease = widthIncrease + X + vPwidth;
@@ -266,8 +265,8 @@ namespace BIMiconToolbar.Helpers
 
                     if (j == vpList.Count - 1)
                     {
-                        heightIncrease += viewportDims[viewportRows[i][j]][1];
-                    }
+                        heightIncrease -= viewportDims[viewportRows[i][j]][1] + (i + 1) * Y;
+        }
                 }
             }
 
