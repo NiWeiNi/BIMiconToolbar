@@ -20,6 +20,8 @@ namespace BIMiconToolbar.InteriorElevations
             Element titleBlock;
             View viewTemplate;
             ViewFamilyType viewFamilyType;
+            double sheetDrawingHeight;
+            double sheetDrawingWidth;
 
             // Prompt window to collect user input
             using (InteriorElevationsWindow customWindow = new InteriorElevationsWindow(commandData))
@@ -29,6 +31,8 @@ namespace BIMiconToolbar.InteriorElevations
                 titleBlock = customWindow.SelectedComboItemTitleBlock.Tag as Element;
                 viewTemplate = customWindow.SelectedComboItemViewTemplate.Tag as View;
                 viewFamilyType = customWindow.SelectedComboItemViewType.Tag as ViewFamilyType;
+                sheetDrawingHeight = Helpers.Helpers.MillimetersToFeet(customWindow.sheetDrawingHeight);
+                sheetDrawingWidth = Helpers.Helpers.MillimetersToFeet(customWindow.sheetDrawingWidth);
             }
 
             #region Required elements for this tool
@@ -412,7 +416,7 @@ namespace BIMiconToolbar.InteriorElevations
 
                             // Final viewport translation coordinates
                             var viewportDims = Helpers.HelpersView.ViewportDimensions(viewports);
-                            var coordinates = Helpers.HelpersView.ViewportRowsColumns(viewportDims, sheetWidth, sheetHeight);
+                            var coordinates = Helpers.HelpersView.ViewportRowsColumns(viewportDims, sheetDrawingWidth, sheetDrawingHeight);
 
                             for (int i = 0; i < viewports.Count; i++)
                             {

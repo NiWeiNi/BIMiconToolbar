@@ -197,7 +197,7 @@ namespace BIMiconToolbar.Helpers
                     viewportWidths.Add(new List<double>(width));
                 }
                 // Failsafe that last viewport does not exceed the max width
-                else if (width.Sum() + width.Count * X <= sheetWidth)
+                else if (width.Sum() + width.Count * X < sheetWidth)
                 {
                     width.Add(entry.Value[0]);
                     viewportSingleRow.Add(vp);
@@ -266,7 +266,7 @@ namespace BIMiconToolbar.Helpers
                     if (j == vpList.Count - 1)
                     {
                         heightIncrease -= viewportDims[viewportRows[i][j]][1] + (i + 1) * Y;
-        }
+                    }
                 }
             }
 

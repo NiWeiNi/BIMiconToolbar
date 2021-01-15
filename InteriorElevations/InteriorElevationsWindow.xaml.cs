@@ -25,6 +25,8 @@ namespace BIMiconToolbar.InteriorElevations
         public ObservableCollection<ComboBoxItem> CbItemsViewTemplate { get; set; }
         public ComboBoxItem SelectedComboItemViewTemplate { get; set; }
         public List<int> IntegerIds { get; set; }
+        public double sheetDrawingHeight { get; set; }
+        public double sheetDrawingWidth { get; set; }
 
         /// <summary>
         /// Main Window
@@ -190,6 +192,17 @@ namespace BIMiconToolbar.InteriorElevations
         /// <param name="e"></param>
         private void OK_Click(object sender, RoutedEventArgs e)
         {
+            // Check height and width are numbers
+            try
+            {
+                this.sheetDrawingHeight = Double.Parse(this.Height.Text);
+                this.sheetDrawingWidth = Double.Parse(this.Width.Text);
+            }
+            catch
+            {
+                TaskDialog.Show("Warning", "Please input a number in Height and Width");
+            }
+
             // Retrieve all checked checkboxes
             IEnumerable<CheckBox> list = this.roomsCheckBoxes.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
 
