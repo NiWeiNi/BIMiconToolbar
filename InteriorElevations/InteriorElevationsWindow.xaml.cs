@@ -25,8 +25,8 @@ namespace BIMiconToolbar.InteriorElevations
         public ObservableCollection<ComboBoxItem> CbItemsViewTemplate { get; set; }
         public ComboBoxItem SelectedComboItemViewTemplate { get; set; }
         public List<int> IntegerIds { get; set; }
-        public double sheetDrawingHeight { get; set; }
-        public double sheetDrawingWidth { get; set; }
+        public double SheetDrawingHeight { get; set; }
+        public double SheetDrawingWidth { get; set; }
 
         /// <summary>
         /// Main Window
@@ -195,8 +195,8 @@ namespace BIMiconToolbar.InteriorElevations
             // Check height and width are numbers
             try
             {
-                this.sheetDrawingHeight = Double.Parse(this.Height.Text);
-                this.sheetDrawingWidth = Double.Parse(this.Width.Text);
+                this.SheetDrawingHeight = Double.Parse(this.Height.Text);
+                this.SheetDrawingWidth = Double.Parse(this.Width.Text);
             }
             catch
             {

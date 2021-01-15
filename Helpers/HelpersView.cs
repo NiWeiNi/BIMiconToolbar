@@ -188,7 +188,7 @@ namespace BIMiconToolbar.Helpers
                     // Clone single row list to total row list
                     viewportSingleRow.Add(vp);
                     viewportRows.Add(new List<Viewport>(viewportSingleRow));
-
+                    
                     // Store max height and reset previous value
                     maxHeights.Add(entry.Value[1]);
 

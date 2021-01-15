@@ -3,12 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BIMiconToolbar.InteriorElevations"
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
-        Title="Interior Elevations" Height="800" Width="420"
+        Title="Interior Elevations" Height="770" Width="420"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -42,20 +41,20 @@
             </ComboBox>
             
             <!-- Input sheet for drawings area-->
-            <Grid>
+            <Grid Style="{StaticResource SubMenu}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0">Drawing Area Height</Label>
+                <Label Grid.Column="0" Style="{StaticResource SubTitle}">Drawing Area Height</Label>
                 <TextBox x:Name="Height" Grid.Column="1" Text="580"></TextBox>
             </Grid>
-            <Grid>
+            <Grid Style="{StaticResource SubMenu}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0">Drawing Area Width</Label>
+                <Label Grid.Column="0" Style="{StaticResource SubTitle}">Drawing Area Width</Label>
                 <TextBox x:Name="Width" Grid.Column="1" Text="710"></TextBox>
             </Grid>
 
