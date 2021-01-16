@@ -132,6 +132,9 @@
       <DependentUpon>NumberDoorsWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="NumberWindows\NumberWindows.cs" />
+    <Compile Include="NumberWindows\NumberWindowsWPF.xaml.cs">
+      <DependentUpon>NumberWindowsWPF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RemoveBackups\Helpers\RemoveBackupHelpers.cs" />
     <Compile Include="RemoveBackups\RemoveBackups.cs" />
     <Compile Include="Support\Docs\Docs.cs" />
@@ -217,6 +220,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NumberDoors\NumberDoorsWPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NumberWindows\NumberWindowsWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

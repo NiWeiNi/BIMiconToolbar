@@ -12,13 +12,42 @@ namespace BIMiconToolbar.NumberWindows
             Document doc = commandData.Application.ActiveUIDocument.Document;
             BuiltInCategory builtInCategory = BuiltInCategory.OST_Windows;
 
-            int countInstances = 0;
+            // Call WPF for user input
+            using (NumberWindowsWPF customWindow = new NumberWindowsWPF(commandData))
+            {
+                // Revit application as window's owner
+                System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(customWindow);
+                helper.Owner = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
 
-            Helpers.Helpers.numberFamilyInstance(doc, builtInCategory, ref countInstances);
+                customWindow.ShowDialog();
 
-            TaskDialog.Show("Success", countInstances.ToString() + " windows numbered");
+                // Retrieve user input
+                Phase phase = customWindow.SelectedComboItemPhase.Tag as Phase;
+                string separator = customWindow.Separator;
 
-            return Result.Succeeded;
+                // Count windows renumbered
+                int countInstances = 0;
+                if (separator == null)
+                {
+                    return Result.Cancelled;
+                }
+                else
+                {
+                    Helpers.Helpers.numberFamilyInstance(doc, phase, separator, builtInCategory, ref countInstances);
+                }
+
+                // Display result to user if any window was numbered
+                if (countInstances > 0)
+                {
+                    TaskDialog.Show("Success", countInstances.ToString() + " windows numbered");
+                    return Result.Succeeded;
+                }
+                else
+                {
+                    TaskDialog.Show("Warning", "No windows numbered");
+                    return Result.Failed;
+                }
+            }
         }
     }
 }
