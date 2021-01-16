@@ -324,31 +324,42 @@ namespace BIMiconToolbar.InteriorElevations
                                     {
                                         angle = angle * -1;
                                     }
+                                    else if (angle != 0 && origCenter.X < offsetCenter.X && origCenter.X > 0)
+                                    {
+                                        // Angle remains the same
+                                    }
                                     // Check if rotation needs to be 180 degrees
                                     else if (angle == 0 && origCenter.Y < offsetCenter.Y)
                                     {
                                         angle = Math.PI;
                                     }
-
                                     // Line along z axis
                                     Line zLine = Line.CreateBound(new XYZ(offsetCenter.X, offsetCenter.Y, offsetCenter.Z), new XYZ(offsetCenter.X, offsetCenter.Y, offsetCenter.Z + 10));
 
                                     // Create Elevation View as marker needs to have at least one elevation to rotate
                                     View view = Helpers.HelpersView.CreateViewElevation(doc, marker, floorPlan, 1, viewTemplate, annoCategories);
 
-                                    // Rotate marker to be perpendicular to boundary
-                                    switch (angle)
+                                    // Rotate in increments as Revit API adds 180 degrees to certain positive angles
+                                    if (angle > 0)
                                     {
-                                        // Rotate twice as Revit API doesn't rotate 180 degrees
-                                        case Math.PI:
-                                            ElementTransformUtils.RotateElement(doc, marker.Id, zLine, angle / 2);
-                                            ElementTransformUtils.RotateElement(doc, marker.Id, zLine, angle / 2);
-                                            break;
+                                        double angleRemainder = angle;
+                                        while (angleRemainder > 0)
+                                        {
+                                            double rotAngle = 0;
+                                            if (angleRemainder > 0.6)
+                                                rotAngle = 0.6;
+                                            else
+                                                rotAngle = angleRemainder;
 
-                                        // Rotate normally
-                                        default:
-                                            ElementTransformUtils.RotateElement(doc, marker.Id, zLine, angle);
-                                            break;
+                                            ElementTransformUtils.RotateElement(doc, marker.Id, zLine, rotAngle);
+                                        
+                                            angleRemainder -= rotAngle;
+                                        }
+                                    }
+                                    // Rotate normally
+                                    else
+                                    {
+                                        ElementTransformUtils.RotateElement(doc, marker.Id, zLine, angle);
                                     }
 
                                     // Retrieve crop shape
