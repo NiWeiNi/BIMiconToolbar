@@ -15,16 +15,39 @@ namespace BIMiconToolbar.NumberDoors
             // Call WPF for user input
             using (NumberDoorsWPF customWindow = new NumberDoorsWPF(commandData))
             {
+                // Revit application as window's owner
+                System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(customWindow);
+                helper.Owner = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
+
                 customWindow.ShowDialog();
+
+                // Retrieve user input
+                Phase phase = customWindow.SelectedComboItemPhase.Tag as Phase;
+                string separator = customWindow.Separator;
+
+                // Count doors renumbered
+                int countInstances = 0;
+                if (separator == null)
+                {
+                    return Result.Cancelled;
+                }
+                else
+                {
+                    Helpers.Helpers.numberFamilyInstance(doc, phase, separator, builtInCategory, ref countInstances);
+                }
+
+                // Display result to user if any door was numbered
+                if (countInstances > 0)
+                {
+                    TaskDialog.Show("Success", countInstances.ToString() + " doors numbered");
+                    return Result.Succeeded;
+                }
+                else
+                {
+                    TaskDialog.Show("Warning", "No doors numbered");
+                    return Result.Failed;
+                }
             }
-
-            int countInstances = 0;
-
-            Helpers.Helpers.numberFamilyInstance(doc, builtInCategory, ref countInstances);
-
-            TaskDialog.Show("Success", countInstances.ToString() + " doors numbered");
-
-            return Result.Succeeded;
         }
     }
 }

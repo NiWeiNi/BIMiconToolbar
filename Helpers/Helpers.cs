@@ -34,6 +34,8 @@ namespace BIMiconToolbar.Helpers
         /// <param name="doc"></param>
         /// <param name="builtInCategory"></param>
         public static void numberFamilyInstance(Document doc,
+                                                Phase phase,
+                                                string separator,
                                                 BuiltInCategory builtInCategory,
                                                 ref int countInstances)
         {
@@ -45,10 +47,7 @@ namespace BIMiconToolbar.Helpers
             // Design option filter
             ElementDesignOptionFilter designOptionFilter = new ElementDesignOptionFilter(ElementId.InvalidElementId);
 
-            // Select phase
-            PhaseArray aPhase = doc.Phases;
-            Phase phase = aPhase.get_Item(aPhase.Size - 1);
-
+            // Select elements in phase
             ElementId idPhase = phase.Id;
             ParameterValueProvider provider = new ParameterValueProvider(new ElementId((int)BuiltInParameter.PHASE_CREATED));
             FilterNumericRuleEvaluator evaluator = new FilterNumericEquals();
@@ -86,7 +85,7 @@ namespace BIMiconToolbar.Helpers
                         }
                     }
 
-                    Helpers.InstanceFromToRoom(instancesInRoomCount, roomNumber, instanceNumbers, inst);
+                    Helpers.InstanceFromToRoom(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
                 }
             }
 
@@ -126,6 +125,7 @@ namespace BIMiconToolbar.Helpers
         /// <param name="familyInstance"></param>
         public static void InstanceFromToRoom(Dictionary<string, int> instanceInRoomCount,
                                               string roomNumber,
+                                              string separator,
                                               Dictionary<FamilyInstance, string> instanceNumbers,
                                               FamilyInstance familyInstance)
         {
@@ -138,14 +138,14 @@ namespace BIMiconToolbar.Helpers
                     // Retrieve instance with single count from the dictionary that stores instance-room relationship
                     FamilyInstance keyInstance = instanceNumbers.FirstOrDefault(x => x.Value == roomNumber).Key;
                     // Change single count instance prefix
-                    instanceNumbers[keyInstance] = roomNumber + "-" + numberToLetter(instanceInRoomCount[roomNumber] - 1);
+                    instanceNumbers[keyInstance] = roomNumber + separator + numberToLetter(instanceInRoomCount[roomNumber] - 1);
                     // Store current instance and room in dict
-                    instanceNumbers[familyInstance] = roomNumber + "-" + numberToLetter(instanceInRoomCount[roomNumber]);
+                    instanceNumbers[familyInstance] = roomNumber + separator + numberToLetter(instanceInRoomCount[roomNumber]);
                 }
                 else
                 {
                     // Store current instance and room in dict
-                    instanceNumbers[familyInstance] = roomNumber + "-" + numberToLetter(instanceInRoomCount[roomNumber]);
+                    instanceNumbers[familyInstance] = roomNumber + separator + numberToLetter(instanceInRoomCount[roomNumber]);
                 }
                 // Increase the instance count in room
                 instanceInRoomCount[roomNumber] = instanceInRoomCount[roomNumber] + 1;

@@ -28,14 +28,14 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource Title}">Separator:</TextBlock>
-                <TextBox Grid.Column="1" x:Name="Height" Style="{StaticResource TextBox}" Text="-"/>
+                <TextBox Grid.Column="1" x:Name="SeparatorTextBox" Style="{StaticResource TextBox}" Text="-"/>
             </Grid>
 
             <!-- Select view type -->
             <TextBlock Style="{StaticResource FirstTitle}">
                 Please select phase:
             </TextBlock>
-            <ComboBox x:Name="comboDisplayViewType"
+            <ComboBox x:Name="comboDisplayPhases"
                       ItemsSource="{Binding CbPhases}"
                       SelectedItem="{Binding SelectedComboItemPhase}"
                       Style="{StaticResource comboDisplay}">

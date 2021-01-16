@@ -15,13 +15,20 @@ namespace BIMiconToolbar.NumberDoors
     {
         public ObservableCollection<ComboBoxItem> CbPhases { get; set; }
         public ComboBoxItem SelectedComboItemPhase { get; set; }
+        public string Separator { get; set; }
 
         public NumberDoorsWPF(ExternalCommandData commandData)
         {
+            Document doc = commandData.Application.ActiveUIDocument.Document;
+
             InitializeComponent();
+            DataContext = this;
+
+            // Fill properties
+            PopulatePhases(doc);
 
             // Associate the event-handling method with the SelectedIndexChanged event
-            this.comboDisplayViewType.SelectionChanged += new SelectionChangedEventHandler(ComboChangedPhase);
+            comboDisplayPhases.SelectionChanged += new SelectionChangedEventHandler(ComboChangedPhase);
         }
 
         /// <summary>
@@ -29,7 +36,7 @@ namespace BIMiconToolbar.NumberDoors
         /// </summary>
         public void Dispose()
         {
-            this.Close();
+            Close();
         }
         
         private void PopulatePhases(Document doc)
@@ -39,7 +46,7 @@ namespace BIMiconToolbar.NumberDoors
             // Select phases
             PhaseArray aPhase = doc.Phases;
 
-            IOrderedEnumerable<Phase> phases = (IOrderedEnumerable<Phase>)aPhase.Cast<Phase>().OrderBy(ph => ph.Name);
+            IOrderedEnumerable<Phase> phases = aPhase.Cast<Phase>().OrderBy(ph => ph.Name);
 
             int count = 0;
 
@@ -72,12 +79,15 @@ namespace BIMiconToolbar.NumberDoors
 
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-
+            Separator = SeparatorTextBox.Text;
+            Dispose();
         }
 
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Dispose();
+            // Use separator as flag to avoid execution
+            Separator = null;
+            Dispose();
         }
 
     }
