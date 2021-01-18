@@ -7,6 +7,11 @@
         <Setter Property="Padding" Value="10"/>
     </Style>
 
+    <!-- Style for Columns Borders -->
+    <Style TargetType="Border" x:Key="ColumnContainer">
+        <Setter Property="Margin" Value="0 0 10 0" />
+    </Style>
+
     <!-- Style for ComboBox -->
     <Style TargetType="ComboBox" x:Key="comboDisplay">
         <Setter Property="Padding" Value="5" />
@@ -45,7 +50,6 @@
     <!-- Style for TextBox-->
     <Style TargetType="TextBox" x:Key="TextBox">
         <Setter Property="FontWeight" Value="DemiBold"/>
-        <Setter Property="Margin" Value="0 15 0 0"/>
         <Setter Property="TextAlignment" Value="Center"/>
     </Style>
 
