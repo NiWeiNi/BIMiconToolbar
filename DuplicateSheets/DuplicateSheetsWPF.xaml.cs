@@ -24,7 +24,10 @@ namespace BIMiconToolbar.DuplicateSheets
         public Boolean optDuplicate = true;
         public Boolean optDuplicateDetailing = false;
         public Boolean optDuplicateDependant = false;
-        
+        public string viewPrefix { get; set; }
+        public string viewSuffix { get; set; }
+        public string sheetPrefix { get; set; }
+        public string sheetSuffix { get; set; }
 
         /// <summary>
         /// Main function to call window
@@ -185,9 +188,23 @@ namespace BIMiconToolbar.DuplicateSheets
                 sheetIds.Add(intId);
             }
 
+            // Retrieve user's input for prefixes and suffixes
+            viewPrefix = viewPrefixTextBox.Text;
+            viewSuffix = viewSuffixTextBox.Text;
+            sheetPrefix = sheetPrefixTextBox.Text;
+            sheetSuffix = sheetSuffixTextBox.Text;
+
             this.Dispose();
         }
 
-
+        /// <summary>
+        /// Function to close this window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            Dispose();
+        }
     }
 }

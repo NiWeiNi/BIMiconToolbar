@@ -103,11 +103,11 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBox Grid.Column="0" Style="{StaticResource TextBox}" Text="prefix"/>
+                        <TextBox Grid.Column="0" x:Name="viewPrefixTextBox" Style="{StaticResource TextBox}" Text="prefix"/>
                         <TextBlock FontWeight="Bold" Grid.Column="1" TextAlignment="Center">
                                 View Name
                         </TextBlock>
-                        <TextBox Grid.Column="2" Style="{StaticResource TextBox}" Text="suffix"/>
+                        <TextBox Grid.Column="2" x:Name="viewSuffixTextBox" Style="{StaticResource TextBox}" Text="suffix"/>
                     </Grid>
                     <!-- Prefix and Suffix sheet-->
                     <Grid Style="{StaticResource MainButtons}">
@@ -117,11 +117,11 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBox Grid.Column="0" Style="{StaticResource TextBox}" Text="prefix"/>
+                        <TextBox Grid.Column="0" x:Name="sheetPrefixTextBox" Style="{StaticResource TextBox}" Text="prefix"/>
                         <TextBlock FontWeight="Bold" Grid.Column="1" TextAlignment="Center">
                                 Sheet Number
                         </TextBlock>
-                        <TextBox Grid.Column="2" Style="{StaticResource TextBox}" Text="suffix"/>
+                        <TextBox Grid.Column="2" x:Name="sheetSuffixTextBox" Style="{StaticResource TextBox}" Text="suffix"/>
                     </Grid>
 
                     <!-- Buttons End -->
@@ -131,9 +131,8 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="0" IsDefault="True" Margin="0 0 10 0"></Button>
-                        <Button x:Name="reset"  Content="Reset" Grid.Column="1"  Margin="5 0 5 0"></Button>
-                        <Button x:Name="cancel"  Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
+                        <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="1" IsDefault="True" Margin="0 0 10 0"></Button>
+                        <Button x:Name="cancel" Click="Cancel_Click" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
                     </Grid>
                 </StackPanel>
             </Grid>
