@@ -45,6 +45,13 @@ namespace BIMiconToolbar.DuplicateSheets
                     viewDuplicateOption = ViewDuplicateOption.AsDependent;
                 }
 
+                // Group transacation
+                TransactionGroup tg = new TransactionGroup(doc, "Duplicate sheets");
+                tg.Start();
+
+                // List to store sheets duplicated
+                var viewSheetSuccess = new List<string>();
+
                 // Duplicate all selected sheets
                 foreach (var sId in sheetIds)
                 {
@@ -181,12 +188,21 @@ namespace BIMiconToolbar.DuplicateSheets
                         // Copy annotation elements
                         ElementTransformUtils.CopyElements(vSheet, annotationElementsId, newsheet, null, null);
 
+                        viewSheetSuccess.Add(newsheet.SheetNumber + " - " + newsheet.Name);
+
                         // Commit transaction
                         t.Commit();
                     }
                 }
 
-                //TaskDialog.Show("Success", "Sheet " + vSheet.SheetNumber + vSheet.Name + " has been duplicated");
+                // Commit group transaction
+                tg.Commit();
+
+                // Display result message to user
+                if (viewSheetSuccess.Count > 0)
+                {
+                    TaskDialog.Show("Success", "The following sheets have been duplicated: \n" + string.Join("\n", viewSheetSuccess));
+                }
 
                 return Result.Succeeded;
             }
