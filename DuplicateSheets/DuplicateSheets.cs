@@ -13,8 +13,21 @@ namespace BIMiconToolbar.DuplicateSheets
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
-            // Retrieve active view and check if it is a sheet
-            View activeView = doc.ActiveView;
+            // Call WPF for user input
+            using (DuplicateSheetsWPF customWindow = new DuplicateSheetsWPF(commandData))
+            {
+                // Revit application as window's owner
+                System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(customWindow);
+                helper.Owner = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
+
+                customWindow.ShowDialog();
+
+                // List with all selected sheets
+                List<int> sheetIds = customWindow.sheetIds;
+            }
+
+                // Retrieve active view and check if it is a sheet
+                View activeView = doc.ActiveView;
             ViewType activeViewType = activeView.ViewType;
             if (activeViewType != ViewType.DrawingSheet)
             {
