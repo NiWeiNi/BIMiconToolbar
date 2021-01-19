@@ -22,137 +22,171 @@ namespace BIMiconToolbar.DuplicateSheets
 
                 customWindow.ShowDialog();
 
-                // List with all selected sheets
+                // Retrieve all user input
                 List<int> sheetIds = customWindow.sheetIds;
-            }
+                var titleBlockComboBox = customWindow.SelectedComboItemTitleBlock;
+                var copyViews = customWindow.copyViews;
+                var optDuplicate = customWindow.optDuplicate;
+                var optDuplicateDetailing = customWindow.optDuplicateDetailing;
+                var optDuplicateDependant = customWindow.optDuplicateDependant;
+                var viewPrefix = customWindow.viewPrefix;
+                var viewSuffix = customWindow.viewSuffix;
+                var sheetPrefix = customWindow.sheetPrefix;
+                var sheetSuffix = customWindow.sheetSuffix;
 
-                // Retrieve active view and check if it is a sheet
-                View activeView = doc.ActiveView;
-            ViewType activeViewType = activeView.ViewType;
-            if (activeViewType != ViewType.DrawingSheet)
-            {
-                TaskDialog.Show("Error", "Current view is not a sheet. Please open a sheet.");
-                return Result.Succeeded;
-            }
-
-            // Check the current active view
-            View selView = doc.ActiveView;
-            ViewSheet vSheet = doc.ActiveView as ViewSheet;
-            // Retrieve titleblock from current sheet and all elements in view
-            var titleblock = new FilteredElementCollector(doc).OfClass(typeof(FamilyInstance))
-                            .OfCategory(BuiltInCategory.OST_TitleBlocks).Cast<FamilyInstance>()
-                            .First(q => q.OwnerViewId == vSheet.Id);
-            var elementsInViewId = new FilteredElementCollector(doc, selView.Id).ToElementIds();
-            // Retrieve viewports in view
-            FilteredElementCollector viewPorts = new FilteredElementCollector(doc, selView.Id).OfClass(typeof(Viewport));
-            // Retrieve schedules in view
-            FilteredElementCollector schedules = new FilteredElementCollector(doc).OwnedByView(selView.Id)
-                                                .OfClass(typeof(ScheduleSheetInstance));
-            // Retrieve viewSchedules
-            FilteredElementCollector viewSchedules = new FilteredElementCollector(doc).OfClass(typeof(ViewSchedule));
-
-            // Store copied elements and annotation elements
-            var copiedElementIds = new List<ElementId>();
-            var annotationElementsId = new List<ElementId>();
-
-            using (Transaction t = new Transaction(doc, "Duplicate Sheet"))
-            {
-                // Start transaction to duplicate sheet
-                t.Start();
-                
-                // Duplicate sheet
-                ViewSheet newsheet = ViewSheet.Create(doc, titleblock.GetTypeId());
-                newsheet.SheetNumber = vSheet.SheetNumber + "-DUP";
-                newsheet.Name = vSheet.Name;
-                
-                // Get origin of the titleblock
-                XYZ originTitle = titleblock.GetTransform().Origin;
-                // Check titleblock position
-                Element copyTitleBlock = new FilteredElementCollector(doc).OwnedByView(newsheet.Id).OfCategory(BuiltInCategory.OST_TitleBlocks).FirstElement();
-                LocationPoint titleLoc = copyTitleBlock.Location as LocationPoint;
-                XYZ titleLocPoint = titleLoc.Point;
-                // Check if title block is in the same position as original
-                if (titleLocPoint.DistanceTo(originTitle) != 0)
+                // Establish duplicate options at top to avoid reassignment inside loop
+                var viewDuplicateOption = ViewDuplicateOption.Duplicate;
+                if (optDuplicateDetailing == true)
                 {
-                    // Move it in case it is not
-                    titleLoc.Move(originTitle);
+                    viewDuplicateOption = ViewDuplicateOption.WithDetailing;
+                }
+                else if (optDuplicateDependant == true)
+                {
+                    viewDuplicateOption = ViewDuplicateOption.AsDependent;
                 }
 
-                // Retrieve all views placed on sheet except schedules
-                foreach (ElementId eId in vSheet.GetAllPlacedViews())
+                // Duplicate all selected sheets
+                foreach (var sId in sheetIds)
                 {
-                    View origView = doc.GetElement(eId) as View;
-                    View newView = null;
+                    // Retrieve sheet and sheet Id
+                    ElementId sheetId = new ElementId(sId);
+                    ViewSheet vSheet = doc.GetElement(sheetId) as ViewSheet;
 
-                    // Legends
-                    if (origView.ViewType == ViewType.Legend)
+                    // Retrieve title block according to user input
+                    FamilyInstance titleblock = null;
+                    if (titleBlockComboBox.Content as string != "Current Title Block")
                     {
-                        newView = origView;
+                        titleblock = titleBlockComboBox.Tag as FamilyInstance;
                     }
-                    // Rest of view types
                     else
                     {
-                        if (origView.CanViewBeDuplicated(ViewDuplicateOption.WithDetailing))
-                        {
-                            ElementId newViewId = origView.Duplicate(ViewDuplicateOption.WithDetailing);
-                            newView = doc.GetElement(newViewId) as View;
-                            newView.Name = origView.Name + "-DUP";
-                        }
+                        // Retrieve titleblock from current sheet
+                        titleblock = new FilteredElementCollector(doc).OfClass(typeof(FamilyInstance))
+                                        .OfCategory(BuiltInCategory.OST_TitleBlocks).Cast<FamilyInstance>()
+                                        .First(q => q.OwnerViewId == vSheet.Id);
+                    }
+                    // Guard against no loaded titleblocks in project or in sheet
+                    if (titleblock == null)
+                    {
+                        titleblock = new FilteredElementCollector(doc).OfClass(typeof(FamilyInstance))
+                                    .OfCategory(BuiltInCategory.OST_TitleBlocks).Cast<FamilyInstance>()
+                                    .First();
                     }
 
-                    // Loop through viewports
-                    foreach (Viewport vp in viewPorts)
-                    {
-                        if (vp.SheetId == vSheet.Id && vp.ViewId == origView.Id)
-                        {
-                            // Retrieve centerpoint of original viewport
-                            XYZ center = vp.GetBoxCenter();
-                            // Create viewport in the original spot
-                            Viewport newVp = Viewport.Create(doc, newsheet.Id, newView.Id, center);
-                        }
-                        // Add element in copied list
-                        copiedElementIds.Add(vp.Id);
-                    }
-                    // Add element in copied list
-                    copiedElementIds.Add(eId);
-                }
+                    // Retrieve elements on sheet
+                    var elementsInViewId = new FilteredElementCollector(doc, sheetId).ToElementIds();
+                    // Retrieve viewports in view
+                    FilteredElementCollector viewPorts = new FilteredElementCollector(doc, sheetId).OfClass(typeof(Viewport));
+                    // Retrieve schedules in view
+                    FilteredElementCollector schedules = new FilteredElementCollector(doc).OwnedByView(sheetId)
+                                                        .OfClass(typeof(ScheduleSheetInstance));
+                    // Retrieve viewSchedules
+                    FilteredElementCollector viewSchedules = new FilteredElementCollector(doc).OfClass(typeof(ViewSchedule));
 
-                // Retrieve and copy schedules
-                foreach (ScheduleSheetInstance sch in schedules)
-                {
-                    // Check schedule is not a revision inside titleblock
-                    if (!sch.IsTitleblockRevisionSchedule)
+                    // Store copied elements and annotation elements
+                    var copiedElementIds = new List<ElementId>();
+                    var annotationElementsId = new List<ElementId>();
+
+                    using (Transaction t = new Transaction(doc, "Duplicate Sheet"))
                     {
-                        foreach (ViewSchedule vsc in viewSchedules)
+                        // Start transaction to duplicate sheet
+                        t.Start();
+
+                        // Duplicate sheet
+                        ViewSheet newsheet = ViewSheet.Create(doc, titleblock.GetTypeId());
+                        newsheet.SheetNumber = sheetPrefix + vSheet.SheetNumber + sheetSuffix;
+                        newsheet.Name = vSheet.Name;
+
+                        // Get origin of the titleblock
+                        XYZ originTitle = titleblock.GetTransform().Origin;
+                        // Check titleblock position
+                        Element copyTitleBlock = new FilteredElementCollector(doc).OwnedByView(newsheet.Id).OfCategory(BuiltInCategory.OST_TitleBlocks).FirstElement();
+                        LocationPoint titleLoc = copyTitleBlock.Location as LocationPoint;
+                        XYZ titleLocPoint = titleLoc.Point;
+                        // Check if title block is in the same position as original
+                        if (titleLocPoint.DistanceTo(originTitle) != 0)
                         {
-                            if (sch.ScheduleId == vsc.Id)
+                            // Move it in case it is not
+                            titleLoc.Move(originTitle);
+                        }
+
+                        // Retrieve all views placed on sheet except schedules
+                        foreach (ElementId eId in vSheet.GetAllPlacedViews())
+                        {
+                            View origView = doc.GetElement(eId) as View;
+                            View newView = null;
+
+                            // Legends
+                            if (origView.ViewType == ViewType.Legend)
                             {
-                                // Retrieve center of schedule
-                                XYZ schCenter = sch.Point;
-                                // Create schedule in the same position
-                                ScheduleSheetInstance newSch = ScheduleSheetInstance.Create(doc, newsheet.Id, vsc.Id, schCenter);
+                                newView = origView;
                             }
-                            copiedElementIds.Add(vsc.Id);
+                            // Rest of view types
+                            else
+                            {
+                                if (origView.CanViewBeDuplicated(viewDuplicateOption))
+                                {
+                                    ElementId newViewId = origView.Duplicate(viewDuplicateOption);
+                                    newView = doc.GetElement(newViewId) as View;
+                                    newView.Name = viewPrefix + origView.Name + viewSuffix;
+                                }
+                            }
+
+                            // Loop through viewports
+                            foreach (Viewport vp in viewPorts)
+                            {
+                                if (vp.SheetId == vSheet.Id && vp.ViewId == origView.Id)
+                                {
+                                    // Retrieve centerpoint of original viewport
+                                    XYZ center = vp.GetBoxCenter();
+                                    // Create viewport in the original spot
+                                    Viewport newVp = Viewport.Create(doc, newsheet.Id, newView.Id, center);
+                                }
+                                // Add element in copied list
+                                copiedElementIds.Add(vp.Id);
+                            }
+                            // Add element in copied list
+                            copiedElementIds.Add(eId);
                         }
+
+                        // Retrieve and copy schedules
+                        foreach (ScheduleSheetInstance sch in schedules)
+                        {
+                            // Check schedule is not a revision inside titleblock
+                            if (!sch.IsTitleblockRevisionSchedule)
+                            {
+                                foreach (ViewSchedule vsc in viewSchedules)
+                                {
+                                    if (sch.ScheduleId == vsc.Id)
+                                    {
+                                        // Retrieve center of schedule
+                                        XYZ schCenter = sch.Point;
+                                        // Create schedule in the same position
+                                        ScheduleSheetInstance newSch = ScheduleSheetInstance.Create(doc, newsheet.Id, vsc.Id, schCenter);
+                                    }
+                                    copiedElementIds.Add(vsc.Id);
+                                }
+                            }
+                        }
+
+                        // Duplicate annotation elements
+                        foreach (ElementId eId in elementsInViewId)
+                        {
+                            if (!copiedElementIds.Contains(eId))
+                            {
+                                annotationElementsId.Add(eId);
+                            }
+                        }
+
+                        // Copy annotation elements
+                        ElementTransformUtils.CopyElements(vSheet, annotationElementsId, newsheet, null, null);
+
+                        // Commit transaction
+                        t.Commit();
                     }
                 }
 
-                // Duplicate annotation elements
-                foreach (ElementId eId in elementsInViewId)
-                {
-                    if (!copiedElementIds.Contains(eId))
-                    {
-                        annotationElementsId.Add(eId);
-                    }
-                }
-
-                // Copy annotation elements
-                ElementTransformUtils.CopyElements( selView, annotationElementsId, newsheet, null, null );
-
-                // Commit transaction
-                t.Commit();
-
-                TaskDialog.Show("Success", "Sheet " + vSheet.SheetNumber + vSheet.Name + " has been duplicated");
+                //TaskDialog.Show("Success", "Sheet " + vSheet.SheetNumber + vSheet.Name + " has been duplicated");
 
                 return Result.Succeeded;
             }
