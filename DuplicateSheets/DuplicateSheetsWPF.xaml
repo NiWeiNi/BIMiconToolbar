@@ -76,15 +76,16 @@
                     </Label>
                     <Border Style="{StaticResource radioButtonBorder}">
                         <StackPanel>
-                            <RadioButton Grid.Column="0" GroupName="duplicateOptions" x:Name="duplicate">
+                            <RadioButton Grid.Column="0" GroupName="duplicateOptions" x:Name="duplicate" IsChecked="True"
+                                         ToggleButton.Checked="duplicate_Checked">
                                 Duplicate
                             </RadioButton>
-                            <RadioButton Grid.Column="1" GroupName="duplicateOptions" x:Name="duplicateDetail" 
-                                 IsChecked="True">
+                            <RadioButton Grid.Column="1" GroupName="duplicateOptions" x:Name="duplicateDetail"
+                                         ToggleButton.Checked="duplicateDetail_Checked">
                                 Duplicate with detailing
                             </RadioButton>
-                            <RadioButton Grid.Column="2" GroupName="duplicateOptions" x:Name="duplicateDependant" 
-                                 IsChecked="True">
+                            <RadioButton Grid.Column="2" GroupName="duplicateOptions" x:Name="duplicateDependant"
+                                         ToggleButton.Checked="duplicateDependant_Checked">
                                 Duplicate as dependant
                             </RadioButton>
                         </StackPanel>

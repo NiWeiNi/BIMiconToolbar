@@ -21,6 +21,9 @@ namespace BIMiconToolbar.DuplicateSheets
         public ObservableCollection<ComboBoxItem> CbTitleBlocks { get; set; }
         public ComboBoxItem SelectedComboItemTitleBlock { get; set; }
         public Boolean copyViews = true;
+        public Boolean optDuplicate = true;
+        public Boolean optDuplicateDetailing = false;
+        public Boolean optDuplicateDependant = false;
         
 
         /// <summary>
@@ -129,6 +132,42 @@ namespace BIMiconToolbar.DuplicateSheets
         }
 
         /// <summary>
+        /// Function to flag duplicate
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void duplicate_Checked(object sender, RoutedEventArgs e)
+        {
+            optDuplicate = true;
+            optDuplicateDetailing = false;
+            optDuplicateDependant = false;
+        }
+
+        /// <summary>
+        /// Function to flag duplicate with detail
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void duplicateDetail_Checked(object sender, RoutedEventArgs e)
+        {
+            optDuplicate = false;
+            optDuplicateDetailing = true;
+            optDuplicateDependant = false;
+        }
+
+        /// <summary>
+        /// Function to flag duplicate as dependant
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void duplicateDependant_Checked(object sender, RoutedEventArgs e)
+        {
+            optDuplicate = false;
+            optDuplicateDetailing = false;
+            optDuplicateDependant = true;
+        }
+
+        /// <summary>
         /// Function to execute when click OK button
         /// </summary>
         /// <param name="sender"></param>
@@ -148,5 +187,7 @@ namespace BIMiconToolbar.DuplicateSheets
 
             this.Dispose();
         }
+
+
     }
 }
