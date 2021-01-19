@@ -18,6 +18,10 @@ namespace BIMiconToolbar.DuplicateSheets
         /// Store selected sheets for main programs use
         /// </summary>
         public List<int> sheetIds = new List<int>();
+        public ObservableCollection<ComboBoxItem> CbTitleBlocks { get; set; }
+        public ComboBoxItem SelectedComboItemTitleBlock { get; set; }
+        public Boolean copyViews = true;
+        
 
         /// <summary>
         /// Main function to call window
@@ -28,9 +32,14 @@ namespace BIMiconToolbar.DuplicateSheets
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
             InitializeComponent();
+            DataContext = this;
 
             // Populate sheet checkboxes
             SheetCheckboxes(doc);
+            PopulateTitleBlocks(doc);
+
+            // Associate the event-handling method with the SelectedIndexChanged event
+            this.comboDisplayTitleBlock.SelectionChanged += new SelectionChangedEventHandler(ComboChangedTitleBlock);
         }
 
         /// <summary>
@@ -60,14 +69,63 @@ namespace BIMiconToolbar.DuplicateSheets
             }
         }
 
-        private void withoutViews_Unchecked(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Function to craete comboBox with title blocks
+        /// </summary>
+        /// <param name="doc"></param>
+        private void PopulateTitleBlocks(Document doc)
         {
+            CbTitleBlocks = new ObservableCollection<ComboBoxItem>();
 
+            // Select TitleBlocks
+            PhaseArray aPhase = doc.Phases;
+            FilteredElementCollector titleBlocksCollector = new FilteredElementCollector(doc)
+                                                            .OfCategory(BuiltInCategory.OST_TitleBlocks)
+                                                            .WhereElementIsElementType();
+
+            IOrderedEnumerable<FamilySymbol> titleBlocks = titleBlocksCollector.Cast<FamilySymbol>().OrderBy(tb => tb.Family.Name);
+
+            int count = 0;
+
+            foreach (var tb in titleBlocks)
+            {
+                if (count == 0)
+                {
+                    ComboBoxItem combo = new ComboBoxItem();
+                    combo.Content = "Current Title Block";
+                    CbTitleBlocks.Add(combo);
+                    SelectedComboItemTitleBlock = combo;
+                }
+
+                ComboBoxItem comb = new ComboBoxItem();
+                comb.Content = tb.Family.Name + " - " + tb.Name;
+                comb.Tag = tb;
+                CbTitleBlocks.Add(comb);
+
+                count++;
+            }
         }
+
+        /// <summary>
+        /// Function to update title block
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ComboChangedTitleBlock(object sender, SelectionChangedEventArgs e)
+        {
+            int selectedItemIndex = CbTitleBlocks.IndexOf(SelectedComboItemTitleBlock);
+            SelectedComboItemTitleBlock = CbTitleBlocks[selectedItemIndex];
+        }
+
+        /// <summary>
+        /// Function to flag copy views
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void withoutViews_Checked(object sender, RoutedEventArgs e)
         {
-
+            copyViews = !copyViews;
         }
 
         /// <summary>

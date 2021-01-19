@@ -44,9 +44,9 @@
                     <TextBlock Style="{StaticResource FirstTitle}">
                             Select Title block:
                     </TextBlock>
-                    <ComboBox x:Name="comboDisplay"
-                                    ItemsSource="{Binding CbPhases}"
-                                    SelectedItem="{Binding SelectedComboItemPhase}"
+                    <ComboBox x:Name="comboDisplayTitleBlock"
+                                    ItemsSource="{Binding CbTitleBlocks}"
+                                    SelectedItem="{Binding SelectedComboItemTitleBlock}"
                                     Style="{StaticResource comboDisplay}">
                     </ComboBox>
 
@@ -61,7 +61,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <RadioButton Grid.Column="0" GroupName="copyViews" x:Name="withoutViews"
-                                 ToggleButton.Checked="withoutViews_Checked"  ToggleButton.Unchecked="withoutViews_Unchecked">
+                                 ToggleButton.Checked="withoutViews_Checked"  ToggleButton.Unchecked="withoutViews_Checked">
                                 Duplicate without views
                             </RadioButton>
                             <RadioButton Grid.Column="1" GroupName="copyViews" x:Name="withViews" 
