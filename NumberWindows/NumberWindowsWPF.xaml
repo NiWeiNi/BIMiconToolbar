@@ -7,7 +7,7 @@
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
-        Title="Number Windows" Height="200" Width="420"
+        Title="Number Windows" Height="270" Width="420"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -21,6 +21,27 @@
     <Border Style="{StaticResource SingleContainer}">
         <StackPanel>
 
+            <!-- Select number options -->
+            <TextBlock Style="{StaticResource FirstTitle}">
+                            Select number option:
+            </TextBlock>
+            <Border Style="{StaticResource radioButtonBorder}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <RadioButton Grid.Column="0" GroupName="numberOptions" x:Name="numeric"
+                                 ToggleButton.Checked="Numeric_Checked"  ToggleButton.Unchecked="Numeric_Checked">
+                        Numeric: 101-1, 101-2, ...
+                    </RadioButton>
+                    <RadioButton Grid.Column="1" GroupName="numberOptions" x:Name="alphabetic" 
+                                 IsChecked="True">
+                        Alphabetic: 101-A, 101-B, ...
+                    </RadioButton>
+                </Grid>
+            </Border>
+
             <!-- Input for separator -->
             <Grid Style="{StaticResource Menu}">
                 <Grid.ColumnDefinitions>
@@ -28,7 +49,7 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource Title}">Separator:</TextBlock>
-                <TextBox Grid.Column="1" x:Name="SeparatorTextBox" Style="{StaticResource TextBox}" Text="-"/>
+                <TextBox x:Name="SeparatorTextBox" Style="{StaticResource TextBox}" Text="-" Grid.ColumnSpan="2" Margin="262,14,-0.4,-0.4"/>
             </Grid>
 
             <!-- Select view type -->

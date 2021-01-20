@@ -35,6 +35,7 @@ namespace BIMiconToolbar.Helpers
         /// <param name="builtInCategory"></param>
         public static void numberFamilyInstance(Document doc,
                                                 Phase phase,
+                                                Boolean numeric,
                                                 string separator,
                                                 BuiltInCategory builtInCategory,
                                                 ref int countInstances)
@@ -84,8 +85,14 @@ namespace BIMiconToolbar.Helpers
                             roomNumber = inst.ToRoom.Number;
                         }
                     }
-
-                    Helpers.InstanceFromToRoom(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
+                    if (numeric)
+                    {
+                        Helpers.InstanceFromToRoomNumber(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
+                    }
+                    else
+                    {
+                        Helpers.InstanceFromToRoom(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
+                    }
                 }
             }
 
@@ -146,6 +153,48 @@ namespace BIMiconToolbar.Helpers
                 {
                     // Store current instance and room in dict
                     instanceNumbers[familyInstance] = roomNumber + separator + numberToLetter(instanceInRoomCount[roomNumber]);
+                }
+                // Increase the instance count in room
+                instanceInRoomCount[roomNumber] = instanceInRoomCount[roomNumber] + 1;
+            }
+            else
+            {
+                // No instance is in room , add instance-room to dict
+                instanceNumbers.Add(familyInstance, roomNumber);
+                instanceInRoomCount.Add(roomNumber, 1);
+            }
+        }
+
+        /// <summary>
+        /// A function to count number of windows or doors in room
+        /// </summary>
+        /// <param name="instanceInRoomCount"></param>
+        /// <param name="roomNumber"></param>
+        /// <param name="instanceNumbers"></param>
+        /// <param name="familyInstance"></param>
+        public static void InstanceFromToRoomNumber(Dictionary<string, int> instanceInRoomCount,
+                                              string roomNumber,
+                                              string separator,
+                                              Dictionary<FamilyInstance, string> instanceNumbers,
+                                              FamilyInstance familyInstance)
+        {
+            // Classify family instances
+            if (instanceInRoomCount.ContainsKey(roomNumber))
+            {
+                // Check instance count is one, a prefix will be added to the number
+                if (instanceInRoomCount[roomNumber] == 1)
+                {
+                    // Retrieve instance with single count from the dictionary that stores instance-room relationship
+                    FamilyInstance keyInstance = instanceNumbers.FirstOrDefault(x => x.Value == roomNumber).Key;
+                    // Change single count instance prefix
+                    instanceNumbers[keyInstance] = roomNumber + separator + (instanceInRoomCount[roomNumber]).ToString();
+                    // Store current instance and room in dict
+                    instanceNumbers[familyInstance] = roomNumber + separator + (instanceInRoomCount[roomNumber] + 1).ToString();
+                }
+                else
+                {
+                    // Store current instance and room in dict
+                    instanceNumbers[familyInstance] = roomNumber + separator + (instanceInRoomCount[roomNumber] + 1).ToString();
                 }
                 // Increase the instance count in room
                 instanceInRoomCount[roomNumber] = instanceInRoomCount[roomNumber] + 1;

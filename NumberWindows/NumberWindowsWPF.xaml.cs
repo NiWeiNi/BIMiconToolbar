@@ -16,6 +16,7 @@ namespace BIMiconToolbar.NumberWindows
         public ObservableCollection<ComboBoxItem> CbPhases { get; set; }
         public ComboBoxItem SelectedComboItemPhase { get; set; }
         public string Separator { get; set; }
+        public bool optNumeric = false;
 
         public NumberWindowsWPF(ExternalCommandData commandData)
         {
@@ -29,6 +30,16 @@ namespace BIMiconToolbar.NumberWindows
 
             // Associate the event-handling method with the SelectedIndexChanged event
             comboDisplayPhases.SelectionChanged += new SelectionChangedEventHandler(ComboChangedPhase);
+        }
+
+        /// <summary>
+        /// Function to change user number selection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Numeric_Checked(object sender, RoutedEventArgs e)
+        {
+            optNumeric = !optNumeric;
         }
 
         /// <summary>

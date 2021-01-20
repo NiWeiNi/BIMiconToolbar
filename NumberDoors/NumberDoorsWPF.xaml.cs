@@ -17,6 +17,8 @@ namespace BIMiconToolbar.NumberDoors
         public ComboBoxItem SelectedComboItemPhase { get; set; }
         public string Separator { get; set; }
 
+        public bool optNumeric = false;
+
         public NumberDoorsWPF(ExternalCommandData commandData)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
@@ -67,6 +69,16 @@ namespace BIMiconToolbar.NumberDoors
         }
 
         /// <summary>
+        /// Function to change user number selection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Numeric_Checked(object sender, RoutedEventArgs e)
+        {
+            optNumeric = !optNumeric;
+        }
+
+        /// <summary>
         /// Method to update phase according to initial phase selected
         /// </summary>
         /// <param name="sender"></param>
@@ -77,18 +89,27 @@ namespace BIMiconToolbar.NumberDoors
             SelectedComboItemPhase = CbPhases[selectedItemIndex];
         }
 
+        /// <summary>
+        /// Function to output user selection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             Separator = SeparatorTextBox.Text;
             Dispose();
         }
 
-        private void cancel_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Function to close window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             // Use separator as flag to avoid execution
             Separator = null;
             Dispose();
         }
-
     }
 }
