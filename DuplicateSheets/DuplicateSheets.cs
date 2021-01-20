@@ -117,76 +117,80 @@ namespace BIMiconToolbar.DuplicateSheets
                             titleLoc.Move(originTitle);
                         }
 
-                        // Retrieve all views placed on sheet except schedules
-                        foreach (ElementId eId in vSheet.GetAllPlacedViews())
+                        // Check if user selected copy views
+                        if (copyViews)
                         {
-                            View origView = doc.GetElement(eId) as View;
-                            View newView = null;
+                            // Retrieve all views placed on sheet except schedules
+                            foreach (ElementId eId in vSheet.GetAllPlacedViews())
+                            {
+                                View origView = doc.GetElement(eId) as View;
+                                View newView = null;
 
-                            // Legends
-                            if (origView.ViewType == ViewType.Legend)
-                            {
-                                newView = origView;
-                            }
-                            // Rest of view types
-                            else
-                            {
-                                if (origView.CanViewBeDuplicated(viewDuplicateOption))
+                                // Legends
+                                if (origView.ViewType == ViewType.Legend)
                                 {
-                                    ElementId newViewId = origView.Duplicate(viewDuplicateOption);
-                                    newView = doc.GetElement(newViewId) as View;
-                                    newView.Name = viewPrefix + origView.Name + viewSuffix;
+                                    newView = origView;
                                 }
-                            }
-
-                            // Loop through viewports
-                            foreach (Viewport vp in viewPorts)
-                            {
-                                if (vp.SheetId == vSheet.Id && vp.ViewId == origView.Id)
+                                // Rest of view types
+                                else
                                 {
-                                    // Retrieve centerpoint of original viewport
-                                    XYZ center = vp.GetBoxCenter();
-                                    // Create viewport in the original spot
-                                    Viewport newVp = Viewport.Create(doc, newsheet.Id, newView.Id, center);
+                                    if (origView.CanViewBeDuplicated(viewDuplicateOption))
+                                    {
+                                        ElementId newViewId = origView.Duplicate(viewDuplicateOption);
+                                        newView = doc.GetElement(newViewId) as View;
+                                        newView.Name = viewPrefix + origView.Name + viewSuffix;
+                                    }
+                                }
+
+                                // Loop through viewports
+                                foreach (Viewport vp in viewPorts)
+                                {
+                                    if (vp.SheetId == vSheet.Id && vp.ViewId == origView.Id)
+                                    {
+                                        // Retrieve centerpoint of original viewport
+                                        XYZ center = vp.GetBoxCenter();
+                                        // Create viewport in the original spot
+                                        Viewport newVp = Viewport.Create(doc, newsheet.Id, newView.Id, center);
+                                    }
+                                    // Add element in copied list
+                                    copiedElementIds.Add(vp.Id);
                                 }
                                 // Add element in copied list
-                                copiedElementIds.Add(vp.Id);
+                                copiedElementIds.Add(eId);
                             }
-                            // Add element in copied list
-                            copiedElementIds.Add(eId);
-                        }
 
-                        // Retrieve and copy schedules
-                        foreach (ScheduleSheetInstance sch in schedules)
-                        {
-                            // Check schedule is not a revision inside titleblock
-                            if (!sch.IsTitleblockRevisionSchedule)
+                            // Retrieve and copy schedules
+                            foreach (ScheduleSheetInstance sch in schedules)
                             {
-                                foreach (ViewSchedule vsc in viewSchedules)
+                                // Check schedule is not a revision inside titleblock
+                                if (!sch.IsTitleblockRevisionSchedule)
                                 {
-                                    if (sch.ScheduleId == vsc.Id)
+                                    foreach (ViewSchedule vsc in viewSchedules)
                                     {
-                                        // Retrieve center of schedule
-                                        XYZ schCenter = sch.Point;
-                                        // Create schedule in the same position
-                                        ScheduleSheetInstance newSch = ScheduleSheetInstance.Create(doc, newsheet.Id, vsc.Id, schCenter);
+                                        if (sch.ScheduleId == vsc.Id)
+                                        {
+                                            // Retrieve center of schedule
+                                            XYZ schCenter = sch.Point;
+                                            // Create schedule in the same position
+                                            ScheduleSheetInstance newSch = ScheduleSheetInstance.Create(doc, newsheet.Id, vsc.Id, schCenter);
+                                        }
+                                        copiedElementIds.Add(vsc.Id);
                                     }
-                                    copiedElementIds.Add(vsc.Id);
                                 }
                             }
-                        }
 
-                        // Duplicate annotation elements
-                        foreach (ElementId eId in elementsInViewId)
-                        {
-                            if (!copiedElementIds.Contains(eId))
+                            // Duplicate annotation elements
+                            foreach (ElementId eId in elementsInViewId)
                             {
-                                annotationElementsId.Add(eId);
+                                if (!copiedElementIds.Contains(eId))
+                                {
+                                    annotationElementsId.Add(eId);
+                                }
                             }
-                        }
 
-                        // Copy annotation elements
-                        ElementTransformUtils.CopyElements(vSheet, annotationElementsId, newsheet, null, null);
+                            // Copy annotation elements
+                            ElementTransformUtils.CopyElements(vSheet, annotationElementsId, newsheet, null, null);
+                        }
 
                         viewSheetSuccess.Add(newsheet.SheetNumber + " - " + newsheet.Name);
 
