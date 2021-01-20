@@ -200,7 +200,7 @@ namespace BIMiconToolbar.DuplicateSheets
                 }
 
                 // Commit group transaction
-                tg.Commit();
+                tg.Assimilate();
 
                 // Display result message to user
                 if (viewSheetSuccess.Count > 0)
