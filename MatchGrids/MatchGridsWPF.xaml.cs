@@ -39,25 +39,27 @@ namespace BIMiconToolbar.MatchGrids
 
             FilteredElementCollector viewsCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views);
 
-            List<View> filteredV = viewsCollector.Cast<View>().Where(sh => 
+            List<View> filteredV = viewsCollector.Cast<View>()
+                                   .Where(sh => 
                                    sh.ViewType == ViewType.AreaPlan ||
                                    sh.ViewType == ViewType.CeilingPlan ||
                                    sh.ViewType == ViewType.Elevation ||
                                    sh.ViewType == ViewType.FloorPlan ||
                                    sh.ViewType == ViewType.Section ||
-                                   sh.ViewType == ViewType.ThreeD).ToList();
+                                   sh.ViewType == ViewType.ThreeD)
+                                   .Where(view => !view.IsTemplate)
+                                   .ToList();
 
-            IEnumerable<View> filteredViews = from View view in filteredV where !view.IsTemplate select view;
-            IOrderedEnumerable<View> views = from View view in filteredViews orderby view.Name ascending select view;
+            IOrderedEnumerable<View> views = filteredV.OrderBy(v => v.ViewType).ThenBy(v => v.Name);
 
-            FilteredViewsCheckBox = filteredViews;
+            FilteredViewsCheckBox = filteredV;
 
             int count = 0;
 
             foreach (var v in views)
             {
                 ComboBoxItem comb = new ComboBoxItem();
-                comb.Content = v.Name;
+                comb.Content = v.ViewType + " - " + v.Name;
                 comb.Tag = v;
                 CbItems.Add(comb);
 
