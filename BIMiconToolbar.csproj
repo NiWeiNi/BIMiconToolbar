@@ -110,6 +110,9 @@
     </Compile>
     <Compile Include="ExportSchedules\ExportSchedules.cs" />
     <Compile Include="FilesRename\FilesRename.cs" />
+    <Compile Include="FilesRename\FilesRenameWPF.xaml.cs">
+      <DependentUpon>FilesRenameWPF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\Browser\Browser.xaml.cs">
       <DependentUpon>Browser.xaml</DependentUpon>
     </Compile>
@@ -210,6 +213,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ExportSchedules\BrowserCheckboxes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FilesRename\FilesRenameWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
