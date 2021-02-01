@@ -41,6 +41,20 @@ namespace BIMiconToolbar.Tab
             pbRemoveBackups.ToolTip = "Remove Revit backup files.";
             pbRemoveBackups.LongDescription = "Remove Revit backup files from selected folder including subfolders.";
 
+            // File Rename
+            PushButtonData buttonFilesRename = new PushButtonData(
+               "FilesRename",
+               "Rename\nFiles",
+               assemblyPath,
+               "BIMiconToolbar.FilesRename.FilesRename"
+            );
+
+            PushButton pbFilesRename = panelLibrary.AddItem(buttonFilesRename) as PushButton;
+            pbFilesRename.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FilesRename/Images/iconFilesRename.png"));
+            pbFilesRename.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FilesRename/Images/iconFilesRenameSmall.png"));
+            pbFilesRename.ToolTip = "Rename file inside a folder.";
+            pbFilesRename.LongDescription = "Rename all all files of certain type inside a folder.";
+
             #endregion
 
             /*---Ribbon Panel Schedules---*/

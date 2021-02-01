@@ -109,6 +109,7 @@
       <DependentUpon>BrowserCheckboxes.xaml</DependentUpon>
     </Compile>
     <Compile Include="ExportSchedules\ExportSchedules.cs" />
+    <Compile Include="FilesRename\FilesRename.cs" />
     <Compile Include="Helpers\Browser\Browser.xaml.cs">
       <DependentUpon>Browser.xaml</DependentUpon>
     </Compile>
@@ -189,6 +190,8 @@
     <Resource Include="Support\Version\Images\iconVersionSmall.png" />
     <Resource Include="MarkOrigin\Images\iconMarkerOrigin.png" />
     <Resource Include="MarkOrigin\Images\iconMarkerOriginSmall.png" />
+    <Resource Include="FilesRename\Images\iconFilesRename.png" />
+    <Resource Include="FilesRename\Images\iconFilesRenameSmall.png" />
     <Content Include="WarningsReport\RevitWarningsClassified.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
