@@ -163,7 +163,21 @@ namespace BIMiconToolbar.Tab
                                                 "is picked from the ToRoom paramter from the window. If there is no room on either side" +
                                                 "of the window, no number will be assigned.";
 
-            // Number Windows
+            // Number by Spline
+            PushButtonData buttonNumberBySpline = new PushButtonData(
+               "NumberBySpline",
+               "Number\nby Spline",
+               assemblyPath,
+               "BIMiconToolbar.NumberBySpline.NumberBySpline"
+            );
+
+            PushButton pbNumberBySpline = panelProject.AddItem(buttonNumberBySpline) as PushButton;
+            pbNumberBySpline.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberBySpline/Images/iconNumberBySpline.png"));
+            pbNumberBySpline.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberBySpline/Images/iconNumberBySpline.png"));
+            pbNumberBySpline.ToolTip = "Number elements by intersecting with selected spline.";
+            pbNumberBySpline.LongDescription = "Number elements of a selected category by interseting the bounding box with selected spline.";
+
+            // Match grids
             PushButtonData buttonMatchGrids = new PushButtonData(
                "MatchGrids",
                "Match\nGrids",

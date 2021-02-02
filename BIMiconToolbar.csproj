@@ -135,6 +135,7 @@
     <Compile Include="MatchGrids\MatchGridsWPF.xaml.cs">
       <DependentUpon>MatchGridsWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NumberBySpline\NumberBySpline.cs" />
     <Compile Include="NumberDoors\NumberDoorsWPF.xaml.cs">
       <DependentUpon>NumberDoorsWPF.xaml</DependentUpon>
     </Compile>
@@ -195,6 +196,8 @@
     <Resource Include="MarkOrigin\Images\iconMarkerOriginSmall.png" />
     <Resource Include="FilesRename\Images\iconFilesRename.png" />
     <Resource Include="FilesRename\Images\iconFilesRenameSmall.png" />
+    <Resource Include="NumberBySpline\Images\iconNumberBySpline.png" />
+    <Resource Include="NumberBySpline\Images\iconNumberBySplineSmall.png" />
     <Content Include="WarningsReport\RevitWarningsClassified.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
