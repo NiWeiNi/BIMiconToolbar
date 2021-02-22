@@ -26,7 +26,7 @@ namespace BIMiconToolbar.FilesRename
                 // Show next window for user input
                 else
                 {
-                    
+                    TaskDialog.Show("Warning","WIP");
                 }
             }
 
