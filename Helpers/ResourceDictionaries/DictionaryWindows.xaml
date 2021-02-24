@@ -30,6 +30,13 @@
         <Setter Property="Margin" Value="0 14 0 5"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
     </Style>
+
+    <!-- style for TextBox display -->
+    <Style TargetType="TextBox" x:Key="TextBoxDisplay">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Padding" Value="0 5 0 5"/>
+        <Setter Property="Background" Value="#FFDADADA"/>
+    </Style>
     
     <!-- Style for grid menu -->
     <Style TargetType="Grid" x:Key="Menu">
@@ -51,6 +58,7 @@
     <Style TargetType="TextBox" x:Key="TextBox">
         <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="0 5 0 5"/>
     </Style>
 
     <!-- Style for radio button border -->

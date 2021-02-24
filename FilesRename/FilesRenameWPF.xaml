@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="FilesRenameWPF" Height="300" Width="400">
+        Title="FilesRenameWPF" Height="520" Width="400">
     
     <Window.Resources>
         <ResourceDictionary>
@@ -16,8 +16,35 @@
 
     <Border Style="{StaticResource SingleContainer}">
         <StackPanel>
-            <!-- Select file type -->
+            <!-- Current Path -->
             <TextBlock Style="{StaticResource FirstTitle}">
+                    Current Path:
+            </TextBlock>
+            <TextBox x:Name="currentPath" Style="{StaticResource TextBoxDisplay}" IsReadOnly="True" Text="No Path Selected" />
+
+            <!-- Select folder or files-->
+            <TextBlock Style="{StaticResource Title}">
+                Select folders or files to rename:
+            </TextBlock>
+            <Border Style="{StaticResource radioButtonBorder}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <RadioButton Grid.Column="0" GroupName="" x:Name="foldersRename"
+                                 ToggleButton.Checked="foldersRename_Checked"  ToggleButton.Unchecked="foldersRename_Checked">
+                        Folders
+                    </RadioButton>
+                    <RadioButton Grid.Column="1" GroupName="foldersOrFiles" x:Name="filesRename" 
+                                 IsChecked="True" >
+                        Files
+                    </RadioButton>
+                </Grid>
+            </Border>
+            
+            <!-- Select file type -->
+            <TextBlock Style="{StaticResource Title}">
                     Select File Type:
             </TextBlock>
             <ComboBox x:Name="comboDisplayFileType"
@@ -63,6 +90,12 @@
                 </TextBlock>
                 <TextBox Grid.Column="2" x:Name="replaceText" Style="{StaticResource TextBox}" Text="replace"/>
             </Grid>
+
+            <!-- Destination Path -->
+            <TextBlock Style="{StaticResource Title}">
+                    Destination Path:
+            </TextBlock>
+            <TextBox x:Name="destinationPath" Style="{StaticResource TextBoxDisplay}" IsReadOnly="True" Text="No Path Selected" />
 
             <!-- Buttons End -->
             <Grid Style="{StaticResource MainButtons}">
