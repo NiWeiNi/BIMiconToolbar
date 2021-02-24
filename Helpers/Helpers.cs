@@ -9,6 +9,16 @@ namespace BIMiconToolbar.Helpers
     class Helpers
     {
         /// <summary>
+        /// Check if an array is null or empty
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public static bool IsNullOrEmpty(Array array)
+        {
+            return (array == null || array.Length == 0);
+        }
+
+        /// <summary>
         /// A function to read and store content of a file even if it is in use
         /// </summary>
         /// <param name="path"></param>

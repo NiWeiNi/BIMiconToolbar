@@ -15,10 +15,11 @@ namespace BIMiconToolbar.FilesRename
             {
                 browserWindow.ShowDialog();
 
-                string fullPath = browserWindow.selectedPath;
+                string selectedPath = browserWindow.selectedPath;
+                //string[] fullPath = new string[] { @"C:\Users\BIMicon\Desktop\test\BIMicon Content" };
 
-                // CHeck that path is not empty and path is a folder
-                if (fullPath == null || !Directory.Exists(fullPath))
+                // Check that path is not empty and path is a folder
+                if (selectedPath == null || !Directory.Exists(selectedPath))
                 {
                     TaskDialog.Show("Warning", "No folder has been selected");
                     return Result.Cancelled;
@@ -26,6 +27,10 @@ namespace BIMiconToolbar.FilesRename
                 // Show next window for user input
                 else
                 {
+                    Helpers.HelpersDirectory.MoveDirectory(new string[]{ "C:\\Users\\BIMicon\\Desktop\\test\\BIMicon Content" },
+                        new string[]{ "C:\\Users\\BIMicon\\Desktop\\test\\123" });
+                    //Directory.Move("C:\\Users\\BIMicon\\Desktop\\test\\BIMicon Content", "C:\\Users\\BIMicon\\Desktop\\test\\123");
+
                     TaskDialog.Show("Warning","WIP");
                 }
             }

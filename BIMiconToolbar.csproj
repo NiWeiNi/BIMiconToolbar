@@ -125,7 +125,9 @@
     <Compile Include="Helpers\Browser\ViewModels\Base\RelayCommand.cs" />
     <Compile Include="Helpers\Browser\ViewModels\BrowserStructureViewModel.cs" />
     <Compile Include="Helpers\Helpers.cs" />
+    <Compile Include="Helpers\HelpersDirectory.cs" />
     <Compile Include="Helpers\HelpersSelection.cs" />
+    <Compile Include="Helpers\HelpersString.cs" />
     <Compile Include="Helpers\HelpersView.cs" />
     <Compile Include="InteriorElevations\InteriorElevations.cs" />
     <Compile Include="InteriorElevations\InteriorElevationsWindow.xaml.cs">
