@@ -4,8 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="FilesRenameWPF" Height="520" Width="400">
-    
+        Title="FilesRenameWPF" Height="540" Width="400"
+        FocusManager.FocusedElement="{Binding ElementName=OK}"
+        Icon="../Resources/Logos/iconBIMiconBlack.ico"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,7 +24,9 @@
             <TextBlock Style="{StaticResource FirstTitle}">
                     Current Path:
             </TextBlock>
-            <TextBox x:Name="currentPath" Style="{StaticResource TextBoxDisplay}" IsReadOnly="True" Text="No Path Selected" />
+            <TextBox x:Name="currentPath" Style="{StaticResource TextBoxDisplay}"
+                     IsReadOnly="True" 
+                     Text="No Path Selected" />
 
             <!-- Select folder or files-->
             <TextBlock Style="{StaticResource Title}">
@@ -32,8 +38,8 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <RadioButton Grid.Column="0" GroupName="" x:Name="foldersRename"
-                                 ToggleButton.Checked="foldersRename_Checked"  ToggleButton.Unchecked="foldersRename_Checked">
+                    <RadioButton Grid.Column="0" GroupName="foldersOrFiles" x:Name="foldersRename"
+                                 ToggleButton.Checked="FoldersRename_Checked"  ToggleButton.Unchecked="FoldersRename_Checked">
                         Folders
                     </RadioButton>
                     <RadioButton Grid.Column="1" GroupName="foldersOrFiles" x:Name="filesRename" 
@@ -53,11 +59,10 @@
                                     Style="{StaticResource comboDisplay}">
             </ComboBox>
 
-            <!-- Select view duplicate options -->
+            <!-- Prefix and Suffix view-->
             <TextBlock Style="{StaticResource Title}">
                     Append text:
             </TextBlock>
-            <!-- Prefix and Suffix view-->
             <Grid Style="{StaticResource MainButtons}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -65,7 +70,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Column="0" x:Name="viewPrefixTextBox" Style="{StaticResource TextBox}" Text="prefix"/>
+                <TextBox Grid.Column="0" x:Name="viewPrefixTextBox" Style="{StaticResource TextBox}" Text="prefix"></TextBox>
                 <TextBlock FontWeight="Bold" Grid.Column="1" TextAlignment="Center">
                         Current Name
                 </TextBlock>
@@ -76,7 +81,6 @@
             <TextBlock Style="{StaticResource Title}">
                     Replace text:
             </TextBlock>
-            <!-- Replace -->
             <Grid Style="{StaticResource MainButtons}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

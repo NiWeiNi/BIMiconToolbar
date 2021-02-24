@@ -27,9 +27,23 @@ namespace BIMiconToolbar.FilesRename
                 // Show next window for user input
                 else
                 {
-                    Helpers.HelpersDirectory.MoveDirectory(new string[]{ "C:\\Users\\BIMicon\\Desktop\\test\\BIMicon Content" },
+                    // Call WPF for user input
+                    using (FilesRenameWPF customWindow = new FilesRenameWPF(selectedPath))
+                    {
+                        // Revit application as window's owner
+                        System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(customWindow);
+                        helper.Owner = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
+
+                        customWindow.ShowDialog();
+
+                        
+
+                        Helpers.HelpersDirectory.MoveDirectory(new string[]{ "C:\\Users\\BIMicon\\Desktop\\test\\BIMicon Content" },
                         new string[]{ "C:\\Users\\BIMicon\\Desktop\\test\\123" });
-                    //Directory.Move("C:\\Users\\BIMicon\\Desktop\\test\\BIMicon Content", "C:\\Users\\BIMicon\\Desktop\\test\\123");
+                        //Directory.Move("C:\\Users\\BIMicon\\Desktop\\test\\BIMicon Content", "C:\\Users\\BIMicon\\Desktop\\test\\123");
+                    }
+
+
 
                     TaskDialog.Show("Warning","WIP");
                 }

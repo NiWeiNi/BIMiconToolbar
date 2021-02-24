@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace BIMiconToolbar.Helpers
 {
@@ -42,5 +45,76 @@ namespace BIMiconToolbar.Helpers
             }
         }
 
+        /// <summary>
+        /// Retrieve all files in folder
+        /// </summary>
+        /// <param name="selectedDirectory"></param>
+        public static string[] RetrieveFiles(string selectedDirectory)
+        {
+            try
+            {
+                var files = Directory.GetFiles(selectedDirectory);
+                return files;
+            }
+
+            catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine(e.Message);
+                // TODO: log error
+
+            }
+
+            catch (DirectoryNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+                // TODO: log error
+            }
+
+            return new string[0];
+        }
+
+        /// <summary>
+        /// Function to match and extract extension
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static string GetFilePathExtension(string filePath)
+        {
+            var extension = "";
+
+            Regex backupPattern = new Regex(@"\.\w{2,4}$");
+            Match fileMatch = backupPattern.Match(filePath);
+
+            if (fileMatch.Success)
+            {
+                extension = fileMatch.Value;
+            }
+
+            return extension;
+        }
+
+        /// <summary>
+        /// Function to retrieve file extension of files
+        /// </summary>
+        /// <param name="files"></param>
+        /// <returns></returns>
+        public static string[] GetFilesType(string[] files)
+        {
+            var fileTypes = new List<string>();
+
+            if (Helpers.IsNullOrEmpty(files) != true)
+            {
+                foreach (string f in files)
+                {
+                    string match = GetFilePathExtension(f);
+                    if (match != "")
+                    {
+                        fileTypes.Add(match);
+                    }
+                }
+            }
+
+            return fileTypes.Distinct().ToArray();
+        }
     }
 }
