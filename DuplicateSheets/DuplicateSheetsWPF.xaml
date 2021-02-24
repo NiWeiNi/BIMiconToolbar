@@ -7,7 +7,7 @@
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
-        Title="Duplicate Sheets" Height="440" Width="750"
+        Title="Duplicate Sheets" Height="460" Width="750"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>

@@ -132,6 +132,9 @@ namespace BIMiconToolbar.DuplicateSheets
         private void withoutViews_Checked(object sender, RoutedEventArgs e)
         {
             copyViews = !copyViews;
+            duplicate.IsEnabled = !duplicate.IsEnabled;
+            duplicateDetail.IsEnabled = !duplicateDetail.IsEnabled;
+            duplicateDependant.IsEnabled = !duplicateDependant.IsEnabled;
         }
 
         /// <summary>
