@@ -70,11 +70,15 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Column="0" x:Name="viewPrefixTextBox" Style="{StaticResource TextBox}" Text="prefix"></TextBox>
+                <TextBox Grid.Column="0" 
+                         x:Name="prefixTextBox" 
+                         Style="{StaticResource TextBox}" 
+                         Text="prefix"
+                         TextChanged="PrefixTextBox_TextChanged"></TextBox>
                 <TextBlock FontWeight="Bold" Grid.Column="1" TextAlignment="Center">
                         Current Name
                 </TextBlock>
-                <TextBox Grid.Column="2" x:Name="viewSuffixTextBox" Style="{StaticResource TextBox}" Text="suffix"/>
+                <TextBox Grid.Column="2" x:Name="suffixTextBox" Style="{StaticResource TextBox}" Text="suffix"/>
             </Grid>
             
             <!-- Replace text -->
@@ -99,7 +103,10 @@
             <TextBlock Style="{StaticResource Title}">
                     Destination Path:
             </TextBlock>
-            <TextBox x:Name="destinationPath" Style="{StaticResource TextBoxDisplay}" IsReadOnly="True" Text="No Path Selected" />
+            <TextBox x:Name="destinationPath"
+                     IsReadOnly="True"
+                     Style="{StaticResource TextBoxDisplay}"
+                     Text="{Binding Path=NameDestinationPath}"/>
 
             <!-- Buttons End -->
             <Grid Style="{StaticResource MainButtons}">
@@ -108,8 +115,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="OK" Content="OK" Grid.Column="1" IsDefault="True" Margin="0 0 10 0"></Button>
-                <Button x:Name="cancel" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
+                <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="1" IsDefault="True" Margin="0 0 10 0"></Button>
+                <Button x:Name="cancel" Click="Cancel_Click" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
             </Grid>
         </StackPanel>
     </Border>

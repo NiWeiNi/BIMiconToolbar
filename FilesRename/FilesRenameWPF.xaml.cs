@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,12 +9,32 @@ namespace BIMiconToolbar.FilesRename
     /// <summary>
     /// Interaction logic for FilesRenameWPF.xaml
     /// </summary>
-    public partial class FilesRenameWPF : Window, IDisposable
+    public partial class FilesRenameWPF : Window, IDisposable, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         // Variables to hold user input
         public bool filesRenameBool = false;
+
         public ObservableCollection<ComboBoxItem> CbFileType{ get; set; }
         public ComboBoxItem SelectedComboItemFileType { get; set; }
+
+        public string namePrefix { get; set; }
+        public string nameSuffix { get; set; }
+
+        private string nameDestinationPath;
+        public string NameDestinationPath
+        {
+            get { return nameDestinationPath; }
+            set
+            {
+                if (value != nameDestinationPath)
+                {
+                    nameDestinationPath = value;
+                    OnPropertyChanged("NameDestinationPath");
+                }
+            }
+        }
 
         /// <summary>
         /// Main function to call window
@@ -28,6 +49,26 @@ namespace BIMiconToolbar.FilesRename
 
             // Populate comboBox
             FileTypes(selectedPath);
+
+            // Retrieve suffix and prefix for name
+            namePrefix = prefixTextBox.Text;
+            nameSuffix = suffixTextBox.Text;
+
+            NameDestinationPath = namePrefix;
+            
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="propertyName"></param>
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         /// <summary>
@@ -79,6 +120,32 @@ namespace BIMiconToolbar.FilesRename
                     populateFirst = false;
                 }
             }
+        }
+
+        /// <summary>
+        /// Function to confirm input in window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OK_Click(object sender, RoutedEventArgs e)
+        {
+            this.Dispose();
+        }
+
+        /// <summary>
+        /// Function to close the current window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Dispose();
+        }
+
+        private void PrefixTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            namePrefix = prefixTextBox.Text;
+            NameDestinationPath = namePrefix;
         }
     }
 }
