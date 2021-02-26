@@ -41,7 +41,7 @@ namespace BIMiconToolbar.Helpers
             {
                 var destination = HelpersString.ReplaceString(source, oldChar, newChar);
 
-                HelpersDirectory.MoveDirectory(source, new string[] { @"C:\Users\BIMicon\Desktop\test\123" });
+                HelpersDirectory.MoveDirectory(source, destination);
             }
         }
 
@@ -71,6 +71,28 @@ namespace BIMiconToolbar.Helpers
             }
 
             return new string[0];
+        }
+
+        /// <summary>
+        /// Retrieve subdirectories in directory
+        /// </summary>
+        /// <param name="directoryPath"></param>
+        /// <returns></returns>
+        public static string[] GetDirectoriesFromPath(string directoryPath)
+        {
+            try
+            {
+                var subdirectories = Directory.GetDirectories(directoryPath);
+                return subdirectories;
+            }
+
+            catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine(e.Message);
+                // TODO: log error
+            }
+
+            return new string[0];  
         }
 
         /// <summary>
@@ -115,6 +137,92 @@ namespace BIMiconToolbar.Helpers
             }
 
             return fileTypes.Distinct().ToArray();
+        }
+
+        /// <summary>
+        /// Retrieve file name from path
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static string GetFileFromFilePath(string filePath)
+        {
+            var fileName = "";
+
+            if (filePath != null && filePath != "")
+            {
+                Regex filePattern = new Regex(@"\\[\w\d-]+\.\w{2,4}$");
+                Match fileMatch = filePattern.Match(filePath);
+
+                if (fileMatch.Success)
+                {
+                    fileName = fileMatch.Value.Remove(0, 1);
+                }
+            }
+
+            return fileName;
+        }
+
+        /// <summary>
+        /// Function to return first file name from file path
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static string GetFirstFileFromFilePath(string filePath)
+        {
+            string fileName = "";
+            
+            if (filePath != null && filePath != "")
+            {
+                string filePaths = RetrieveFiles(filePath)[0];
+                
+                if (filePaths.Length != 0)
+                {
+                    string firstFilePath = RetrieveFiles(filePath)[0];
+                    fileName = GetFileFromFilePath(firstFilePath);
+                }
+            }
+
+            return fileName;
+        }
+
+        /// <summary>
+        /// Function to update a path name
+        /// </summary>
+        /// <param name="folderOrFile"></param>
+        /// <param name="selectedPath"></param>
+        /// <param name="find"></param>
+        /// <param name="replace"></param>
+        /// <param name="prefix"></param>
+        /// <param name="suffix"></param>
+        /// <returns></returns>
+        public static string UpdatePathName(bool folderOrFile,
+                                            string selectedPath,
+                                            string find,
+                                            string replace,
+                                            string prefix,
+                                            string suffix)
+        {
+            string originalName = "";
+
+            if (folderOrFile)
+            {
+                string fileName = GetFirstFileFromFilePath(selectedPath);
+                originalName = fileName;
+            }
+            else
+            {
+                string folderName = GetDirectoriesFromPath(selectedPath)[0];
+                originalName = folderName;
+            }
+
+            if (find != null && replace != null)
+            {
+                originalName = originalName.Replace(find, replace);
+            }
+
+            string updatedName = selectedPath + "\\" + prefix + originalName + suffix;
+
+            return updatedName;
         }
     }
 }

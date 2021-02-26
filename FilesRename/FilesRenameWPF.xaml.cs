@@ -14,13 +14,17 @@ namespace BIMiconToolbar.FilesRename
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Variables to hold user input
-        public bool filesRenameBool = false;
+        public bool filesRenameBool = true;
+        public string SelectedPath { get; set; }
 
         public ObservableCollection<ComboBoxItem> CbFileType{ get; set; }
         public ComboBoxItem SelectedComboItemFileType { get; set; }
 
-        public string namePrefix { get; set; }
-        public string nameSuffix { get; set; }
+        public string NamePrefix { get; set; }
+        public string NameSuffix { get; set; }
+
+        public string NameFind { get; set; }
+        public string NameReplace { get; set; }
 
         private string nameDestinationPath;
         public string NameDestinationPath
@@ -46,16 +50,17 @@ namespace BIMiconToolbar.FilesRename
 
             // Set path to display as selectedPath
             this.currentPath.Text = selectedPath;
+            SelectedPath = selectedPath;
 
             // Populate comboBox
             FileTypes(selectedPath);
 
-            // Retrieve suffix and prefix for name
-            namePrefix = prefixTextBox.Text;
-            nameSuffix = suffixTextBox.Text;
-
-            NameDestinationPath = namePrefix;
-            
+            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                                          SelectedPath,
+                                                                          NameFind,
+                                                                          NameReplace,
+                                                                          NamePrefix,
+                                                                          NameSuffix);
         }
 
         /// <summary>
@@ -90,6 +95,21 @@ namespace BIMiconToolbar.FilesRename
 
             // Toggle enable/dissable dropdown list of file types
             this.comboDisplayFileType.IsEnabled = !this.comboDisplayFileType.IsEnabled;
+
+            // Switch between display file or folder rename
+            if (filesRenameBool)
+            {
+                NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                                              SelectedPath,
+                                                                              NameFind,
+                                                                              NameReplace,
+                                                                              NamePrefix,
+                                                                              NameSuffix);
+            }
+            else
+            {
+                NameDestinationPath = SelectedPath;
+            }
         }
 
         /// <summary>
@@ -142,10 +162,20 @@ namespace BIMiconToolbar.FilesRename
             this.Dispose();
         }
 
+        /// <summary>
+        /// Function to update property namePrefix
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PrefixTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            namePrefix = prefixTextBox.Text;
-            NameDestinationPath = namePrefix;
+            NamePrefix = prefixTextBox.Text;
+            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                                          SelectedPath,
+                                                                          NameFind,
+                                                                          NameReplace,
+                                                                          NamePrefix,
+                                                                          NameSuffix);
         }
     }
 }

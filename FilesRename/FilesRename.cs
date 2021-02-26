@@ -36,16 +36,7 @@ namespace BIMiconToolbar.FilesRename
 
                         customWindow.ShowDialog();
 
-                        
-
-                        Helpers.HelpersDirectory.MoveDirectory(new string[]{ "C:\\Users\\BIMicon\\Desktop\\test\\BIMicon Content" },
-                        new string[]{ "C:\\Users\\BIMicon\\Desktop\\test\\123" });
-                        //Directory.Move("C:\\Users\\BIMicon\\Desktop\\test\\BIMicon Content", "C:\\Users\\BIMicon\\Desktop\\test\\123");
                     }
-
-
-
-                    TaskDialog.Show("Warning","WIP");
                 }
             }
 
