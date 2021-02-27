@@ -163,6 +163,26 @@ namespace BIMiconToolbar.Helpers
         }
 
         /// <summary>
+        /// Retrieve folder from path
+        /// </summary>
+        /// <param name="folderPath"></param>
+        /// <returns></returns>
+        public static string GetFirstFolderFromPath(string folderPath)
+        {
+            string folder = "";
+
+            string[] folders = GetDirectoriesFromPath(folderPath);
+
+            if (Helpers.IsNullOrEmpty(folders) != true)
+            {
+                // Retrieve name of folder and remove / before name
+                folder = folders[0].Replace(folderPath, "").Remove(0, 1);
+            }
+
+            return folder;
+        }
+
+        /// <summary>
         /// Function to return first file name from file path
         /// </summary>
         /// <param name="filePath"></param>
@@ -173,7 +193,7 @@ namespace BIMiconToolbar.Helpers
             
             if (filePath != null && filePath != "")
             {
-                string filePaths = RetrieveFiles(filePath)[0];
+                string[] filePaths = RetrieveFiles(filePath);
                 
                 if (filePaths.Length != 0)
                 {
@@ -188,14 +208,14 @@ namespace BIMiconToolbar.Helpers
         /// <summary>
         /// Function to update a path name
         /// </summary>
-        /// <param name="folderOrFile"></param>
+        /// <param name="IsFile"></param>
         /// <param name="selectedPath"></param>
         /// <param name="find"></param>
         /// <param name="replace"></param>
         /// <param name="prefix"></param>
         /// <param name="suffix"></param>
         /// <returns></returns>
-        public static string UpdatePathName(bool folderOrFile,
+        public static string UpdatePathName(bool IsFile,
                                             string selectedPath,
                                             string find,
                                             string replace,
@@ -204,23 +224,42 @@ namespace BIMiconToolbar.Helpers
         {
             string originalName = "";
 
-            if (folderOrFile)
+            // If path is a file
+            if (IsFile)
             {
                 string fileName = GetFirstFileFromFilePath(selectedPath);
                 originalName = fileName;
             }
+            // If path is a directory
             else
             {
-                string folderName = GetDirectoriesFromPath(selectedPath)[0];
+                string folderName = GetFirstFolderFromPath(selectedPath);
                 originalName = folderName;
             }
 
-            if (find != null && replace != null)
+            // Replace text in path
+            if (find != null && find != "" && replace != null)
             {
                 originalName = originalName.Replace(find, replace);
             }
 
-            string updatedName = selectedPath + "\\" + prefix + originalName + suffix;
+            string updatedName = "";
+
+            // Update file name
+            if (IsFile)
+            {
+                // Split file name into name and extension
+                string extension = GetFilePathExtension(originalName);
+                if (extension != "")
+                {             
+                    string nameWithoutExt = originalName.Replace(extension, "");
+                    updatedName = selectedPath + "\\" + prefix + nameWithoutExt + suffix + extension;
+                }
+            }
+            else
+            {
+                updatedName = selectedPath + "\\" + prefix + originalName + suffix;
+            }
 
             return updatedName;
         }

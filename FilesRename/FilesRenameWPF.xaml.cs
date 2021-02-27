@@ -55,12 +55,7 @@ namespace BIMiconToolbar.FilesRename
             // Populate comboBox
             FileTypes(selectedPath);
 
-            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
-                                                                          SelectedPath,
-                                                                          NameFind,
-                                                                          NameReplace,
-                                                                          NamePrefix,
-                                                                          NameSuffix);
+            NameDestinationPath = SelectedPath;
         }
 
         /// <summary>
@@ -97,19 +92,13 @@ namespace BIMiconToolbar.FilesRename
             this.comboDisplayFileType.IsEnabled = !this.comboDisplayFileType.IsEnabled;
 
             // Switch between display file or folder rename
-            if (filesRenameBool)
-            {
-                NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
-                                                                              SelectedPath,
-                                                                              NameFind,
-                                                                              NameReplace,
-                                                                              NamePrefix,
-                                                                              NameSuffix);
-            }
-            else
-            {
-                NameDestinationPath = SelectedPath;
-            }
+            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                                          SelectedPath,
+                                                                          NameFind,
+                                                                          NameReplace,
+                                                                          NamePrefix,
+                                                                          NameSuffix);
+         
         }
 
         /// <summary>
@@ -176,6 +165,61 @@ namespace BIMiconToolbar.FilesRename
                                                                           NameReplace,
                                                                           NamePrefix,
                                                                           NameSuffix);
+        }
+
+        /// <summary>
+        /// Function to update nameSuffix
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SuffixTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            NameSuffix = suffixTextBox.Text;
+            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                                          SelectedPath,
+                                                                          NameFind,
+                                                                          NameReplace,
+                                                                          NamePrefix,
+                                                                          NameSuffix);
+        }
+
+        /// <summary>
+        /// Function to change findText
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FindText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            NameFind = findTextBox.Text;
+            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                                          SelectedPath,
+                                                                          NameFind,
+                                                                          NameReplace,
+                                                                          NamePrefix,
+                                                                          NameSuffix);
+        }
+
+        /// <summary>
+        /// Function to change replaceText
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ReplaceText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            NameReplace = replaceTextBox.Text;
+            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                                          SelectedPath,
+                                                                          NameFind,
+                                                                          NameReplace,
+                                                                          NamePrefix,
+                                                                          NameSuffix);
+        }
+
+        public void GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            tb.Text = string.Empty;
+            tb.GotFocus -= GotFocus;
         }
     }
 }

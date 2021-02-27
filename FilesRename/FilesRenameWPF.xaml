@@ -59,7 +59,7 @@
                                     Style="{StaticResource comboDisplay}">
             </ComboBox>
 
-            <!-- Prefix and Suffix view-->
+            <!-- Prefix and Suffix to name-->
             <TextBlock Style="{StaticResource Title}">
                     Append text:
             </TextBlock>
@@ -72,13 +72,19 @@
 
                 <TextBox Grid.Column="0" 
                          x:Name="prefixTextBox" 
+                         GotFocus="GotFocus"
                          Style="{StaticResource TextBox}" 
                          Text="prefix"
                          TextChanged="PrefixTextBox_TextChanged"></TextBox>
                 <TextBlock FontWeight="Bold" Grid.Column="1" TextAlignment="Center">
                         Current Name
                 </TextBlock>
-                <TextBox Grid.Column="2" x:Name="suffixTextBox" Style="{StaticResource TextBox}" Text="suffix"/>
+                <TextBox Grid.Column="2"
+                         x:Name="suffixTextBox"
+                         GotFocus="GotFocus"
+                         Style="{StaticResource TextBox}"
+                         Text="suffix"
+                         TextChanged="SuffixTextBox_TextChanged"/>
             </Grid>
             
             <!-- Replace text -->
@@ -92,11 +98,21 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Column="0" x:Name="findText" Style="{StaticResource TextBox}" Text="find"/>
+                <TextBox Grid.Column="0" 
+                         x:Name="findTextBox" 
+                         GotFocus="GotFocus"
+                         Style="{StaticResource TextBox}" 
+                         Text="find"
+                         TextChanged="FindText_TextChanged"/>
                 <TextBlock FontWeight="Bold" Grid.Column="1" TextAlignment="Center">
                         Replace with:
                 </TextBlock>
-                <TextBox Grid.Column="2" x:Name="replaceText" Style="{StaticResource TextBox}" Text="replace"/>
+                <TextBox Grid.Column="2" 
+                         x:Name="replaceTextBox" 
+                         GotFocus="GotFocus"
+                         Style="{StaticResource TextBox}" 
+                         Text="replace"
+                         TextChanged="ReplaceText_TextChanged"/>
             </Grid>
 
             <!-- Destination Path -->
