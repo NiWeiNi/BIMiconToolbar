@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="FilesRenameWPF" Height="540" Width="400"
+        Title="FilesRenameWPF" Height="600" Width="400"
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
@@ -54,9 +54,10 @@
                     Select File Type:
             </TextBlock>
             <ComboBox x:Name="comboDisplayFileType"
-                                    ItemsSource="{Binding CbFileType}"
-                                    SelectedItem="{Binding SelectedComboItemFileType}"
-                                    Style="{StaticResource comboDisplay}">
+                      ItemsSource="{Binding CbFileType}"
+                      SelectedItem="{Binding SelectedComboItemFileType}"
+                      SelectionChanged="ComboDisplayFileType_SelectionChanged"
+                      Style="{StaticResource comboDisplay}">
             </ComboBox>
 
             <!-- Prefix and Suffix to name-->
@@ -123,6 +124,16 @@
                      IsReadOnly="True"
                      Style="{StaticResource TextBoxDisplay}"
                      Text="{Binding Path=NameDestinationPath}"/>
+            
+            <!-- Warning -->
+            <TextBlock Style="{StaticResource Title}">
+                    WARNING!
+            </TextBlock>
+            <TextBlock>
+                    Changes are definite and cannot be reversed.
+                <LineBreak/>
+                    Please check the Destination Path is correct before proceeding.
+            </TextBlock>
 
             <!-- Buttons End -->
             <Grid Style="{StaticResource MainButtons}">

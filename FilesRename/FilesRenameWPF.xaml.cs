@@ -93,12 +93,12 @@ namespace BIMiconToolbar.FilesRename
 
             // Switch between display file or folder rename
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                                            SelectedComboItemFileType,
                                                                           SelectedPath,
                                                                           NameFind,
                                                                           NameReplace,
                                                                           NamePrefix,
                                                                           NameSuffix);
-         
         }
 
         /// <summary>
@@ -160,6 +160,7 @@ namespace BIMiconToolbar.FilesRename
         {
             NamePrefix = prefixTextBox.Text;
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                                            SelectedComboItemFileType,
                                                                           SelectedPath,
                                                                           NameFind,
                                                                           NameReplace,
@@ -176,6 +177,7 @@ namespace BIMiconToolbar.FilesRename
         {
             NameSuffix = suffixTextBox.Text;
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                                            SelectedComboItemFileType,
                                                                           SelectedPath,
                                                                           NameFind,
                                                                           NameReplace,
@@ -192,6 +194,7 @@ namespace BIMiconToolbar.FilesRename
         {
             NameFind = findTextBox.Text;
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                                            SelectedComboItemFileType,
                                                                           SelectedPath,
                                                                           NameFind,
                                                                           NameReplace,
@@ -208,6 +211,7 @@ namespace BIMiconToolbar.FilesRename
         {
             NameReplace = replaceTextBox.Text;
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                                          SelectedComboItemFileType,
                                                                           SelectedPath,
                                                                           NameFind,
                                                                           NameReplace,
@@ -215,11 +219,32 @@ namespace BIMiconToolbar.FilesRename
                                                                           NameSuffix);
         }
 
+        /// <summary>
+        /// Function to remove placeholder text in textboxes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox tb = (TextBox)sender;
             tb.Text = string.Empty;
             tb.GotFocus -= GotFocus;
+        }
+
+        /// <summary>
+        /// Function to handle change in combobox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ComboDisplayFileType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                              SelectedComboItemFileType,
+                                                              SelectedPath,
+                                                              NameFind,
+                                                              NameReplace,
+                                                              NamePrefix,
+                                                              NameSuffix);
         }
     }
 }

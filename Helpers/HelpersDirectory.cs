@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Controls;
 
 namespace BIMiconToolbar.Helpers
 {
@@ -93,6 +94,29 @@ namespace BIMiconToolbar.Helpers
             }
 
             return new string[0];  
+        }
+
+        /// <summary>
+        /// Function to retrieve files that match a pattern
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="pattern"></param>
+        /// <returns></returns>
+        public static string[] GetFilesMatchPattern(string path, string pattern)
+        {
+            try
+            {
+                var files = Directory.GetFiles(path, pattern);
+                return files;
+            }
+
+            catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine(e.Message);
+                // TODO: log error
+            }
+
+            return new string[0];
         }
 
         /// <summary>
@@ -216,6 +240,7 @@ namespace BIMiconToolbar.Helpers
         /// <param name="suffix"></param>
         /// <returns></returns>
         public static string UpdatePathName(bool IsFile,
+                                            ComboBoxItem comboItem,
                                             string selectedPath,
                                             string find,
                                             string replace,
@@ -227,8 +252,21 @@ namespace BIMiconToolbar.Helpers
             // If path is a file
             if (IsFile)
             {
-                string fileName = GetFirstFileFromFilePath(selectedPath);
-                originalName = fileName;
+                if (comboItem != null)
+                {
+                    string stringMatch = comboItem.Content as string;
+
+                    string[] fileNames = GetFilesMatchPattern(selectedPath, "*" + stringMatch);
+                    if (Helpers.IsNullOrEmpty(fileNames) != true)
+                    {
+                        originalName = fileNames[0].Replace(selectedPath, "").Remove(0, 1);
+                    }
+                }
+                else
+                {
+                    string fileName = GetFirstFileFromFilePath(selectedPath);
+                    originalName = fileName;
+                }
             }
             // If path is a directory
             else
