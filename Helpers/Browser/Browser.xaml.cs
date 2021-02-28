@@ -51,8 +51,11 @@ namespace BIMiconToolbar.Helpers.Browser
         {
             BrowserItemViewModel selectedFolder = FolderView.SelectedItem as BrowserItemViewModel;
 
-            // Assign selected path to variable for use in main program
-            selectedPath = selectedFolder.FullPath;
+            if (selectedFolder != null)
+            {
+                // Assign selected path to variable for use in main program
+                selectedPath = selectedFolder.FullPath;
+            }
 
             this.Dispose();
         }

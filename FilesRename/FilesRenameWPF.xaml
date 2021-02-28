@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="FilesRenameWPF" Height="600" Width="400"
-        FocusManager.FocusedElement="{Binding ElementName=OK}"
+        FocusManager.FocusedElement="{Binding ElementName=cancel}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
@@ -142,8 +142,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="1" IsDefault="True" Margin="0 0 10 0"></Button>
-                <Button x:Name="cancel" Click="Cancel_Click" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
+                <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="1" Margin="0 0 10 0"></Button>
+                <Button x:Name="cancel" Click="Cancel_Click" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsDefault="True" IsCancel="True"></Button>
             </Grid>
         </StackPanel>
     </Border>
