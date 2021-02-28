@@ -15,6 +15,7 @@ namespace BIMiconToolbar.FilesRename
 
         // Variables to hold user input
         public bool filesRenameBool = true;
+        public bool Canceled = true;
         public string SelectedPath { get; set; }
 
         public ObservableCollection<ComboBoxItem> CbFileType{ get; set; }
@@ -93,7 +94,7 @@ namespace BIMiconToolbar.FilesRename
 
             // Switch between display file or folder rename
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
-                                                                            SelectedComboItemFileType,
+                                                                          SelectedComboItemFileType,
                                                                           SelectedPath,
                                                                           NameFind,
                                                                           NameReplace,
@@ -160,7 +161,7 @@ namespace BIMiconToolbar.FilesRename
         {
             NamePrefix = prefixTextBox.Text;
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
-                                                                            SelectedComboItemFileType,
+                                                                          SelectedComboItemFileType,
                                                                           SelectedPath,
                                                                           NameFind,
                                                                           NameReplace,
@@ -177,7 +178,7 @@ namespace BIMiconToolbar.FilesRename
         {
             NameSuffix = suffixTextBox.Text;
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
-                                                                            SelectedComboItemFileType,
+                                                                          SelectedComboItemFileType,
                                                                           SelectedPath,
                                                                           NameFind,
                                                                           NameReplace,
@@ -194,7 +195,7 @@ namespace BIMiconToolbar.FilesRename
         {
             NameFind = findTextBox.Text;
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
-                                                                            SelectedComboItemFileType,
+                                                                          SelectedComboItemFileType,
                                                                           SelectedPath,
                                                                           NameFind,
                                                                           NameReplace,

@@ -36,11 +36,15 @@ namespace BIMiconToolbar.FilesRename
 
                         customWindow.ShowDialog();
 
+                        if (customWindow.Canceled)
+                        {
+                            return Result.Cancelled;
+                        }
+
+                        return Result.Succeeded;
                     }
                 }
             }
-
-            return Result.Succeeded;
         }
     }
 }
