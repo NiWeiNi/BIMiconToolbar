@@ -32,17 +32,28 @@ namespace BIMiconToolbar.Helpers
         }
 
         /// <summary>
-        /// Function to rename directories
+        /// Function to move files
         /// </summary>
         /// <param name="source"></param>
         /// <param name="destination"></param>
-        public static void RenameDirectory(string[] source, string oldChar, string newChar)
+        public static void RenameFiles(string[] source, string[] destination)
         {
-            if (Helpers.IsNullOrEmpty(source) != true)
+            // Check source list is not empty
+            if (Helpers.IsNullOrEmpty(source) || Helpers.IsNullOrEmpty(destination))
             {
-                var destination = HelpersString.ReplaceString(source, oldChar, newChar);
-
-                HelpersDirectory.MoveDirectory(source, destination);
+                // TODO: Log error
+            }
+            else
+            {
+                // Check the numebr of files from origin match number in destination
+                if (source.Length == destination.Length)
+                {
+                    // Move all files in array
+                    for (int i = 0; i < source.Length; i++)
+                    {
+                        File.Move(source[i], destination[i]);
+                    }
+                }
             }
         }
 
@@ -174,7 +185,7 @@ namespace BIMiconToolbar.Helpers
 
             if (filePath != null && filePath != "")
             {
-                Regex filePattern = new Regex(@"\\[\w\d-]+\.\w{2,4}$");
+                Regex filePattern = new Regex(@"\\[^/\\:*?<>\|""]+\.\w{2,4}$");
                 Match fileMatch = filePattern.Match(filePath);
 
                 if (fileMatch.Success)
@@ -227,6 +238,68 @@ namespace BIMiconToolbar.Helpers
             }
 
             return fileName;
+        }
+
+        /// <summary>
+        /// Function to update file name
+        /// </summary>
+        /// <param name="selectedPath"></param>
+        /// <param name="prefix"></param>
+        /// <param name="suffix"></param>
+        /// <param name="originalName"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        public static string UpdateFileName(string filePath, string prefix, string suffix)
+        {
+            string updatedName = "";
+
+            if (filePath != null || filePath != "")
+            {
+                string originalName = GetFileFromFilePath(filePath);
+
+                if (originalName != "")
+                {
+                    string pathToFile = filePath.Replace(originalName, "");
+                    string extension = GetFilePathExtension(filePath);
+                    string nameWithoutExt = originalName.Replace(extension, "");
+                    updatedName = pathToFile + prefix + nameWithoutExt + suffix + extension;
+                }
+            }
+
+            return updatedName;
+        }
+
+        /// <summary>
+        /// Function to update folder name
+        /// </summary>
+        /// <param name="selectedPath"></param>
+        /// <param name="prefix"></param>
+        /// <param name="originalName"></param>
+        /// <param name="suffix"></param>
+        /// <returns></returns>
+        public static string UpdateDirectoryName(string selectedPath, string prefix, string originalName, string suffix )
+        {
+            string updatedName = selectedPath + "\\" + prefix + originalName + suffix;
+            return updatedName;
+        }
+
+
+        public static string[] UpdatedFileNames(string selectedPath, string prefix, string suffix, string originalName, string extension)
+        {
+            var originalFiles = GetFilesMatchPattern(selectedPath, "*" + extension);
+
+            var destinationFiles = new List<string>();
+
+            if (Helpers.IsNullOrEmpty(originalFiles) != true)
+            {
+                foreach (string oFile in originalFiles)
+                {
+                    var updatedName = UpdateFileName(oFile, prefix, suffix);
+                    destinationFiles.Add(updatedName);
+                }
+            }
+
+            return destinationFiles.ToArray();
         }
 
         /// <summary>
@@ -290,13 +363,12 @@ namespace BIMiconToolbar.Helpers
                 string extension = GetFilePathExtension(originalName);
                 if (extension != "")
                 {             
-                    string nameWithoutExt = originalName.Replace(extension, "");
-                    updatedName = selectedPath + "\\" + prefix + nameWithoutExt + suffix + extension;
+                    updatedName = UpdateFileName(selectedPath + "\\" + originalName, prefix, suffix);
                 }
             }
             else
             {
-                updatedName = selectedPath + "\\" + prefix + originalName + suffix;
+                updatedName = UpdateDirectoryName(selectedPath, prefix, originalName, suffix);
             }
 
             return updatedName;
