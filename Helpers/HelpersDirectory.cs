@@ -243,13 +243,13 @@ namespace BIMiconToolbar.Helpers
         /// <summary>
         /// Function to update file name
         /// </summary>
-        /// <param name="selectedPath"></param>
+        /// <param name="filePath"></param>
         /// <param name="prefix"></param>
         /// <param name="suffix"></param>
-        /// <param name="originalName"></param>
-        /// <param name="extension"></param>
+        /// <param name="find"></param>
+        /// <param name="replace"></param>
         /// <returns></returns>
-        public static string UpdateFileName(string filePath, string prefix, string suffix)
+        public static string UpdateFileName(string filePath, string prefix, string suffix, string find, string replace)
         {
             string updatedName = "";
 
@@ -262,6 +262,11 @@ namespace BIMiconToolbar.Helpers
                     string pathToFile = filePath.Replace(originalName, "");
                     string extension = GetFilePathExtension(filePath);
                     string nameWithoutExt = originalName.Replace(extension, "");
+                    // Replace text in path
+                    if (find != null && find != "" && replace != null)
+                    {
+                        nameWithoutExt = nameWithoutExt.Replace(find, replace);
+                    }
                     updatedName = pathToFile + prefix + nameWithoutExt + suffix + extension;
                 }
             }
@@ -284,7 +289,7 @@ namespace BIMiconToolbar.Helpers
         }
 
 
-        public static string[] UpdatedFileNames(string selectedPath, string prefix, string suffix, string originalName, string extension)
+        public static string[] UpdatedFileNames(string selectedPath, string prefix, string suffix, string originalName, string extension, string find, string replace)
         {
             var originalFiles = GetFilesMatchPattern(selectedPath, "*" + extension);
 
@@ -294,7 +299,7 @@ namespace BIMiconToolbar.Helpers
             {
                 foreach (string oFile in originalFiles)
                 {
-                    var updatedName = UpdateFileName(oFile, prefix, suffix);
+                    var updatedName = UpdateFileName(oFile, prefix, suffix, find, replace);
                     destinationFiles.Add(updatedName);
                 }
             }
@@ -348,12 +353,6 @@ namespace BIMiconToolbar.Helpers
                 originalName = folderName;
             }
 
-            // Replace text in path
-            if (find != null && find != "" && replace != null)
-            {
-                originalName = originalName.Replace(find, replace);
-            }
-
             string updatedName = "";
 
             // Update file name
@@ -363,7 +362,7 @@ namespace BIMiconToolbar.Helpers
                 string extension = GetFilePathExtension(originalName);
                 if (extension != "")
                 {             
-                    updatedName = UpdateFileName(selectedPath + "\\" + originalName, prefix, suffix);
+                    updatedName = UpdateFileName(selectedPath + "\\" + originalName, prefix, suffix, find, replace);
                 }
             }
             else

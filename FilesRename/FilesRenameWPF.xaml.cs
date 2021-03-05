@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -210,7 +211,34 @@ namespace BIMiconToolbar.FilesRename
         /// <param name="e"></param>
         private void ReplaceText_TextChanged(object sender, TextChangedEventArgs e)
         {
-            NameReplace = replaceTextBox.Text;
+            string textDisplay = "";
+
+            string stringCheck = replaceTextBox.Text;
+
+            var regex = new Regex(@"[/\\:*?<>\|""]");
+            bool match = regex.IsMatch(stringCheck);
+
+            if (match)
+            {
+                foreach (Match m in regex.Matches(stringCheck))
+                {
+                    string specialChars = m.Value;
+
+                    if (stringCheck != null && stringCheck != "" && specialChars != "")
+                    {
+                        textDisplay = stringCheck.Replace(specialChars, "");
+
+                        stringCheck = textDisplay;
+                    }
+                }
+            }
+            else
+            {
+                textDisplay = replaceTextBox.Text;
+            }
+
+            NameReplace = textDisplay;
+
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
                                                                           SelectedComboItemFileType,
                                                                           SelectedPath,
