@@ -160,14 +160,14 @@ namespace BIMiconToolbar.FilesRename
         /// <param name="e"></param>
         private void PrefixTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            NamePrefix = prefixTextBox.Text;
+            NamePrefix = TextChanged(sender, e);
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
-                                                                          SelectedComboItemFileType,
-                                                                          SelectedPath,
-                                                                          NameFind,
-                                                                          NameReplace,
-                                                                          NamePrefix,
-                                                                          NameSuffix);
+                                                              SelectedComboItemFileType,
+                                                              SelectedPath,
+                                                              NameFind,
+                                                              NameReplace,
+                                                              NamePrefix,
+                                                              NameSuffix);
         }
 
         /// <summary>
@@ -177,14 +177,14 @@ namespace BIMiconToolbar.FilesRename
         /// <param name="e"></param>
         private void SuffixTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            NameSuffix = suffixTextBox.Text;
+            NameSuffix = TextChanged(sender, e);
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
-                                                                          SelectedComboItemFileType,
-                                                                          SelectedPath,
-                                                                          NameFind,
-                                                                          NameReplace,
-                                                                          NamePrefix,
-                                                                          NameSuffix);
+                                                              SelectedComboItemFileType,
+                                                              SelectedPath,
+                                                              NameFind,
+                                                              NameReplace,
+                                                              NamePrefix,
+                                                              NameSuffix);
         }
 
         /// <summary>
@@ -194,14 +194,14 @@ namespace BIMiconToolbar.FilesRename
         /// <param name="e"></param>
         private void FindText_TextChanged(object sender, TextChangedEventArgs e)
         {
-            NameFind = findTextBox.Text;
+            NameFind = TextChanged(sender, e);
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
-                                                                          SelectedComboItemFileType,
-                                                                          SelectedPath,
-                                                                          NameFind,
-                                                                          NameReplace,
-                                                                          NamePrefix,
-                                                                          NameSuffix);
+                                                              SelectedComboItemFileType,
+                                                              SelectedPath,
+                                                              NameFind,
+                                                              NameReplace,
+                                                              NamePrefix,
+                                                              NameSuffix);
         }
 
         /// <summary>
@@ -211,13 +211,33 @@ namespace BIMiconToolbar.FilesRename
         /// <param name="e"></param>
         private void ReplaceText_TextChanged(object sender, TextChangedEventArgs e)
         {
+            NameReplace = TextChanged(sender, e);
+            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                              SelectedComboItemFileType,
+                                                              SelectedPath,
+                                                              NameFind,
+                                                              NameReplace,
+                                                              NamePrefix,
+                                                              NameSuffix);
+        }
+
+        /// <summary>
+        /// Function to update TextBoxes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private string TextChanged(object sender, TextChangedEventArgs e)
+        {
             string textDisplay = "";
 
-            string stringCheck = replaceTextBox.Text;
+            // Store the content of the textbox
+            string stringCheck = (sender as TextBox).Text;
 
+            // Check for forbidden characters
             var regex = new Regex(@"[/\\:*?<>\|""]");
             bool match = regex.IsMatch(stringCheck);
 
+            // If there is a match, check all possible matches and clean the string from forbidden characters
             if (match)
             {
                 foreach (Match m in regex.Matches(stringCheck))
@@ -234,18 +254,10 @@ namespace BIMiconToolbar.FilesRename
             }
             else
             {
-                textDisplay = replaceTextBox.Text;
+                textDisplay = (sender as TextBox).Text;
             }
 
-            NameReplace = textDisplay;
-
-            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
-                                                                          SelectedComboItemFileType,
-                                                                          SelectedPath,
-                                                                          NameFind,
-                                                                          NameReplace,
-                                                                          NamePrefix,
-                                                                          NameSuffix);
+            return textDisplay;
         }
 
         /// <summary>
