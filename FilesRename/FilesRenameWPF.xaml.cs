@@ -228,36 +228,10 @@ namespace BIMiconToolbar.FilesRename
         /// <param name="e"></param>
         private string TextChanged(object sender, TextChangedEventArgs e)
         {
-            string textDisplay = "";
-
             // Store the content of the textbox
             string stringCheck = (sender as TextBox).Text;
 
-            // Check for forbidden characters
-            var regex = new Regex(@"[/\\:*?<>\|""]");
-            bool match = regex.IsMatch(stringCheck);
-
-            // If there is a match, check all possible matches and clean the string from forbidden characters
-            if (match)
-            {
-                foreach (Match m in regex.Matches(stringCheck))
-                {
-                    string specialChars = m.Value;
-
-                    if (stringCheck != null && stringCheck != "" && specialChars != "")
-                    {
-                        textDisplay = stringCheck.Replace(specialChars, "");
-
-                        stringCheck = textDisplay;
-                    }
-                }
-            }
-            else
-            {
-                textDisplay = (sender as TextBox).Text;
-            }
-
-            return textDisplay;
+            return Helpers.HelpersString.RemoveForbiddenChars(stringCheck);
         }
 
         /// <summary>

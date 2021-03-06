@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace BIMiconToolbar.Helpers
 {
@@ -31,6 +32,37 @@ namespace BIMiconToolbar.Helpers
             }
 
             return newStrings.ToArray();
+        }
+
+        public static string RemoveForbiddenChars(string stringCheck)
+        {
+            string textDisplay = "";
+
+            // Check for forbidden characters
+            var regex = new Regex(@"[/\\:*?<>\|""]");
+            bool match = regex.IsMatch(stringCheck);
+
+            // If there is a match, check all possible matches and clean the string from forbidden characters
+            if (match)
+            {
+                foreach (Match m in regex.Matches(stringCheck))
+                {
+                    string specialChars = m.Value;
+
+                    if (stringCheck != null && stringCheck != "" && specialChars != "")
+                    {
+                        textDisplay = stringCheck.Replace(specialChars, "");
+
+                        stringCheck = textDisplay;
+                    }
+                }
+            }
+            else
+            {
+                textDisplay = stringCheck;
+            }
+
+            return textDisplay;
         }
 
     }

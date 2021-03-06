@@ -282,10 +282,47 @@ namespace BIMiconToolbar.Helpers
         /// <param name="originalName"></param>
         /// <param name="suffix"></param>
         /// <returns></returns>
-        public static string UpdateDirectoryName(string selectedPath, string prefix, string originalName, string suffix )
+        public static string UpdateDirectoryName(string directoryPath, string prefix, string suffix, string find, string replace)
         {
-            string updatedName = selectedPath + "\\" + prefix + originalName + suffix;
+            string updatedName = "";
+
+            if (directoryPath != null || directoryPath != "")
+            {
+                string directoryName = GetDirectoryNameFromPath(directoryPath);
+
+                if (directoryName != "")
+                {
+                    string pathToFolder = directoryPath.Replace(directoryName, "");
+                    // Replace text in path
+                    if (find != null && find != "" && replace != null)
+                    {
+                        directoryName = directoryName.Replace(find, replace);
+                    }
+                    updatedName = pathToFolder + prefix + directoryName + suffix;
+                }
+            }
+
             return updatedName;
+        }
+
+        /// <summary>
+        /// Function to retrieve folder name from path
+        /// </summary>
+        /// <param name="selectedPath"></param>
+        /// <returns></returns>
+        public static string GetDirectoryNameFromPath(string selectedPath)
+        {
+            string directoryName = "";
+
+            Regex regex = new Regex(@"\\{1}[^/\\:*?<>\|""]+$");
+            var match = regex.Match(selectedPath);
+
+            if (match.Success)
+            {
+                directoryName = match.Value.Remove(0, 1);
+            }
+
+            return directoryName;
         }
 
 
@@ -367,7 +404,7 @@ namespace BIMiconToolbar.Helpers
             }
             else
             {
-                updatedName = UpdateDirectoryName(selectedPath, prefix, originalName, suffix);
+                updatedName = UpdateDirectoryName(selectedPath, prefix, suffix, find, replace);
             }
 
             return updatedName;
