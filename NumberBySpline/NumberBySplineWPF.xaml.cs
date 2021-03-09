@@ -16,9 +16,12 @@ namespace BIMiconToolbar.NumberBySpline
         public UIDocument uidoc { get; set; }
         public ElementId CurveId { get; set; }
         public bool NumericNumber = true;
-        public string StartNumber;
+        public string StartNumber { get; set; }
+        public string ParameterName { get; set; }
         public ObservableCollection<ComboBoxItem> CbCategories { get; set; }
         public ComboBoxItem SelectedComboItemCategories { get; set; }
+        public ObservableCollection<ComboBoxItem> CbLevels { get; set; }
+        public ComboBoxItem SelectedComboItemLevels { get; set; }
 
         /// <summary>
         /// Function to initialize window
@@ -33,6 +36,7 @@ namespace BIMiconToolbar.NumberBySpline
             DataContext = this;
 
             PopulateCategories(doc);
+            PopulateLevels(doc);
         }
 
         /// <summary>
@@ -43,6 +47,7 @@ namespace BIMiconToolbar.NumberBySpline
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             StartNumber = this.StartNumberTextBox.Text;
+            ParameterName = this.ParameterTextBox.Text;
 
             this.Dispose();
         }
@@ -127,6 +132,40 @@ namespace BIMiconToolbar.NumberBySpline
         }
 
         /// <summary>
+        /// Function to populate combobox with categories
+        /// </summary>
+        /// <param name="doc"></param>
+        private void PopulateLevels(Document doc)
+        {
+            CbLevels = new ObservableCollection<ComboBoxItem>();
+
+            // Retrieve levels
+            var levels = new FilteredElementCollector(doc)
+                        .OfCategory(BuiltInCategory.OST_Levels)
+                        .WhereElementIsNotElementType()
+                        .ToElements();
+           
+            IOrderedEnumerable<Level> orderedLevels = levels.Cast<Level>().OrderBy(lvl => lvl.Name);
+
+            int count = 0;
+
+            foreach (Level lvl in orderedLevels)
+            {
+                ComboBoxItem comb = new ComboBoxItem();
+                comb.Content = lvl.Name;
+                comb.Tag = lvl;
+                CbLevels.Add(comb);
+
+                if (count == 0)
+                {
+                    SelectedComboItemLevels = comb;
+                }
+
+                count++;
+            }
+        }
+
+        /// <summary>
         /// Function to update combobox
         /// </summary>
         /// <param name="sender"></param>
@@ -135,6 +174,29 @@ namespace BIMiconToolbar.NumberBySpline
         {
             int selectedItemIndex = CbCategories.IndexOf(SelectedComboItemCategories);
             SelectedComboItemCategories = CbCategories[selectedItemIndex];
+        }
+
+        /// <summary>
+        /// Function to update levels combobox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ComboDisplayLevels_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int selectedItemIndex = CbLevels.IndexOf(SelectedComboItemLevels);
+            SelectedComboItemLevels = CbLevels[selectedItemIndex];
+        }
+
+        /// <summary>
+        /// Function to remove placeholder text in textboxes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private new void GotFocus(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.TextBox tb = (System.Windows.Controls.TextBox)sender;
+            tb.Text = string.Empty;
+            tb.GotFocus -= GotFocus;
         }
     }
 }

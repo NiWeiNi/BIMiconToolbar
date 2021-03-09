@@ -7,7 +7,7 @@
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
-        Title="Number Elements by Spline" Height="370" Width="420"
+        Title="Number Elements by Spline" Height="505" Width="420"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -43,12 +43,12 @@
                                  ToggleButton.Checked="Numeric_Unchecked"  
                                  ToggleButton.Unchecked="Numeric_Unchecked"
                                  IsChecked="True">
-                        Numeric: 1, 2, 3, ..., 11, 12, ...
+                        Numeric: 1, 2, 3, ... 11, 12
                     </RadioButton>
                     <RadioButton Grid.Column="1" 
                                  GroupName="numberOptions"
                                  x:Name="alphabetic">
-                        Alphabetic: A, B, C, ..., AA, AB, ...
+                        Alphabetic: A, B, C, ... AA, AB
                     </RadioButton>
                 </Grid>
             </Border>
@@ -57,11 +57,11 @@
             <TextBlock Style="{StaticResource Title}">
                 Input start number or letter:
             </TextBlock>
-            <TextBox x:Name="StartNumberTextBox" Style="{StaticResource TextBox}" Text="1"/>
+            <TextBox x:Name="StartNumberTextBox" GotFocus="GotFocus" Style="{StaticResource TextBox}" Text="1"/>
 
-            <!-- Select view type -->
+            <!-- Select category -->
             <TextBlock Style="{StaticResource Title}">
-                Please select category to number:
+                Select category of elements to number:
             </TextBlock>
             <ComboBox x:Name="comboDisplayCategories"
                       ItemsSource="{Binding CbCategories}"
@@ -69,6 +69,23 @@
                       Style="{StaticResource comboDisplay}"
                       SelectionChanged="ComboDisplayCategories_SelectionChanged">
             </ComboBox>
+
+            <!-- Select Level -->
+            <TextBlock Style="{StaticResource Title}">
+                Select Level:
+            </TextBlock>
+            <ComboBox x:Name="comboDisplayLevels"
+                      ItemsSource="{Binding CbLevels}"
+                      SelectedItem="{Binding SelectedComboItemLevels}"
+                      Style="{StaticResource comboDisplay}"
+                      SelectionChanged="ComboDisplayLevels_SelectionChanged">
+            </ComboBox>
+
+            <!-- Input for parameter name -->
+            <TextBlock Style="{StaticResource Title}">
+                Input parameter name to fill (case sensitive):
+            </TextBlock>
+            <TextBox x:Name="ParameterTextBox" GotFocus="GotFocus" Style="{StaticResource TextBox}" Text="Parameter Name"/>
 
             <!-- Buttons End -->
             <Grid Style="{StaticResource MainButtons}">
