@@ -140,6 +140,33 @@ namespace BIMiconToolbar.FilesRename
         /// <param name="e"></param>
         private void OK_Click(object sender, RoutedEventArgs e)
         {
+            string[] oldNames;
+
+            // Retrieve all files names inside path
+            if (filesRenameBool)
+            {
+                oldNames = Helpers.HelpersDirectory.GetFilesMatchPattern(SelectedPath, "*" + (string)SelectedComboItemFileType.Content);
+            }
+            // Retrieve all folder names inside path
+            else
+            {
+                oldNames = Helpers.HelpersDirectory.GetDirectoriesFromPath(SelectedPath);
+            }
+            
+            // Create new names for folders or files
+            string[] newNames = Helpers.HelpersDirectory.CreateNewNames(oldNames, NamePrefix, NameSuffix, NameFind, NameReplace, filesRenameBool);
+
+            // Rename files
+            if (filesRenameBool)
+            {
+                Helpers.HelpersDirectory.RenameFiles(oldNames, newNames);
+            }
+            // Move folders and rename
+            else
+            {
+                Helpers.HelpersDirectory.MoveDirectories(oldNames, newNames);
+            }
+
             this.Dispose();
         }
 

@@ -14,7 +14,7 @@ namespace BIMiconToolbar.Helpers
         /// </summary>
         /// <param name="source"></param>
         /// <param name="destination"></param>
-        public static void MoveDirectory(string[] source, string[] destination)
+        public static void MoveDirectories(string[] source, string[] destination)
         {
             // Check source list is not empty
             if (Helpers.IsNullOrEmpty(source) || Helpers.IsNullOrEmpty(destination))
@@ -128,6 +128,51 @@ namespace BIMiconToolbar.Helpers
             }
 
             return new string[0];
+        }
+
+        /// <summary>
+        /// Function to update file names
+        /// </summary>
+        /// <param name="oldnames"></param>
+        /// <param name="prefix"></param>
+        /// <param name="suffix"></param>
+        /// <param name="find"></param>
+        /// <param name="replace"></param>
+        /// <returns></returns>
+        public static string[] CreateNewNames(string[] oldnames,
+                                              string prefix,
+                                              string suffix,
+                                              string find,
+                                              string replace,
+                                              bool folder)
+        {
+            var newNames = new List<string>();
+
+            // Strip replace string of forbidden characters
+            string goodReplace = HelpersString.RemoveForbiddenChars(replace);
+
+            // Create new folder names
+            if (folder)
+            {
+                foreach(string oName in oldnames)
+                {
+                    string fileName = UpdateFileName(oName, prefix, suffix, find, goodReplace);
+
+                    newNames.Add(fileName);
+                }
+            }
+            // Create new file names
+            else
+            {
+                foreach (string oName in oldnames)
+                {
+                    string fileName = UpdateDirectoryName(oName, prefix, suffix, find, goodReplace);
+
+                    newNames.Add(fileName);
+                }
+            }
+
+            return newNames.ToArray();
         }
 
         /// <summary>
