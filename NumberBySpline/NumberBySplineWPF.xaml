@@ -1,0 +1,79 @@
+﻿<Window x:Class="BIMiconToolbar.NumberBySpline.NumberBySplineWPF"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        FocusManager.FocusedElement="{Binding ElementName=OK}"
+        Icon="../Resources/Logos/iconBIMiconBlack.ico"
+        ResizeMode="NoResize"
+        Title="Number Elements by Spline" Height="370" Width="420"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\Helpers\ResourceDictionaries\DictionaryWindows.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Border Style="{StaticResource SingleContainer}">
+        <StackPanel>
+
+            <!-- Select curve -->
+            <TextBlock Style="{StaticResource FirstTitle}">
+                            Select spline:
+            </TextBlock>
+            <Button x:Name="selectSpline" Click="SelectSpline_Click"  Content="Select Spline"></Button>
+
+            <!-- Select number options -->
+            <TextBlock Style="{StaticResource Title}">
+                            Select number option:
+            </TextBlock>
+            <Border Style="{StaticResource radioButtonBorder}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <RadioButton Grid.Column="0" GroupName="numberOptions" x:Name="numeric"
+                                 ToggleButton.Checked="Numeric_Checked"  ToggleButton.Unchecked="Numeric_Checked">
+                        Numeric: 1, 2, 3, ..., 11, 12, ...
+                    </RadioButton>
+                    <RadioButton Grid.Column="1" GroupName="numberOptions" x:Name="alphabetic" 
+                                 IsChecked="True">
+                        Alphabetic: A, B, C, ..., AA, AB, ...
+                    </RadioButton>
+                </Grid>
+            </Border>
+
+            <!-- Input for start number -->
+            <TextBlock Style="{StaticResource Title}">
+                Input start number or letter:
+            </TextBlock>
+            <TextBox x:Name="StartNumberTextBox" Style="{StaticResource TextBox}" Text="Default is 1"/>
+
+            <!-- Select view type -->
+            <TextBlock Style="{StaticResource Title}">
+                Please select category to number:
+            </TextBlock>
+            <ComboBox x:Name="comboDisplayCategories"
+                      ItemsSource="{Binding CbCategories}"
+                      SelectedItem="{Binding SelectedComboItemCategories}"
+                      Style="{StaticResource comboDisplay}">
+            </ComboBox>
+
+            <!-- Buttons End -->
+            <Grid Style="{StaticResource MainButtons}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="1" IsDefault="True" Margin="0 0 10 0"></Button>
+                <Button x:Name="cancel" Click="Cancel_Click" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
+            </Grid>
+        </StackPanel>
+    </Border>
+</Window>
