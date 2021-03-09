@@ -37,12 +37,17 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <RadioButton Grid.Column="0" GroupName="numberOptions" x:Name="numeric"
-                                 ToggleButton.Checked="Numeric_Checked"  ToggleButton.Unchecked="Numeric_Checked">
+                    <RadioButton Grid.Column="0" 
+                                 GroupName="numberOptions" 
+                                 x:Name="numeric"
+                                 ToggleButton.Checked="Numeric_Unchecked"  
+                                 ToggleButton.Unchecked="Numeric_Unchecked"
+                                 IsChecked="True">
                         Numeric: 1, 2, 3, ..., 11, 12, ...
                     </RadioButton>
-                    <RadioButton Grid.Column="1" GroupName="numberOptions" x:Name="alphabetic" 
-                                 IsChecked="True">
+                    <RadioButton Grid.Column="1" 
+                                 GroupName="numberOptions"
+                                 x:Name="alphabetic">
                         Alphabetic: A, B, C, ..., AA, AB, ...
                     </RadioButton>
                 </Grid>
@@ -52,7 +57,7 @@
             <TextBlock Style="{StaticResource Title}">
                 Input start number or letter:
             </TextBlock>
-            <TextBox x:Name="StartNumberTextBox" Style="{StaticResource TextBox}" Text="Default is 1"/>
+            <TextBox x:Name="StartNumberTextBox" Style="{StaticResource TextBox}" Text="1"/>
 
             <!-- Select view type -->
             <TextBlock Style="{StaticResource Title}">
@@ -61,7 +66,8 @@
             <ComboBox x:Name="comboDisplayCategories"
                       ItemsSource="{Binding CbCategories}"
                       SelectedItem="{Binding SelectedComboItemCategories}"
-                      Style="{StaticResource comboDisplay}">
+                      Style="{StaticResource comboDisplay}"
+                      SelectionChanged="ComboDisplayCategories_SelectionChanged">
             </ComboBox>
 
             <!-- Buttons End -->

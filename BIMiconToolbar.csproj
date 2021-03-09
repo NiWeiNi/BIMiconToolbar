@@ -126,6 +126,7 @@
     <Compile Include="Helpers\Browser\ViewModels\BrowserStructureViewModel.cs" />
     <Compile Include="Helpers\Helpers.cs" />
     <Compile Include="Helpers\HelpersDirectory.cs" />
+    <Compile Include="Helpers\HelpersGeometry.cs" />
     <Compile Include="Helpers\HelpersSelection.cs" />
     <Compile Include="Helpers\HelpersString.cs" />
     <Compile Include="Helpers\HelpersView.cs" />
@@ -139,6 +140,9 @@
       <DependentUpon>MatchGridsWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="NumberBySpline\NumberBySpline.cs" />
+    <Compile Include="NumberBySpline\NumberBySplineWPF.xaml.cs">
+      <DependentUpon>NumberBySplineWPF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NumberDoors\NumberDoorsWPF.xaml.cs">
       <DependentUpon>NumberDoorsWPF.xaml</DependentUpon>
     </Compile>
@@ -239,6 +243,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MatchGrids\MatchGridsWPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NumberBySpline\NumberBySplineWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

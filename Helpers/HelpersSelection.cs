@@ -11,7 +11,7 @@ namespace BIMiconToolbar.Helpers
 		/// </summary>
 		/// <param name="uidoc"></param>
 		/// <returns></returns>
-		public Curve PickLine(UIDocument uidoc)
+		public static ElementId PickLine(UIDocument uidoc)
 		{
 			Document doc = uidoc.Document;
 
@@ -24,11 +24,11 @@ namespace BIMiconToolbar.Helpers
 				ElementId curveId = uidoc.Selection.PickObject(ObjectType.Element, selFilter).ElementId;
 
 				// Retrieve model curve
-				CurveElement eCurve = doc.GetElement(curveId) as CurveElement;
-				Curve curve = eCurve.GeometryCurve as Curve;
+				//CurveElement eCurve = doc.GetElement(curveId) as CurveElement;
+				//Curve curve = eCurve.GeometryCurve as Curve;
 
 				// TaskDialog.Show("Curve Picked", curve.Name);
-				return curve;
+				return curveId;
 			}
 			catch (Autodesk.Revit.Exceptions.OperationCanceledException e)
 			{
@@ -44,7 +44,7 @@ namespace BIMiconToolbar.Helpers
 		{
 			public bool AllowElement(Element element)
 			{
-				if (element.Category.Name == "Lines")
+				if (element.Category != null && element.Category.Name == "Lines")
 				{
 					return true;
 				}
