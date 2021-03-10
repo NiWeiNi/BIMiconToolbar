@@ -1,6 +1,8 @@
 ﻿
 
 # BIMicon Toolbar
+
+![A collection of productivity tools for Revit](https://github.com/NiWeiNi/BIMiconToolbar/blob/master/BIMiconToolbar.JPG)
 A collection of productivity tools for Revit
 
 ## Table of Contents
@@ -16,11 +18,27 @@ A collection of productivity tools for Revit
 
 - Step 1:
 	- Clone or download the repository and build it in Visual Studio
-	- Download the dll and addin files from: 
 
 - Step 2:
 	- Place the dll and addin file in: 
-		`%appdata%\Autodesk\Revit\Addins\<version>`
+		User (only current user):			`%appdata%\Autodesk\Revit\Addins\<Revit version>`
+		Machine (all users in machine):		`%ProgramData%\Autodesk\Revit\Addins\<Revit version>`
+
+## Features
+
+WIP
+
+## Contributing
+
+Pull request are welcomed, although a style guide is still under WIP.
+
+## FAQ
+
+WIP
+
+## Support
+
+WIP
 
 ## License
 
