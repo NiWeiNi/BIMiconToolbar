@@ -21,8 +21,8 @@ A collection of productivity tools for Revit
 
 - Step 2:
 	- Place the dll and addin file in: 
-		User (only current user):			`%appdata%\Autodesk\Revit\Addins\<Revit version>`
-		Machine (all users in machine):		`%ProgramData%\Autodesk\Revit\Addins\<Revit version>`
+		- User (only current user):				`%appdata%\Autodesk\Revit\Addins\<Revit version>`
+		- Machine (all users in machine):		`%ProgramData%\Autodesk\Revit\Addins\<Revit version>`
 
 ## Features
 
@@ -30,7 +30,8 @@ WIP
 
 ## Contributing
 
-Pull request are welcomed, although a style guide is still under WIP.
+- Pull requests are welcomed. 
+- Style guide is still under WIP.
 
 ## FAQ
 
