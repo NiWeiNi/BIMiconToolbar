@@ -205,6 +205,7 @@
     <Resource Include="FilesRename\Images\iconFilesRenameSmall.png" />
     <Resource Include="NumberBySpline\Images\iconNumberBySpline.png" />
     <Resource Include="NumberBySpline\Images\iconNumberBySplineSmall.png" />
+    <None Include="BIMiconToolbar.JPG" />
     <Content Include="WarningsReport\RevitWarningsClassified.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
