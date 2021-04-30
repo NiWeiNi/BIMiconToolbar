@@ -13,7 +13,7 @@ namespace BIMiconToolbar.Helpers
         /// <param name="doc"></param>
         /// <param name="category"></param>
         /// <returns></returns>
-        public static string[] ProjectParameters(Document doc, string category)
+        public static string[] ProjectParameters(Document doc, string categoryName)
         {
             List<string> parametersID = new List<string>();
             List<Parameter> parameters = new List<Parameter>();
@@ -27,7 +27,7 @@ namespace BIMiconToolbar.Helpers
                 ElementBinding eleBinding = it.Current as ElementBinding;
                 InstanceBinding insBinding = eleBinding as InstanceBinding;
 
-                if (insBinding != null && IsInstBindingOfCategory(insBinding, category))
+                if (insBinding != null && IsInstBindingOfCategory(insBinding, categoryName))
                 {
                     Definition def = it.Key;
                     if (def != null)
@@ -86,7 +86,7 @@ namespace BIMiconToolbar.Helpers
         /// <param name="insBinding"></param>
         /// <param name="category"></param>
         /// <returns></returns>
-        public static bool IsInstBindingOfCategory(InstanceBinding insBinding, string category)
+        public static bool IsInstBindingOfCategory(InstanceBinding insBinding, string categoryName)
         {
             CategorySet catSet = insBinding.Categories;
             CategorySetIterator catSetIt = catSet.ForwardIterator();
@@ -100,7 +100,7 @@ namespace BIMiconToolbar.Helpers
                 cat = category1.Name;
             }
 
-            if (cat != "" && cat == category)
+            if (cat != "" && cat == categoryName)
                 return true;
             else
                 return false;

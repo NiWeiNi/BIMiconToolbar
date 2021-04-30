@@ -23,6 +23,7 @@ namespace BIMiconToolbar.NumberWindows
 
                 // Retrieve user input
                 Phase phase = customWindow.SelectedComboItemPhase.Tag as Phase;
+                Parameter parameter = null;
                 bool numeric = customWindow.optNumeric;
                 string separator = customWindow.Separator;
 
@@ -34,7 +35,7 @@ namespace BIMiconToolbar.NumberWindows
                 }
                 else
                 {
-                    Helpers.Helpers.numberFamilyInstance(doc, phase, numeric, separator, builtInCategory, ref countInstances);
+                    Helpers.Helpers.numberFamilyInstance(doc, phase, numeric, separator, builtInCategory, ref countInstances, parameter);
                 }
 
                 // Display result to user if any window was numbered

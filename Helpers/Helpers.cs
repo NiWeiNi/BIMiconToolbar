@@ -48,7 +48,8 @@ namespace BIMiconToolbar.Helpers
                                                 Boolean numeric,
                                                 string separator,
                                                 BuiltInCategory builtInCategory,
-                                                ref int countInstances)
+                                                ref int countInstances,
+                                                Parameter parameter)
         {
             // Create dictionary to store window-room values
             Dictionary<FamilyInstance, string> instanceNumbers = new Dictionary<FamilyInstance, string>();
@@ -114,14 +115,14 @@ namespace BIMiconToolbar.Helpers
                 // Empty Mark parameter to avoid duplicated values
                 foreach (KeyValuePair<FamilyInstance, string> entry in instanceNumbers)
                 {
-                    Parameter instanceMark = entry.Key.get_Parameter(BuiltInParameter.ALL_MODEL_MARK);
+                    Parameter instanceMark = entry.Key.LookupParameter(parameter.Definition.Name);
                     instanceMark.Set("");
                 }
 
                 // Populate Mark parameter
                 foreach (KeyValuePair<FamilyInstance, string> entry in instanceNumbers)
                 {
-                    Parameter instanceMark = entry.Key.get_Parameter(BuiltInParameter.ALL_MODEL_MARK);
+                    Parameter instanceMark = entry.Key.LookupParameter(parameter.Definition.Name);
                     if (entry.Value != "")
                     {
                         instanceMark.Set(entry.Value);

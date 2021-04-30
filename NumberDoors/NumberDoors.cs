@@ -23,6 +23,7 @@ namespace BIMiconToolbar.NumberDoors
 
                 // Retrieve user input
                 Phase phase = customWindow.SelectedComboItemPhase.Tag as Phase;
+                Parameter parameter = customWindow.SelectedComboItemParameters.Tag as Parameter;
                 bool numeric = customWindow.optNumeric;
                 string separator = customWindow.Separator;
 
@@ -34,7 +35,7 @@ namespace BIMiconToolbar.NumberDoors
                 }
                 else
                 {
-                    Helpers.Helpers.numberFamilyInstance(doc, phase, numeric, separator, builtInCategory, ref countInstances);
+                    Helpers.Helpers.numberFamilyInstance(doc, phase, numeric, separator, builtInCategory, ref countInstances, parameter);
                 }
 
                 // Display result to user if any door was numbered
