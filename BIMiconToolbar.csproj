@@ -130,6 +130,7 @@
     <Compile Include="Helpers\HelpersSelection.cs" />
     <Compile Include="Helpers\HelpersString.cs" />
     <Compile Include="Helpers\HelpersView.cs" />
+    <Compile Include="Helpers\Parameters.cs" />
     <Compile Include="InteriorElevations\InteriorElevations.cs" />
     <Compile Include="InteriorElevations\InteriorElevationsWindow.xaml.cs">
       <DependentUpon>InteriorElevationsWindow.xaml</DependentUpon>

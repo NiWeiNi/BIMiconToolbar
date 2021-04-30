@@ -14,7 +14,9 @@ namespace BIMiconToolbar.NumberDoors
     public partial class NumberDoorsWPF : Window, IDisposable
     {
         public ObservableCollection<ComboBoxItem> CbPhases { get; set; }
+        public ObservableCollection<ComboBoxItem> CbParameters { get; set; }
         public ComboBoxItem SelectedComboItemPhase { get; set; }
+        public ComboBoxItem SelectedComboItemParameters { get; set; }
         public string Separator { get; set; }
 
         public bool optNumeric = false;
@@ -28,6 +30,7 @@ namespace BIMiconToolbar.NumberDoors
 
             // Fill properties
             PopulatePhases(doc);
+            PopulateParameters(doc);
 
             // Associate the event-handling method with the SelectedIndexChanged event
             comboDisplayPhases.SelectionChanged += new SelectionChangedEventHandler(ComboChangedPhase);
@@ -40,7 +43,41 @@ namespace BIMiconToolbar.NumberDoors
         {
             Close();
         }
-        
+
+        /// <summary>
+        /// Method to retrieve parameters in the document and populate the combo box
+        /// </summary>
+        /// <param name="doc"></param>
+        private void PopulateParameters(Document doc)
+        {
+            Parameter[] parameters = Helpers.Parameters.GetParametersOfCategoryByStorageType(doc, BuiltInCategory.OST_Doors);
+
+            CbParameters = new ObservableCollection<ComboBoxItem>();
+
+            IOrderedEnumerable<Parameter> orderParams = parameters.OrderBy(ph => ph.Definition.Name);
+
+            int count = 0;
+
+            foreach (var param in orderParams)
+            {
+                ComboBoxItem comb = new ComboBoxItem();
+                comb.Content = param.Definition.Name;
+                comb.Tag = param;
+                CbParameters.Add(comb);
+
+                if (count == 0)
+                {
+                    SelectedComboItemParameters = comb;
+                }
+
+                count++;
+            }
+        }
+
+        /// <summary>
+        /// Mehtod to retrieve phases from the project and add them to combo boxes
+        /// </summary>
+        /// <param name="doc"></param>
         private void PopulatePhases(Document doc)
         {
             CbPhases = new ObservableCollection<ComboBoxItem>();
