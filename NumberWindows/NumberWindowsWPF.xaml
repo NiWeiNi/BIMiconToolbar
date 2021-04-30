@@ -7,7 +7,7 @@
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
-        Title="Number Windows" Height="270" Width="420"
+        Title="Number Windows" Height="350" Width="420"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -53,12 +53,22 @@
             </Grid>
 
             <!-- Select view type -->
-            <TextBlock Style="{StaticResource FirstTitle}">
+            <TextBlock Style="{StaticResource Title}">
                 Please select phase:
             </TextBlock>
             <ComboBox x:Name="comboDisplayPhases"
                       ItemsSource="{Binding CbPhases}"
                       SelectedItem="{Binding SelectedComboItemPhase}"
+                      Style="{StaticResource comboDisplay}">
+            </ComboBox>
+
+            <!-- Select parameter -->
+            <TextBlock Style="{StaticResource Title}">
+                Select parameter to store door number:
+            </TextBlock>
+            <ComboBox x:Name="comboDisplayParameters"
+                      ItemsSource="{Binding CbParameters}"
+                      SelectedItem="{Binding SelectedComboItemParameters}"
                       Style="{StaticResource comboDisplay}">
             </ComboBox>
 

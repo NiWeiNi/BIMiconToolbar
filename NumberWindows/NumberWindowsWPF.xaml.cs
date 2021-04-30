@@ -14,7 +14,9 @@ namespace BIMiconToolbar.NumberWindows
     public partial class NumberWindowsWPF : Window, IDisposable
     {
         public ObservableCollection<ComboBoxItem> CbPhases { get; set; }
+        public ObservableCollection<ComboBoxItem> CbParameters { get; set; }
         public ComboBoxItem SelectedComboItemPhase { get; set; }
+        public ComboBoxItem SelectedComboItemParameters { get; set; }
         public string Separator { get; set; }
         public bool optNumeric = false;
 
@@ -27,6 +29,7 @@ namespace BIMiconToolbar.NumberWindows
 
             // Fill properties
             PopulatePhases(doc);
+            PopulateParameters(doc);
 
             // Associate the event-handling method with the SelectedIndexChanged event
             comboDisplayPhases.SelectionChanged += new SelectionChangedEventHandler(ComboChangedPhase);
@@ -71,6 +74,36 @@ namespace BIMiconToolbar.NumberWindows
                 if (count == 0)
                 {
                     SelectedComboItemPhase = comb;
+                }
+
+                count++;
+            }
+        }
+
+        /// <summary>
+        /// Method to retrieve parameters in the document and populate the combo box
+        /// </summary>
+        /// <param name="doc"></param>
+        private void PopulateParameters(Document doc)
+        {
+            Parameter[] parameters = Helpers.Parameters.GetParametersOfCategoryByStorageType(doc, BuiltInCategory.OST_Windows);
+
+            CbParameters = new ObservableCollection<ComboBoxItem>();
+
+            IOrderedEnumerable<Parameter> orderParams = parameters.OrderBy(ph => ph.Definition.Name);
+
+            int count = 0;
+
+            foreach (var param in orderParams)
+            {
+                ComboBoxItem comb = new ComboBoxItem();
+                comb.Content = param.Definition.Name;
+                comb.Tag = param;
+                CbParameters.Add(comb);
+
+                if (count == 0)
+                {
+                    SelectedComboItemParameters = comb;
                 }
 
                 count++;

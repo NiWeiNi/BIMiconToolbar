@@ -16,7 +16,6 @@ namespace BIMiconToolbar.Helpers
         public static string[] ProjectParameters(Document doc, string categoryName)
         {
             List<string> parametersID = new List<string>();
-            List<Parameter> parameters = new List<Parameter>();
 
             BindingMap map = doc.ParameterBindings;
             DefinitionBindingMapIterator it = map.ForwardIterator();
@@ -71,7 +70,7 @@ namespace BIMiconToolbar.Helpers
             {
                 Parameter param = paramIt.Current as Parameter;
 
-                if (param.StorageType == StorageType.String)
+                if (param.StorageType == StorageType.String && param.IsReadOnly == false)
                 {
                     parameters.Add(param);
                 }

@@ -23,7 +23,7 @@ namespace BIMiconToolbar.NumberWindows
 
                 // Retrieve user input
                 Phase phase = customWindow.SelectedComboItemPhase.Tag as Phase;
-                Parameter parameter = null;
+                Parameter parameter = customWindow.SelectedComboItemParameters.Tag as Parameter;
                 bool numeric = customWindow.optNumeric;
                 string separator = customWindow.Separator;
 
