@@ -111,7 +111,9 @@ namespace BIMiconToolbar.NumberBySpline
             // Retrieve categories in document
             Categories categories = doc.Settings.Categories;
 
-            IOrderedEnumerable<Category> orderedCategories = categories.Cast<Category>().OrderBy(cat => cat.Name);
+            IOrderedEnumerable<Category> orderedCategories = categories.Cast<Category>()
+                .Where(cat => cat.Name.Contains("Tag") == false)
+                .OrderBy(cat => cat.Name);
 
             int count = 0;
 
