@@ -21,10 +21,12 @@ namespace BIMiconToolbar.Helpers
             {
                 return 1;
             }
+            // In rectangle
             else if (point.X >= min.X && point.X <= max.X && point.Y >= min.Y && point.Y <= max.Y)
             {
                 return 2;
             }
+            // Outside rectangle
             else
             {
                 return 0;
