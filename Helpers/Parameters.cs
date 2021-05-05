@@ -80,6 +80,32 @@ namespace BIMiconToolbar.Helpers
         }
 
         /// <summary>
+        /// Method to retrieve instance parameters of an instance
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
+        public static Parameter[] GetParametersOfInstance(Element element)
+        {
+            List<Parameter> parameters = new List<Parameter>();
+
+            ParameterSet parameterSet = element.Parameters;
+            ParameterSetIterator paramIt = parameterSet.ForwardIterator();
+            paramIt.Reset();
+
+            while (paramIt.MoveNext())
+            {
+                Parameter param = paramIt.Current as Parameter;
+
+                if (param.StorageType == StorageType.String && param.IsReadOnly == false)
+                {
+                    parameters.Add(param);
+                }
+            }
+            return parameters.ToArray();
+        }
+
+
+        /// <summary>
         /// Method to check if Instance Binding is of a specific category
         /// </summary>
         /// <param name="insBinding"></param>

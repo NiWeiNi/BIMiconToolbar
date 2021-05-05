@@ -13,15 +13,17 @@ namespace BIMiconToolbar.NumberBySpline
     /// </summary>
     public partial class NumberBySplineWPF : Window, IDisposable
     {
+        private Document doc { get; set; }
         public UIDocument uidoc { get; set; }
         public ElementId CurveId { get; set; }
         public bool NumericNumber = true;
         public string StartNumber { get; set; }
-        public string ParameterName { get; set; }
         public ObservableCollection<ComboBoxItem> CbCategories { get; set; }
         public ComboBoxItem SelectedComboItemCategories { get; set; }
         public ObservableCollection<ComboBoxItem> CbLevels { get; set; }
         public ComboBoxItem SelectedComboItemLevels { get; set; }
+        public ObservableCollection<ComboBoxItem> CbParameters { get; set; }
+        public ComboBoxItem SelectedComboItemParameters { get; set; }
 
         /// <summary>
         /// Function to initialize window
@@ -29,7 +31,7 @@ namespace BIMiconToolbar.NumberBySpline
         /// <param name="commandData"></param>
         public NumberBySplineWPF(ExternalCommandData commandData)
         {
-            Document doc = commandData.Application.ActiveUIDocument.Document;
+            doc = commandData.Application.ActiveUIDocument.Document;
             uidoc = commandData.Application.ActiveUIDocument;
 
             InitializeComponent();
@@ -37,6 +39,10 @@ namespace BIMiconToolbar.NumberBySpline
 
             PopulateCategories(doc);
             PopulateLevels(doc);
+            PopulateParameters();
+
+            // Associate the event-handling method with the category changed
+            this.comboDisplayCategories.SelectionChanged += new SelectionChangedEventHandler(ComboDisplayCategories_SelectionChanged);
         }
 
         /// <summary>
@@ -47,7 +53,6 @@ namespace BIMiconToolbar.NumberBySpline
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             StartNumber = this.StartNumberTextBox.Text;
-            ParameterName = this.ParameterTextBox.Text;
 
             this.Dispose();
         }
@@ -168,6 +173,55 @@ namespace BIMiconToolbar.NumberBySpline
         }
 
         /// <summary>
+        /// Method to populate parameters selection
+        /// </summary>
+        /// <param name="doc"></param>
+        private void PopulateParameters()
+        {
+            if (CbParameters == null)
+            {
+                CbParameters = new ObservableCollection<ComboBoxItem>();
+            }
+            else
+            {
+                CbParameters.Clear();
+            }
+
+            Category cat = SelectedComboItemCategories.Tag as Category;
+            Element element = new FilteredElementCollector(doc)
+                .OfCategoryId(cat.Id)
+                .WhereElementIsNotElementType()
+                .FirstOrDefault();
+
+            if (element != null)
+            {
+                CbParameters.Clear();
+
+                // Retrieve parameters
+                Parameter[] parameters = Helpers.Parameters.GetParametersOfInstance(element);
+
+                IOrderedEnumerable<Parameter> orderParams = parameters.OrderBy(ph => ph.Definition.Name);
+
+                foreach (var param in orderParams)
+                {
+                    ComboBoxItem comb = new ComboBoxItem();
+                    comb.Content = param.Definition.Name;
+                    comb.Tag = param;
+                    CbParameters.Add(comb);
+                }
+            }
+            else
+            {
+                ComboBoxItem comb = new ComboBoxItem();
+                comb.Content = "No instances of selected category found in the model";
+                comb.Tag = "";
+                CbParameters.Add(comb);
+            }
+
+            SelectedComboItemParameters = CbParameters[0];
+        }
+
+        /// <summary>
         /// Function to update combobox
         /// </summary>
         /// <param name="sender"></param>
@@ -176,6 +230,7 @@ namespace BIMiconToolbar.NumberBySpline
         {
             int selectedItemIndex = CbCategories.IndexOf(SelectedComboItemCategories);
             SelectedComboItemCategories = CbCategories[selectedItemIndex];
+            PopulateParameters();
         }
 
         /// <summary>
@@ -199,6 +254,25 @@ namespace BIMiconToolbar.NumberBySpline
             System.Windows.Controls.TextBox tb = (System.Windows.Controls.TextBox)sender;
             tb.Text = string.Empty;
             tb.GotFocus -= GotFocus;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ComboDisplayParameters_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void comboDisplayParameters_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            if (CbParameters.Count != 0)
+            {
+                int selectedItemIndex = CbParameters.IndexOf(SelectedComboItemParameters);
+                SelectedComboItemParameters = CbParameters[selectedItemIndex];
+            }
         }
     }
 }
