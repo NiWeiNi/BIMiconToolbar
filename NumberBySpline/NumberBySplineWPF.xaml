@@ -7,7 +7,7 @@
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
-        Title="Number Elements by Spline" Height="505" Width="420"
+        Title="Number Elements by Spline" Height="430" Width="420"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -26,32 +26,6 @@
                             Select spline:
             </TextBlock>
             <Button x:Name="selectSpline" Click="SelectSpline_Click"  Content="Select Spline"></Button>
-
-            <!-- Select number options -->
-            <TextBlock Style="{StaticResource Title}">
-                            Select number option:
-            </TextBlock>
-            <Border Style="{StaticResource radioButtonBorder}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <RadioButton Grid.Column="0" 
-                                 GroupName="numberOptions" 
-                                 x:Name="numeric"
-                                 ToggleButton.Checked="Numeric_Unchecked"  
-                                 ToggleButton.Unchecked="Numeric_Unchecked"
-                                 IsChecked="True">
-                        Numeric: 1, 2, 3, ... 11, 12
-                    </RadioButton>
-                    <RadioButton Grid.Column="1" 
-                                 GroupName="numberOptions"
-                                 x:Name="alphabetic">
-                        Alphabetic: A, B, C, ... AA, AB
-                    </RadioButton>
-                </Grid>
-            </Border>
 
             <!-- Prefix and start number -->
             <Grid>
