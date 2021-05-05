@@ -20,67 +20,71 @@ namespace BIMiconToolbar.NumberBySpline
                 helper.Owner = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
 
                 customWindow.ShowDialog();
-
                 ElementId curveId = customWindow.CurveId;
-                CurveElement eCurve = doc.GetElement(curveId) as CurveElement;
-                Curve curve = eCurve.GeometryCurve as Curve;
 
-                XYZ[] points = Helpers.HelpersGeometry.DivideEquallySpline(curve, 1000);
-
-                // Retrieve elements of selected category
-                Category cat = customWindow.SelectedComboItemCategories.Tag as Category;
-                Level level = customWindow.SelectedComboItemLevels.Tag as Level;
-                Parameter selParameter = customWindow.SelectedComboItemParameters.Tag as Parameter;
-                string startNumber = customWindow.StartNumber;
-                string prefix = customWindow.Prefix;
-
-                ElementLevelFilter levelFilter = new ElementLevelFilter(level.Id);
-                FilteredElementCollector collectElements = new FilteredElementCollector(doc).OfCategoryId(cat.Id).WhereElementIsNotElementType();
-
-                // Create two list that contains all selected elements
-                List<Element> selElements = new List<Element>();
-                List<Element> selElementsCopy = new List<Element>();
-
-                foreach (Element element in collectElements)
+                if (customWindow.Cancel == false && curveId != null)
                 {
-                    if (element.LevelId == level.Id)
+                    CurveElement eCurve = doc.GetElement(curveId) as CurveElement;
+                    Curve curve = eCurve.GeometryCurve as Curve;
+
+                    XYZ[] points = Helpers.HelpersGeometry.DivideEquallySpline(curve, 1000);
+
+                    // Retrieve elements of selected category
+                    Category cat = customWindow.SelectedComboItemCategories.Tag as Category;
+                    Level level = customWindow.SelectedComboItemLevels.Tag as Level;
+                    Parameter selParameter = customWindow.SelectedComboItemParameters.Tag as Parameter;
+                    string startNumber = customWindow.StartNumber;
+                    string prefix = customWindow.Prefix;
+
+                    ElementLevelFilter levelFilter = new ElementLevelFilter(level.Id);
+                    FilteredElementCollector collectElements = new FilteredElementCollector(doc).OfCategoryId(cat.Id).WhereElementIsNotElementType();
+
+                    // Create two list that contains all selected elements
+                    List<Element> selElements = new List<Element>();
+                    List<Element> selElementsCopy = new List<Element>();
+
+                    foreach (Element element in collectElements)
                     {
-                        selElements.Add(element);
-                        selElementsCopy.Add(element);
-                    }
-                }
-
-                // Renumber selected elements
-                using (Transaction tx = new Transaction(doc))
-                {
-                    tx.Start("Draw Curves at Points");
-
-                    int number = int.Parse(startNumber);
-
-                    // Loop through each point to check if it is inside the selected elements
-                    foreach (XYZ point in points)
-                    {
-                        // Inner loop to check point is inside the element, if so, remove element from list and proceed until end of list
-                        for (int j = 0; j < selElementsCopy.Count; j++)
+                        if (element.LevelId == level.Id)
                         {
-                            // Retrieve bounding box of element
-                            BoundingBoxXYZ bBox = selElementsCopy[j].get_BoundingBox(null);
-                            int intersResult = Helpers.HelpersGeometry.IsPointInsideRectangle(point, bBox.Min, bBox.Max);
-
-                            if (intersResult != 0)
-                            {
-                                Parameter param = selElementsCopy[j].LookupParameter(selParameter.Definition.Name);
-                                param.Set(prefix + number.ToString());
-                                selElementsCopy.Remove(selElementsCopy[j]);
-
-                                number++;
-                                break;
-                            }
+                            selElements.Add(element);
+                            selElementsCopy.Add(element);
                         }
                     }
-                    tx.Commit();
+
+                    // Renumber selected elements
+                    using (Transaction tx = new Transaction(doc))
+                    {
+                        tx.Start("Draw Curves at Points");
+
+                        int number = int.Parse(startNumber);
+
+                        // Loop through each point to check if it is inside the selected elements
+                        foreach (XYZ point in points)
+                        {
+                            // Inner loop to check point is inside the element, if so, remove element from list and proceed until end of list
+                            for (int j = 0; j < selElementsCopy.Count; j++)
+                            {
+                                // Retrieve bounding box of element
+                                BoundingBoxXYZ bBox = selElementsCopy[j].get_BoundingBox(null);
+                                int intersResult = Helpers.HelpersGeometry.IsPointInsideRectangle(point, bBox.Min, bBox.Max);
+
+                                if (intersResult != 0)
+                                {
+                                    Parameter param = selElementsCopy[j].LookupParameter(selParameter.Definition.Name);
+                                    param.Set(prefix + number.ToString());
+                                    selElementsCopy.Remove(selElementsCopy[j]);
+
+                                    number++;
+                                    break;
+                                }
+                            }
+                        }
+                        tx.Commit();
+                    }
+                    return Result.Succeeded;
                 }
-                return Result.Succeeded;
+                return Result.Cancelled;
             }
         }
     }

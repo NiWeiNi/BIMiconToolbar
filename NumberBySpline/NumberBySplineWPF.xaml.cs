@@ -16,7 +16,7 @@ namespace BIMiconToolbar.NumberBySpline
         private Document doc { get; set; }
         public UIDocument uidoc { get; set; }
         public ElementId CurveId { get; set; }
-        public bool NumericNumber = true;
+        public bool Cancel = false;
         public string StartNumber { get; set; }
         public string Prefix { get; set; }
         public ObservableCollection<ComboBoxItem> CbCategories { get; set; }
@@ -65,6 +65,7 @@ namespace BIMiconToolbar.NumberBySpline
         /// <param name="e"></param>
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
+            Cancel = true;
             this.Dispose();
         }
 
@@ -94,16 +95,6 @@ namespace BIMiconToolbar.NumberBySpline
         public void Dispose()
         {
             this.Close();
-        }
-
-        /// <summary>
-        /// Function to select number with numbers or letters
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Numeric_Unchecked(object sender, RoutedEventArgs e)
-        {
-            NumericNumber = !NumericNumber;
         }
 
         /// <summary>
