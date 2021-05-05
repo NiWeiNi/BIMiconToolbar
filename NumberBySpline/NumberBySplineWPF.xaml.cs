@@ -39,7 +39,6 @@ namespace BIMiconToolbar.NumberBySpline
 
             PopulateCategories(doc);
             PopulateLevels(doc);
-            PopulateParameters();
 
             // Associate the event-handling method with the category changed
             this.comboDisplayCategories.SelectionChanged += new SelectionChangedEventHandler(ComboDisplayCategories_SelectionChanged);
@@ -118,6 +117,7 @@ namespace BIMiconToolbar.NumberBySpline
 
             IOrderedEnumerable<Category> orderedCategories = categories.Cast<Category>()
                 .Where(cat => cat.Name.Contains("Tag") == false)
+                .Where(cat => new FilteredElementCollector(doc).OfCategoryId(cat.Id).WhereElementIsNotElementType().FirstOrDefault() != null)
                 .OrderBy(cat => cat.Name);
 
             int count = 0;
@@ -193,32 +193,27 @@ namespace BIMiconToolbar.NumberBySpline
                 .WhereElementIsNotElementType()
                 .FirstOrDefault();
 
-            if (element != null)
-            {
-                CbParameters.Clear();
+            // Retrieve parameters
+            Parameter[] parameters = Helpers.Parameters.GetParametersOfInstance(element);
 
-                // Retrieve parameters
-                Parameter[] parameters = Helpers.Parameters.GetParametersOfInstance(element);
+            IOrderedEnumerable<Parameter> orderParams = parameters.OrderBy(ph => ph.Definition.Name);
 
-                IOrderedEnumerable<Parameter> orderParams = parameters.OrderBy(ph => ph.Definition.Name);
+            int count = 0;
 
-                foreach (var param in orderParams)
-                {
-                    ComboBoxItem comb = new ComboBoxItem();
-                    comb.Content = param.Definition.Name;
-                    comb.Tag = param;
-                    CbParameters.Add(comb);
-                }
-            }
-            else
+            foreach (var param in orderParams)
             {
                 ComboBoxItem comb = new ComboBoxItem();
-                comb.Content = "No instances of selected category found in the model";
-                comb.Tag = "";
+                comb.Content = param.Definition.Name;
+                comb.Tag = param;
                 CbParameters.Add(comb);
-            }
 
-            SelectedComboItemParameters = CbParameters[0];
+                if (count == 0)
+                {
+                    SelectedComboItemParameters = comb;
+                }
+
+                count++;
+            }
         }
 
         /// <summary>
@@ -257,18 +252,13 @@ namespace BIMiconToolbar.NumberBySpline
         }
 
         /// <summary>
-        /// 
+        /// Method to update selected parameter combo box
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ComboDisplayParameters_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-        }
-
-        private void comboDisplayParameters_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
-        {
-            if (CbParameters.Count != 0)
+            if (SelectedComboItemParameters != null && CbParameters.Count > 0)
             {
                 int selectedItemIndex = CbParameters.IndexOf(SelectedComboItemParameters);
                 SelectedComboItemParameters = CbParameters[selectedItemIndex];

@@ -88,8 +88,9 @@
             <ComboBox x:Name="comboDisplayParameters"
                       ItemsSource="{Binding CbParameters}"
                       SelectedItem="{Binding SelectedComboItemParameters}"
+                      IsSynchronizedWithCurrentItem="True"
                       Style="{StaticResource comboDisplay}"
-                      SelectionChanged="comboDisplayParameters_SelectionChanged_1">
+                      SelectionChanged="ComboDisplayParameters_SelectionChanged">
             </ComboBox>
 
             <!-- Buttons End -->
