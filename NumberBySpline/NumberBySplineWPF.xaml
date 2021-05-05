@@ -53,11 +53,32 @@
                 </Grid>
             </Border>
 
-            <!-- Input for start number -->
-            <TextBlock Style="{StaticResource Title}">
-                Input start number or letter:
-            </TextBlock>
-            <TextBox x:Name="StartNumberTextBox" GotFocus="GotFocus" Style="{StaticResource TextBox}" Text="1"/>
+            <!-- Prefix and start number -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.8*"/>
+                    <ColumnDefinition Width=".15*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" >
+                    <TextBlock Style="{StaticResource Title}">
+                        Input prefix:
+                    </TextBlock>
+                    <TextBox x:Name="PrefixTextBox" GotFocus="GotFocus" Style="{StaticResource TextBox}" Text="B"/>
+                </StackPanel>
+                
+                <!-- Input for start number -->
+                <StackPanel Grid.Column="2" >
+                    <TextBlock Style="{StaticResource Title}">
+                        Input start number:
+                    </TextBlock>
+                    <TextBox x:Name="StartNumberTextBox" GotFocus="GotFocus" Style="{StaticResource TextBox}" Text="1"/>
+                </StackPanel>
+      
+                
+            </Grid>
+
 
             <!-- Select Level -->
             <TextBlock Style="{StaticResource Title}">

@@ -18,6 +18,7 @@ namespace BIMiconToolbar.NumberBySpline
         public ElementId CurveId { get; set; }
         public bool NumericNumber = true;
         public string StartNumber { get; set; }
+        public string Prefix { get; set; }
         public ObservableCollection<ComboBoxItem> CbCategories { get; set; }
         public ComboBoxItem SelectedComboItemCategories { get; set; }
         public ObservableCollection<ComboBoxItem> CbLevels { get; set; }
@@ -52,6 +53,7 @@ namespace BIMiconToolbar.NumberBySpline
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             StartNumber = this.StartNumberTextBox.Text;
+            Prefix = this.PrefixTextBox.Text;
 
             this.Dispose();
         }

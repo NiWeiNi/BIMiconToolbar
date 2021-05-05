@@ -2,7 +2,6 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace BIMiconToolbar.NumberBySpline
 {
@@ -26,12 +25,14 @@ namespace BIMiconToolbar.NumberBySpline
                 CurveElement eCurve = doc.GetElement(curveId) as CurveElement;
                 Curve curve = eCurve.GeometryCurve as Curve;
 
-                XYZ[] points = Helpers.HelpersGeometry.DivideEquallySpline(curve, 150);
+                XYZ[] points = Helpers.HelpersGeometry.DivideEquallySpline(curve, 1000);
 
                 // Retrieve elements of selected category
                 Category cat = customWindow.SelectedComboItemCategories.Tag as Category;
                 Level level = customWindow.SelectedComboItemLevels.Tag as Level;
+                Parameter selParameter = customWindow.SelectedComboItemParameters.Tag as Parameter;
                 string startNumber = customWindow.StartNumber;
+                string prefix = customWindow.Prefix;
 
                 ElementLevelFilter levelFilter = new ElementLevelFilter(level.Id);
                 FilteredElementCollector collectElements = new FilteredElementCollector(doc).OfCategoryId(cat.Id).WhereElementIsNotElementType();
@@ -68,8 +69,8 @@ namespace BIMiconToolbar.NumberBySpline
 
                             if (intersResult != 0)
                             {
-                                Parameter param = selElementsCopy[j].LookupParameter("Number");
-                                param.Set("R" + number.ToString());
+                                Parameter param = selElementsCopy[j].LookupParameter(selParameter.Definition.Name);
+                                param.Set(prefix + number.ToString());
                                 selElementsCopy.Remove(selElementsCopy[j]);
 
                                 number++;
