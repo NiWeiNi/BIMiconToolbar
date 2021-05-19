@@ -62,28 +62,21 @@ namespace BIMiconToolbar.Helpers
 
             Element element = new FilteredElementCollector(doc).OfCategory(category).WhereElementIsNotElementType().FirstElement();
 
-            if (element != null)
-            {
-                ParameterSet parameterSet = element.Parameters;
-                ParameterSetIterator paramIt = parameterSet.ForwardIterator();
-                paramIt.Reset();
+            ParameterSet parameterSet = element.Parameters;
+            ParameterSetIterator paramIt = parameterSet.ForwardIterator();
+            paramIt.Reset();
 
-                while (paramIt.MoveNext())
+            while (paramIt.MoveNext())
+            {
+                Parameter param = paramIt.Current as Parameter;
+
+                if (param.StorageType == StorageType.String && param.IsReadOnly == false)
                 {
-                    Parameter param = paramIt.Current as Parameter;
-
-                    if (param.StorageType == StorageType.String && param.IsReadOnly == false)
-                    {
-                        parameters.Add(param);
-                    }
+                    parameters.Add(param);
                 }
+            }
 
-                return parameters.ToArray();
-            }
-            else
-            {
-                return null;
-            }
+            return parameters.ToArray();
         }
 
         /// <summary>

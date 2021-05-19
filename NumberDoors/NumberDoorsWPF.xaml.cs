@@ -52,28 +52,25 @@ namespace BIMiconToolbar.NumberDoors
         {
             Parameter[] parameters = Helpers.Parameters.GetParametersOfCategoryByStorageType(doc, BuiltInCategory.OST_Doors);
 
-            if (parameters != null)
-            {                
-                CbParameters = new ObservableCollection<ComboBoxItem>();
+            CbParameters = new ObservableCollection<ComboBoxItem>();
 
-                IOrderedEnumerable<Parameter> orderParams = parameters.OrderBy(ph => ph.Definition.Name);
+            IOrderedEnumerable<Parameter> orderParams = parameters.OrderBy(ph => ph.Definition.Name);
 
-                int count = 0;
+            int count = 0;
 
-                foreach (var param in orderParams)
+            foreach (var param in orderParams)
+            {
+                ComboBoxItem comb = new ComboBoxItem();
+                comb.Content = param.Definition.Name;
+                comb.Tag = param;
+                CbParameters.Add(comb);
+
+                if (count == 0)
                 {
-                    ComboBoxItem comb = new ComboBoxItem();
-                    comb.Content = param.Definition.Name;
-                    comb.Tag = param;
-                    CbParameters.Add(comb);
-
-                    if (count == 0)
-                    {
-                        SelectedComboItemParameters = comb;
-                    }
-
-                    count++;
+                    SelectedComboItemParameters = comb;
                 }
+
+                count++;
             }
         }
 

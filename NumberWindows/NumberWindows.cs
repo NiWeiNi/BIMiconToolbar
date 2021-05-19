@@ -23,16 +23,7 @@ namespace BIMiconToolbar.NumberWindows
 
                 // Retrieve user input
                 Phase phase = customWindow.SelectedComboItemPhase.Tag as Phase;
-                Parameter parameter = null;
-                if (customWindow.SelectedComboItemParameters != null)
-                {
-                    parameter = customWindow.SelectedComboItemParameters.Tag as Parameter;
-                }
-                else
-                {
-                    TaskDialog.Show("Error", "Please create windows in the project first");
-                    return Result.Failed;
-                }
+                Parameter parameter = customWindow.SelectedComboItemParameters.Tag as Parameter;
                 bool numeric = customWindow.optNumeric;
                 string separator = customWindow.Separator;
 

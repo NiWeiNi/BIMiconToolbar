@@ -88,28 +88,25 @@ namespace BIMiconToolbar.NumberWindows
         {
             Parameter[] parameters = Helpers.Parameters.GetParametersOfCategoryByStorageType(doc, BuiltInCategory.OST_Windows);
 
-            if (parameters != null)
+            CbParameters = new ObservableCollection<ComboBoxItem>();
+
+            IOrderedEnumerable<Parameter> orderParams = parameters.OrderBy(ph => ph.Definition.Name);
+
+            int count = 0;
+
+            foreach (var param in orderParams)
             {
-                CbParameters = new ObservableCollection<ComboBoxItem>();
+                ComboBoxItem comb = new ComboBoxItem();
+                comb.Content = param.Definition.Name;
+                comb.Tag = param;
+                CbParameters.Add(comb);
 
-                IOrderedEnumerable<Parameter> orderParams = parameters.OrderBy(ph => ph.Definition.Name);
-
-                int count = 0;
-
-                foreach (var param in orderParams)
+                if (count == 0)
                 {
-                    ComboBoxItem comb = new ComboBoxItem();
-                    comb.Content = param.Definition.Name;
-                    comb.Tag = param;
-                    CbParameters.Add(comb);
-
-                    if (count == 0)
-                    {
-                        SelectedComboItemParameters = comb;
-                    }
-
-                    count++;
+                    SelectedComboItemParameters = comb;
                 }
+
+                count++;
             }
         }
 
