@@ -25,6 +25,10 @@ namespace BIMiconToolbar.Tab
             // Retrieve assembly path
             string assemblyPath = Assembly.GetExecutingAssembly().Location;
 
+            // Help url for BIMicon items in the ribbon
+            string urlHelp = @"https://www.bimicon.com/bimicon-plugin/";
+            ContextualHelp contextHelpUrl = new ContextualHelp(ContextualHelpType.Url, urlHelp);
+
             /*---Ribbon Panel Library---*/
             #region Ribbon Panel Library
             // Duplicate sheets
@@ -41,6 +45,9 @@ namespace BIMiconToolbar.Tab
             pbRemoveBackups.ToolTip = "Remove Revit backup files.";
             pbRemoveBackups.LongDescription = "Remove Revit backup files from selected folder including subfolders.";
 
+            // Set the context help when F1 pressed
+            pbRemoveBackups.SetContextualHelp(contextHelpUrl);
+
             // File Rename
             PushButtonData buttonFilesRename = new PushButtonData(
                "FilesRename",
@@ -54,6 +61,9 @@ namespace BIMiconToolbar.Tab
             pbFilesRename.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FilesRename/Images/iconFilesRenameSmall.png"));
             pbFilesRename.ToolTip = "Rename the files inside a folder.";
             pbFilesRename.LongDescription = "Rename all files of a certain type inside a folder.";
+
+            // Set the context help when F1 pressed
+            pbFilesRename.SetContextualHelp(contextHelpUrl);
 
             #endregion
 
@@ -74,6 +84,9 @@ namespace BIMiconToolbar.Tab
             pbExportSchedules.ToolTip = "Export selected schedules.";
             pbExportSchedules.LongDescription = "Export selected schedules to the selected destination.";
 
+            // Set the context help when F1 pressed
+            pbExportSchedules.SetContextualHelp(contextHelpUrl);
+
             // Warnings Review
             PushButtonData buttonWarningsReport = new PushButtonData(
                "WarningsReport",
@@ -87,6 +100,9 @@ namespace BIMiconToolbar.Tab
             pbWarningsReport.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/WarningsReport/Images/iconWarningsReviewSmall.png"));
             pbWarningsReport.ToolTip = "Generate Warnings report.";
             pbWarningsReport.LongDescription = "Exports a Warnings report classified by priority.";
+
+            // Set the context help when F1 pressed
+            pbWarningsReport.SetContextualHelp(contextHelpUrl);
 
             #endregion
 
@@ -107,6 +123,9 @@ namespace BIMiconToolbar.Tab
             pbDuplicateSheets.ToolTip = "Duplicate active sheet.";
             pbDuplicateSheets.LongDescription = "Duplicate current active sheet with detailing and annotation elements.";
 
+            // Set the context help when F1 pressed
+            pbDuplicateSheets.SetContextualHelp(contextHelpUrl);
+
             // View on Sheet
             PushButtonData buttonViewOnSheet = new PushButtonData(
                "ViewOnSheet",
@@ -120,6 +139,9 @@ namespace BIMiconToolbar.Tab
             pbViewOnSheet.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/ViewOnSheet/Images/iconViewOnSheetSmall.png"));
             pbViewOnSheet.ToolTip = "Place active view on selected sheet.";
             pbViewOnSheet.LongDescription = "Place active view on selected sheet.";
+
+            // Set the context help when F1 pressed
+            pbViewOnSheet.SetContextualHelp(contextHelpUrl);
 
             #endregion
 
@@ -147,6 +169,9 @@ namespace BIMiconToolbar.Tab
 
             Auxiliar.SetRibbonItemToolTip(pbNumberDoors, numberDoorsToolTip);
 
+            // Set the context help when F1 pressed
+            pbNumberDoors.SetContextualHelp(contextHelpUrl);
+
             // Number Windows
             PushButtonData buttonNumberWindows= new PushButtonData(
                "NumberWindows",
@@ -163,6 +188,9 @@ namespace BIMiconToolbar.Tab
                                                 "is picked from the ToRoom paramter from the window. If there is no room on either side" +
                                                 "of the window, no number will be assigned.";
 
+            // Set the context help when F1 pressed
+            pbNumberWindows.SetContextualHelp(contextHelpUrl);
+
             // Number by Spline
             PushButtonData buttonNumberBySpline = new PushButtonData(
                "NumberBySpline",
@@ -176,6 +204,9 @@ namespace BIMiconToolbar.Tab
             pbNumberBySpline.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberBySpline/Images/iconNumberBySpline.png"));
             pbNumberBySpline.ToolTip = "Number elements by intersecting with selected spline.";
             pbNumberBySpline.LongDescription = "Number elements of a selected category by interseting the bounding box with selected spline.";
+
+            // Set the context help when F1 pressed
+            pbNumberBySpline.SetContextualHelp(contextHelpUrl);
 
             // Match grids
             PushButtonData buttonMatchGrids = new PushButtonData(
@@ -191,6 +222,9 @@ namespace BIMiconToolbar.Tab
             pbMatchGrids.ToolTip = "Match grids display from one view to all selected views";
             pbMatchGrids.LongDescription = "Match grids display from one view to all other selected views.";
 
+            // Set the context help when F1 pressed
+            pbMatchGrids.SetContextualHelp(contextHelpUrl);
+
             // Mark Origin
             PushButtonData buttonMarkOrigin = new PushButtonData(
                "MarkerOrigin",
@@ -205,6 +239,9 @@ namespace BIMiconToolbar.Tab
             pbMarkOrigin.ToolTip = "Marks in the current view Revit's internal origin";
             pbMarkOrigin.LongDescription = "Marks in the current view Revit's internal origin";
 
+            // Set the context help when F1 pressed
+            pbMarkOrigin.SetContextualHelp(contextHelpUrl);
+
             // Interior Elevations
             PushButtonData buttonInteriorElevations = new PushButtonData(
                "InteriorElevations",
@@ -218,6 +255,9 @@ namespace BIMiconToolbar.Tab
             pbInteriorElevations.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/InteriorElevations/Images/iconInteriorElevSmall.png"));
             pbInteriorElevations.ToolTip = "Creates interior elevations from selected rooms";
             pbInteriorElevations.LongDescription = "Creates interior elevations from selected rooms and place them onto sheets";
+
+            // Set the context help when F1 pressed
+            pbInteriorElevations.SetContextualHelp(contextHelpUrl);
 
             #endregion
 
@@ -252,18 +292,24 @@ namespace BIMiconToolbar.Tab
             pbHelp.LongDescription = "Contact us for any query or help";
             BitmapImage pbHelpImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Support/Help/Images/iconHelpSmall.png"));
             pbHelp.Image = pbHelpImage;
+            // Set the context help when F1 pressed
+            pbHelp.SetContextualHelp(contextHelpUrl);
 
             PushButton pbDocumentation = stackedSupport[1] as PushButton;
             pbDocumentation.ToolTip = "Documentation";
             pbDocumentation.LongDescription = "Check our online documentation";
             BitmapImage pbDocumentationImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Support/Docs/Images/iconDocSmall.png"));
             pbDocumentation.Image = pbDocumentationImage;
+            // Set the context help when F1 pressed
+            pbDocumentation.SetContextualHelp(contextHelpUrl);
 
             PushButton pbVersion = stackedSupport[2] as PushButton;
             pbVersion.ToolTip = "Display current version";
             pbVersion.LongDescription = "Retrieves current version";
             BitmapImage pbVersionImageSmall = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Support/Version/Images/iconVersionSmall.png"));
             pbVersion.Image = pbVersionImageSmall;
+            // Set the context help when F1 pressed
+            pbVersion.SetContextualHelp(contextHelpUrl);
 
             #endregion
         }
