@@ -23,7 +23,16 @@ namespace BIMiconToolbar.NumberDoors
 
                 // Retrieve user input
                 Phase phase = customWindow.SelectedComboItemPhase.Tag as Phase;
-                Parameter parameter = customWindow.SelectedComboItemParameters.Tag as Parameter;
+                Parameter parameter = null;
+                if (customWindow.SelectedComboItemParameters != null)
+                {
+                   parameter = customWindow.SelectedComboItemParameters.Tag as Parameter;
+                }
+                else
+                {
+                    TaskDialog.Show("Error", "Please create doors in the project first");
+                    return Result.Failed;
+                }
                 bool numeric = customWindow.optNumeric;
                 string separator = customWindow.Separator;
 
