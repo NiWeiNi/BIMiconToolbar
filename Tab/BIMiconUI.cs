@@ -44,7 +44,7 @@ namespace BIMiconToolbar.Tab
             pbRemoveBackups.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/RemoveBackups/Images/iconRemoveBackupSmall.png"));
             pbRemoveBackups.ToolTip = "Remove Revit backup files.";
             pbRemoveBackups.LongDescription = "Remove Revit backup files from selected folder including subfolders.";
-
+            pbRemoveBackups.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
             pbRemoveBackups.SetContextualHelp(contextHelpUrl);
 
@@ -61,9 +61,26 @@ namespace BIMiconToolbar.Tab
             pbFilesRename.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FilesRename/Images/iconFilesRenameSmall.png"));
             pbFilesRename.ToolTip = "Rename the files inside a folder.";
             pbFilesRename.LongDescription = "Rename all files of a certain type inside a folder.";
-
+            pbFilesRename.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
             pbFilesRename.SetContextualHelp(contextHelpUrl);
+
+            // Family Browser
+            PushButtonData buttonFamilyBrowser = new PushButtonData(
+               "FamilyBrowser",
+               "Family\nBrowser",
+               assemblyPath,
+               "BIMiconToolbar.FamilyBrowser.FamilyBrowser"
+            );
+
+            PushButton pbFamilyBrowser = panelLibrary.AddItem(buttonFamilyBrowser) as PushButton;
+            pbFamilyBrowser.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FamilyBrowser/Images/iconFamilyBrowser.png"));
+            pbFamilyBrowser.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FamilyBrowser/Images/iconFamilyBrowserSmall.png"));
+            pbFamilyBrowser.ToolTip = "Open a dockable panel to search and load families.";
+            pbFamilyBrowser.LongDescription = "Open a dockable panel that allows searching and browsing families.";
+
+            // Set the context help when F1 pressed
+            pbFamilyBrowser.SetContextualHelp(contextHelpUrl);
 
             #endregion
 
@@ -292,6 +309,7 @@ namespace BIMiconToolbar.Tab
             pbHelp.LongDescription = "Contact us for any query or help";
             BitmapImage pbHelpImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Support/Help/Images/iconHelpSmall.png"));
             pbHelp.Image = pbHelpImage;
+            pbHelp.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
             pbHelp.SetContextualHelp(contextHelpUrl);
 
@@ -300,6 +318,7 @@ namespace BIMiconToolbar.Tab
             pbDocumentation.LongDescription = "Check our online documentation";
             BitmapImage pbDocumentationImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Support/Docs/Images/iconDocSmall.png"));
             pbDocumentation.Image = pbDocumentationImage;
+            pbDocumentation.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
             pbDocumentation.SetContextualHelp(contextHelpUrl);
 
@@ -308,6 +327,7 @@ namespace BIMiconToolbar.Tab
             pbVersion.LongDescription = "Retrieves current version";
             BitmapImage pbVersionImageSmall = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Support/Version/Images/iconVersionSmall.png"));
             pbVersion.Image = pbVersionImageSmall;
+            pbVersion.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
             pbVersion.SetContextualHelp(contextHelpUrl);
 

@@ -110,6 +110,10 @@
       <DependentUpon>BrowserCheckboxes.xaml</DependentUpon>
     </Compile>
     <Compile Include="ExportSchedules\ExportSchedules.cs" />
+    <Compile Include="FamilyBrowser\FamilyBrowser.cs" />
+    <Compile Include="FamilyBrowser\FamilyBrowserWPF.xaml.cs">
+      <DependentUpon>FamilyBrowserWPF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FilesRename\FilesRename.cs" />
     <Compile Include="FilesRename\FilesRenameWPF.xaml.cs">
       <DependentUpon>FilesRenameWPF.xaml</DependentUpon>
@@ -131,6 +135,9 @@
     <Compile Include="Helpers\HelpersSelection.cs" />
     <Compile Include="Helpers\HelpersString.cs" />
     <Compile Include="Helpers\HelpersView.cs" />
+    <Compile Include="Helpers\MessageWindow\ErrorMessageWPF.xaml.cs">
+      <DependentUpon>ErrorMessageWPF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\Parameters.cs" />
     <Compile Include="InteriorElevations\InteriorElevations.cs" />
     <Compile Include="InteriorElevations\InteriorElevationsWindow.xaml.cs">
@@ -162,6 +169,7 @@
     <Compile Include="NumberDoors\NumberDoors.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tab\Auxiliar.cs" />
+    <Compile Include="Tab\CommandAvailability.cs" />
     <Compile Include="ViewOnSheet\ViewOnSheet.cs" />
     <Compile Include="ViewOnSheet\ViewsOnSheetWPF.xaml.cs">
       <DependentUpon>ViewsOnSheetWPF.xaml</DependentUpon>
@@ -208,6 +216,8 @@
     <Resource Include="NumberBySpline\Images\iconNumberBySpline.png" />
     <Resource Include="NumberBySpline\Images\iconNumberBySplineSmall.png" />
     <None Include="BIMiconToolbar.JPG" />
+    <Resource Include="FamilyBrowser\Images\iconFamilyBrowser.png" />
+    <Resource Include="FamilyBrowser\Images\iconFamilyBrowserSmall.png" />
     <Content Include="WarningsReport\RevitWarningsClassified.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -229,11 +239,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FamilyBrowser\FamilyBrowserWPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FilesRename\FilesRenameWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Helpers\Browser\Browser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Helpers\MessageWindow\ErrorMessageWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
