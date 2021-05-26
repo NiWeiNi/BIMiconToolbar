@@ -1,0 +1,42 @@
+﻿<Window x:Class="BIMiconToolbar.Helpers.MessageWindow.MessageWindowWPF"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BIMiconToolbar.Helpers.MessageWindow"
+        mc:Ignorable="d"
+        FocusManager.FocusedElement="{Binding ElementName=OK}"
+        Width="420"
+        Icon="../../Resources/Logos/iconBIMiconBlack.ico"
+        ResizeMode="NoResize"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\..\Helpers\ResourceDictionaries\DictionaryWindows.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Border Style="{StaticResource SingleContainer}">
+        <StackPanel>
+
+            <!-- Text Message -->
+            <TextBlock x:Name="TextMessage" Style="{StaticResource TextMessage}" />
+
+            <!-- Buttons End -->
+            <Grid Style="{StaticResource MainButtons}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="OK" Click="OK_Click"  Content="OK" Grid.Column="2" IsDefault="True" Margin="0 0 10 0"></Button>
+            </Grid>
+            
+        </StackPanel>
+    </Border>
+    
+</Window>

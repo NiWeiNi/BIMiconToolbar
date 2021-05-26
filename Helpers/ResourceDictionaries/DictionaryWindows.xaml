@@ -31,7 +31,13 @@
         <Setter Property="FontWeight" Value="DemiBold"/>
     </Style>
 
-    <!-- style for TextBox display -->
+    <!-- Style for TextBox Messsages -->
+    <Style TargetType="TextBlock" x:Key="TextMessage">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Padding" Value="0 5 0 5"/>
+    </Style>
+
+    <!-- Style for TextBox display -->
     <Style TargetType="TextBox" x:Key="TextBoxDisplay">
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="Padding" Value="0 5 0 5"/>
