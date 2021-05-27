@@ -47,8 +47,6 @@ namespace BIMiconToolbar.Helpers.Browser
                             items.Add(new BrowserItem { FullPath = d, Type = BrowserItemType.Folder });
                         }
                     }
-
-                    //items.AddRange(dirs.Select(dir => new BrowserItem { FullPath = dir, Type = BrowserItemType.Folder}));
                 }
             }
             catch
@@ -73,15 +71,16 @@ namespace BIMiconToolbar.Helpers.Browser
                         // Check type to add specific icon
                         if (f.EndsWith(".dwg"))
                             bi.Type = BrowserItemType.Dwg;
-                        else if (f.EndsWith(".pdf"))
+                        else if (f.ToLower().EndsWith(".pdf"))
                             bi.Type = BrowserItemType.Pdf;
-                        else if (f.EndsWith(".jpg") || f.EndsWith(".png") || f.EndsWith(".jpeg") || f.EndsWith(".tiff"))
+                        else if (f.ToLower().EndsWith(".jpg") || f.ToLower().EndsWith(".png") || 
+                            f.ToLower().EndsWith(".jpeg") || f.ToLower().EndsWith(".tiff"))
                             bi.Type = BrowserItemType.Image;
-                        else if (f.EndsWith(".txt"))
+                        else if (f.ToLower().EndsWith(".txt"))
                             bi.Type = BrowserItemType.Txt;
-                        else if (f.EndsWith(".xls") || f.EndsWith(".xlsx"))
+                        else if (f.ToLower().EndsWith(".xls") || f.ToLower().EndsWith(".xlsx"))
                             bi.Type = BrowserItemType.Xls;
-                        else if (f.EndsWith(".rvt") || f.EndsWith(".rfa"))
+                        else if (f.ToLower().EndsWith(".rvt") || f.ToLower().EndsWith(".rfa"))
                             bi.Type = BrowserItemType.Revit;
                         else
                             bi.Type = BrowserItemType.File;

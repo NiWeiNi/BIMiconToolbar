@@ -94,7 +94,7 @@ namespace BIMiconToolbar.Helpers.Browser.ViewModels
             this.Children = new ObservableCollection<BrowserItemViewModel>();
 
             // Show expand arrow to not files
-            if (this.Type != BrowserItemType.File)
+            if (this.Type == BrowserItemType.Drive || this.Type == BrowserItemType.Folder)
             {
                 this.Children.Add(null);
             }
