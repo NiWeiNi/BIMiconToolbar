@@ -55,7 +55,29 @@ namespace BIMiconToolbar.Helpers.Browser
 
                 if (fs.Length > 0)
                 {
-                    items.AddRange(fs.Select(file => new BrowserItem { FullPath = file, Type = BrowserItemType.File}));
+                    foreach (var f in fs)
+                    {
+                        BrowserItem bi = new BrowserItem { FullPath = f };
+
+                        // Check type to add specific icon
+                        if (f.EndsWith(".dwg"))
+                            bi.Type = BrowserItemType.Dwg;
+                        else if (f.EndsWith(".pdf"))
+                            bi.Type = BrowserItemType.Pdf;
+                        else if (f.EndsWith(".jpg") || f.EndsWith(".png") || f.EndsWith(".jpeg") || f.EndsWith(".tiff"))
+                            bi.Type = BrowserItemType.Image;
+                        else if (f.EndsWith(".txt"))
+                            bi.Type = BrowserItemType.Txt;
+                        else if (f.EndsWith(".xls") || f.EndsWith(".xlsx"))
+                            bi.Type = BrowserItemType.Xls;
+                        else if (f.EndsWith(".rvt") || f.EndsWith(".rfa"))
+                            bi.Type = BrowserItemType.Revit;
+                        else
+                            bi.Type = BrowserItemType.File;
+
+                        // Add file to dispaly list
+                        items.Add(bi);
+                    }
                 }
             }
             catch

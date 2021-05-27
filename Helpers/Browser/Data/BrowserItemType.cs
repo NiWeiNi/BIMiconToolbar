@@ -16,6 +16,30 @@
         /// <summary>
         /// A folder
         /// </summary>
-        Folder
+        Folder,
+        /// <summary>
+        /// CAD drawings
+        /// </summary>
+        Dwg,
+        /// <summary>
+        /// Pdf files
+        /// </summary>
+        Pdf,
+        /// <summary>
+        /// Image Files
+        /// </summary>
+        Image,
+        /// <summary>
+        /// Text files
+        /// </summary>
+        Txt,
+        /// <summary>
+        /// Excel files
+        /// </summary>
+        Xls,
+        /// <summary>
+        /// Revit projects, families, templates files
+        /// </summary>
+        Revit
     }
 }

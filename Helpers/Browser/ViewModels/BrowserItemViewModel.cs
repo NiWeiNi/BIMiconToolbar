@@ -16,7 +16,6 @@ namespace BIMiconToolbar.Helpers.Browser.ViewModels
         /// </summary>
         public BrowserItemType Type { get; set; }
 
-        public string ImageName => Type == BrowserItemType.Drive ? "drive" : (Type == BrowserItemType.File ? "file" : (IsExpanded ? "folder-open" : "folder-closed"));
         /// <summary>
         /// The full path to the item
         /// </summary>
@@ -32,7 +31,7 @@ namespace BIMiconToolbar.Helpers.Browser.ViewModels
         /// <summary>
         /// Indicates if item can be expanded
         /// </summary>
-        public bool CanExpand { get { return this.Type != BrowserItemType.File; } }
+        public bool CanExpand { get { return (this.Type == BrowserItemType.Folder || this.Type == BrowserItemType.Drive); } }
 
         /// <summary>
         /// Indicates if current item is expanded

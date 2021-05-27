@@ -1,10 +1,8 @@
 ﻿using BIMiconToolbar.Helpers.Browser.Data;
 using System;
 using System.Globalization;
-using System.IO;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
-using UIFramework;
 
 namespace BIMiconToolbar.Helpers.Browser
 {
@@ -24,6 +22,24 @@ namespace BIMiconToolbar.Helpers.Browser
                     break;
                 case BrowserItemType.Folder:
                     image = "folder.png";
+                    break;
+                case BrowserItemType.Dwg:
+                    image = "dwg.png";
+                    break;
+                case BrowserItemType.Pdf:
+                    image = "pdf.png";
+                    break;
+                case BrowserItemType.Image:
+                    image = "jpg.png";
+                    break;
+                case BrowserItemType.Txt:
+                    image = "txt.png";
+                    break;
+                case BrowserItemType.Xls:
+                    image = "xls.png";
+                    break;
+                case BrowserItemType.Revit:
+                    image = "revit.png";
                     break;
             }
 
