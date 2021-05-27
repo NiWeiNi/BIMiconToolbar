@@ -66,27 +66,33 @@ namespace BIMiconToolbar.Helpers.Browser
                 {
                     foreach (var f in fs)
                     {
-                        BrowserItem bi = new BrowserItem { FullPath = f };
+                        DirectoryInfo di = new DirectoryInfo(f);
 
-                        // Check type to add specific icon
-                        if (f.EndsWith(".dwg"))
-                            bi.Type = BrowserItemType.Dwg;
-                        else if (f.ToLower().EndsWith(".pdf"))
-                            bi.Type = BrowserItemType.Pdf;
-                        else if (f.ToLower().EndsWith(".jpg") || f.ToLower().EndsWith(".png") || 
-                            f.ToLower().EndsWith(".jpeg") || f.ToLower().EndsWith(".tiff"))
-                            bi.Type = BrowserItemType.Image;
-                        else if (f.ToLower().EndsWith(".txt"))
-                            bi.Type = BrowserItemType.Txt;
-                        else if (f.ToLower().EndsWith(".xls") || f.ToLower().EndsWith(".xlsx"))
-                            bi.Type = BrowserItemType.Xls;
-                        else if (f.ToLower().EndsWith(".rvt") || f.ToLower().EndsWith(".rfa"))
-                            bi.Type = BrowserItemType.Revit;
-                        else
-                            bi.Type = BrowserItemType.File;
+                        // Filter out hidden directories
+                        if (di.Attributes.HasFlag(FileAttributes.Hidden) == false)
+                        {
+                            BrowserItem bi = new BrowserItem { FullPath = f };
 
-                        // Add file to dispaly list
-                        items.Add(bi);
+                            // Check type to add specific icon
+                            if (f.EndsWith(".dwg"))
+                                bi.Type = BrowserItemType.Dwg;
+                            else if (f.ToLower().EndsWith(".pdf"))
+                                bi.Type = BrowserItemType.Pdf;
+                            else if (f.ToLower().EndsWith(".jpg") || f.ToLower().EndsWith(".png") || 
+                                f.ToLower().EndsWith(".jpeg") || f.ToLower().EndsWith(".tiff"))
+                                bi.Type = BrowserItemType.Image;
+                            else if (f.ToLower().EndsWith(".txt"))
+                                bi.Type = BrowserItemType.Txt;
+                            else if (f.ToLower().EndsWith(".xls") || f.ToLower().EndsWith(".xlsx"))
+                                bi.Type = BrowserItemType.Xls;
+                            else if (f.ToLower().EndsWith(".rvt") || f.ToLower().EndsWith(".rfa"))
+                                bi.Type = BrowserItemType.Revit;
+                            else
+                                bi.Type = BrowserItemType.File;
+
+                            // Add file to dispaly list
+                            items.Add(bi);
+                        }
                     }
                 }
             }
