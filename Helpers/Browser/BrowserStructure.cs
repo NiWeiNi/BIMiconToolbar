@@ -37,7 +37,18 @@ namespace BIMiconToolbar.Helpers.Browser
 
                 if (dirs.Length > 0)
                 {
-                    items.AddRange(dirs.Select(dir => new BrowserItem { FullPath = dir, Type = BrowserItemType.Folder}));
+                    foreach (var d in dirs)
+                    {
+                        DirectoryInfo di = new DirectoryInfo(d);
+
+                        // Filter hidden directories
+                        if (di.Attributes.HasFlag(FileAttributes.Hidden) == false)
+                        {
+                            items.Add(new BrowserItem { FullPath = d, Type = BrowserItemType.Folder });
+                        }
+                    }
+
+                    //items.AddRange(dirs.Select(dir => new BrowserItem { FullPath = dir, Type = BrowserItemType.Folder}));
                 }
             }
             catch
