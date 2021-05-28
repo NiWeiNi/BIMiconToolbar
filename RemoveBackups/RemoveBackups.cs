@@ -1,7 +1,9 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMiconToolbar.Helpers;
 using BIMiconToolbar.Helpers.Browser;
+using BIMiconToolbar.Helpers.MessageWindow;
 using System.IO;
 
 namespace BIMiconToolbar.RemoveBackups
@@ -22,10 +24,15 @@ namespace BIMiconToolbar.RemoveBackups
                 string fullPath = browserWindow.selectedPath;
                 int countBackups = 0;
 
-                // CHeck that path is not empty and path is a folder
-                if (fullPath == null || !Directory.Exists(fullPath))
+                // Check that path is not empty and path is a folder
+                if (fullPath == null)
                 {
-                    TaskDialog.Show("Warning", "No folder has been selected");
+                    return Result.Cancelled;
+                }
+                else if (!Directory.Exists(fullPath))
+                {
+                    MessageWindows.AlertMessage("Error", "Selected path not found in the system");
+
                     return Result.Cancelled;
                 }
                 else
@@ -35,11 +42,11 @@ namespace BIMiconToolbar.RemoveBackups
                     // Check number of files deleted
                     if (countBackups > 0)
                     {
-                        TaskDialog.Show("Remove Backup Files", countBackups.ToString() + " backup files have been deleted.");
+                        MessageWindows.AlertMessage("Remove Backup Files", countBackups.ToString() + " backup files have been deleted.");
                     }
                     else
                     {
-                        TaskDialog.Show("Warning", "No files have been found");
+                        MessageWindows.AlertMessage("Warning", "No files have been found");
                     }
 
                     return Result.Succeeded;

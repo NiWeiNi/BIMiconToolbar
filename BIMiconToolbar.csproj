@@ -135,6 +135,7 @@
     <Compile Include="Helpers\HelpersSelection.cs" />
     <Compile Include="Helpers\HelpersString.cs" />
     <Compile Include="Helpers\HelpersView.cs" />
+    <Compile Include="Helpers\MessageWindows.cs" />
     <Compile Include="Helpers\MessageWindow\ErrorMessageWPF.xaml.cs">
       <DependentUpon>ErrorMessageWPF.xaml</DependentUpon>
     </Compile>
