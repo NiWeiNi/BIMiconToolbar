@@ -3,6 +3,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System.Linq;
 using BIMiconToolbar.Helpers.MessageWindow;
+using BIMiconToolbar.Helpers;
 
 namespace BIMiconToolbar.MarkOrigin
 {
@@ -72,13 +73,7 @@ namespace BIMiconToolbar.MarkOrigin
             }
             else
             {
-                string windowTitle = "Error";
-                string errorMessage = "ViewType not supported, please open a supported View.";
-
-                using (MessageWindowWPF customWindow = new MessageWindowWPF(windowTitle, errorMessage))
-                {
-                    customWindow.ShowDialog();
-                }
+                MessageWindows.AlertMessage("Error", "ViewType not supported, please open a supported View \nlike Plan, Section or Drafting View.");
 
                 return Result.Failed;
             }
