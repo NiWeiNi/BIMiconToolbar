@@ -139,7 +139,9 @@
     <Compile Include="Helpers\MessageWindow\ErrorMessageWPF.xaml.cs">
       <DependentUpon>ErrorMessageWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\MVVM\ViewModel\ViewModelBase.cs" />
     <Compile Include="Helpers\Parameters.cs" />
+    <Compile Include="Helpers\RevitDirectories.cs" />
     <Compile Include="InteriorElevations\InteriorElevations.cs" />
     <Compile Include="InteriorElevations\InteriorElevationsWindow.xaml.cs">
       <DependentUpon>InteriorElevationsWindow.xaml</DependentUpon>

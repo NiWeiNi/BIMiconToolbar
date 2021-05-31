@@ -1,7 +1,4 @@
-﻿using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using System;
-using System.Collections.Generic;
+﻿using Autodesk.Revit.UI;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -11,7 +8,13 @@ namespace BIMiconToolbar.FamilyBrowser
     /// Interaction logic for FamilyBrowserWPF.xaml
     /// </summary>
     public partial class FamilyBrowserWPF : Page, IDockablePaneProvider
-    {        
+    {
+        string _contentLibraryPath;
+        string ContentLibraryPath { get; set; }
+
+        /// <summary>
+        /// Method to start and populate the custom window
+        /// </summary>
         public FamilyBrowserWPF()
         {
             InitializeComponent();
