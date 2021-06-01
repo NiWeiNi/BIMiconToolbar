@@ -118,6 +118,10 @@
     <Compile Include="FilesRename\FilesRenameWPF.xaml.cs">
       <DependentUpon>FilesRenameWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FloorFinish\FloorFinish.cs" />
+    <Compile Include="FloorFinish\FloorFinishWPF.xaml.cs">
+      <DependentUpon>FloorFinishWPF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\Browser\Browser.xaml.cs">
       <DependentUpon>Browser.xaml</DependentUpon>
     </Compile>
@@ -221,6 +225,8 @@
     <None Include="BIMiconToolbar.JPG" />
     <Resource Include="FamilyBrowser\Images\iconFamilyBrowser.png" />
     <Resource Include="FamilyBrowser\Images\iconFamilyBrowserSmall.png" />
+    <Resource Include="FloorFinish\Images\iconFloorFinish.png" />
+    <Resource Include="FloorFinish\Images\iconFloorFinishSmall.png" />
     <Content Include="WarningsReport\RevitWarningsClassified.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -247,6 +253,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FilesRename\FilesRenameWPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FloorFinish\FloorFinishWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

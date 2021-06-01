@@ -17,6 +17,7 @@ namespace BIMiconToolbar.Tab
 
             // Create ribbon
             Autodesk.Revit.UI.RibbonPanel panelLibrary = application.CreateRibbonPanel(tabName, "Library");
+            Autodesk.Revit.UI.RibbonPanel panelModelling = application.CreateRibbonPanel(tabName, "Modelling");
             Autodesk.Revit.UI.RibbonPanel panelProject = application.CreateRibbonPanel(tabName, "Project");
             Autodesk.Revit.UI.RibbonPanel panelSchedules = application.CreateRibbonPanel(tabName, "Schedules");
             Autodesk.Revit.UI.RibbonPanel panelSheets = application.CreateRibbonPanel(tabName, "Sheets");
@@ -81,6 +82,26 @@ namespace BIMiconToolbar.Tab
 
             // Set the context help when F1 pressed
             pbFamilyBrowser.SetContextualHelp(contextHelpUrl);
+
+            #endregion
+
+            /*---Ribbon Panel Library---*/
+            #region Ribbon Panel Modelling
+            // Duplicate sheets
+            PushButtonData buttonFloorFinish = new PushButtonData(
+               "Floor Finish",
+               "Floor\nFinish",
+               assemblyPath,
+               "BIMiconToolbar.FloorFinish.FloorFinish"
+            );
+
+            PushButton pbFloorFinish = panelModelling.AddItem(buttonFloorFinish) as PushButton;
+            pbFloorFinish.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FloorFinish/Images/iconFloorFinish.png"));
+            pbFloorFinish.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FloorFinish/Images/iconFloorFinishSmall.png"));
+            pbFloorFinish.ToolTip = "Create floor finishes by selecting rooms.";
+            pbFloorFinish.LongDescription = "Create floor finishes by selecting rooms and floor type.";
+            // Set the context help when F1 pressed
+            pbFloorFinish.SetContextualHelp(contextHelpUrl);
 
             #endregion
 
