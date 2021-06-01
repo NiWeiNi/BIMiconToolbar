@@ -3,10 +3,60 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BIMiconToolbar.FloorFinish"
         mc:Ignorable="d"
-        Title="FloorFinishWPF" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        FocusManager.FocusedElement="{Binding ElementName=OK}"
+        Icon="../Resources/Logos/iconBIMiconBlack.ico"
+        ResizeMode="NoResize"
+        Title="Interior Elevations" Height="650" Width="420"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\Helpers\ResourceDictionaries\DictionaryWindows.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Border Style="{StaticResource SingleContainer}">
+        <StackPanel>
+            <!-- Select floor type -->
+            <TextBlock Style="{StaticResource FirstTitle}">
+                Select floor type:
+            </TextBlock>
+            <ComboBox x:Name="comboDisplayViewType"
+                      ItemsSource="{Binding CbItemsFloorType}"
+                      SelectedItem="{Binding SelectedComboItemFloorType}"
+                      Style="{StaticResource comboDisplay}">
+            </ComboBox>
+
+            <!-- Offset -->
+            <TextBlock Style="{StaticResource Title}">
+                Offset from level
+            </TextBlock>
+
+            <TextBox x:Name="offsetTextBox" Style="{StaticResource TextBox}" Text="0"/>
+
+                <!-- Select rooms -->
+            <TextBlock Style="{StaticResource Title}">
+                Select rooms to create floor finish:
+            </TextBlock>
+            <Border Style="{StaticResource OuterBorder}">
+                <ScrollViewer HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible" Width="375">
+                    <StackPanel x:Name="roomsCheckBoxes" />
+                </ScrollViewer>
+            </Border>
+
+            <!-- Buttons End -->
+            <Grid Style="{StaticResource MainButtons}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="1" IsDefault="True" Margin="0 0 10 0"></Button>
+                <Button x:Name="cancel" Click="cancel_Click" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
+            </Grid>
+        </StackPanel>
+    </Border>
 </Window>

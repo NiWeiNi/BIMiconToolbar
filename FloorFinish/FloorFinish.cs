@@ -14,6 +14,11 @@ namespace BIMiconToolbar.FloorFinish
             Application app = uiApp.Application;
             Document doc = uiApp.ActiveUIDocument.Document;
 
+            using (FloorFinishWPF customWindow = new FloorFinishWPF(commandData))
+            {
+                customWindow.ShowDialog();
+            }
+
             return Result.Succeeded;
         }
     }
