@@ -124,20 +124,37 @@ namespace BIMiconToolbar.FloorFinish
         /// <param name="e"></param>
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            // Retrieve all checked checkboxes
-            IEnumerable<CheckBox> list = this.roomsCheckBoxes.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
+            bool isDouble = Double.TryParse(this.offsetTextBox.Text, out double number);
 
-            IntegerIds = new List<int>();
-
-            // Add all checked checkboxes to global variable
-            foreach (var x in list)
+            if (isDouble)
             {
-                // Retrieve ids of checked rooms
-                int intId = Int32.Parse(x.Name.Replace("ID", ""));
-                IntegerIds.Add(intId);
-            }
+                // Swap , for .
+                string newStringNumber = this.offsetTextBox.Text.Replace(",", ".");
 
-            this.Dispose();
+                // Assign floor offset to property
+                FloorOffset = Double.Parse(newStringNumber);
+
+                // Retrieve all checked checkboxes
+                IEnumerable<CheckBox> list = this.roomsCheckBoxes.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
+
+                IntegerIds = new List<int>();
+
+                // Add all checked checkboxes to global variable
+                foreach (var x in list)
+                {
+                    // Retrieve ids of checked rooms
+                    int intId = Int32.Parse(x.Name.Replace("ID", ""));
+                    IntegerIds.Add(intId);
+                }
+
+                this.Dispose();
+            }
+            else
+            {
+                Helpers.MessageWindows.AlertMessage("Error", "Please input a number for Offset from level.\n"
+                                                             + "Use . or , only to separate decimal part.\n"
+                                                             + "For example: 3.20 or 0,50");
+            }
         }
 
         /// <summary>
