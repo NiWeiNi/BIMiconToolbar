@@ -18,7 +18,7 @@ namespace BIMiconToolbar.FloorFinish
         /// <summary>
         ///  Properties to store variables
         /// </summary>
-        public ObservableCollection<ComboBoxItem> CbItemsFloorType { get; set; }
+        public ObservableCollection<ComboBoxItem> CbItemsFloorTypes { get; set; }
         public ComboBoxItem SelectedComboItemFloorType { get; set; }
         public List<int> IntegerIds { get; set; }
         public double FloorOffset { get; set; }
@@ -35,6 +35,54 @@ namespace BIMiconToolbar.FloorFinish
 
             // Populate room checkboxes
             RoomsCheckBoxes(doc);
+            // Populate floor types
+            ComboBoxFloorTypes(doc);
+
+            // Associate the event-handling method with the SelectedIndexChanged event
+            this.comboDisplayFloorTypes.SelectionChanged += new SelectionChangedEventHandler(ComboChangedFloorType);
+        }
+
+        /// <summary>
+        /// Method to polpulate Floor Types Combo boxes
+        /// </summary>
+        /// <param name="doc"></param>
+        private void ComboBoxFloorTypes(Document doc)
+        {
+            CbItemsFloorTypes= new ObservableCollection<ComboBoxItem>();
+
+            FilteredElementCollector floorTypesCollector = new FilteredElementCollector(doc)
+                                                           .OfCategory(BuiltInCategory.OST_Floors)
+                                                           .WhereElementIsElementType();
+
+            IOrderedEnumerable<ElementType> floorTypes = from ElementType fT in floorTypesCollector orderby fT.Name ascending select fT;
+
+            int count = 0;
+
+            foreach (var v in floorTypes)
+            {
+                ComboBoxItem comb = new ComboBoxItem();
+                comb.Content = v.Name;
+                comb.Tag = v;
+                CbItemsFloorTypes.Add(comb);
+
+                if (count == 0)
+                {
+                    SelectedComboItemFloorType = comb;
+                }
+
+                count++;
+            }
+        }
+
+        /// <summary>
+        /// Method to update flor type according to selected floor type
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ComboChangedFloorType(object sender, SelectionChangedEventArgs e)
+        {
+            int selectedItemIndex = CbItemsFloorTypes.IndexOf(SelectedComboItemFloorType);
+            SelectedComboItemFloorType = CbItemsFloorTypes[selectedItemIndex];
         }
 
         /// <summary>
@@ -97,7 +145,7 @@ namespace BIMiconToolbar.FloorFinish
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cancel_Click(object sender, RoutedEventArgs e)
+        private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Dispose();
         }
