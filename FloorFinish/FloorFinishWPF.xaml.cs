@@ -20,7 +20,7 @@ namespace BIMiconToolbar.FloorFinish
         /// </summary>
         public ObservableCollection<ComboBoxItem> CbItemsFloorTypes { get; set; }
         public ComboBoxItem SelectedComboItemFloorType { get; set; }
-        public List<int> IntegerIds { get; set; }
+        Document doc { get; set; }
         public double FloorOffset { get; set; }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace BIMiconToolbar.FloorFinish
         /// </summary>
         public FloorFinishWPF(ExternalCommandData commandData)
         {
-            Document doc = commandData.Application.ActiveUIDocument.Document;
+            doc = commandData.Application.ActiveUIDocument.Document;
 
             InitializeComponent();
             DataContext = this;
@@ -112,7 +112,7 @@ namespace BIMiconToolbar.FloorFinish
             {
                 CheckBox checkBox = new CheckBox();
                 checkBox.Content = room.Number + " - " + room.Name;
-                checkBox.Name = "ID" + room.Id.ToString();
+                checkBox.Tag = room;
                 roomsCheckBoxes.Children.Add(checkBox);
             }
         }
@@ -137,14 +137,42 @@ namespace BIMiconToolbar.FloorFinish
                 // Retrieve all checked checkboxes
                 IEnumerable<CheckBox> list = this.roomsCheckBoxes.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
 
-                IntegerIds = new List<int>();
+                // SpatialElement boundary options
+                SpatialElementBoundaryOptions sEBOpt = new SpatialElementBoundaryOptions();
 
                 // Add all checked checkboxes to global variable
                 foreach (var x in list)
                 {
-                    // Retrieve ids of checked rooms
-                    int intId = Int32.Parse(x.Name.Replace("ID", ""));
-                    IntegerIds.Add(intId);
+                    SpatialElement sE = x.Tag as SpatialElement;
+
+                    // Retrieve boundaries of rooms
+                    IList<IList<BoundarySegment>> boundaries = sE.GetBoundarySegments(sEBOpt);
+
+                    // Floor boundary
+                    CurveArray floorBoundary = new CurveArray();
+
+                    foreach (var bound in boundaries)
+                    {
+                        if (bound.Count != 0)
+                        {
+                            foreach (var b in bound)
+                            {
+                                floorBoundary.Append(b.GetCurve());
+                            }
+                        }
+                    }
+
+                    // Retrieve level
+                    Level level = sE.Level;
+
+                    // Create floor
+                    Transaction transaction = new Transaction(doc, "Create Floor");
+                    transaction.Start();
+
+                    doc.Create.NewFloor(floorBoundary, SelectedComboItemFloorType.Tag as FloorType, level, false);
+
+                    transaction.Commit();
+
                 }
 
                 this.Dispose();
