@@ -34,6 +34,11 @@ namespace BIMiconToolbar.Helpers
             return newStrings.ToArray();
         }
 
+        /// <summary>
+        /// Method to remove forbidden characters for directories and files in a string
+        /// </summary>
+        /// <param name="stringCheck"></param>
+        /// <returns></returns>
         public static string RemoveForbiddenChars(string stringCheck)
         {
             string textDisplay = "";
