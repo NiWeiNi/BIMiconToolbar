@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace BIMiconToolbar.Helpers
 {
-    class HelpersString
+    class Parsing
     {
         /// <summary>
         /// Function to return array of replaced strings

@@ -258,7 +258,7 @@ namespace BIMiconToolbar.FilesRename
             // Store the content of the textbox
             string stringCheck = (sender as TextBox).Text;
 
-            return Helpers.HelpersString.RemoveForbiddenChars(stringCheck);
+            return Helpers.Parsing.RemoveForbiddenChars(stringCheck);
         }
 
         /// <summary>

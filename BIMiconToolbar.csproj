@@ -137,7 +137,7 @@
     <Compile Include="Helpers\HelpersDirectory.cs" />
     <Compile Include="Helpers\HelpersGeometry.cs" />
     <Compile Include="Helpers\HelpersSelection.cs" />
-    <Compile Include="Helpers\HelpersString.cs" />
+    <Compile Include="Helpers\Parsing.cs" />
     <Compile Include="Helpers\HelpersView.cs" />
     <Compile Include="Helpers\MessageWindows.cs" />
     <Compile Include="Helpers\MessageWindow\ErrorMessageWPF.xaml.cs">

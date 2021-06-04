@@ -149,7 +149,7 @@ namespace BIMiconToolbar.Helpers
             var newNames = new List<string>();
 
             // Strip replace string of forbidden characters
-            string goodReplace = HelpersString.RemoveForbiddenChars(replace);
+            string goodReplace = Parsing.RemoveForbiddenChars(replace);
 
             // Create new folder names
             if (folder)
