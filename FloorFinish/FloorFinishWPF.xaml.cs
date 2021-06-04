@@ -132,13 +132,24 @@ namespace BIMiconToolbar.FloorFinish
                 string newStringNumber = this.offsetTextBox.Text.Replace(",", ".");
 
                 // Assign floor offset to property
-                FloorOffset = Helpers.Helpers.MillimetersToFeet(Double.Parse(newStringNumber));
+                if (number != 0)
+                {
+                    FloorOffset = Helpers.Helpers.MillimetersToFeet(Double.Parse(newStringNumber));
+                }
+                else
+                {
+                    FloorOffset = 0;
+                }
 
                 // Retrieve all checked checkboxes
                 IEnumerable<CheckBox> list = this.roomsCheckBoxes.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
 
                 // SpatialElement boundary options
                 SpatialElementBoundaryOptions sEBOpt = new SpatialElementBoundaryOptions();
+
+                // Group transaction
+                TransactionGroup tg = new TransactionGroup(doc, "Create Floor/s");
+                tg.Start();
 
                 // Add all checked checkboxes to global variable
                 foreach (var x in list)
@@ -212,6 +223,8 @@ namespace BIMiconToolbar.FloorFinish
                         transaction.Commit();
                     }
                 }
+
+                tg.Commit();
 
                 this.Dispose();
             }
