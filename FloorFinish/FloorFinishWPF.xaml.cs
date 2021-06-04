@@ -33,6 +33,10 @@ namespace BIMiconToolbar.FloorFinish
             InitializeComponent();
             DataContext = this;
 
+            // Set the input units
+            DisplayUnitType dUT = Helpers.RevitProjectInfo.ProjectLengthUnit(doc);
+            offsetTextBlock.Text = "Input offset from level in " + dUT.ToString().Replace("DUT_", "").Replace("_", " ").ToLower();
+
             // Populate room checkboxes
             RoomsCheckBoxes(doc);
             // Populate floor types
@@ -124,17 +128,20 @@ namespace BIMiconToolbar.FloorFinish
         /// <param name="e"></param>
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            bool isDouble = Double.TryParse(this.offsetTextBox.Text, out double number);
+            // Swap , for .
+            string newStringNumber = this.offsetTextBox.Text.Replace(",", ".");
+
+            bool isDouble = Double.TryParse(newStringNumber, out double number);
 
             if (isDouble)
             {
-                // Swap , for .
-                string newStringNumber = this.offsetTextBox.Text.Replace(",", ".");
+                // Retrieve project length unit
+                DisplayUnitType dUT = Helpers.RevitProjectInfo.ProjectLengthUnit(doc);
 
                 // Assign floor offset to property
                 if (number != 0)
                 {
-                    FloorOffset = Helpers.Helpers.MillimetersToFeet(Double.Parse(newStringNumber));
+                    FloorOffset = Helpers.UnitsConverter.LengthUnitToInternal(number, dUT);
                 }
                 else
                 {
