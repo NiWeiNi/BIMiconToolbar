@@ -231,7 +231,7 @@ namespace BIMiconToolbar.FloorFinish
                     }
                 }
 
-                tg.Commit();
+                tg.Assimilate();
 
                 this.Dispose();
             }
