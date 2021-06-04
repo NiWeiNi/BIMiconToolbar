@@ -32,7 +32,7 @@
 
             <!-- Offset -->
             <TextBlock Style="{StaticResource Title}">
-                Offset from level
+                Offset from level in mm
             </TextBlock>
 
             <TextBox x:Name="offsetTextBox" Style="{StaticResource TextBox}" Text="0"/>

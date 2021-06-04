@@ -132,7 +132,7 @@ namespace BIMiconToolbar.FloorFinish
                 string newStringNumber = this.offsetTextBox.Text.Replace(",", ".");
 
                 // Assign floor offset to property
-                FloorOffset = Double.Parse(newStringNumber);
+                FloorOffset = Helpers.Helpers.MillimetersToFeet(Double.Parse(newStringNumber));
 
                 // Retrieve all checked checkboxes
                 IEnumerable<CheckBox> list = this.roomsCheckBoxes.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
@@ -145,34 +145,72 @@ namespace BIMiconToolbar.FloorFinish
                 {
                     SpatialElement sE = x.Tag as SpatialElement;
 
+                    // Retrieve level
+                    Level level = sE.Level;
+
+                    // Store the floor created with first boundaries
+                    Element floorElement = null;
+
                     // Retrieve boundaries of rooms
                     IList<IList<BoundarySegment>> boundaries = sE.GetBoundarySegments(sEBOpt);
 
-                    // Floor boundary
-                    CurveArray floorBoundary = new CurveArray();
-
-                    foreach (var bound in boundaries)
+                    // Retrieve boundaries and create floor and openings
+                    for (int i = 0; i < boundaries.Count; i++ )
                     {
-                        if (bound.Count != 0)
+                        if (boundaries[i].Count != 0 && i == 0)
                         {
-                            foreach (var b in bound)
+                            // Floor boundary
+                            CurveArray floorBoundary = new CurveArray();
+
+                            foreach (var b in boundaries[i])
                             {
                                 floorBoundary.Append(b.GetCurve());
+                            }
+
+                            // Create floor
+                            Transaction transaction = new Transaction(doc, "Create Floor");
+                            transaction.Start();
+
+                            Floor floor = doc.Create.NewFloor(floorBoundary, SelectedComboItemFloorType.Tag as FloorType, level, false);
+                            floorElement = floor as Element;
+
+                            transaction.Commit();
+                        }
+                        // Create openings
+                        else
+                        {
+                            // Opening boundary
+                            CurveArray openingBoundary = new CurveArray();
+
+                            foreach (var b in boundaries[i])
+                            {
+                                openingBoundary.Append(b.GetCurve());
+                            }
+
+                            if (floorElement != null)
+                            {
+                                // Create opening
+                                Transaction transaction = new Transaction(doc, "Create Opening");
+                                transaction.Start();
+
+                                doc.Create.NewOpening(floorElement, openingBoundary, false);
+
+                                transaction.Commit();
                             }
                         }
                     }
 
-                    // Retrieve level
-                    Level level = sE.Level;
+                    // Offset the floor
+                    if (FloorOffset != 0)
+                    {
+                        // Move floor
+                        Transaction transaction = new Transaction(doc, "Move floor");
+                        transaction.Start();
 
-                    // Create floor
-                    Transaction transaction = new Transaction(doc, "Create Floor");
-                    transaction.Start();
+                        ElementTransformUtils.MoveElement(doc, floorElement.Id, new XYZ(0, 0, FloorOffset));
 
-                    doc.Create.NewFloor(floorBoundary, SelectedComboItemFloorType.Tag as FloorType, level, false);
-
-                    transaction.Commit();
-
+                        transaction.Commit();
+                    }
                 }
 
                 this.Dispose();
