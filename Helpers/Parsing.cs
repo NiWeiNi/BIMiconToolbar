@@ -70,5 +70,59 @@ namespace BIMiconToolbar.Helpers
             return textDisplay;
         }
 
+        /// <summary>
+        /// Method to check if a string is formatted as imperial fraction
+        /// </summary>
+        /// <param name="inputStringNumber"></param>
+        /// <returns></returns>
+        public static bool IsImperialFraction(string inputStringNumber)
+        {
+            // Regex to check string only has digits, ", ', \s, and /
+            Regex regexImperial = new Regex(@"^[\d""'\/\s-]*$");
+            Match matchIsImperialFraction = regexImperial.Match(inputStringNumber);
+
+            if (matchIsImperialFraction.Success)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Method to convert imperial fractions to decimal feet
+        /// </summary>
+        /// <param name="inputStringNumber"></param>
+        public static void ImperialFractionToDecimalFeet(string inputStringNumber)
+        {
+            // Regex to check string is properly formatted
+            Regex rx = new Regex(@"^(\d*)'*[\s|-]*(\d)*[\s|""]* (\d *\/\d *)*");
+            Match matchFraction = rx.Match(inputStringNumber);
+            double feet = 0;
+
+            if (IsImperialFraction(inputStringNumber))
+            {
+                GroupCollection matchGroups = matchFraction.Groups;
+
+                if (matchGroups[1].Success)
+                {
+                    string stringGroupOne = matchGroups[1].Value;
+                    double groupOne = double.Parse(stringGroupOne);
+                    feet += groupOne;
+                }
+                if (matchGroups[2].Success)
+                {
+                    string stringGroupTwo = matchGroups[2].Value;
+                    double groupTwo = double.Parse(stringGroupTwo);
+                    feet += groupTwo / 12;
+                }
+                if (matchGroups[3].Success)
+                {
+                    string stringGroupThree = matchGroups[3].Value;
+                    double groupThree = double.Parse(stringGroupThree);
+                    feet += groupThree;
+                }
+            }
+        }
     }
 }
