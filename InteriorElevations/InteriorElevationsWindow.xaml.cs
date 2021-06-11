@@ -61,10 +61,11 @@ namespace BIMiconToolbar.InteriorElevations
         {
             CbItemsViewType = new ObservableCollection<ComboBoxItem>();
 
-            FilteredElementCollector viewTypesCollector = new FilteredElementCollector(doc).OfClass(typeof(ViewFamilyType));
+            FilteredElementCollector viewTypesCollector = new FilteredElementCollector(doc).OfClass(typeof(ViewFamilyType))
+                                                                                           .WhereElementIsElementType();
 
             List<ViewFamilyType> filteredViewTypes = viewTypesCollector.Cast<ViewFamilyType>().Where(sh =>
-                                   sh.FamilyName.Contains("Elevation")).ToList();
+                                   sh.ViewFamily == ViewFamily.Elevation).ToList();
 
             IOrderedEnumerable<ViewFamilyType> viewTypes = from ViewFamilyType view in filteredViewTypes orderby view.FamilyName ascending select view;
 
