@@ -77,11 +77,11 @@ namespace BIMiconToolbar.Helpers
         /// <returns></returns>
         public static bool IsImperialFraction(string inputStringNumber)
         {
-            // Regex to check string only has digits, ", ', \s, and /
-            Regex regexImperial = new Regex(@"^[\d""'\/\s-]*$");
-            Match matchIsImperialFraction = regexImperial.Match(inputStringNumber);
+            // Regex to check string is properly formatted as imperial fraction
+            Regex rx = new Regex(@"^\d*/*\d*'*\s*\d*""*\s*\d*/*\d*""*");
+            Match matchFraction = rx.Match(inputStringNumber);
 
-            if (matchIsImperialFraction.Success)
+            if (matchFraction.Success)
             {
                 return true;
             }
@@ -93,36 +93,102 @@ namespace BIMiconToolbar.Helpers
         /// Method to convert imperial fractions to decimal feet
         /// </summary>
         /// <param name="inputStringNumber"></param>
-        public static void ImperialFractionToDecimalFeet(string inputStringNumber)
+        public static double ImperialFractionToDecimalFeet(string inputStringNumber)
         {
-            // Regex to check string is properly formatted
-            Regex rx = new Regex(@"^(\d*)'*[\s|-]*(\d)*[\s|""]* (\d *\/\d *)*");
-            Match matchFraction = rx.Match(inputStringNumber);
             double feet = 0;
+
+            Regex regexFeet = new Regex(@"\d+'");
+            Match matchFeet = regexFeet.Match(inputStringNumber);
+            Regex regexFeetFraction = new Regex(@"\d+/\d+'");
+            Match matchFeetFraction = regexFeetFraction.Match(inputStringNumber);
+            Regex regexInches = new Regex(@"\d+""");
+            Match matchInches = regexInches.Match(inputStringNumber);
+            Regex regexInchesFraction = new Regex(@"\d+/\d+""");
+            Match matchInchesFraction = regexInchesFraction.Match(inputStringNumber);
+            Regex regexAfterFracInches = new Regex(@"\d+\s\d+/\d+""");
+            Match matchAfterFracInches = regexAfterFracInches.Match(inputStringNumber);
+            Regex regexBeforeFracInches = new Regex(@"\d+""\s\d+/\d+");
+            Match matchBeforeFracInches = regexBeforeFracInches.Match(inputStringNumber);
+
+            string reducedString = inputStringNumber;
 
             if (IsImperialFraction(inputStringNumber))
             {
-                GroupCollection matchGroups = matchFraction.Groups;
+                // Match fraction feet first to avoid single number match
+                if (matchFeetFraction.Success)
+                {
+                    string[] division = matchFeetFraction.Value.Replace("'", "").Split('/');
+                    double nb = double.Parse(division[0]) / double.Parse(division[1]);
+                    feet += nb;
+                    reducedString = inputStringNumber.Replace(matchFeetFraction.Value, "");
+                }
+                else if (matchFeet.Success)
+                {
+                    double nb = double.Parse(matchFeet.Value.Replace("'", ""));
+                    feet += nb;
+                    reducedString = inputStringNumber.Replace(matchFeet.Value, "");
+                }
+                // Match inches
+                if (matchAfterFracInches.Success)
+                {
+                    // Extract entire part of fraction
+                    Regex entire = new Regex(@"\d+\s");
+                    Match matchEntire = entire.Match(reducedString);
+                    feet += double.Parse(matchEntire.Value) / 12;
 
-                if (matchGroups[1].Success)
-                {
-                    string stringGroupOne = matchGroups[1].Value;
-                    double groupOne = double.Parse(stringGroupOne);
-                    feet += groupOne;
+                    // Extract fraction
+                    Regex fraction = new Regex(@"\d+/\d+""");
+                    Match matchFractional = fraction.Match(reducedString);
+                    string[] fractionInches = matchFractional.Value.Replace("\"", "").Split('/');
+
+                    feet += (double.Parse(fractionInches[0]) / double.Parse(fractionInches[1])) / 12;
                 }
-                if (matchGroups[2].Success)
+                else if (matchBeforeFracInches.Success)
                 {
-                    string stringGroupTwo = matchGroups[2].Value;
-                    double groupTwo = double.Parse(stringGroupTwo);
-                    feet += groupTwo / 12;
+                    // Extract entire part of fraction
+                    Regex entire = new Regex(@"\d+\s");
+                    Match matchEntire = entire.Match(reducedString);
+                    feet += double.Parse(matchEntire.Value) / 12;
+
+                    // Extract fraction
+                    Regex fraction = new Regex(@"\d+/\d+""");
+                    Match matchFractional = fraction.Match(reducedString);
+                    string[] fractionInches = matchFractional.Value.Replace("\"", "").Split('/');
+
+                    feet += (double.Parse(fractionInches[0]) / double.Parse(fractionInches[1])) / 12;
                 }
-                if (matchGroups[3].Success)
+                else if (matchInchesFraction.Success)
                 {
-                    string stringGroupThree = matchGroups[3].Value;
-                    double groupThree = double.Parse(stringGroupThree);
-                    feet += groupThree;
+                    string[] division = matchInchesFraction.Value.Replace("\"", "").Split('/');
+                    double nb = double.Parse(division[0]) / double.Parse(division[1]) / 12;
+                    feet += nb;
+                }
+                else if (matchInches.Success)
+                {
+                    double nb = double.Parse(matchInches.Value.Replace("\"", ""));
+                    feet += nb / 12;
                 }
             }
+
+            return feet;
+        }
+
+        /// <summary>
+        /// Method to check if string has any alpha characters
+        /// </summary>
+        /// <param name="inputString"></param>
+        /// <returns></returns>
+        public static bool IsAlpha(string inputString)
+        {
+            Regex rx = new Regex(@"^(\d*)'*[\s|-]*(\d)*[\s|""]* (\d *\/\d *)*");
+            Match match = rx.Match(inputString);
+
+            if (match.Success)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

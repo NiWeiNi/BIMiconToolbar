@@ -32,12 +32,21 @@
 
             <!-- Offset -->
             <TextBlock x:Name="offsetTextBlock" Style="{StaticResource Title}" Text="">
-                Offset from level 
+                Offset from level
             </TextBlock>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
 
-            <TextBox x:Name="offsetTextBox" Style="{StaticResource TextBox}" Text="0"/>
+                <TextBox x:Name="offsetTextBox" Grid.Column="0" Style="{StaticResource TextBox}" Text="0" 
+                         TextChanged="OffsetTextBox_TextChanged"/>
+                <TextBox x:Name="internalTextBox" Grid.Column="1" IsEnabled="False"
+                         Style="{StaticResource TextBox}" Text="{Binding StringInternalUnits}"/>
+            </Grid>
 
-                <!-- Select rooms -->
+            <!-- Select rooms -->
             <TextBlock Style="{StaticResource Title}">
                 Select rooms to create floor finish:
             </TextBlock>

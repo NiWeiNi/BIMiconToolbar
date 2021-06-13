@@ -22,6 +22,8 @@ namespace BIMiconToolbar.FloorFinish
         public ComboBoxItem SelectedComboItemFloorType { get; set; }
         Document doc { get; set; }
         public double FloorOffset { get; set; }
+        public string StringInternalUnits { get; set; }
+        private bool IsExecuteReady = false;
 
         /// <summary>
         /// Method to initialize the window and populate content
@@ -35,7 +37,7 @@ namespace BIMiconToolbar.FloorFinish
 
             // Set the input units
             DisplayUnitType dUT = Helpers.RevitProjectInfo.ProjectLengthUnit(doc);
-            offsetTextBlock.Text = "Input offset from level in " + dUT.ToString().Replace("DUT_", "").Replace("_", " ").ToLower();
+            offsetTextBlock.Text = "Offset from level in " + dUT.ToString().Replace("DUT_", "").Replace("_", " ").ToLower();
 
             // Populate room checkboxes
             RoomsCheckBoxes(doc);
@@ -128,26 +130,8 @@ namespace BIMiconToolbar.FloorFinish
         /// <param name="e"></param>
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            // Swap , for .
-            string newStringNumber = this.offsetTextBox.Text.Replace(",", ".");
-
-            bool isDouble = Double.TryParse(newStringNumber, out double number);
-
-            if (isDouble)
+            if (IsExecuteReady)
             {
-                // Retrieve project length unit
-                DisplayUnitType dUT = Helpers.RevitProjectInfo.ProjectLengthUnit(doc);
-
-                // Assign floor offset to property
-                if (number != 0)
-                {
-                    FloorOffset = Helpers.UnitsConverter.LengthUnitToInternal(number, dUT);
-                }
-                else
-                {
-                    FloorOffset = 0;
-                }
-
                 // Retrieve all checked checkboxes
                 IEnumerable<CheckBox> list = this.roomsCheckBoxes.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
 
@@ -237,9 +221,7 @@ namespace BIMiconToolbar.FloorFinish
             }
             else
             {
-                Helpers.MessageWindows.AlertMessage("Error", "Please input a number for Offset from level.\n"
-                                                             + "Use . or , only to separate decimal part.\n"
-                                                             + "For example: 3.20 or 0,50");
+                internalTextBox.Text = "Please input valid number";
             }
         }
 
@@ -251,6 +233,59 @@ namespace BIMiconToolbar.FloorFinish
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Dispose();
+        }
+
+        /// <summary>
+        /// Method to update internal units display
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OffsetTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // Swap , for .
+            string newStringNumber = this.offsetTextBox.Text.Replace(",", ".");
+
+            // Check string contains only allowed characters
+            bool wellFormatted = newStringNumber.All(c => "\"'/0123456789. ".Contains(c));
+
+            // Parse input
+            if (wellFormatted)
+            {
+                // Check if string can be converted to double
+                bool isDouble = Double.TryParse(newStringNumber, out double number);
+
+                // Input parsed and converted directly to internal units
+                if (isDouble)
+                {
+                    // Retrieve project length unit
+                    DisplayUnitType dUT = Helpers.RevitProjectInfo.ProjectLengthUnit(doc);
+
+                    // Assign floor offset to property
+                    FloorOffset = Helpers.UnitsConverter.LengthUnitToInternal(number, dUT);
+                    StringInternalUnits = FloorOffset.ToString();
+                    IsExecuteReady = true;
+                }
+                // Input as imperial fractions
+                else if (Helpers.Parsing.IsImperialFraction(newStringNumber) && 
+                    (DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES == Helpers.RevitProjectInfo.ProjectLengthUnit(doc) ||
+                    DisplayUnitType.DUT_FRACTIONAL_INCHES == Helpers.RevitProjectInfo.ProjectLengthUnit(doc)))
+                {
+                    FloorOffset = Helpers.Parsing.ImperialFractionToDecimalFeet(newStringNumber);
+                    StringInternalUnits = FloorOffset.ToString();
+                    IsExecuteReady = true;
+                }
+            }
+            else
+            {
+                StringInternalUnits = "Please change format to: 2' 5 3/4\", 1/4' or 3.5";
+                IsExecuteReady = false;
+            }
+
+            // Set the conversion units textbox, skip when it is not yet initialized
+            if (internalTextBox != null)
+            {
+                internalTextBox.Text = StringInternalUnits;
+            }
         }
     }
 }
