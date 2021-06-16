@@ -43,6 +43,7 @@ namespace BIMiconToolbar.NumberBySpline
 
             // Associate the event-handling method with the category changed
             this.comboDisplayCategories.SelectionChanged += new SelectionChangedEventHandler(ComboDisplayCategories_SelectionChanged);
+            this.comboDisplayParameters.SelectionChanged += new SelectionChangedEventHandler(ComboDisplayParameters_SelectionChanged);
         }
 
         /// <summary>
@@ -188,6 +189,7 @@ namespace BIMiconToolbar.NumberBySpline
                             if (count == 0)
                             {
                                 SelectedComboItemLevels = comb;
+                                comboBox.SelectedItem = SelectedComboItemLevels;
                             }
 
                             count++;
@@ -247,6 +249,7 @@ namespace BIMiconToolbar.NumberBySpline
                 if (count == 0)
                 {
                     SelectedComboItemParameters = comb;
+                    comboDisplayParameters.SelectedItem = SelectedComboItemParameters;
                 }
 
                 count++;
