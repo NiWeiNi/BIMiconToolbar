@@ -31,25 +31,38 @@ namespace BIMiconToolbar.NumberBySpline
 
                     // Retrieve elements of selected category
                     Category cat = customWindow.SelectedComboItemCategories.Tag as Category;
-                    Level level = customWindow.SelectedComboItemLevels.Tag as Level;
                     Parameter selParameter = customWindow.SelectedComboItemParameters.Tag as Parameter;
                     string startNumber = customWindow.StartNumber;
                     string prefix = customWindow.Prefix;
 
-                    ElementLevelFilter levelFilter = new ElementLevelFilter(level.Id);
                     FilteredElementCollector collectElements = new FilteredElementCollector(doc).OfCategoryId(cat.Id).WhereElementIsNotElementType();
 
                     // Create two list that contains all selected elements
                     List<Element> selElements = new List<Element>();
                     List<Element> selElementsCopy = new List<Element>();
 
-                    foreach (Element element in collectElements)
+                    // If selected elements don't have parameter level
+                    if (customWindow.levelDisplay)
                     {
-                        if (element.LevelId == level.Id)
+                        // Retrieve user level selection
+                        Level level = customWindow.SelectedComboItemLevels.Tag as Level;
+                        ElementLevelFilter levelFilter = new ElementLevelFilter(level.Id);
+
+                        // Collect elements that match user selected level
+                        foreach (Element element in collectElements)
                         {
-                            selElements.Add(element);
-                            selElementsCopy.Add(element);
+                            if (element.LevelId == level.Id)
+                            {
+                                selElements.Add(element);
+                                selElementsCopy.Add(element);
+                            }
                         }
+                    }
+                    // Convert collector to list of elements if no level filter is required
+                    else
+                    {
+                        selElements = (List<Element>)collectElements.ToElements();
+                        selElementsCopy = (List<Element>)collectElements.ToElements();
                     }
 
                     // Renumber selected elements
@@ -67,16 +80,25 @@ namespace BIMiconToolbar.NumberBySpline
                             {
                                 // Retrieve bounding box of element
                                 BoundingBoxXYZ bBox = selElementsCopy[j].get_BoundingBox(null);
-                                int intersResult = Helpers.HelpersGeometry.IsPointInsideRectangle(point, bBox.Min, bBox.Max);
-
-                                if (intersResult != 0)
+                                // Try get bounding box in active view if model geometry one is empty
+                                if (bBox == null)
                                 {
-                                    Parameter param = selElementsCopy[j].LookupParameter(selParameter.Definition.Name);
-                                    param.Set(prefix + number.ToString());
-                                    selElementsCopy.Remove(selElementsCopy[j]);
+                                    bBox = selElementsCopy[j].get_BoundingBox(doc.ActiveView);
+                                }
+                                // Element bounding box is valid
+                                if (bBox != null)
+                                {
+                                    int intersResult = Helpers.HelpersGeometry.IsPointInsideRectangle(point, bBox.Min, bBox.Max);
 
-                                    number++;
-                                    break;
+                                    if (intersResult != 0)
+                                    {
+                                        Parameter param = selElementsCopy[j].LookupParameter(selParameter.Definition.Name);
+                                        param.Set(prefix + number.ToString());
+                                        selElementsCopy.Remove(selElementsCopy[j]);
+
+                                        number++;
+                                        break;
+                                    }
                                 }
                             }
                         }

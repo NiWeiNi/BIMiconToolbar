@@ -25,7 +25,7 @@ namespace BIMiconToolbar.NumberBySpline
         public ComboBoxItem SelectedComboItemLevels { get; set; }
         public ObservableCollection<ComboBoxItem> CbParameters { get; set; }
         public ComboBoxItem SelectedComboItemParameters { get; set; }
-        private bool levelDisplay = false;
+        public bool levelDisplay = false;
 
         /// <summary>
         /// Function to initialize window
@@ -152,46 +152,59 @@ namespace BIMiconToolbar.NumberBySpline
                     // Generate UI for user level input
                     if (levelDisplay == false)
                     {
-                        Style style = this.FindResource("Title") as Style;
+                        // Style for controls
+                        Style styleTextBlock = this.FindResource("Title") as Style;
+                        Style styleComboBox = this.FindResource("comboDisplay") as Style;
+
+                        // Create title for level input
                         TextBlock levelTitle = new TextBlock();
                         levelTitle.Text = "Select Level:";
-                        levelTitle.Style = style;
+                        levelTitle.Style = styleTextBlock;
 
-                        level.Children.Add(levelTitle);
-                        levelDisplay = true;
-                    }
+                        // Create combobox for level selection
+                        System.Windows.Controls.ComboBox comboBox = new System.Windows.Controls.ComboBox();
+                        comboBox.ItemsSource = CbLevels;
+                        comboBox.Style = styleComboBox;
 
-                    // Retrieve levels
-                    var levels = new FilteredElementCollector(doc)
-                                .OfCategory(BuiltInCategory.OST_Levels)
-                                .WhereElementIsNotElementType()
-                                .ToElements();
+                        // Retrieve levels
+                        var levels = new FilteredElementCollector(doc)
+                                    .OfCategory(BuiltInCategory.OST_Levels)
+                                    .WhereElementIsNotElementType()
+                                    .ToElements();
 
-                    IOrderedEnumerable<Level> orderedLevels = levels.Cast<Level>().OrderBy(lvl => lvl.Name);
+                        IOrderedEnumerable<Level> orderedLevels = levels.Cast<Level>().OrderBy(lvl => lvl.Name);
 
-                    int count = 0;
+                        int count = 0;
 
-                    System.Windows.Controls.ComboBox cbox = new System.Windows.Controls.ComboBox();
+                        System.Windows.Controls.ComboBox cbox = new System.Windows.Controls.ComboBox();
 
-                    foreach (Level lvl in orderedLevels)
-                    {
-                        ComboBoxItem comb = new ComboBoxItem();
-                        comb.Content = lvl.Name;
-                        comb.Tag = lvl;
-                        CbLevels.Add(comb);
-
-                        if (count == 0)
+                        foreach (Level lvl in orderedLevels)
                         {
-                            SelectedComboItemLevels = comb;
+                            ComboBoxItem comb = new ComboBoxItem();
+                            comb.Content = lvl.Name;
+                            comb.Tag = lvl;
+                            CbLevels.Add(comb);
+
+                            if (count == 0)
+                            {
+                                SelectedComboItemLevels = comb;
+                            }
+
+                            count++;
                         }
 
-                        count++;
+                        // Add controls to wpf window
+                        level.Children.Add(levelTitle);
+                        level.Children.Add(comboBox);
+                        levelDisplay = true;
                     }
                 }
+                // Remove level UI if selected category doesn't have level parameter
                 else if (Helpers.Parameters.IsElementLevelBased(doc, cat.Id) == false && levelDisplay == true)
                 {
                     level.Children.Clear();
                     level.UpdateLayout();
+                    levelDisplay = false;
                 }
             }          
         }
