@@ -89,15 +89,23 @@ namespace BIMiconToolbar.NumberBySpline
                                 if (bBox != null)
                                 {
                                     int intersResult = Helpers.HelpersGeometry.IsPointInsideRectangle(point, bBox.Min, bBox.Max);
+                                    Parameter param = selElementsCopy[j].LookupParameter(selParameter.Definition.Name);
+                                    bool isParamReadOnly = param.IsReadOnly;
 
-                                    if (intersResult != 0)
+                                    if (intersResult != 0 && isParamReadOnly == false)
                                     {
-                                        Parameter param = selElementsCopy[j].LookupParameter(selParameter.Definition.Name);
                                         param.Set(prefix + number.ToString());
                                         selElementsCopy.Remove(selElementsCopy[j]);
 
                                         number++;
                                         break;
+                                    }
+                                    else if (isParamReadOnly)
+                                    {
+                                        Helpers.MessageWindows.AlertMessage("Warning", "Parameter is read only. Please select another parameter.");
+                                        tx.RollBack();
+                                        // Stop the program
+                                        return Result.Failed;
                                     }
                                 }
                             }
