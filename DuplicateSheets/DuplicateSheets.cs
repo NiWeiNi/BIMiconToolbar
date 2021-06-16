@@ -134,12 +134,19 @@ namespace BIMiconToolbar.DuplicateSheets
                                 // Rest of view types
                                 else
                                 {
+                                    ElementId newViewId = null;
+
                                     if (origView.CanViewBeDuplicated(viewDuplicateOption))
                                     {
-                                        ElementId newViewId = origView.Duplicate(viewDuplicateOption);
-                                        newView = doc.GetElement(newViewId) as View;
-                                        newView.Name = viewPrefix + origView.Name + viewSuffix;
+                                        newViewId = origView.Duplicate(viewDuplicateOption);
                                     }
+                                    else
+                                    {
+                                        newViewId = origView.Duplicate(ViewDuplicateOption.Duplicate);
+                                    }
+
+                                    newView = doc.GetElement(newViewId) as View;
+                                    newView.Name = viewPrefix + origView.Name + viewSuffix;
                                 }
 
                                 // Loop through viewports
