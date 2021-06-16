@@ -7,7 +7,9 @@
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
-        Title="Duplicate Sheets" Height="460" Width="750"
+        Title="Duplicate Sheets"
+        SizeToContent="Height"
+        Width="750"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -96,33 +98,35 @@
                             Input naming options:
                     </TextBlock>
                     <!-- Prefix and Suffix view-->
-                    <Grid Style="{StaticResource MainButtons}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                    <StackPanel Style="{StaticResource StackPanelContainer}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBox Grid.Column="0" x:Name="viewPrefixTextBox" Style="{StaticResource TextBox}" Text="prefix"/>
-                        <TextBlock FontWeight="Bold" Grid.Column="1" TextAlignment="Center">
-                                View Name
-                        </TextBlock>
-                        <TextBox Grid.Column="2" x:Name="viewSuffixTextBox" Style="{StaticResource TextBox}" Text="suffix"/>
-                    </Grid>
-                    <!-- Prefix and Suffix sheet-->
-                    <Grid Style="{StaticResource MainButtons}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" x:Name="viewPrefixTextBox" Style="{StaticResource TextBox}" Text="prefix"/>
+                            <TextBlock FontWeight="Bold" Grid.Column="1" TextAlignment="Center">
+                                    View Name
+                            </TextBlock>
+                            <TextBox Grid.Column="2" x:Name="viewSuffixTextBox" Style="{StaticResource TextBox}" Text="suffix"/>
+                        </Grid>
+                        <!-- Prefix and Suffix sheet-->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBox Grid.Column="0" x:Name="sheetPrefixTextBox" Style="{StaticResource TextBox}" Text="prefix"/>
-                        <TextBlock FontWeight="Bold" Grid.Column="1" TextAlignment="Center">
-                                Sheet Number
-                        </TextBlock>
-                        <TextBox Grid.Column="2" x:Name="sheetSuffixTextBox" Style="{StaticResource TextBox}" Text="suffix"/>
-                    </Grid>
+                            <TextBox Grid.Column="0" x:Name="sheetPrefixTextBox" Style="{StaticResource TextBox}" Text="prefix"/>
+                            <TextBlock FontWeight="Bold" Grid.Column="1" TextAlignment="Center">
+                                    Sheet Number
+                            </TextBlock>
+                            <TextBox Grid.Column="2" x:Name="sheetSuffixTextBox" Style="{StaticResource TextBox}" Text="suffix"/>
+                        </Grid>
+                    </StackPanel>
 
                     <!-- Buttons End -->
                     <Grid Style="{StaticResource MainButtons}">

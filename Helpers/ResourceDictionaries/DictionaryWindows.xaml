@@ -85,9 +85,14 @@
         <Setter Property="Padding" Value="5 10 5 10"/>
     </Style>
     
+    <!-- Style for stack panel container -->
+    <Style TargetType="StackPanel" x:Key="StackPanelContainer">
+        <Setter Property="Margin" Value="0 5 0 8" />
+    </Style>
+    
     <!-- Style for buttons grid container -->
     <Style TargetType="Grid" x:Key="MainButtons">
-        <Setter Property="Margin" Value="0 15 0 0" />
+        <Setter Property="Margin" Value="0 15 0 5" />
     </Style>
 
     <!--Style for scrollbar-->

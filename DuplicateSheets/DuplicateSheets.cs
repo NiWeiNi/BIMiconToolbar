@@ -212,7 +212,7 @@ namespace BIMiconToolbar.DuplicateSheets
                 // Display result message to user
                 if (viewSheetSuccess.Count > 0)
                 {
-                    TaskDialog.Show("Success", "The following sheets have been duplicated: \n" + string.Join("\n", viewSheetSuccess));
+                    Helpers.MessageWindows.AlertMessage("Success", "The following sheets have been duplicated: \n" + string.Join("\n", viewSheetSuccess));
                 }
 
                 return Result.Succeeded;
