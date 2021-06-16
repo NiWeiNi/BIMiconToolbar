@@ -137,5 +137,27 @@ namespace BIMiconToolbar.Helpers
             else
                 return false;
         }
+
+        /// <summary>
+        /// Method to check if elements of category are level based
+        /// </summary>
+        /// <param name="elements"></param>
+        /// <returns></returns>
+        public static bool IsElementLevelBased(Document doc, ElementId catId)
+        {
+            // Retrieve instances in category
+            FilteredElementCollector catInstances = new FilteredElementCollector(doc)
+                                .OfCategoryId(catId)
+                                .WhereElementIsNotElementType();
+
+            // Check if selected category has instances that are level based
+            foreach (Element el in catInstances)
+            {
+                if (el.LevelId.IntegerValue != -1)
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

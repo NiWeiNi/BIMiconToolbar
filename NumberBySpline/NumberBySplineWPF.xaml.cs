@@ -25,6 +25,7 @@ namespace BIMiconToolbar.NumberBySpline
         public ComboBoxItem SelectedComboItemLevels { get; set; }
         public ObservableCollection<ComboBoxItem> CbParameters { get; set; }
         public ComboBoxItem SelectedComboItemParameters { get; set; }
+        private bool levelDisplay = false;
 
         /// <summary>
         /// Function to initialize window
@@ -39,7 +40,6 @@ namespace BIMiconToolbar.NumberBySpline
             DataContext = this;
 
             PopulateCategories(doc);
-            PopulateLevels(doc);
 
             // Associate the event-handling method with the category changed
             this.comboDisplayCategories.SelectionChanged += new SelectionChangedEventHandler(ComboDisplayCategories_SelectionChanged);
@@ -129,6 +129,8 @@ namespace BIMiconToolbar.NumberBySpline
 
                 count++;
             }
+
+            PopulateLevels(doc);
         }
 
         /// <summary>
@@ -139,30 +141,59 @@ namespace BIMiconToolbar.NumberBySpline
         {
             CbLevels = new ObservableCollection<ComboBoxItem>();
 
-            // Retrieve levels
-            var levels = new FilteredElementCollector(doc)
-                        .OfCategory(BuiltInCategory.OST_Levels)
-                        .WhereElementIsNotElementType()
-                        .ToElements();
-           
-            IOrderedEnumerable<Level> orderedLevels = levels.Cast<Level>().OrderBy(lvl => lvl.Name);
-
-            int count = 0;
-
-            foreach (Level lvl in orderedLevels)
+            // Case category selected
+            if (SelectedComboItemCategories != null)
             {
-                ComboBoxItem comb = new ComboBoxItem();
-                comb.Content = lvl.Name;
-                comb.Tag = lvl;
-                CbLevels.Add(comb);
+                Category cat = SelectedComboItemCategories.Tag as Category;
 
-                if (count == 0)
+                // Check if elements in category are level based
+                if (Helpers.Parameters.IsElementLevelBased(doc, cat.Id))
                 {
-                    SelectedComboItemLevels = comb;
-                }
+                    // Generate UI for user level input
+                    if (levelDisplay == false)
+                    {
+                        Style style = this.FindResource("Title") as Style;
+                        TextBlock levelTitle = new TextBlock();
+                        levelTitle.Text = "Select Level:";
+                        levelTitle.Style = style;
 
-                count++;
-            }
+                        level.Children.Add(levelTitle);
+                        levelDisplay = true;
+                    }
+
+                    // Retrieve levels
+                    var levels = new FilteredElementCollector(doc)
+                                .OfCategory(BuiltInCategory.OST_Levels)
+                                .WhereElementIsNotElementType()
+                                .ToElements();
+
+                    IOrderedEnumerable<Level> orderedLevels = levels.Cast<Level>().OrderBy(lvl => lvl.Name);
+
+                    int count = 0;
+
+                    System.Windows.Controls.ComboBox cbox = new System.Windows.Controls.ComboBox();
+
+                    foreach (Level lvl in orderedLevels)
+                    {
+                        ComboBoxItem comb = new ComboBoxItem();
+                        comb.Content = lvl.Name;
+                        comb.Tag = lvl;
+                        CbLevels.Add(comb);
+
+                        if (count == 0)
+                        {
+                            SelectedComboItemLevels = comb;
+                        }
+
+                        count++;
+                    }
+                }
+                else if (Helpers.Parameters.IsElementLevelBased(doc, cat.Id) == false && levelDisplay == true)
+                {
+                    level.Children.Clear();
+                    level.UpdateLayout();
+                }
+            }          
         }
 
         /// <summary>
@@ -219,6 +250,7 @@ namespace BIMiconToolbar.NumberBySpline
             int selectedItemIndex = CbCategories.IndexOf(SelectedComboItemCategories);
             SelectedComboItemCategories = CbCategories[selectedItemIndex];
             PopulateParameters();
+            PopulateLevels(doc);
         }
 
         /// <summary>
