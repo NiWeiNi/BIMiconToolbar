@@ -21,6 +21,13 @@ namespace BIMiconToolbar.NumberBySpline
 
                 customWindow.ShowDialog();
                 ElementId curveId = customWindow.CurveId;
+                string startNumber = customWindow.StartNumber;
+                string prefix = customWindow.Prefix;
+
+                if (prefix == null || startNumber == null)
+                {
+                    return Result.Failed;
+                }
 
                 if (customWindow.Cancel == false && curveId != null)
                 {
@@ -32,8 +39,6 @@ namespace BIMiconToolbar.NumberBySpline
                     // Retrieve elements of selected category
                     Category cat = customWindow.SelectedComboItemCategories.Tag as Category;
                     Parameter selParameter = customWindow.SelectedComboItemParameters.Tag as Parameter;
-                    string startNumber = customWindow.StartNumber;
-                    string prefix = customWindow.Prefix;
 
                     var collectElements = new FilteredElementCollector(doc).OfCategoryId(cat.Id)
                                                                            .WhereElementIsNotElementType()
