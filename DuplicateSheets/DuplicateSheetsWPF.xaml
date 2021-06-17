@@ -106,11 +106,11 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBox Grid.Column="0" x:Name="viewPrefixTextBox" Style="{StaticResource TextBox}" Text="prefix"/>
+                            <TextBox Grid.Column="0" x:Name="viewPrefixTextBox" GotFocus="GotFocus" Style="{StaticResource TextBox}" Text="prefix"/>
                             <TextBlock FontWeight="Bold" Grid.Column="1" TextAlignment="Center">
                                     View Name
                             </TextBlock>
-                            <TextBox Grid.Column="2" x:Name="viewSuffixTextBox" Style="{StaticResource TextBox}" Text="suffix"/>
+                            <TextBox Grid.Column="2" x:Name="viewSuffixTextBox" GotFocus="GotFocus" Style="{StaticResource TextBox}" Text="suffix"/>
                         </Grid>
                         <!-- Prefix and Suffix sheet-->
                         <Grid>
@@ -120,11 +120,11 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBox Grid.Column="0" x:Name="sheetPrefixTextBox" Style="{StaticResource TextBox}" Text="prefix"/>
+                            <TextBox Grid.Column="0" x:Name="sheetPrefixTextBox" GotFocus="GotFocus" Style="{StaticResource TextBox}" Text="prefix"/>
                             <TextBlock FontWeight="Bold" Grid.Column="1" TextAlignment="Center">
                                     Sheet Number
                             </TextBlock>
-                            <TextBox Grid.Column="2" x:Name="sheetSuffixTextBox" Style="{StaticResource TextBox}" Text="suffix"/>
+                            <TextBox Grid.Column="2" x:Name="sheetSuffixTextBox" GotFocus="GotFocus" Style="{StaticResource TextBox}" Text="suffix"/>
                         </Grid>
                     </StackPanel>
 

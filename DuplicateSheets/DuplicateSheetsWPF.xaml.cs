@@ -57,6 +57,18 @@ namespace BIMiconToolbar.DuplicateSheets
         }
 
         /// <summary>
+        /// Function to remove placeholder text in textboxes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private new void GotFocus(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.TextBox tb = (System.Windows.Controls.TextBox)sender;
+            tb.Text = string.Empty;
+            tb.GotFocus -= GotFocus;
+        }
+
+        /// <summary>
         /// Dynamically populate checkboxes
         /// </summary>
         /// <param name="doc"></param>
