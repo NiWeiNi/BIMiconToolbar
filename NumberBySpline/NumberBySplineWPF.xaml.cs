@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace BIMiconToolbar.NumberBySpline
 {
@@ -140,8 +141,6 @@ namespace BIMiconToolbar.NumberBySpline
         /// <param name="doc"></param>
         private void PopulateLevels(Document doc)
         {
-            CbLevels = new ObservableCollection<ComboBoxItem>();
-
             // Case category selected
             if (SelectedComboItemCategories != null)
             {
@@ -153,6 +152,8 @@ namespace BIMiconToolbar.NumberBySpline
                     // Generate UI for user level input
                     if (levelDisplay == false)
                     {
+                        CbLevels = new ObservableCollection<ComboBoxItem>();
+
                         // Style for controls
                         Style styleTextBlock = this.FindResource("Title") as Style;
                         Style styleComboBox = this.FindResource("comboDisplay") as Style;
@@ -189,12 +190,19 @@ namespace BIMiconToolbar.NumberBySpline
                             if (count == 0)
                             {
                                 SelectedComboItemLevels = comb;
-                                comboBox.SelectedItem = SelectedComboItemLevels;
+
+                                // Bind selected level to property
+                                System.Windows.Data.Binding comboBinding = new System.Windows.Data.Binding();
+                                comboBinding.Mode = BindingMode.TwoWay;
+                                comboBinding.Source = this;
+                                comboBinding.Path = new PropertyPath("SelectedComboItemLevels");
+                                comboBox.SetBinding(System.Windows.Controls.ComboBox.SelectedItemProperty, comboBinding);
                             }
 
                             count++;
                         }
 
+                        comboBox.SelectionChanged += ComboBoxLevel_SelectionChanged;
                         // Add controls to wpf window
                         level.Children.Add(levelTitle);
                         level.Children.Add(comboBox);
@@ -209,6 +217,17 @@ namespace BIMiconToolbar.NumberBySpline
                     levelDisplay = false;
                 }
             }          
+        }
+
+        /// <summary>
+        /// Method to change selected level
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ComboBoxLevel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int selectedItemIndex = CbLevels.IndexOf(SelectedComboItemLevels);
+            SelectedComboItemLevels = CbLevels[selectedItemIndex];
         }
 
         /// <summary>
@@ -267,17 +286,6 @@ namespace BIMiconToolbar.NumberBySpline
             SelectedComboItemCategories = CbCategories[selectedItemIndex];
             PopulateParameters();
             PopulateLevels(doc);
-        }
-
-        /// <summary>
-        /// Function to update levels combobox
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ComboDisplayLevels_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            int selectedItemIndex = CbLevels.IndexOf(SelectedComboItemLevels);
-            SelectedComboItemLevels = CbLevels[selectedItemIndex];
         }
 
         /// <summary>

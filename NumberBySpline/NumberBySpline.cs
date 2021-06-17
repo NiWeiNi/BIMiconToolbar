@@ -35,7 +35,9 @@ namespace BIMiconToolbar.NumberBySpline
                     string startNumber = customWindow.StartNumber;
                     string prefix = customWindow.Prefix;
 
-                    FilteredElementCollector collectElements = new FilteredElementCollector(doc).OfCategoryId(cat.Id).WhereElementIsNotElementType();
+                    var collectElements = new FilteredElementCollector(doc).OfCategoryId(cat.Id)
+                                                                           .WhereElementIsNotElementType()
+                                                                           .ToElements();
 
                     // Create two list that contains all selected elements
                     List<Element> selElements = new List<Element>();
@@ -61,16 +63,19 @@ namespace BIMiconToolbar.NumberBySpline
                     // Convert collector to list of elements if no level filter is required
                     else
                     {
-                        selElements = (List<Element>)collectElements.ToElements();
-                        selElementsCopy = (List<Element>)collectElements.ToElements();
+                        selElements = (List<Element>)collectElements;
+                        selElementsCopy = (List<Element>)collectElements;
                     }
 
                     // Renumber selected elements
-                    using (Transaction tx = new Transaction(doc))
+                    using (TransactionGroup tx = new TransactionGroup(doc))
                     {
                         tx.Start("Draw Curves at Points");
 
                         int number = int.Parse(startNumber);
+
+                        List<Element> elementsToRenumber = new List<Element>();
+                        Parameter param = null;
 
                         // Loop through each point to check if it is inside the selected elements
                         foreach (XYZ point in points)
@@ -89,15 +94,14 @@ namespace BIMiconToolbar.NumberBySpline
                                 if (bBox != null)
                                 {
                                     int intersResult = Helpers.HelpersGeometry.IsPointInsideRectangle(point, bBox.Min, bBox.Max);
-                                    Parameter param = selElementsCopy[j].LookupParameter(selParameter.Definition.Name);
+                                    param = selElementsCopy[j].LookupParameter(selParameter.Definition.Name);
                                     bool isParamReadOnly = param.IsReadOnly;
 
                                     if (intersResult != 0 && isParamReadOnly == false)
                                     {
-                                        param.Set(prefix + number.ToString());
+                                        elementsToRenumber.Add(selElementsCopy[j]);
                                         selElementsCopy.Remove(selElementsCopy[j]);
 
-                                        number++;
                                         break;
                                     }
                                     else if (isParamReadOnly)
@@ -110,7 +114,37 @@ namespace BIMiconToolbar.NumberBySpline
                                 }
                             }
                         }
-                        tx.Commit();
+
+                        Transaction t1 = new Transaction(doc, "Renumber elements");
+                        t1.Start();
+
+                        // Renumber all elements with unique name
+                        Helpers.Parameters.FillRandomStringParameters(elementsToRenumber.ToArray(), param.Id);
+
+                        foreach (Element el in elementsToRenumber)
+                        {
+                            ParameterSet parameterSet = el.Parameters;
+                            ParameterSetIterator paramIt = parameterSet.ForwardIterator();
+                            paramIt.Reset();
+
+                            while (paramIt.MoveNext())
+                            {
+                                Parameter parameter = paramIt.Current as Parameter;
+
+                                if (parameter.Id == param.Id)
+                                {
+                                    string value = prefix + number.ToString();
+                                    parameter.Set(value);
+
+                                    number++;
+                                    break;
+                                }
+                            }
+                        }
+
+                        t1.Commit();
+
+                        tx.Assimilate();
                     }
                     return Result.Succeeded;
                 }

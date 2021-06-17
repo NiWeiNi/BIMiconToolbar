@@ -2,11 +2,38 @@
 using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BIMiconToolbar.Helpers
 {
     class Parameters
     {
+        /// <summary>
+        /// Method to overwrite parameters of value type string
+        /// </summary>
+        /// <param name="elements"></param>
+        /// <param name="parameterId"></param>
+        public static void FillRandomStringParameters(Element[] elements, ElementId parameterId)
+        {
+            foreach (Element el in elements)
+            {
+                ParameterSet parameterSet = el.Parameters;
+                ParameterSetIterator paramIt = parameterSet.ForwardIterator();
+                paramIt.Reset();
+
+                while (paramIt.MoveNext())
+                {
+                    Parameter param = paramIt.Current as Parameter;
+
+                    if (param.Id == parameterId)
+                    {
+                        string value = "BIMicon" + Guid.NewGuid();
+                        param.Set(value);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Method to retrieve filtered project parameters ID by category
         /// </summary>
