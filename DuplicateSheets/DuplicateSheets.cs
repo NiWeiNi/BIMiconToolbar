@@ -45,6 +45,10 @@ namespace BIMiconToolbar.DuplicateSheets
                     viewDuplicateOption = ViewDuplicateOption.AsDependent;
                 }
 
+                // Retrieve all sheets and views in project
+                var sheets = new FilteredElementCollector(doc).OfClass(typeof(ViewSheet)).ToElements().Cast<ViewSheet>().ToArray();
+                var views = new FilteredElementCollector(doc).OfClass(typeof(View)).ToElements().Cast<View>().ToArray();
+
                 // Group transacation
                 TransactionGroup tg = new TransactionGroup(doc, "Duplicate sheets");
                 tg.Start();
@@ -101,7 +105,12 @@ namespace BIMiconToolbar.DuplicateSheets
 
                         // Duplicate sheet
                         ViewSheet newsheet = ViewSheet.Create(doc, titleblock.GetTypeId());
-                        newsheet.SheetNumber = sheetPrefix + vSheet.SheetNumber + sheetSuffix;
+
+                        // Check if sheet number is in use
+                        string oldSheetNumber = sheetPrefix + vSheet.SheetNumber + sheetSuffix;
+                        string sheetNumber = Helpers.SheetsViews.UniqueStringNumberSheet(oldSheetNumber, sheets);
+ 
+                        newsheet.SheetNumber = sheetNumber;
                         newsheet.Name = vSheet.Name;
 
                         // Get origin of the titleblock
@@ -146,7 +155,11 @@ namespace BIMiconToolbar.DuplicateSheets
                                     }
 
                                     newView = doc.GetElement(newViewId) as View;
-                                    newView.Name = viewPrefix + origView.Name + viewSuffix;
+
+                                    // Check if view name is in use
+                                    string oldViewName = viewPrefix + origView.Name + viewSuffix;
+                                    string viewName = Helpers.SheetsViews.UniqueStringViewName(oldViewName, views);
+                                    newView.Name = viewName;
                                 }
 
                                 // Loop through viewports

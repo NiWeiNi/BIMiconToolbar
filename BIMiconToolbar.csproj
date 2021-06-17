@@ -147,6 +147,7 @@
     <Compile Include="Helpers\Parameters.cs" />
     <Compile Include="Helpers\RevitDirectories.cs" />
     <Compile Include="Helpers\RevitProjectInfo.cs" />
+    <Compile Include="Helpers\SheetsViews.cs" />
     <Compile Include="Helpers\UnitsConverter.cs" />
     <Compile Include="InteriorElevations\InteriorElevations.cs" />
     <Compile Include="InteriorElevations\InteriorElevationsWindow.xaml.cs">
