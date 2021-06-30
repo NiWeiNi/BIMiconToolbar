@@ -114,6 +114,7 @@
     <Compile Include="FamilyBrowser\FamilyBrowserWPF.xaml.cs">
       <DependentUpon>FamilyBrowserWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FamilyBrowser\Model\FileExplorer.cs" />
     <Compile Include="FilesRename\FilesRename.cs" />
     <Compile Include="FilesRename\FilesRenameWPF.xaml.cs">
       <DependentUpon>FilesRenameWPF.xaml</DependentUpon>
@@ -225,11 +226,11 @@
     <Resource Include="FilesRename\Images\iconFilesRenameSmall.png" />
     <Resource Include="NumberBySpline\Images\iconNumberBySpline.png" />
     <Resource Include="NumberBySpline\Images\iconNumberBySplineSmall.png" />
-    <None Include="BIMiconToolbar.JPG" />
     <Resource Include="FamilyBrowser\Images\iconFamilyBrowser.png" />
     <Resource Include="FamilyBrowser\Images\iconFamilyBrowserSmall.png" />
     <Resource Include="FloorFinish\Images\iconFloorFinish.png" />
     <Resource Include="FloorFinish\Images\iconFloorFinishSmall.png" />
+    <None Include="BIMiconToolbar.jpg" />
     <Content Include="WarningsReport\RevitWarningsClassified.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -300,7 +301,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="FamilyBrowser\ViewModel\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.6.2.4\build\Fody.targets" Condition="Exists('packages\Fody.6.2.4\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
