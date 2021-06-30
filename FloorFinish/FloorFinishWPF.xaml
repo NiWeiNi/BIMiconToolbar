@@ -7,7 +7,9 @@
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
-        Title="Interior Elevations" Height="650" Width="420"
+        Title="Floor Finish" 
+        SizeToContent="Height" 
+        Width="420"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
