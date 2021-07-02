@@ -5,12 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BIMiconToolbar.FamilyBrowser"
         mc:Ignorable="d">
-
-    <Border>
-        <Grid Background="White">
-
-
-        </Grid>
-    </Border>
     
+
+    <Grid Background="White">
+
+
+    </Grid>
+
 </Page>

@@ -114,7 +114,10 @@
     <Compile Include="FamilyBrowser\FamilyBrowserWPF.xaml.cs">
       <DependentUpon>FamilyBrowserWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FamilyBrowser\Model\FamilyItemCategory.cs" />
     <Compile Include="FamilyBrowser\Model\FileExplorer.cs" />
+    <Compile Include="FamilyBrowser\ViewModel\FamilyItem.cs" />
+    <Compile Include="FamilyBrowser\ViewModel\FamilyBrowserStructure.cs" />
     <Compile Include="FilesRename\FilesRename.cs" />
     <Compile Include="FilesRename\FilesRenameWPF.xaml.cs">
       <DependentUpon>FilesRenameWPF.xaml</DependentUpon>
@@ -138,13 +141,13 @@
     <Compile Include="Helpers\HelpersDirectory.cs" />
     <Compile Include="Helpers\HelpersGeometry.cs" />
     <Compile Include="Helpers\HelpersSelection.cs" />
+    <Compile Include="Helpers\MVVM\ViewModel\ViewModelBase.cs" />
     <Compile Include="Helpers\Parsing.cs" />
     <Compile Include="Helpers\HelpersView.cs" />
     <Compile Include="Helpers\MessageWindows.cs" />
     <Compile Include="Helpers\MessageWindow\ErrorMessageWPF.xaml.cs">
       <DependentUpon>ErrorMessageWPF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\MVVM\ViewModel\ViewModelBase.cs" />
     <Compile Include="Helpers\Parameters.cs" />
     <Compile Include="Helpers\RevitDirectories.cs" />
     <Compile Include="Helpers\RevitProjectInfo.cs" />
@@ -301,9 +304,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FamilyBrowser\ViewModel\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.6.2.4\build\Fody.targets" Condition="Exists('packages\Fody.6.2.4\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
