@@ -6,6 +6,18 @@ namespace BIMiconToolbar.FamilyBrowser.ViewModel
 {
     class FamilyBrowserStructure : ViewModelBase
     {
-        private List<FileInfo> _familyCollection;
+        private IList<FamilyItem> _familyCollection;
+
+        public IList<FamilyItem> FamilyCollection
+        {
+            get { return _familyCollection; }
+
+            set { SetProperty(ref _familyCollection, value); }
+        }
+
+        public void PopulateFamilies()
+        {
+            FamilyCollection = FileExplorer.GetFamiliesFromDirectory(@"C:\BIMicon\01-BIM Implementation\02-Content Library\01-Library\Doors");
+        }
     }
 }

@@ -115,7 +115,7 @@
       <DependentUpon>FamilyBrowserWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="FamilyBrowser\Model\FamilyItemCategory.cs" />
-    <Compile Include="FamilyBrowser\Model\FileExplorer.cs" />
+    <Compile Include="FamilyBrowser\ViewModel\FileExplorer.cs" />
     <Compile Include="FamilyBrowser\ViewModel\FamilyItem.cs" />
     <Compile Include="FamilyBrowser\ViewModel\FamilyBrowserStructure.cs" />
     <Compile Include="FilesRename\FilesRename.cs" />

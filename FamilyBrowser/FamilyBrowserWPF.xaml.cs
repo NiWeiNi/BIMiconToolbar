@@ -9,15 +9,17 @@ namespace BIMiconToolbar.FamilyBrowser
     /// </summary>
     public partial class FamilyBrowserWPF : Page, IDockablePaneProvider
     {
-        string _contentLibraryPath;
-        string ContentLibraryPath { get; set; }
-
         /// <summary>
         /// Method to start and populate the custom window
         /// </summary>
         public FamilyBrowserWPF()
         {
             InitializeComponent();
+
+            BIMiconToolbar.FamilyBrowser.ViewModel.FamilyBrowserStructure familyBrowserStructureObject = new ViewModel.FamilyBrowserStructure();
+            familyBrowserStructureObject.PopulateFamilies();
+            this.DataContext = familyBrowserStructureObject;
+
         }
 
         /// <summary>
