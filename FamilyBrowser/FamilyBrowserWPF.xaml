@@ -12,9 +12,9 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="{Binding Path=FamilyName, Mode=OneWay}" Width="100" Margin="3 5 3 5"/>
-                            <TextBox Text="{Binding Path=FamilyName, Mode=OneWay}" Width="100" Margin="0 5 3 5"/>
-                            <TextBlock Text="{Binding Path=FamilyName, Mode=OneWay}" Margin="0 5 3 5"/>
+                            <TextBlock Text="{Binding Path=Name, Mode=OneWay}" Width="100" Margin="3 5 3 5"/>
+                            <TextBlock Text="{Binding Path=Size, Mode=OneWay}" Width="100" Margin="0 5 3 5"/>
+                            <TextBlock Text="{Binding Path=ModDate, Mode=OneWay}" Margin="0 5 3 5"/>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

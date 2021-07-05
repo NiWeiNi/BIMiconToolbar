@@ -10,11 +10,25 @@ namespace BIMiconToolbar.FamilyBrowser.ViewModel
 
         public string FamilyCategory { get; set; }
 
-        public string FamilyName
+        public string ModDate
+        {
+            get
+            {
+                return FileInformation.LastWriteTime.ToString("dd/MM/yy HH:mm:ss");
+            }
+        }
+        public string Name
         {
             get
             {
                 return FileInformation.Name;
+            }
+        }
+        public string Size
+        {
+            get
+            {
+                return (FileInformation.Length * 0.000001).ToString() + " MB";
             }
         }
 
