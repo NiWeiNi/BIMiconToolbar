@@ -67,21 +67,21 @@ namespace BIMiconToolbar.Tab
             pbFilesRename.SetContextualHelp(contextHelpUrl);
 
             // Family Browser
-            PushButtonData buttonFamilyBrowser = new PushButtonData(
-               "FamilyBrowser",
-               "Family\nBrowser",
-               assemblyPath,
-               "BIMiconToolbar.FamilyBrowser.FamilyBrowser"
-            );
+            //PushButtonData buttonFamilyBrowser = new PushButtonData(
+            //   "FamilyBrowser",
+            //   "Family\nBrowser",
+            //   assemblyPath,
+            //   "BIMiconToolbar.FamilyBrowser.FamilyBrowser"
+            //);
 
-            PushButton pbFamilyBrowser = panelLibrary.AddItem(buttonFamilyBrowser) as PushButton;
-            pbFamilyBrowser.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FamilyBrowser/Images/iconFamilyBrowser.png"));
-            pbFamilyBrowser.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FamilyBrowser/Images/iconFamilyBrowserSmall.png"));
-            pbFamilyBrowser.ToolTip = "Open a dockable panel to search and load families.";
-            pbFamilyBrowser.LongDescription = "Open a dockable panel that allows searching and browsing families.";
+            //PushButton pbFamilyBrowser = panelLibrary.AddItem(buttonFamilyBrowser) as PushButton;
+            //pbFamilyBrowser.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FamilyBrowser/Images/iconFamilyBrowser.png"));
+            //pbFamilyBrowser.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FamilyBrowser/Images/iconFamilyBrowserSmall.png"));
+            //pbFamilyBrowser.ToolTip = "Open a dockable panel to search and load families.";
+            //pbFamilyBrowser.LongDescription = "Open a dockable panel that allows searching and browsing families.";
 
-            // Set the context help when F1 pressed
-            pbFamilyBrowser.SetContextualHelp(contextHelpUrl);
+            //// Set the context help when F1 pressed
+            //pbFamilyBrowser.SetContextualHelp(contextHelpUrl);
 
             #endregion
 

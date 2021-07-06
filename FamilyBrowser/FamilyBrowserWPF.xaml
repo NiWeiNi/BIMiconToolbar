@@ -4,22 +4,29 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BIMiconToolbar.FamilyBrowser"
-        mc:Ignorable="d">
+        mc:Ignorable="d"
+        Width="Auto">
     
     <Grid Background="White">
-        <StackPanel HorizontalAlignment="Left">
-            <ItemsControl ItemsSource="{Binding Path=FamilyCollection}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Path=Name, Mode=OneWay}" Width="100" Margin="3 5 3 5"/>
-                            <TextBlock Text="{Binding Path=Size, Mode=OneWay}" Width="100" Margin="0 5 3 5"/>
-                            <TextBlock Text="{Binding Path=ModDate, Mode=OneWay}" Margin="0 5 3 5"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </StackPanel>
+
+        <WrapPanel>
+
+                <ItemsControl ItemsSource="{Binding Path=FamilyCollection}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Path=Name, Mode=OneWay}" Margin="3 5 3 5"/>
+                                    <TextBlock Text="{Binding Path=Size, Mode=OneWay}" Margin="0 5 3 5"/>
+                                    <TextBlock Text="{Binding Path=ModDate, Mode=OneWay}" Margin="0 5 3 5"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+        </WrapPanel>
+
 
     </Grid>
 
