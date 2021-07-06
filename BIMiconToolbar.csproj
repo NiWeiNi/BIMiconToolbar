@@ -173,6 +173,10 @@
     <Compile Include="NumberWindows\NumberWindowsWPF.xaml.cs">
       <DependentUpon>NumberWindowsWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OpenLinksUnloaded\OpenLinksUnloaded.cs" />
+    <Compile Include="OpenLinksUnloaded\OpenLinksUnloadedWPF.xaml.cs">
+      <DependentUpon>OpenLinksUnloadedWPF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RemoveBackups\Helpers\RemoveBackupHelpers.cs" />
     <Compile Include="RemoveBackups\RemoveBackups.cs" />
     <Compile Include="Support\Docs\Docs.cs" />
@@ -234,6 +238,8 @@
     <Resource Include="FloorFinish\Images\iconFloorFinish.png" />
     <Resource Include="FloorFinish\Images\iconFloorFinishSmall.png" />
     <None Include="BIMiconToolbar.jpg" />
+    <Resource Include="OpenLinksUnloaded\Images\iconOpenLinksUnloaded.png" />
+    <Resource Include="OpenLinksUnloaded\Images\iconOpenLinksUnloadedSmall.png" />
     <Content Include="WarningsReport\RevitWarningsClassified.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -296,6 +302,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NumberWindows\NumberWindowsWPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OpenLinksUnloaded\OpenLinksUnloadedWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

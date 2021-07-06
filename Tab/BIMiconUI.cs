@@ -17,6 +17,7 @@ namespace BIMiconToolbar.Tab
 
             // Create ribbon
             Autodesk.Revit.UI.RibbonPanel panelLibrary = application.CreateRibbonPanel(tabName, "Library");
+            Autodesk.Revit.UI.RibbonPanel panelModel = application.CreateRibbonPanel(tabName, "Model");
             Autodesk.Revit.UI.RibbonPanel panelModelling = application.CreateRibbonPanel(tabName, "Modelling");
             Autodesk.Revit.UI.RibbonPanel panelProject = application.CreateRibbonPanel(tabName, "Project");
             Autodesk.Revit.UI.RibbonPanel panelSchedules = application.CreateRibbonPanel(tabName, "Schedules");
@@ -85,7 +86,28 @@ namespace BIMiconToolbar.Tab
 
             #endregion
 
-            /*---Ribbon Panel Library---*/
+            /*---Ribbon Panel Model---*/
+            #region Ribbon Panel Model
+            // Duplicate sheets
+            PushButtonData buttonOpenLinksUnloaded = new PushButtonData(
+               "Open with Links Unloaded",
+               "Open with\nLinks Unloaded",
+               assemblyPath,
+               "BIMiconToolbar.OpenLinksUnloaded.OpenLinksUnloaded"
+            );
+
+            PushButton pbOpenLinksUnloaded = panelModel.AddItem(buttonOpenLinksUnloaded) as PushButton;
+            pbOpenLinksUnloaded.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/OpenLinksUnloaded/Images/iconOpenLinksUnloaded.png"));
+            pbOpenLinksUnloaded.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/OpenLinksUnloaded/Images/iconOpenLinksUnloadedSmall.png"));
+            pbOpenLinksUnloaded.ToolTip = "Open Revit model with links unloaded.";
+            pbOpenLinksUnloaded.LongDescription = "Open selected Revit model with the option to unload selected link types; Revit, IFC, CAD, and so on.";
+            pbOpenLinksUnloaded.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
+            // Set the context help when F1 pressed
+            pbOpenLinksUnloaded.SetContextualHelp(contextHelpUrl);
+
+            #endregion
+
+            /*---Ribbon Panel Modelling---*/
             #region Ribbon Panel Modelling
             // Duplicate sheets
             PushButtonData buttonFloorFinish = new PushButtonData(
