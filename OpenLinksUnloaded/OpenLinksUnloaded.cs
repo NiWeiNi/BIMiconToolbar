@@ -1,4 +1,5 @@
-﻿using Autodesk.Revit.Attributes;
+﻿using Autodesk.Revit.ApplicationServices;
+using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
@@ -9,7 +10,37 @@ namespace BIMiconToolbar.OpenLinksUnloaded
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            throw new System.NotImplementedException();
+            UIApplication uiApp = commandData.Application;
+            Application app = uiApp.Application;
+
+            // Create ModelPath to project file
+            string modelPathString = @"C:\BIMicon\00-Archive\Open Unlinked.rvt";
+            FilePath modelPath = new FilePath(modelPathString);
+
+            string localPathString = @"C:\Users\BIMicon\Documents\Open Unlinked - Links Unloaded.rvt";
+            FilePath localPath = new FilePath(localPathString);
+
+            bool isWorkshared = BasicFileInfo.Extract(modelPathString).IsWorkshared;
+
+            if (isWorkshared)
+            {
+                TransmissionData transData = TransmissionData.ReadTransmissionData(modelPath);
+                if (transData.IsTransmitted)
+                {
+                    transData.IsTransmitted = false;
+                    TransmissionData.WriteTransmissionData(modelPath, transData);
+                }
+
+                WorksharingUtils.CreateNewLocal(modelPath, localPath);
+
+                Helpers.RevitDirectories.UnloadRevitLinks(localPath);
+
+                OpenOptions openOptions = new OpenOptions();
+
+                uiApp.OpenAndActivateDocument(localPath, openOptions, false);
+            }
+
+            return Result.Succeeded;
         }
     }
 }
