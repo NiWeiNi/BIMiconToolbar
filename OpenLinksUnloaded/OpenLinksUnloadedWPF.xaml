@@ -6,8 +6,17 @@
         xmlns:local="clr-namespace:BIMiconToolbar.OpenLinksUnloaded"
         xmlns:view="clr-namespace:BIMiconToolbar.Helpers.UserControls.SelectFileReferences.View"
         mc:Ignorable="d"
-        Title="Open Model with Links Unloaded" Height="450" Width="800">
+        Icon="../Resources/Logos/iconBIMiconBlack.ico"
+        ResizeMode="NoResize"
+        Title="Open Model with Links Unloaded"
+        SizeToContent="Height" 
+        Width="420"
+        WindowStartupLocation="CenterScreen">
+    
     <Grid>
-        <view:SelectFileReferencesView x:Name="SelectFileReferences" Loaded="SelectFileReferences_Loaded"/>
+        <view:SelectFileReferencesView x:Name="SelectFileReferences"
+                                       HorizontalAlignment="Stretch"
+                                       Loaded="SelectFileReferences_Loaded"/>
     </Grid>
+    
 </Window>

@@ -1,6 +1,41 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!--#region Style for User Controls-->
+
+    <!--***********************-->
+    <!--Style for User Controls-->
+    <!--***********************-->
+    
+    <!--Style for UC Border-->
+    <Style TargetType="Border" x:Key="UCBorderMain">
+        <Setter Property="Margin" Value="0 5 0 5" />
+        <Setter Property="Padding" Value="10"/>
+    </Style>
+
+    <!-- Style for UC Border Secondary  -->
+    <Style TargetType="Border" x:Key="UCBorderSecondary">
+        <Setter Property="BorderBrush" Value="#3399cc"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="2"/>
+        <Setter Property="DockPanel.Dock" Value="Top"/>
+        <Setter Property="Margin" Value="0 10 0 10"/>
+        <Setter Property="Padding" Value="5 10 5 10"/>
+    </Style>
+
+    <!-- Style for UC Textblock -->
+    <Style TargetType="TextBlock" x:Key="UCTitle">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+
+    <!-- Style for UC Checkboxes -->
+    <Style TargetType="CheckBox" x:Key="UCCheckBoxes">
+        <Setter Property="Margin" Value="1"/>
+    </Style>
+
+    <!--#endregion-->
+
     <!-- Style for Single container -->
     <Style TargetType="Border" x:Key="SingleContainer">
         <Setter Property="Margin" Value="0" />

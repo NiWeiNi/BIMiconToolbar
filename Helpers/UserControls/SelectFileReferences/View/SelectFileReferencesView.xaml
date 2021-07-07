@@ -4,19 +4,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BIMiconToolbar.Helpers.UserControls.SelectFileReferences.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-            <ItemsControl ItemsSource="{Binding Path=FileReferences}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <CheckBox Content="{Binding Path=Text, Mode=OneWay}" IsChecked="{Binding Path=IsSelected}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\..\..\ResourceDictionaries\DictionaryWindows.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <!--Border and Main Container-->
+    <Border Style="{StaticResource UCBorderMain}">
+        <StackPanel>
+            <!--Title for user info-->
+            <TextBlock Style="{StaticResource UCTitle}" Text="Select Link Types to Unload" />
+            <!--Secondary Border and Container-->
+            <Border Style="{StaticResource UCBorderSecondary}">
+                <StackPanel>
+                    <!--Create binded items-->
+                    <ItemsControl ItemsSource="{Binding Path=FileReferences}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox Content="{Binding Path=Text, Mode=OneWay}"
+                                          IsChecked="{Binding Path=IsSelected}"
+                                          Style="{StaticResource UCCheckBoxes}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
         </StackPanel>
+    </Border>
         
-    </Grid>
 </UserControl>
