@@ -1,27 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Autodesk.Revit.DB;
+using BIMiconToolbar.Helpers.UserControls.SelectFileReferences.ViewModel;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace BIMiconToolbar.OpenLinksUnloaded
 {
     /// <summary>
     /// Interaction logic for OpenLinksUnloadedWPF.xaml
     /// </summary>
-    public partial class OpenLinksUnloadedWPF : Window
+    public partial class OpenLinksUnloadedWPF : Window, IDisposable
     {
         public OpenLinksUnloadedWPF()
         {
             InitializeComponent();
+        }
+
+        public void Dispose()
+        {
+            this.Close();
+        }
+
+        private void SelectFileReferences_Loaded(object sender, RoutedEventArgs e)
+        {
+            ExternalFileReferenceType[] extFileRefT = { ExternalFileReferenceType.RevitLink, ExternalFileReferenceType.CADLink };
+
+            SelectFileReferencesViewModel selectFileReferencesViewModel = new SelectFileReferencesViewModel();
+            selectFileReferencesViewModel.LoadFileReferences(extFileRefT);
+            SelectFileReferences.DataContext = selectFileReferencesViewModel;
         }
     }
 }

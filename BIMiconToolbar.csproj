@@ -153,6 +153,11 @@
     <Compile Include="Helpers\RevitProjectInfo.cs" />
     <Compile Include="Helpers\SheetsViews.cs" />
     <Compile Include="Helpers\UnitsConverter.cs" />
+    <Compile Include="Helpers\UserControls\SelectFileReferences\Model\SelectFileReferencesModel.cs" />
+    <Compile Include="Helpers\UserControls\SelectFileReferences\ViewModel\SelectFileReferencesViewModel.cs" />
+    <Compile Include="Helpers\UserControls\SelectFileReferences\View\SelectFileReferencesView.xaml.cs">
+      <DependentUpon>SelectFileReferencesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InteriorElevations\InteriorElevations.cs" />
     <Compile Include="InteriorElevations\InteriorElevationsWindow.xaml.cs">
       <DependentUpon>InteriorElevationsWindow.xaml</DependentUpon>
@@ -282,6 +287,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Helpers\ResourceDictionaries\DictionaryWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Helpers\UserControls\SelectFileReferences\View\SelectFileReferencesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
