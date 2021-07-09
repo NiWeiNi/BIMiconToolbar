@@ -255,6 +255,7 @@
     <None Include="BIMiconToolbar.jpg" />
     <Resource Include="OpenLinksUnloaded\Images\iconOpenLinksUnloaded.png" />
     <Resource Include="OpenLinksUnloaded\Images\iconOpenLinksUnloadedSmall.png" />
+    <Resource Include="Helpers\UserControls\FileBrowser\Images\iconFolderOpen.png" />
     <Content Include="WarningsReport\RevitWarningsClassified.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
