@@ -9,8 +9,7 @@
     
     <!--Style for UC Border-->
     <Style TargetType="Border" x:Key="UCBorderMain">
-        <Setter Property="Margin" Value="0 5 0 5" />
-        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Margin" Value="10 5 10 5" />
     </Style>
 
     <!-- Style for UC Border Secondary  -->

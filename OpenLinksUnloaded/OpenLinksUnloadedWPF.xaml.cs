@@ -28,5 +28,10 @@ namespace BIMiconToolbar.OpenLinksUnloaded
             selectFileReferencesViewModel.LoadFileReferences(extFileRefT);
             SelectFileReferences.DataContext = selectFileReferencesViewModel;
         }
+
+        private void OKCancelButtons_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
