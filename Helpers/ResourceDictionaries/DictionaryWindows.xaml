@@ -22,15 +22,28 @@
         <Setter Property="Padding" Value="5 10 5 10"/>
     </Style>
 
-    <!-- Style for UC Textblock -->
-    <Style TargetType="TextBlock" x:Key="UCTitle">
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
+    <!-- Style for UC Border Secondary No Brush -->
+    <Style TargetType="Border" x:Key="UCBorderSecondaryNoBrush">
+        <Setter Property="DockPanel.Dock" Value="Top"/>
+        <Setter Property="Margin" Value="0 10 0 10"/>
+        <!--<Setter Property="Padding" Value="5 10 5 10"/>-->
     </Style>
 
     <!-- Style for UC Checkboxes -->
     <Style TargetType="CheckBox" x:Key="UCCheckBoxes">
         <Setter Property="Margin" Value="1"/>
+    </Style>
+
+    <!-- Style for UC Textbox inactive-->
+    <Style TargetType="TextBox" x:Key="UCTextBoxInactive">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="5 2 5 2"/>
+    </Style>
+
+    <!-- Style for UC Textblock -->
+    <Style TargetType="TextBlock" x:Key="UCTitle">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
     </Style>
 
     <!--#endregion-->

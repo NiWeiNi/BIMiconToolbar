@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.DB;
+using BIMiconToolbar.Helpers.UserControls.FileBrowser.ViewModel;
 using BIMiconToolbar.Helpers.UserControls.SelectFileReferences.ViewModel;
 using System;
 using System.Windows;
@@ -32,6 +33,12 @@ namespace BIMiconToolbar.OpenLinksUnloaded
         private void OKCancelButtons_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void FileBrowser_Loaded(object sender, RoutedEventArgs e)
+        {
+            FileBrowserViewModel fileBrowserViewModelObject = new FileBrowserViewModel();
+            FileBrowser.DataContext = fileBrowserViewModelObject;
         }
     }
 }

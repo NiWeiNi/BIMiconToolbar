@@ -141,6 +141,7 @@
     <Compile Include="Helpers\HelpersDirectory.cs" />
     <Compile Include="Helpers\HelpersGeometry.cs" />
     <Compile Include="Helpers\HelpersSelection.cs" />
+    <Compile Include="Helpers\MVVM\ViewModel\RelayCommand.cs" />
     <Compile Include="Helpers\MVVM\ViewModel\ViewModelBase.cs" />
     <Compile Include="Helpers\Parsing.cs" />
     <Compile Include="Helpers\HelpersView.cs" />
@@ -153,6 +154,12 @@
     <Compile Include="Helpers\RevitProjectInfo.cs" />
     <Compile Include="Helpers\SheetsViews.cs" />
     <Compile Include="Helpers\UnitsConverter.cs" />
+    <Compile Include="Helpers\UserControls\FileBrowser\Model\FileBrowserModel.cs" />
+    <Compile Include="Helpers\UserControls\FileBrowser\ViewModel\FileBrowserViewModel.cs" />
+    <Compile Include="Helpers\UserControls\FileBrowser\ViewModel\OpenFileDialogHelper.cs" />
+    <Compile Include="Helpers\UserControls\FileBrowser\View\FileBrowserView.xaml.cs">
+      <DependentUpon>FileBrowserView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\UserControls\OKCancel\OKCancel.xaml.cs">
       <DependentUpon>OKCancel.xaml</DependentUpon>
     </Compile>
@@ -290,6 +297,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Helpers\ResourceDictionaries\DictionaryWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Helpers\UserControls\FileBrowser\View\FileBrowserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
