@@ -11,6 +11,8 @@ namespace BIMiconToolbar.OpenLinksUnloaded
     /// </summary>
     public partial class OpenLinksUnloadedWPF : Window, IDisposable
     {
+        public delegate void ValuePassDelegate(FilePath filePath);
+
         public OpenLinksUnloadedWPF()
         {
             InitializeComponent();
