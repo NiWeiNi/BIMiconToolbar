@@ -11,14 +11,14 @@ namespace BIMiconToolbar.Helpers.UserControls.OKCancel.ViewModel
             get { return _okExecute; }
         }
 
-        public void OKButtonPress()
+        public void OKButtonPress(string message)
         {
-
+            
         }
 
         public OKCancelViewModel()
         {
-            _okExecute = new RelayCommand(() => OKButtonPress());
+            _okExecute = new RelayCommand(() => OKButtonPress("message"));
         }
     }
 }

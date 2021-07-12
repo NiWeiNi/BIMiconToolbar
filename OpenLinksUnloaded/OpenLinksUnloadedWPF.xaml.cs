@@ -1,7 +1,8 @@
 ﻿using Autodesk.Revit.DB;
-using BIMiconToolbar.Helpers.UserControls.FileBrowser.ViewModel;
 using BIMiconToolbar.Helpers.UserControls.SelectFileReferences.ViewModel;
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace BIMiconToolbar.OpenLinksUnloaded
@@ -9,9 +10,31 @@ namespace BIMiconToolbar.OpenLinksUnloaded
     /// <summary>
     /// Interaction logic for OpenLinksUnloadedWPF.xaml
     /// </summary>
-    public partial class OpenLinksUnloadedWPF : Window, IDisposable
+    public partial class OpenLinksUnloadedWPF : Window, IDisposable, INotifyPropertyChanged
     {
-        public delegate void ValuePassDelegate(FilePath filePath);
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // Create the OnPropertyChanged method to raise the event
+        // The calling member's name will be used as the parameter.
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+        public SelectFileReferencesViewModel selectFileReferencesViewModel { get; set; }
+
+        private string _text;
+        public string Text
+        {
+            get
+            {
+                return _text;
+            }
+            set
+            {
+                _text = value;
+                OnPropertyChanged();
+            }
+        }
 
         public OpenLinksUnloadedWPF()
         {
@@ -23,11 +46,11 @@ namespace BIMiconToolbar.OpenLinksUnloaded
             this.Close();
         }
 
-        private void SelectFileReferences_Loaded(object sender, RoutedEventArgs e)
+        public void SelectFileReferences_Loaded(object sender, RoutedEventArgs e)
         {
             ExternalFileReferenceType[] extFileRefT = { ExternalFileReferenceType.RevitLink, ExternalFileReferenceType.CADLink };
 
-            SelectFileReferencesViewModel selectFileReferencesViewModel = new SelectFileReferencesViewModel();
+            selectFileReferencesViewModel = new SelectFileReferencesViewModel();
             selectFileReferencesViewModel.LoadFileReferences(extFileRefT);
             SelectFileReferences.DataContext = selectFileReferencesViewModel;
         }
@@ -37,10 +60,9 @@ namespace BIMiconToolbar.OpenLinksUnloaded
 
         }
 
-        private void FileBrowser_Loaded(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            FileBrowserViewModel fileBrowserViewModelObject = new FileBrowserViewModel();
-            FileBrowser.DataContext = fileBrowserViewModelObject;
+            Text = FileBrowser.FilePath;
         }
     }
 }

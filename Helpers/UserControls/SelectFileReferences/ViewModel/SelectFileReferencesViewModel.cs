@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace BIMiconToolbar.Helpers.UserControls.SelectFileReferences.ViewModel
 {
-    class SelectFileReferencesViewModel
+    public class SelectFileReferencesViewModel
     {
         public ObservableCollection<SelectFileReferencesModel> FileReferences { get; set; }
 

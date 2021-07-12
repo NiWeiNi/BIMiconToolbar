@@ -1,15 +1,15 @@
-﻿<UserControl x:Class="BIMiconToolbar.Helpers.UserControls.FileBrowser.View.FileBrowserView"
+﻿<UserControl x:Class="BIMiconToolbar.Helpers.UserControls.FileBrowser.FileBrowser"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:BIMiconToolbar.Helpers.UserControls.FileBrowser.View"
+             xmlns:local="clr-namespace:BIMiconToolbar.Helpers.UserControls.FileBrowser"
              mc:Ignorable="d">
-
+    
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="..\..\..\ResourceDictionaries\DictionaryWindows.xaml" />
+                <ResourceDictionary Source="..\..\ResourceDictionaries\DictionaryWindows.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -29,18 +29,19 @@
                     </Grid.ColumnDefinitions>
                     <!--Create button to select Revit file-->
                     <Button x:Name="File" 
-                            Command="{Binding Path=SelectFile, Mode=OneWay}"
+                            Click="File_Click"
                             Grid.Column="0">
-                        <Image Height="20" Source="..\Images\iconFolderOpen.png"/>
+                        <Image Height="20" Source="Images\iconFolderOpen.png"/>
                     </Button>
                     <!--Create binded items-->
                     <TextBox Grid.Column="2"
                              IsEnabled="False" 
                              TextWrapping="Wrap"
-                             Text="{Binding Path=SelectedFilePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                             Text="{Binding Path=FilePath}"
                              Style="{StaticResource UCTextBoxInactive}"/>
                 </Grid>
             </Border>
         </StackPanel>
     </Border>
+    
 </UserControl>

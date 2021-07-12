@@ -154,10 +154,8 @@
     <Compile Include="Helpers\RevitProjectInfo.cs" />
     <Compile Include="Helpers\SheetsViews.cs" />
     <Compile Include="Helpers\UnitsConverter.cs" />
-    <Compile Include="Helpers\UserControls\FileBrowser\Model\FileBrowserModel.cs" />
-    <Compile Include="Helpers\UserControls\FileBrowser\ViewModel\FileBrowserViewModel.cs" />
-    <Compile Include="Helpers\UserControls\FileBrowser\View\FileBrowserView.xaml.cs">
-      <DependentUpon>FileBrowserView.xaml</DependentUpon>
+    <Compile Include="Helpers\UserControls\FileBrowser\FileBrowser.xaml.cs">
+      <DependentUpon>FileBrowser.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\UserControls\OKCancel\OKCancel.xaml.cs">
       <DependentUpon>OKCancel.xaml</DependentUpon>
@@ -301,7 +299,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Helpers\UserControls\FileBrowser\View\FileBrowserView.xaml">
+    <Page Include="Helpers\UserControls\FileBrowser\FileBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -342,7 +340,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="OpenLinksUnloaded\ViewModel\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.6.2.4\build\Fody.targets" Condition="Exists('packages\Fody.6.2.4\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
