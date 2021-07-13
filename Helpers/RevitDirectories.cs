@@ -63,10 +63,6 @@ namespace BIMiconToolbar.Helpers
                 // Set modified transmission data back to the model
                 TransmissionData.WriteTransmissionData(location, transData);
             }
-            else
-            {
-                Autodesk.Revit.UI.TaskDialog.Show("Unload Links", "The document does not have any transmission data");
-            }
         }
     }
 }

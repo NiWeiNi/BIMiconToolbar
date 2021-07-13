@@ -73,15 +73,7 @@ namespace BIMiconToolbar.OpenLinksUnloaded
             }
 
             // Check for user input
-            if (SelectedFileReferences.Count == 0 && (SelectedFilePath == null || SelectedFilePath == ""))
-            {
-                WarningMessage = "Please select Revit project and file links to unload.";
-            }
-            else if (SelectedFileReferences.Count == 0)
-            {
-                WarningMessage = "Please select file links to unload.";
-            }
-            else if (SelectedFilePath == null || SelectedFilePath == "")
+            if (SelectedFilePath == null || SelectedFilePath == "")
             {
                 WarningMessage = "Please select Revit project.";
             }
@@ -108,19 +100,36 @@ namespace BIMiconToolbar.OpenLinksUnloaded
 
                     // Get user documents folder path and copy a local file
                     string docPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    string localPathString = docPath + localName;
+                    string localPathString = docPath + "\\" + localName;
                     FilePath localPath = new FilePath(localPathString);
+
+                    WorksharingUtils.CreateNewLocal(modelPath, localPath);
+
+                    finalPath = new FilePath(localPathString);
+
+                    // Unload links
+                    Helpers.RevitDirectories.UnloadLinks(finalPath, SelectedFileReferences);
+
+                    // Properties for saving the file as central
+                    WorksharingSaveAsOptions worksharingSaveAsOptions = new WorksharingSaveAsOptions();
+                    worksharingSaveAsOptions.SaveAsCentral = true;
+
+                    SaveAsOptions saveAsOptions = new SaveAsOptions { Compact = true, OverwriteExistingFile = true };
+                    saveAsOptions.SetWorksharingOptions(worksharingSaveAsOptions);
+
+                    // Save file as central
+                    Document doc = UIApp.Application.OpenDocumentFile(SelectedFilePath);
+                    doc.SaveAs(SelectedFilePath, saveAsOptions);
+                    doc.Close(false);
 
                     TransmissionData transData = TransmissionData.ReadTransmissionData(modelPath);
                     if (transData.IsTransmitted)
                     {
                         transData.IsTransmitted = false;
-                        TransmissionData.WriteTransmissionData(modelPath, transData);
+                        TransmissionData.WriteTransmissionData(finalPath, transData);
                     }
 
-                    WorksharingUtils.CreateNewLocal(modelPath, localPath);
 
-                    finalPath = new FilePath(localPathString);
                 }
                 else
                 {
