@@ -35,7 +35,7 @@ namespace BIMiconToolbar.Helpers
         /// Method to unload links the next time a Revit project is opened
         /// </summary>
         /// <param name="location"></param>
-        public static void UnloadRevitLinks(ModelPath location)
+        public static void UnloadLinks(ModelPath location, List<ExternalFileReferenceType> linkTypes)
         {
             // Get transmission data from selected Revit file
             TransmissionData transData = TransmissionData.ReadTransmissionData(location);
@@ -50,7 +50,7 @@ namespace BIMiconToolbar.Helpers
                 {
                     ExternalFileReference extRef = transData.GetLastSavedReferenceData(refId);
 
-                    if (extRef.ExternalFileReferenceType == ExternalFileReferenceType.RevitLink)
+                    if (linkTypes.Contains(extRef.ExternalFileReferenceType))
                     {
                         // Unload links
                         transData.SetDesiredReferenceData(refId, extRef.GetPath(), extRef.PathType, false);

@@ -162,6 +162,9 @@
     </Compile>
     <Compile Include="Helpers\UserControls\OKCancel\ViewModel\OKCancelViewModel.cs" />
     <Compile Include="Helpers\UserControls\SelectFileReferences\Model\SelectFileReferencesModel.cs" />
+    <Compile Include="Helpers\UserControls\SelectFileReferences\SelectFileLinkTypes.xaml.cs">
+      <DependentUpon>SelectFileLinkTypes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\UserControls\SelectFileReferences\ViewModel\SelectFileReferencesViewModel.cs" />
     <Compile Include="Helpers\UserControls\SelectFileReferences\View\SelectFileReferencesView.xaml.cs">
       <DependentUpon>SelectFileReferencesView.xaml</DependentUpon>
@@ -304,6 +307,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Helpers\UserControls\OKCancel\OKCancel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Helpers\UserControls\SelectFileReferences\SelectFileLinkTypes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
