@@ -87,28 +87,50 @@ namespace BIMiconToolbar.OpenLinksUnloaded
                 FilePath finalPath = null;
 
                 // Create ModelPath to project file
-                FilePath modelPath = new FilePath(SelectedFilePath);
+                FilePath modelPath = null;
+
+                // Path to create local model 
+                string localPathString = "";
 
                 // Check if model is workshared
                 bool isWorkshared = BasicFileInfo.Extract(SelectedFilePath).IsWorkshared;
 
                 if (isWorkshared)
                 {
+                    // New local filename
                     FileInfo modelInfo = new FileInfo(SelectedFilePath);
-                    string modelName = modelInfo.Name;
-                    string localName = modelName.Replace(".rvt", "") + " - LinksUnloaded.rvt";
 
-                    // Get user documents folder path and copy a local file
-                    string docPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    string localPathString = docPath + "\\" + localName;
+                    bool isCentral = BasicFileInfo.Extract(SelectedFilePath).IsCentral;
+
+                    // File is central file
+                    if (isCentral)
+                    {
+                        string modelName = modelInfo.Name;
+                        string localName = modelName.Replace(".rvt", "") + " - LinksUnloaded.rvt";
+
+                        // Get user documents folder path
+                        string docPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                        localPathString = docPath + "\\" + localName;
+
+                        modelPath = new FilePath(SelectedFilePath);
+                    }
+                    // File is local file
+                    else
+                    {
+                        localPathString = SelectedFilePath;
+
+                        // Retrieve central model path
+                        string centralPath = BasicFileInfo.Extract(SelectedFilePath).CentralPath;
+                        modelPath = new FilePath(centralPath);
+
+                        // Delete previous local file
+                        File.Delete(SelectedFilePath);
+                    }
+
                     FilePath localPath = new FilePath(localPathString);
 
-                    WorksharingUtils.CreateNewLocal(modelPath, localPath);
-
-                    finalPath = new FilePath(localPathString);
-
                     // Unload links
-                    Helpers.RevitDirectories.UnloadLinks(finalPath, SelectedFileReferences);
+                    Helpers.RevitDirectories.UnloadLinks(modelPath, SelectedFileReferences);
 
                     // Properties for saving the file as central
                     WorksharingSaveAsOptions worksharingSaveAsOptions = new WorksharingSaveAsOptions();
@@ -122,15 +144,21 @@ namespace BIMiconToolbar.OpenLinksUnloaded
                     doc.SaveAs(SelectedFilePath, saveAsOptions);
                     doc.Close(false);
 
+                    // Set transmission to false to allow create new local model
                     TransmissionData transData = TransmissionData.ReadTransmissionData(modelPath);
                     if (transData.IsTransmitted)
                     {
                         transData.IsTransmitted = false;
-                        TransmissionData.WriteTransmissionData(finalPath, transData);
+                        TransmissionData.WriteTransmissionData(modelPath, transData);
                     }
 
+                    // Create local copy
+                    WorksharingUtils.CreateNewLocal(modelPath, localPath);
+
+                    finalPath = new FilePath(localPathString);
 
                 }
+                // File is not workshared
                 else
                 {
                     finalPath = modelPath;
@@ -141,6 +169,9 @@ namespace BIMiconToolbar.OpenLinksUnloaded
 
                 // Open document
                 OpenOptions openOptions = new OpenOptions();
+                WorksetConfiguration openConfig = new WorksetConfiguration(WorksetConfigurationOption.OpenAllWorksets);
+                openOptions.SetOpenWorksetsConfiguration(openConfig);
+
                 UIApp.OpenAndActivateDocument(finalPath, openOptions, false);
             }
 
