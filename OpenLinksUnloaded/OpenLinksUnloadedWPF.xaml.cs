@@ -76,13 +76,11 @@ namespace BIMiconToolbar.OpenLinksUnloaded
             if (SelectedFilePath == null || SelectedFilePath == "")
             {
                 WarningMessage = "Please select Revit project.";
+                Helpers.MessageWindows.AlertMessage("Warning", WarningMessage);
             }
             // Execute the program
             else
             {
-                // Reset warning message
-                WarningMessage = "";
-
                 // Variable for final modelpath
                 FilePath finalPath = null;
 
@@ -102,32 +100,20 @@ namespace BIMiconToolbar.OpenLinksUnloaded
 
                     bool isCentral = BasicFileInfo.Extract(SelectedFilePath).IsCentral;
 
+                    string modelName = modelInfo.Name;
+
                     // File is central file
                     if (isCentral)
                     {
-                        string modelName = modelInfo.Name;
-                        string localName = modelName.Replace(".rvt", "") + " - LinksUnloaded.rvt";
-
-                        // Get user documents folder path
-                        string docPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                        localPathString = docPath + "\\" + localName;
-
                         modelPath = new FilePath(SelectedFilePath);
                     }
                     // File is local file
                     else
                     {
-                        localPathString = SelectedFilePath;
-
-                        // Retrieve central model path
+                         // Retrieve central model path
                         string centralPath = BasicFileInfo.Extract(SelectedFilePath).CentralPath;
                         modelPath = new FilePath(centralPath);
-
-                        // Delete previous local file
-                        File.Delete(SelectedFilePath);
                     }
-
-                    FilePath localPath = new FilePath(localPathString);
 
                     // Unload links
                     Helpers.RevitDirectories.UnloadLinks(modelPath, SelectedFileReferences);
@@ -139,18 +125,41 @@ namespace BIMiconToolbar.OpenLinksUnloaded
                     SaveAsOptions saveAsOptions = new SaveAsOptions { Compact = true, OverwriteExistingFile = true };
                     saveAsOptions.SetWorksharingOptions(worksharingSaveAsOptions);
 
-                    // Save file as central
-                    Document doc = UIApp.Application.OpenDocumentFile(SelectedFilePath);
-                    doc.SaveAs(SelectedFilePath, saveAsOptions);
-                    doc.Close(false);
-
-                    // Set transmission to false to allow create new local model
-                    TransmissionData transData = TransmissionData.ReadTransmissionData(modelPath);
-                    if (transData.IsTransmitted)
+                    try
                     {
-                        transData.IsTransmitted = false;
-                        TransmissionData.WriteTransmissionData(modelPath, transData);
+                        // Save file as central
+                        Document doc = UIApp.Application.OpenDocumentFile(SelectedFilePath);
+                        doc.SaveAs(SelectedFilePath, saveAsOptions);
+                        doc.Close(false);
+
+                        // Set transmission to false to allow create new local model
+                        TransmissionData transData = TransmissionData.ReadTransmissionData(modelPath);
+                        if (transData.IsTransmitted)
+                        {
+                            transData.IsTransmitted = false;
+                            TransmissionData.WriteTransmissionData(modelPath, transData);
+                        }
                     }
+                    catch
+                    {
+                        Helpers.MessageWindows.AlertMessage("Error", "Close central file and local files before using this tool.");
+                    }
+
+                    string localName = modelName.Replace(".rvt", "") + " - LinksUnloaded.rvt";
+                    // Get user documents folder path
+                    string docPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    localPathString = docPath + "\\" + localName;
+
+                    int count = 1;
+                    // Create unique local file name
+                    while (File.Exists(localPathString))
+                    {
+                        localPathString = docPath + "\\" + " " + 
+                            modelName.Replace(".rvt", "") + " - LinksUnloaded" + count.ToString().PadLeft(2, '0') + ".rvt";
+                        count++;
+                    }
+
+                    FilePath localPath = new FilePath(localPathString);
 
                     // Create local copy
                     WorksharingUtils.CreateNewLocal(modelPath, localPath);
@@ -161,6 +170,8 @@ namespace BIMiconToolbar.OpenLinksUnloaded
                 // File is not workshared
                 else
                 {
+                    // modelPath is the selected path converted
+                    modelPath = new FilePath(SelectedFilePath);
                     finalPath = modelPath;
 
                     // Unload links
@@ -173,10 +184,10 @@ namespace BIMiconToolbar.OpenLinksUnloaded
                 openOptions.SetOpenWorksetsConfiguration(openConfig);
 
                 UIApp.OpenAndActivateDocument(finalPath, openOptions, false);
-            }
 
-            // Close window
-            this.Dispose();
+                // Close window
+                this.Dispose();
+            }
         }
     }
 }
