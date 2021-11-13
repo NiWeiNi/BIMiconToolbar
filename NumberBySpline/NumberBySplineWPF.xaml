@@ -68,17 +68,6 @@
             <!-- Select Level -->
             <StackPanel x:Name="level" />
 
-            <!--<TextBlock x:Name="levelTitle"/>-->
-
-            <!--
-            <ComboBox x:Name="comboDisplayLevels"
-                      ItemsSource="{Binding cbLevels}"
-                      SelectedItem="{Binding SelectedComboItemLevels}"
-                      Style="{StaticResource comboDisplay}"
-                      SelectionChanged="ComboDisplayLevels_Selectionchanged">
-            </ComboBox> 
-            -->
-
             <!-- Select parameter -->
             <TextBlock Style="{StaticResource Title}">
                 Select parameter to store new numbers:

@@ -18,7 +18,7 @@ namespace BIMiconToolbar.Tab
             // Create ribbon
             Autodesk.Revit.UI.RibbonPanel panelLibrary = application.CreateRibbonPanel(tabName, "Library");
             Autodesk.Revit.UI.RibbonPanel panelModel = application.CreateRibbonPanel(tabName, "Model");
-            Autodesk.Revit.UI.RibbonPanel panelModelling = application.CreateRibbonPanel(tabName, "Modelling");
+            //Autodesk.Revit.UI.RibbonPanel panelModelling = application.CreateRibbonPanel(tabName, "Modelling");
             Autodesk.Revit.UI.RibbonPanel panelProject = application.CreateRibbonPanel(tabName, "Project");
             Autodesk.Revit.UI.RibbonPanel panelSchedules = application.CreateRibbonPanel(tabName, "Schedules");
             Autodesk.Revit.UI.RibbonPanel panelSheets = application.CreateRibbonPanel(tabName, "Sheets");
@@ -108,6 +108,7 @@ namespace BIMiconToolbar.Tab
             #endregion
 
             /*---Ribbon Panel Modelling---*/
+            /*
             #region Ribbon Panel Modelling
             // Duplicate sheets
             PushButtonData buttonFloorFinish = new PushButtonData(
@@ -126,6 +127,7 @@ namespace BIMiconToolbar.Tab
             pbFloorFinish.SetContextualHelp(contextHelpUrl);
 
             #endregion
+            */
 
             /*---Ribbon Panel Schedules---*/
             #region Ribbon Panel Schedules
@@ -251,6 +253,10 @@ namespace BIMiconToolbar.Tab
             // Set the context help when F1 pressed
             pbNumberWindows.SetContextualHelp(contextHelpUrl);
 
+            // Create container for numbering tools
+            SplitButtonData numberData = new SplitButtonData("numberGroupContainer", "Number Tools");
+            SplitButton numberGroup = panelProject.AddItem(numberData) as SplitButton;
+
             // Number by Spline
             PushButtonData buttonNumberBySpline = new PushButtonData(
                "NumberBySpline",
@@ -259,7 +265,7 @@ namespace BIMiconToolbar.Tab
                "BIMiconToolbar.NumberBySpline.NumberBySpline"
             );
 
-            PushButton pbNumberBySpline = panelProject.AddItem(buttonNumberBySpline) as PushButton;
+            PushButton pbNumberBySpline = numberGroup.AddPushButton(buttonNumberBySpline);
             pbNumberBySpline.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberBySpline/Images/iconNumberBySpline.png"));
             pbNumberBySpline.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberBySpline/Images/iconNumberBySpline.png"));
             pbNumberBySpline.ToolTip = "Number elements by intersecting with selected spline.";
@@ -267,6 +273,24 @@ namespace BIMiconToolbar.Tab
 
             // Set the context help when F1 pressed
             pbNumberBySpline.SetContextualHelp(contextHelpUrl);
+
+            // Number by Pick
+            PushButtonData buttonNumberByPick = new PushButtonData(
+            "NumberByPick",
+            "Number\nby Pick",
+            assemblyPath,
+            "BIMiconToolbar.NumberByPick.NumberByPick"
+            );
+
+            PushButton pbNumberByPick = numberGroup.AddPushButton(buttonNumberByPick);
+            pbNumberByPick.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberByPick/Images/iconNumberByPick.png"));
+            pbNumberByPick.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberByPick/Images/iconNumberByPick.png"));
+            pbNumberByPick.ToolTip = "Number picked elements in order of selection.";
+            pbNumberByPick.LongDescription = "Number elements of a selected category by picking order.";
+
+            // Set the context help when F1 pressed
+            pbNumberByPick.SetContextualHelp(contextHelpUrl);
+
 
             // Match grids
             PushButtonData buttonMatchGrids = new PushButtonData(
