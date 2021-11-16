@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="BIMiconToolbar.Helpers.UserControls.LabelTextInput.TextInput"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             x:Name="textInput"
+             mc:Ignorable="d">
+    
+    <!--Dictionary for style-->
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\..\ResourceDictionaries\DictionaryWindows.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <!--Container-->
+    <StackPanel DataContext="{Binding ElementName=textInput}"
+                    Orientation="{Binding Path=Orientation}">
+        <!--Title-->
+        <TextBlock Style="{StaticResource Title}"
+                       Text="{Binding Path=Label}"/>
+        <!--Text Input-->
+        <TextBox Style="{StaticResource TextBox}"
+                     Text="{Binding Path=Value}"/>
+    </StackPanel>
+
+</UserControl>
