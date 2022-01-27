@@ -67,6 +67,23 @@ namespace BIMiconToolbar.Tab
             // Set the context help when F1 pressed
             pbFilesRename.SetContextualHelp(contextHelpUrl);
 
+            // Upgrade Revit files
+            PushButtonData buttonFilesUpgrade = new PushButtonData(
+               "FilesUpgrade",
+               "Upgrade\nFiles",
+               assemblyPath,
+               "BIMiconToolbar.FilesUpgrade.FilesUpgrade"
+            );
+
+            PushButton pbFilesUpgrade = panelLibrary.AddItem(buttonFilesUpgrade) as PushButton;
+            pbFilesUpgrade.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FilesUpgrade/Images/iconFilesUpgrade.png"));
+            pbFilesUpgrade.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FilesUpgrade/Images/iconFilesUpgradeSmall.png"));
+            pbFilesUpgrade.ToolTip = "Upgrade the files inside a folder.";
+            pbFilesUpgrade.LongDescription = "Upgrade all Revit files inside a folder.";
+            pbFilesUpgrade.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
+            // Set the context help when F1 pressed
+            pbFilesUpgrade.SetContextualHelp(contextHelpUrl);
+
             // Family Browser
             //PushButtonData buttonFamilyBrowser = new PushButtonData(
             //   "FamilyBrowser",
