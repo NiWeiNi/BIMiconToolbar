@@ -2,6 +2,8 @@
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMiconToolbar.Helpers.Browser;
+using System.Collections.Generic;
 using System.IO;
 
 namespace BIMiconToolbar.FilesUpgrade
@@ -11,27 +13,61 @@ namespace BIMiconToolbar.FilesUpgrade
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            // Define current application
-            Application app = commandData.Application.Application;
-
-            // Path of files to be upgraded
-            string path = @"C:\Users\BIMicon\Desktop\upgradeTest";
-            DirectoryInfo pathdir = new DirectoryInfo(path);
-
-            // Upgrade each file
-            foreach (FileInfo fi in pathdir.GetFiles())
+            using (BrowserWindow browserWindow = new BrowserWindow())
             {
-                // Define save file options
-                SaveAsOptions saveAsOptions = new SaveAsOptions();
-                saveAsOptions.OverwriteExistingFile = true;
+                browserWindow.ShowDialog();
 
-                // Open document and save files
-                Document doc = app.OpenDocumentFile(fi.FullName);
-                doc.SaveAs(fi.FullName, saveAsOptions);
-                doc.Close(false);
+                string selectedPath = browserWindow.selectedPath;
+
+                // Check that path is not empty and path is a folder
+                if (selectedPath == null || !Directory.Exists(selectedPath))
+                {
+                    TaskDialog.Show("Warning", "No folder has been selected");
+                    return Result.Cancelled;
+                }
+
+                // Define current application
+                Application app = commandData.Application.Application;
+
+                // Path of files to be upgraded
+                DirectoryInfo pathdir = new DirectoryInfo(selectedPath);
+
+                // Files failed to upgrade
+                List<string> failedFiles = new List<string>();
+
+                // Upgrade each file
+                foreach (FileInfo fi in pathdir.GetFiles())
+                {
+                    if (fi.IsReadOnly)
+                    {
+                        failedFiles.Add(fi.Name);
+                    }
+                    else
+                    {
+                        // Define save file options
+                        SaveAsOptions saveAsOptions = new SaveAsOptions();
+                        saveAsOptions.OverwriteExistingFile = true;
+
+                        // Open document and save files
+                        Document doc = app.OpenDocumentFile(fi.FullName);
+                        doc.SaveAs(fi.FullName, saveAsOptions);
+                        doc.Close(false);
+                    }
+                }
+
+                // Output message
+                if (failedFiles.Count > 0)
+                {
+                    string mes = "The following files have not been upgraded: " + string.Join("\n", failedFiles);
+                    TaskDialog.Show("Warning", mes);
+                }
+                else
+                {
+                    TaskDialog.Show("Success", "All files have been upgraded.");
+                }
+
+                return Result.Succeeded;
             }
-
-            return Result.Succeeded;
         }
     }
 }
