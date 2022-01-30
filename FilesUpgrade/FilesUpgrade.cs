@@ -29,29 +29,36 @@ namespace BIMiconToolbar.FilesUpgrade
                 // Define current application
                 Application app = commandData.Application.Application;
 
-                // Path of files to be upgraded
-                DirectoryInfo pathdir = new DirectoryInfo(selectedPath);
-
                 // Files failed to upgrade
                 List<string> failedFiles = new List<string>();
 
-                // Upgrade each file
-                foreach (FileInfo fi in pathdir.GetFiles())
-                {
-                    if (fi.IsReadOnly)
-                    {
-                        failedFiles.Add(fi.Name);
-                    }
-                    else
-                    {
-                        // Define save file options
-                        SaveAsOptions saveAsOptions = new SaveAsOptions();
-                        saveAsOptions.OverwriteExistingFile = true;
+                // Folders inside the selected folder
+                string[] folders = Directory.GetDirectories(selectedPath, "*", SearchOption.AllDirectories);
 
-                        // Open document and save files
-                        Document doc = app.OpenDocumentFile(fi.FullName);
-                        doc.SaveAs(fi.FullName, saveAsOptions);
-                        doc.Close(false);
+                // Retrieve files in each folder
+                foreach (string f in folders)
+                {
+                    // Path of files to be upgraded
+                    DirectoryInfo pathdir = new DirectoryInfo(f);
+
+                    // Upgrade each file
+                    foreach (FileInfo fi in pathdir.GetFiles())
+                    {
+                        if (fi.IsReadOnly)
+                        {
+                            failedFiles.Add(fi.Name);
+                        }
+                        else if (fi.Name.EndsWith(".rfa") && !fi.Name.Contains("000"))
+                        {
+                            // Define save file options
+                            SaveAsOptions saveAsOptions = new SaveAsOptions();
+                            saveAsOptions.OverwriteExistingFile = true;
+
+                            // Open document and save files
+                            Document doc = app.OpenDocumentFile(fi.FullName);
+                            doc.SaveAs(fi.FullName, saveAsOptions);
+                            doc.Close(false);
+                        }
                     }
                 }
 
