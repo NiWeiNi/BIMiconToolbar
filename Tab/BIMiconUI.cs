@@ -33,7 +33,7 @@ namespace BIMiconToolbar.Tab
 
             /*---Ribbon Panel Library---*/
             #region Ribbon Panel Library
-            // Duplicate sheets
+            // Remove backups
             PushButtonData buttonRemoveBackups = new PushButtonData(
                "RemoveBackups",
                "Remove\nBackups",
@@ -66,6 +66,23 @@ namespace BIMiconToolbar.Tab
             pbFilesRename.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
             pbFilesRename.SetContextualHelp(contextHelpUrl);
+
+            // File Rename case
+            PushButtonData buttonConvertCase = new PushButtonData(
+               "ConvertCase",
+               "Convert\nCase",
+               assemblyPath,
+               "BIMiconToolbar.ConvertCase.ConvertCase"
+            );
+
+            PushButton pbConvertCase = panelLibrary.AddItem(buttonConvertCase) as PushButton;
+            pbConvertCase.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/ConvertCase/Images/iconConvertCase.png"));
+            pbConvertCase.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/ConvertCase/Images/iconConvertCaseSmall.png"));
+            pbConvertCase.ToolTip = "Convert name of file into lower, upper or Title case.";
+            pbConvertCase.LongDescription = "Change name case of all files of a certain type inside a folder.";
+            pbConvertCase.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
+            // Set the context help when F1 pressed
+            pbConvertCase.SetContextualHelp(contextHelpUrl);
 
             // Upgrade Revit files
             PushButtonData buttonFilesUpgrade = new PushButtonData(
@@ -127,7 +144,7 @@ namespace BIMiconToolbar.Tab
             /*---Ribbon Panel Modelling---*/
             /*
             #region Ribbon Panel Modelling
-            // Duplicate sheets
+            // Create floor finish according to room
             PushButtonData buttonFloorFinish = new PushButtonData(
                "Floor Finish",
                "Floor\nFinish",
