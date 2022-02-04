@@ -103,6 +103,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConvertCase\ConvertCase.cs" />
     <Compile Include="DuplicateSheets\DuplicateSheets.cs" />
     <Compile Include="DuplicateSheets\DuplicateSheetsWPF.xaml.cs">
       <DependentUpon>DuplicateSheetsWPF.xaml</DependentUpon>
@@ -123,6 +124,7 @@
     <Compile Include="FilesRename\FilesRenameWPF.xaml.cs">
       <DependentUpon>FilesRenameWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FilesUpgrade\FilesUpgrade.cs" />
     <Compile Include="FloorFinish\FloorFinish.cs" />
     <Compile Include="FloorFinish\FloorFinishWPF.xaml.cs">
       <DependentUpon>FloorFinishWPF.xaml</DependentUpon>
@@ -142,6 +144,7 @@
     <Compile Include="Helpers\HelpersDirectory.cs" />
     <Compile Include="Helpers\HelpersGeometry.cs" />
     <Compile Include="Helpers\HelpersSelection.cs" />
+    <Compile Include="Helpers\MVVM\Model\ModelBase.cs" />
     <Compile Include="Helpers\MVVM\ViewModel\RelayCommand.cs" />
     <Compile Include="Helpers\MVVM\ViewModel\ViewModelBase.cs" />
     <Compile Include="Helpers\Parsing.cs" />
@@ -157,6 +160,12 @@
     <Compile Include="Helpers\UnitsConverter.cs" />
     <Compile Include="Helpers\UserControls\FileBrowser\FileBrowser.xaml.cs">
       <DependentUpon>FileBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\UserControls\LabelComboBox\UCComboBox.xaml.cs">
+      <DependentUpon>UCComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\UserControls\LabelTextInput\TextInput.xaml.cs">
+      <DependentUpon>TextInput.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\UserControls\OKCancel\OKCancel.xaml.cs">
       <DependentUpon>OKCancel.xaml</DependentUpon>
@@ -180,6 +189,8 @@
       <DependentUpon>MatchGridsWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="NumberByPick\NumberByPick.cs" />
+    <Compile Include="NumberByPick\NumberByPickModel.cs" />
+    <Compile Include="NumberByPick\NumberByPickViewModel.cs" />
     <Compile Include="NumberByPick\NumberByPickWPF.xaml.cs">
       <DependentUpon>NumberByPickWPF.xaml</DependentUpon>
     </Compile>
@@ -264,6 +275,10 @@
     <Resource Include="Helpers\UserControls\FileBrowser\Images\iconFolderOpen.png" />
     <Resource Include="NumberByPick\Images\iconNumberByPick.png" />
     <Resource Include="NumberByPick\Images\iconNumberByPickSmall.png" />
+    <Resource Include="FilesUpgrade\Images\iconFilesUpgrade.png" />
+    <Resource Include="FilesUpgrade\Images\iconFilesUpgradeSmall.png" />
+    <Resource Include="ConvertCase\Images\iconConvertCase.png" />
+    <Resource Include="ConvertCase\Images\iconConvertCaseSmall.png" />
     <Content Include="WarningsReport\RevitWarningsClassified.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -310,6 +325,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Helpers\UserControls\FileBrowser\FileBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Helpers\UserControls\LabelComboBox\UCComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Helpers\UserControls\LabelTextInput\TextInput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

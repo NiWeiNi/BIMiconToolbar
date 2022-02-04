@@ -14,7 +14,7 @@ namespace BIMiconToolbar
         public Result OnStartup(UIControlledApplication application)
         {
             Tab.BIMiconUI.Toolbar(application);
-            RegisterDockPanel(application);
+            //RegisterDockPanel(application);
             return Result.Succeeded;
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace BIMiconToolbar.Helpers
@@ -189,6 +190,64 @@ namespace BIMiconToolbar.Helpers
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Function to check if all characters of string is upper
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static bool IsAllUpper(string input)
+        {
+            foreach (char c in input)
+            {
+                if (char.IsLetter(c) && char.IsUpper(c) == false)
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Function to change string to Title case
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="output"></param>
+        public static void StringToTitleCase(string input, ref string output)
+        {
+            // Loop through all characters of string
+            for (int i = 0; i < input.Length; i++)
+            {
+                // Convert char to string for ease of manipulation
+                string s = input[i].ToString();
+
+                // Convert to uppercase if the first character is a letter
+                if (i == 0 && char.IsLetter(input[i]))
+                {
+                    output += input[i].ToString().ToUpper();
+                    continue;
+                }
+
+                // Start a new call to capitalize next delimited string
+                if (s == "-" || s == " " || s == "_")
+                {
+                    output += input[i];
+                    StringToTitleCase(input.Substring(i + 1), ref output);
+                    break;
+                }
+                // Convert rest of letter into lower case
+                else if (char.IsLetter(input[i]))
+                {
+                    output += input[i].ToString().ToLower();
+                    continue;
+                }
+                // Add rest characters as they are
+                else
+                {
+                    output += input[i];
+                    continue;
+                }
+            }
         }
     }
 }
