@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConvertCase\ConvertCase.cs" />
+    <Compile Include="CreateMaterials\CreateMaterials.cs" />
     <Compile Include="DuplicateSheets\DuplicateSheets.cs" />
     <Compile Include="DuplicateSheets\DuplicateSheetsWPF.xaml.cs">
       <DependentUpon>DuplicateSheetsWPF.xaml</DependentUpon>
@@ -220,6 +221,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tab\Auxiliar.cs" />
     <Compile Include="Tab\CommandAvailability.cs" />
+    <Compile Include="TypesCatalogue\TypesCatalogue.cs" />
     <Compile Include="ViewOnSheet\ViewOnSheet.cs" />
     <Compile Include="ViewOnSheet\ViewsOnSheetWPF.xaml.cs">
       <DependentUpon>ViewsOnSheetWPF.xaml</DependentUpon>
@@ -279,6 +281,10 @@
     <Resource Include="FilesUpgrade\Images\iconFilesUpgradeSmall.png" />
     <Resource Include="ConvertCase\Images\iconConvertCase.png" />
     <Resource Include="ConvertCase\Images\iconConvertCaseSmall.png" />
+    <Resource Include="CreateMaterials\Images\iconCreateMaterials.png" />
+    <Resource Include="CreateMaterials\Images\iconCreateMaterialsSmall.png" />
+    <Resource Include="TypesCatalogue\Images\iconTypesCatalogue.png" />
+    <Resource Include="TypesCatalogue\Images\iconTypesCatalogueSmall.png" />
     <Content Include="WarningsReport\RevitWarningsClassified.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

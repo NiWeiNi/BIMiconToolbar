@@ -34,6 +34,7 @@ namespace BIMiconToolbar.Tab
             /*---Ribbon Panel Library---*/
             #region Ribbon Panel Library
             // Remove backups
+            #region Remove Backups tool
             PushButtonData buttonRemoveBackups = new PushButtonData(
                "RemoveBackups",
                "Remove\nBackups",
@@ -49,8 +50,9 @@ namespace BIMiconToolbar.Tab
             pbRemoveBackups.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
             pbRemoveBackups.SetContextualHelp(contextHelpUrl);
-
+            #endregion
             // File Rename
+            #region File Renames tool
             PushButtonData buttonFilesRename = new PushButtonData(
                "FilesRename",
                "Rename\nFiles",
@@ -66,8 +68,9 @@ namespace BIMiconToolbar.Tab
             pbFilesRename.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
             pbFilesRename.SetContextualHelp(contextHelpUrl);
-
-            // File Rename case
+            #endregion
+            // File Rename Case
+            #region File Rename Case
             PushButtonData buttonConvertCase = new PushButtonData(
                "ConvertCase",
                "Convert\nCase",
@@ -83,8 +86,9 @@ namespace BIMiconToolbar.Tab
             pbConvertCase.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
             pbConvertCase.SetContextualHelp(contextHelpUrl);
-
-            // Upgrade Revit files
+            #endregion
+            // Upgrade Revit Files
+            #region Upgrade Revit Files
             PushButtonData buttonFilesUpgrade = new PushButtonData(
                "FilesUpgrade",
                "Upgrade\nFiles",
@@ -100,8 +104,43 @@ namespace BIMiconToolbar.Tab
             pbFilesUpgrade.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
             pbFilesUpgrade.SetContextualHelp(contextHelpUrl);
+            #endregion
+            // Create Materials from Selected Path
+            #region Create Materials from Selected Path
+            PushButtonData buttonCreateMaterials = new PushButtonData(
+               "CreateMaterials",
+               "Create\nMaterials",
+               assemblyPath,
+               "BIMiconToolbar.CreateMaterials.CreateMaterials"
+            );
 
+            PushButton pbCreateMaterials = panelLibrary.AddItem(buttonCreateMaterials) as PushButton;
+            pbCreateMaterials.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/CreateMaterials/Images/iconCreateMaterials.png"));
+            pbCreateMaterials.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/CreateMaterials/Images/iconCreateMaterialsSmall.png"));
+            pbCreateMaterials.ToolTip = "Creates materials from textures in a folder.";
+            pbCreateMaterials.LongDescription = "Creates materials inside Revit according to selected directory.";
+            // Set the context help when F1 pressed
+            pbCreateMaterials.SetContextualHelp(contextHelpUrl);
+            #endregion
+            // Create Types Catalogue
+            #region Generate Types Catalogue
+            PushButtonData buttonTypesCatalogue = new PushButtonData(
+               "TypesCatalogue",
+               "Types\nCatalogue",
+               assemblyPath,
+               "BIMiconToolbar.TypesCatalogue.TypesCatalogue"
+            );
+
+            PushButton pbTypesCatalogue = panelLibrary.AddItem(buttonTypesCatalogue) as PushButton;
+            pbTypesCatalogue.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/TypesCatalogue/Images/iconTypesCatalogue.png"));
+            pbTypesCatalogue.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/TypesCatalogue/Images/iconTypesCatalogueSmall.png"));
+            pbTypesCatalogue.ToolTip = "Generates a types catalago from the currently open family or selected family files.";
+            pbTypesCatalogue.LongDescription = "Generates a types catalago from the currently open family or selected family files.";
+            // Set the context help when F1 pressed
+            pbTypesCatalogue.SetContextualHelp(contextHelpUrl);
+            #endregion
             // Family Browser
+            #region Family Browser
             //PushButtonData buttonFamilyBrowser = new PushButtonData(
             //   "FamilyBrowser",
             //   "Family\nBrowser",
@@ -117,7 +156,7 @@ namespace BIMiconToolbar.Tab
 
             //// Set the context help when F1 pressed
             //pbFamilyBrowser.SetContextualHelp(contextHelpUrl);
-
+            #endregion
             #endregion
 
             /*---Ribbon Panel Model---*/
@@ -142,8 +181,8 @@ namespace BIMiconToolbar.Tab
             #endregion
 
             /*---Ribbon Panel Modelling---*/
-            /*
             #region Ribbon Panel Modelling
+            /*
             // Create floor finish according to room
             PushButtonData buttonFloorFinish = new PushButtonData(
                "Floor Finish",
@@ -159,9 +198,8 @@ namespace BIMiconToolbar.Tab
             pbFloorFinish.LongDescription = "Create floor finishes by selecting rooms and floor type.";
             // Set the context help when F1 pressed
             pbFloorFinish.SetContextualHelp(contextHelpUrl);
-
-            #endregion
             */
+            #endregion
 
             /*---Ribbon Panel Schedules---*/
             #region Ribbon Panel Schedules

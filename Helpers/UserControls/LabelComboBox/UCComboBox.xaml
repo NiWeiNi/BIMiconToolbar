@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="BIMiconToolbar.Helpers.UserControls.LabelComboBox.UCComboBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BIMiconToolbar.Helpers.UserControls.LabelComboBox"
+             x:Name="comboSelection"
+             mc:Ignorable="d">
+
+    <!--Dictionary for style-->
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\..\ResourceDictionaries\DictionaryWindows.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <!--Container-->
+    <StackPanel DataContext="{Binding ElementName=comboSelection}">
+        <!--Title-->
+        <TextBlock Style="{StaticResource Title}"
+                   Text="{Binding Path=Label}"/>
+        <!--ComboBox-->
+        <ComboBox Style="{StaticResource comboDisplay}"
+                  ItemsSource="{Binding Value}"
+                  SelectedItem="{Binding SelectedComboItemCategories}"/>
+    </StackPanel>
+    
+</UserControl>

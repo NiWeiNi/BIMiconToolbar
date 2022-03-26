@@ -4,9 +4,52 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BIMiconToolbar.NumberByPick"
+        xmlns:textInput="clr-namespace:BIMiconToolbar.Helpers.UserControls.LabelTextInput"
+        xmlns:comboBox="clr-namespace:BIMiconToolbar.Helpers.UserControls.LabelComboBox"
         mc:Ignorable="d"
-        Title="NumberByPickWPF" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        FocusManager.FocusedElement="{Binding ElementName=OK}"
+        Icon="../Resources/Logos/iconBIMiconBlack.ico"
+        ResizeMode="NoResize"
+        Title="Number Elements by Pick" 
+        SizeToContent="Height"
+        Width="420"
+        WindowStartupLocation="CenterScreen">
+
+    <!--Dictionary for style-->
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\Helpers\ResourceDictionaries\DictionaryWindows.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <!--Border to offset window content and main container-->
+    <Border Style="{StaticResource SingleContainer}">
+        <StackPanel>
+            <!--Prefix and starting number-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.8*"/>
+                    <ColumnDefinition Width=".15*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <textInput:TextInput Grid.Column="0"
+                                     Orientation="Vertical"
+                                     Label="Prefix:"
+                                     Value="{Binding Prefix}"/>
+                <textInput:TextInput Grid.Column="2"
+                                     Orientation="Vertical"
+                                     Label="Starting Number:"
+                                     Value="{Binding StartNumber}"/>
+            </Grid>
+            <!--Category selection-->
+            <comboBox:UCComboBox Label="Select category of elements to number:"
+                                 Value="{Binding categories}"/>
+            <!--Parameter selection-->
+            <comboBox:UCComboBox Label="Select parameter to store new numbers:"/>
+            <!--Ok Cancel buttons-->
+        </StackPanel>
+    </Border>
 </Window>
