@@ -38,7 +38,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\Logos\iconBIMiconBlack.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdWindows, Version=2017.11.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -210,6 +211,11 @@
     <Compile Include="OpenLinksUnloaded\OpenLinksUnloadedWPF.xaml.cs">
       <DependentUpon>OpenLinksUnloadedWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="RemoveBackups\Helpers\RemoveBackupHelpers.cs" />
     <Compile Include="RemoveBackups\RemoveBackups.cs" />
     <Compile Include="Support\Docs\Docs.cs" />
@@ -295,6 +301,10 @@
     <Resource Include="DuplicateSheets\Images\iconDupSheetsSmall.png" />
     <EmbeddedResource Include="NumberDoors\Images\NumberDoorsHelp.mp4" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
