@@ -3,6 +3,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Visual;
 using Autodesk.Revit.UI;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 
@@ -70,7 +71,7 @@ namespace BIMiconToolbar.CreateMaterials
 
                 foreach (var tF in textureFiles)
                 {
-                    // Select bump map
+                    // Select bump map and retrieve image width and height for texture scale
                     if (tF.Contains("_DISP_"))
                     {
                         bumpPath = tF;
@@ -78,8 +79,6 @@ namespace BIMiconToolbar.CreateMaterials
                     // Select diffuse map
                     if (tF.Contains("_COL_"))
                     {
-                        //string parentDirectory = Directory.GetParent(tF).FullName;
-                        //string grandParentDirectory = Directory.GetParent(textureFolder).Name;
                         diffusePath = tF;
                     }
                 }
@@ -135,28 +134,57 @@ namespace BIMiconToolbar.CreateMaterials
             descriptionProperty.Value = "blue carpet";
             // Diffuse image
             AssetPropertyDoubleArray4d genericDiffuseProperty = editableAsset.FindByName("generic_diffuse") as AssetPropertyDoubleArray4d;
-            genericDiffuseProperty.SetValueAsColor(new Color(0x00, 0x00, 0x00));
+            genericDiffuseProperty.SetValueAsColor(new Autodesk.Revit.DB.Color(0x00, 0x00, 0x00));
             Asset connectedAsset = genericDiffuseProperty.GetSingleConnectedAsset();
             AssetPropertyString bitmapProperty = connectedAsset.FindByName("unifiedbitmap_Bitmap") as AssetPropertyString;
             bitmapProperty.Value = texturePath;
 
-            // Assign bump map
-            AssetProperty bumpMapProperty = editableAsset.FindByName("generic_bump_map");
-            // Find the connected asset
-            Asset connectedAssetBump = bumpMapProperty.GetSingleConnectedAsset();
-            if (connectedAssetBump == null)
+            double diffuseHeight = 0;
+            double diffuseWidth = 0;
+
+            using (var fileStream = new FileStream(texturePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                // Add a new default connected asset
-                bumpMapProperty.AddConnectedAsset("UnifiedBitmap");
-                connectedAssetBump = bumpMapProperty.GetSingleConnectedAsset();
-            }
-            if (connectedAssetBump != null)
-            {
-                // Find the target asset property
-                AssetPropertyString bumpmapBitmapProperty = connectedAssetBump.FindByName("unifiedbitmap_Bitmap") as AssetPropertyString;
-                if (bumpPath != null)
+                using (var image = Image.FromStream(fileStream, false, false))
                 {
-                    bumpmapBitmapProperty.Value = bumpPath;
+                    diffuseHeight = image.Height;
+                    diffuseWidth = image.Width;
+                }
+            }
+
+            AssetPropertyDistance bitmapWidth = connectedAsset.FindByName("texture_RealWorldScaleX") as AssetPropertyDistance;
+            bitmapWidth.Value = diffuseWidth;
+            AssetPropertyDistance bitmapHeight = connectedAsset.FindByName("texture_RealWorldScaleY") as AssetPropertyDistance;
+            bitmapHeight.Value = diffuseHeight;
+
+            // Assign bump map
+            if (bumpPath != null)
+            {
+                double bumpHeight = 0;
+                double bumpWidth = 0;
+
+                using (var fileStream = new FileStream(bumpPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    using (var image = Image.FromStream(fileStream, false, false))
+                    {
+                        bumpHeight = image.Height;
+                        bumpWidth = image.Width;
+                    }
+                }
+
+                AssetProperty bumpMapProperty = editableAsset.FindByName("generic_bump_map");
+                // Find the connected asset
+                Asset connectedAssetBump = bumpMapProperty.GetSingleConnectedAsset();
+                if (connectedAssetBump == null)
+                {
+                    // Add a new default connected asset
+                    bumpMapProperty.AddConnectedAsset("UnifiedBitmap");
+                    connectedAssetBump = bumpMapProperty.GetSingleConnectedAsset();
+                }
+                if (connectedAssetBump != null)
+                {
+                    // Find the target asset property
+                    AssetPropertyString bumpmapBitmapProperty = connectedAssetBump.FindByName("unifiedbitmap_Bitmap") as AssetPropertyString;
+                        bumpmapBitmapProperty.Value = bumpPath;
                 }
             }
         }
