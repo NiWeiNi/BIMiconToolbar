@@ -29,8 +29,6 @@ namespace BIMiconToolbar.RemoveBackups.Helpers
                             dirs.Push(sub);
                         }
                     }
-
-                    // MessageBox.Show(String.Join(", ", dirs.ToArray()));
                 }
 
                 // Catch not enough permission to access
@@ -74,7 +72,6 @@ namespace BIMiconToolbar.RemoveBackups.Helpers
                     }
                 }
             }
-
         }
 
         // Delete backup files
@@ -94,7 +91,7 @@ namespace BIMiconToolbar.RemoveBackups.Helpers
         // Method to match file pattern
         private static bool Match(string fileName)
         {
-            Regex backupPattern = new Regex(@"\.[0-9]{3,4}\.r(vt|fa)");
+            Regex backupPattern = new Regex(@"\.[0-9]{3,4}\.r(vt|fa|te)");
             Match fileMatch = backupPattern.Match(fileName);
 
             if (fileMatch.Success)
