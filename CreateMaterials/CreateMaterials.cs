@@ -26,7 +26,7 @@ namespace BIMiconToolbar.CreateMaterials
             Asset asset = appearanceElem.GetRenderingAsset();
 
             // Path to stored textures
-            string texturesPath = @"C:\MATERIAL TEXTURES";
+            string texturesPath = @"C:\";
 
             // Retrieve subfolders that contains textures
             var folders = Directory.EnumerateDirectories(texturesPath, "*", SearchOption.TopDirectoryOnly);
@@ -131,7 +131,7 @@ namespace BIMiconToolbar.CreateMaterials
         {
             // Description
             AssetPropertyString descriptionProperty = editableAsset.FindByName("keyword") as AssetPropertyString;
-            descriptionProperty.Value = "blue carpet";
+            // descriptionProperty.Value = "blue carpet";
             // Diffuse image
             AssetPropertyDoubleArray4d genericDiffuseProperty = editableAsset.FindByName("generic_diffuse") as AssetPropertyDoubleArray4d;
             genericDiffuseProperty.SetValueAsColor(new Autodesk.Revit.DB.Color(0x00, 0x00, 0x00));
@@ -146,8 +146,8 @@ namespace BIMiconToolbar.CreateMaterials
             {
                 using (var image = Image.FromStream(fileStream, false, false))
                 {
-                    diffuseHeight = image.Height;
-                    diffuseWidth = image.Width;
+                    diffuseHeight = image.Height/100;
+                    diffuseWidth = image.Width/100;
                 }
             }
 
