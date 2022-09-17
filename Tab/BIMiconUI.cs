@@ -18,7 +18,7 @@ namespace BIMiconToolbar.Tab
             // Create ribbon
             Autodesk.Revit.UI.RibbonPanel panelLibrary = application.CreateRibbonPanel(tabName, "Library");
             Autodesk.Revit.UI.RibbonPanel panelModel = application.CreateRibbonPanel(tabName, "Model");
-            //Autodesk.Revit.UI.RibbonPanel panelModelling = application.CreateRibbonPanel(tabName, "Modelling");
+            Autodesk.Revit.UI.RibbonPanel panelModelling = application.CreateRibbonPanel(tabName, "Modelling");
             Autodesk.Revit.UI.RibbonPanel panelProject = application.CreateRibbonPanel(tabName, "Project");
             Autodesk.Revit.UI.RibbonPanel panelSchedules = application.CreateRibbonPanel(tabName, "Schedules");
             Autodesk.Revit.UI.RibbonPanel panelSheets = application.CreateRibbonPanel(tabName, "Sheets");
@@ -122,6 +122,23 @@ namespace BIMiconToolbar.Tab
             // Set the context help when F1 pressed
             pbCreateMaterials.SetContextualHelp(contextHelpUrl);
             #endregion
+            // Edit material properties
+            #region Edit Material Properties
+            PushButtonData buttonEditMatProperties = new PushButtonData(
+               "EditMaterials",
+               "Edit\nMaterials",
+               assemblyPath,
+               "BIMiconToolbar.EditMatProperties.EditMatProperties"
+            );
+
+            PushButton pbEditMatProperties = panelLibrary.AddItem(buttonEditMatProperties) as PushButton;
+            pbEditMatProperties.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/CreateMaterials/Images/iconCreateMaterials.png"));
+            pbEditMatProperties.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/CreateMaterials/Images/iconCreateMaterialsSmall.png"));
+            pbEditMatProperties.ToolTip = "Edit materials of the current Revit model";
+            pbEditMatProperties.LongDescription = "Edit materials of the current Revit model";
+            // Set the context help when F1 pressed
+            pbEditMatProperties.SetContextualHelp(contextHelpUrl);
+            #endregion
             // Create Types Catalogue
             #region Generate Types Catalogue
             PushButtonData buttonTypesCatalogue = new PushButtonData(
@@ -182,7 +199,6 @@ namespace BIMiconToolbar.Tab
 
             /*---Ribbon Panel Modelling---*/
             #region Ribbon Panel Modelling
-            /*
             // Create floor finish according to room
             PushButtonData buttonFloorFinish = new PushButtonData(
                "Floor Finish",
@@ -198,7 +214,6 @@ namespace BIMiconToolbar.Tab
             pbFloorFinish.LongDescription = "Create floor finishes by selecting rooms and floor type.";
             // Set the context help when F1 pressed
             pbFloorFinish.SetContextualHelp(contextHelpUrl);
-            */
             #endregion
 
             /*---Ribbon Panel Schedules---*/

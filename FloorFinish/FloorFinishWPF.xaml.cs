@@ -36,8 +36,10 @@ namespace BIMiconToolbar.FloorFinish
             DataContext = this;
 
             // Set the input units
-            DisplayUnitType dUT = Helpers.RevitProjectInfo.ProjectLengthUnit(doc);
-            offsetTextBlock.Text = "Offset from level in " + dUT.ToString().Replace("DUT_", "").Replace("_", " ").ToLower();
+            Units units = doc.GetUnits();
+            FormatOptions fo = units.GetFormatOptions(SpecTypeId.Length);
+
+            offsetTextBlock.Text = "Offset from level in " ;
 
             // Populate room checkboxes
             RoomsCheckBoxes(doc);
@@ -258,17 +260,17 @@ namespace BIMiconToolbar.FloorFinish
                 if (isDouble)
                 {
                     // Retrieve project length unit
-                    DisplayUnitType dUT = Helpers.RevitProjectInfo.ProjectLengthUnit(doc);
+                    ForgeTypeId fTypeId = Helpers.RevitProjectInfo.ProjectLengthUnit(doc);
 
                     // Assign floor offset to property
-                    FloorOffset = Helpers.UnitsConverter.LengthUnitToInternal(number, dUT);
+                    FloorOffset = Helpers.UnitsConverter.LengthUnitToInternal(number, fTypeId);
                     StringInternalUnits = FloorOffset.ToString();
                     IsExecuteReady = true;
                 }
                 // Input as imperial fractions
                 else if (Helpers.Parsing.IsImperialFraction(newStringNumber) && 
-                    (DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES == Helpers.RevitProjectInfo.ProjectLengthUnit(doc) ||
-                    DisplayUnitType.DUT_FRACTIONAL_INCHES == Helpers.RevitProjectInfo.ProjectLengthUnit(doc)))
+                    (UnitTypeId.Feet == Helpers.RevitProjectInfo.ProjectLengthUnit(doc) ||
+                    UnitTypeId.Feet == Helpers.RevitProjectInfo.ProjectLengthUnit(doc)))
                 {
                     FloorOffset = Helpers.Parsing.ImperialFractionToDecimalFeet(newStringNumber);
                     StringInternalUnits = FloorOffset.ToString();

@@ -26,12 +26,12 @@ namespace BIMiconToolbar.Helpers
         /// </summary>
         /// <param name="doc"></param>
         /// <returns></returns>
-        public static DisplayUnitType ProjectLengthUnit(Document doc)
+        public static ForgeTypeId ProjectLengthUnit(Document doc)
         {
             Units units = doc.GetUnits();
-            FormatOptions fo = units.GetFormatOptions(UnitType.UT_Length);
-            DisplayUnitType dUType = fo.DisplayUnits;
-            return dUType;
+            FormatOptions fo = units.GetFormatOptions(SpecTypeId.Length);
+            ForgeTypeId fTypeId = fo.GetUnitTypeId();
+            return fTypeId;
         }
     }
 }

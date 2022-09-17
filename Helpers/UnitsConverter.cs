@@ -10,9 +10,9 @@ namespace BIMiconToolbar.Helpers
         /// <param name="number"></param>
         /// <param name="dUT"></param>
         /// <returns></returns>
-        public static double LengthUnitToInternal(double number, DisplayUnitType dUT)
+        public static double LengthUnitToInternal(double number, ForgeTypeId fTypeId)
         {
-            return UnitUtils.ConvertToInternalUnits(number, dUT);
+            return UnitUtils.ConvertToInternalUnits(number, fTypeId);
         }
     }
 }
