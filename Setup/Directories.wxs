@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+	<Fragment>
+
+		<!-- Addin directory searches-->
+		<Property Id="ADDIN2017DIRECTORY">
+			<DirectorySearch Path="[CommonAppDataFolder]"
+							Depth="0"
+							AssignToProperty="no"
+							Id="ProgramDataFolderSearch">
+				<DirectorySearch Path="Autodesk\Revit\Addins"
+								Depth="0"
+								AssignToProperty="no"
+								Id="AddinFolderSearch">
+					<DirectorySearch Path="2017"
+									Depth="0"
+									AssignToProperty="yes"
+									Id="Addin2017Search"/>
+				</DirectorySearch>
+			</DirectorySearch>
+		</Property>
+		
+		<Property Id="ADDIN2018DIRECTORY">
+			<DirectorySearchRef Id="AddinFolderSearch" 
+								Parent="ProgramDataFolderSearch" 
+								Path="Autodesk\Revit\Addins">
+				<DirectorySearch Path="2018"
+								 Depth="0"
+								 AssignToProperty="yes"
+								 Id="Addin2018Search"/>
+			</DirectorySearchRef>
+		</Property>
+
+		<Property Id="ADDIN2019DIRECTORY">
+			<DirectorySearchRef Id="AddinFolderSearch"
+								Parent="ProgramDataFolderSearch"
+								Path="Autodesk\Revit\Addins">
+				<DirectorySearch Path="2019"
+								 Depth="0"
+								 AssignToProperty="yes"
+								 Id="Addin2019Search"/>
+			</DirectorySearchRef>
+		</Property>
+
+		<Property Id="ADDIN2020DIRECTORY">
+			<DirectorySearchRef Id="AddinFolderSearch"
+								Parent="ProgramDataFolderSearch"
+								Path="Autodesk\Revit\Addins">
+				<DirectorySearch Path="2020"
+								 Depth="0"
+								 AssignToProperty="yes"
+								 Id="Addin2020Search"/>
+			</DirectorySearchRef>
+		</Property>
+
+		<Property Id="ADDIN2021DIRECTORY">
+			<DirectorySearchRef Id="AddinFolderSearch"
+								Parent="ProgramDataFolderSearch"
+								Path="Autodesk\Revit\Addins">
+				<DirectorySearch Path="2021"
+								 Depth="0"
+								 AssignToProperty="yes"
+								 Id="Addin2021Search"/>
+			</DirectorySearchRef>
+		</Property>
+
+    <Property Id="ADDIN2022DIRECTORY">
+      <DirectorySearchRef Id="AddinFolderSearch"
+								Parent="ProgramDataFolderSearch"
+								Path="Autodesk\Revit\Addins">
+        <DirectorySearch Path="2022"
+								 Depth="0"
+								 AssignToProperty="yes"
+								 Id="Addin2022Search"/>
+      </DirectorySearchRef>
+    </Property>
+
+    <Property Id="DLLSDIRECTORY">
+      <DirectorySearch Path="[CommonAppDataFolder]"
+							Depth="0"
+							AssignToProperty="no"
+							Id="ProgramDataFolderSearchDlls">
+        <DirectorySearch Path="Autodesk\Revit"
+								Depth="0"
+								AssignToProperty="no"
+								Id="RevitFolderSearch">
+          <DirectorySearch Path="Addins"
+									Depth="0"
+									AssignToProperty="yes"
+									Id="DllsSearch"/>
+        </DirectorySearch>
+      </DirectorySearch>
+    </Property>
+		
+		<!-- Install directory-->
+		<Directory Id="TARGETDIR" Name="SourceDir">
+
+      <!-- Common directory-->
+      <Directory Id="DLLSDIRECTORY">
+        <!-- Main directory -->
+        <Directory Id="MainFilesDirectory" Name="!(loc.Company)">
+          <!-- Warnings directory -->
+          <Directory Id="WarningsFileDirectory" Name="WarningsReport" />
+        </Directory>
+      </Directory>
+
+			<!-- Shortcut directory -->
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="MyShortcutsDir" Name="!(loc.Company)" />
+			</Directory>
+
+			<!-- Revit 2017 directory-->
+			<Directory Id="ADDIN2017DIRECTORY">
+				<!-- Addin directory -->
+				<Directory Id="AddinFileDirectory2017" />
+			</Directory>
+			
+			<!-- Revit 2018 directory-->
+			<Directory Id="ADDIN2018DIRECTORY">
+				<!-- Addin directory -->
+				<Directory Id="AddinFileDirectory2018" />
+			</Directory>
+
+			<!-- Revit 2019 directory-->
+			<Directory Id="ADDIN2019DIRECTORY">
+				<!-- Addin directory -->
+				<Directory Id="AddinFileDirectory2019" />
+			</Directory>
+
+			<!-- Revit 2020 directory-->
+			<Directory Id="ADDIN2020DIRECTORY">
+				<!-- Addin directory -->
+				<Directory Id="AddinFileDirectory2020" />
+			</Directory>
+
+			<!-- Revit 2021 directory-->
+			<Directory Id="ADDIN2021DIRECTORY">
+				<!-- Addin directory -->
+				<Directory Id="AddinFileDirectory2021" />
+			</Directory>
+
+      <!-- Revit 2022 directory-->
+      <Directory Id="ADDIN2022DIRECTORY">
+        <!-- Addin directory -->
+        <Directory Id="AddinFileDirectory2022" />
+      </Directory>
+
+		</Directory>
+		
+	</Fragment>
+	
+</Wix>

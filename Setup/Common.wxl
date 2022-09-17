@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+	
+	<String Id="ProductName">BIMicon Toolbar</String>
+	<String Id="Language">1033</String>
+	<String Id="Company">BIMicon</String>
+	<String Id="Copyright">(c) 2021 BIMicon</String>
+	<String Id="Description">Install BIMicon Toolbar for Revit</String>
+	<String Id="Web">https://www.bimicon.com/</String>
+	<String Id="Documentation">BIMicon Toolbar Documentation</String>
+	<String Id="UninstallShortcut">Uninstall BIMicon Toolbar</String>
+	<String Id="UninstallDescription">Uninstalls BIMicon and all of its components</String>
+	
+</WixLocalization>
