@@ -400,6 +400,7 @@ namespace BIMiconToolbar.Helpers
         /// <param name="suffix"></param>
         /// <returns></returns>
         public static string UpdatePathName(bool IsFile,
+                                            bool ToTitleCase,
                                             ComboBoxItem comboItem,
                                             string selectedPath,
                                             string find,
@@ -445,11 +446,23 @@ namespace BIMiconToolbar.Helpers
                 if (extension != "")
                 {             
                     updatedName = UpdateFileName(selectedPath + "\\" + originalName, prefix, suffix, find, replace);
+                    if (ToTitleCase)
+                    {
+                        string placeholder = "";
+                        Parsing.StringToTitleCase(updatedName, ref placeholder);
+                        updatedName = placeholder;
+                    }   
                 }
             }
             else
             {
                 updatedName = UpdateDirectoryName(selectedPath, prefix, suffix, find, replace);
+                if (ToTitleCase)
+                {
+                    string placeholder = "";
+                    Parsing.StringToTitleCase(updatedName, ref placeholder);
+                    updatedName = placeholder;
+                }
             }
 
             return updatedName;

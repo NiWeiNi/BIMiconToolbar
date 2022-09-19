@@ -15,6 +15,8 @@ namespace BIMiconToolbar.FilesRename
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Variables to hold user input
+        public bool useTitleCase = false;
+        public bool noCaseChange = false;
         public bool filesRenameBool = true;
         public bool Canceled = true;
         public string SelectedPath { get; set; }
@@ -95,6 +97,7 @@ namespace BIMiconToolbar.FilesRename
 
             // Switch between display file or folder rename
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                                          useTitleCase,
                                                                           SelectedComboItemFileType,
                                                                           SelectedPath,
                                                                           NameFind,
@@ -189,6 +192,7 @@ namespace BIMiconToolbar.FilesRename
         {
             NamePrefix = TextChanged(sender, e);
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                              useTitleCase,
                                                               SelectedComboItemFileType,
                                                               SelectedPath,
                                                               NameFind,
@@ -206,6 +210,7 @@ namespace BIMiconToolbar.FilesRename
         {
             NameSuffix = TextChanged(sender, e);
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                              useTitleCase,
                                                               SelectedComboItemFileType,
                                                               SelectedPath,
                                                               NameFind,
@@ -223,6 +228,7 @@ namespace BIMiconToolbar.FilesRename
         {
             NameFind = TextChanged(sender, e);
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                              useTitleCase,
                                                               SelectedComboItemFileType,
                                                               SelectedPath,
                                                               NameFind,
@@ -240,6 +246,7 @@ namespace BIMiconToolbar.FilesRename
         {
             NameReplace = TextChanged(sender, e);
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                              useTitleCase,
                                                               SelectedComboItemFileType,
                                                               SelectedPath,
                                                               NameFind,
@@ -281,6 +288,35 @@ namespace BIMiconToolbar.FilesRename
         private void ComboDisplayFileType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                              useTitleCase,
+                                                              SelectedComboItemFileType,
+                                                              SelectedPath,
+                                                              NameFind,
+                                                              NameReplace,
+                                                              NamePrefix,
+                                                              NameSuffix);
+        }
+
+        private void NoChange_Checked(object sender, RoutedEventArgs e)
+        {
+            this.noCaseChange = true;
+            this.useTitleCase = false;
+            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                              useTitleCase,
+                                                              SelectedComboItemFileType,
+                                                              SelectedPath,
+                                                              NameFind,
+                                                              NameReplace,
+                                                              NamePrefix,
+                                                              NameSuffix);
+        }
+
+        private void NoChange_Unchecked(object sender, RoutedEventArgs e)
+        {
+            this.noCaseChange = false;
+            this.useTitleCase = true;
+            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+                                                              useTitleCase,
                                                               SelectedComboItemFileType,
                                                               SelectedPath,
                                                               NameFind,

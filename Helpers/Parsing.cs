@@ -212,7 +212,6 @@ namespace BIMiconToolbar.Helpers
         /// Function to change string to Title case
         /// </summary>
         /// <param name="input"></param>
-        /// <param name="output"></param>
         public static void StringToTitleCase(string input, ref string output)
         {
             // Loop through all characters of string

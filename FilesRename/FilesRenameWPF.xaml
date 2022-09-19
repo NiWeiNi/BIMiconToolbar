@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="FilesRenameWPF" Height="600" Width="400"
+        Title="FilesRenameWPF" Height="690" Width="400"
         FocusManager.FocusedElement="{Binding ElementName=cancel}"
         Icon="../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
@@ -59,6 +59,27 @@
                       SelectionChanged="ComboDisplayFileType_SelectionChanged"
                       Style="{StaticResource comboDisplay}">
             </ComboBox>
+
+            <!-- Select case change-->
+            <TextBlock Style="{StaticResource Title}">
+                Change to Titlecase?:
+            </TextBlock>
+            <Border Style="{StaticResource radioButtonBorder}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <RadioButton Grid.Column="0" GroupName="changeCase" x:Name="noChange"
+                                 ToggleButton.Checked="NoChange_Checked" ToggleButton.Unchecked="NoChange_Unchecked"
+                                 IsChecked="True">
+                        No case change
+                    </RadioButton>
+                    <RadioButton Grid.Column="1" GroupName="changeCase" x:Name="titleCase">
+                        TitleCase
+                    </RadioButton>
+                </Grid>
+            </Border>
 
             <!-- Prefix and Suffix to name-->
             <TextBlock Style="{StaticResource Title}">
