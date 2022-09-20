@@ -27,6 +27,12 @@
     <!--Border to offset window content and main container-->
     <Border Style="{StaticResource SingleContainer}">
         <StackPanel>
+            <!-- Select curve -->
+            <TextBlock Style="{StaticResource FirstTitle}">
+                            Select elements:
+            </TextBlock>
+            <Button x:Name="selectElements" Content="Select Elements to Number"></Button>
+            
             <!--Prefix and starting number-->
             <Grid>
                 <Grid.ColumnDefinitions>
