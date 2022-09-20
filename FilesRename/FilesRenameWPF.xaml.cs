@@ -157,7 +157,7 @@ namespace BIMiconToolbar.FilesRename
             }
             
             // Create new names for folders or files
-            string[] newNames = Helpers.HelpersDirectory.CreateNewNames(oldNames, NamePrefix, NameSuffix, NameFind, NameReplace, filesRenameBool);
+            string[] newNames = Helpers.HelpersDirectory.CreateNewNames(oldNames, NamePrefix, NameSuffix, NameFind, NameReplace, filesRenameBool, useTitleCase);
 
             // Rename files
             if (filesRenameBool)

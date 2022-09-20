@@ -144,7 +144,8 @@ namespace BIMiconToolbar.Helpers
                                               string suffix,
                                               string find,
                                               string replace,
-                                              bool folder)
+                                              bool folder,
+                                              bool toTitleCase)
         {
             var newNames = new List<string>();
 
@@ -156,7 +157,7 @@ namespace BIMiconToolbar.Helpers
             {
                 foreach(string oName in oldnames)
                 {
-                    string fileName = UpdateFileName(oName, prefix, suffix, find, goodReplace);
+                    string fileName = UpdateFileName(oName, prefix, suffix, find, goodReplace, toTitleCase);
 
                     newNames.Add(fileName);
                 }
@@ -294,7 +295,7 @@ namespace BIMiconToolbar.Helpers
         /// <param name="find"></param>
         /// <param name="replace"></param>
         /// <returns></returns>
-        public static string UpdateFileName(string filePath, string prefix, string suffix, string find, string replace)
+        public static string UpdateFileName(string filePath, string prefix, string suffix, string find, string replace, bool ToTitleCase)
         {
             string updatedName = "";
 
@@ -311,6 +312,12 @@ namespace BIMiconToolbar.Helpers
                     if (find != null && find != "" && replace != null)
                     {
                         nameWithoutExt = nameWithoutExt.Replace(find, replace);
+                    }
+                    if (ToTitleCase)
+                    {
+                        string placeholder = "";
+                        Parsing.StringToTitleCase(nameWithoutExt, ref placeholder);
+                        nameWithoutExt = placeholder;
                     }
                     updatedName = pathToFile + prefix + nameWithoutExt + suffix + extension;
                 }
@@ -381,8 +388,8 @@ namespace BIMiconToolbar.Helpers
             {
                 foreach (string oFile in originalFiles)
                 {
-                    var updatedName = UpdateFileName(oFile, prefix, suffix, find, replace);
-                    destinationFiles.Add(updatedName);
+                    //var updatedName = UpdateFileName(oFile, prefix, suffix, find, replace, useTitleCase);
+                    //destinationFiles.Add(updatedName);
                 }
             }
 
@@ -400,7 +407,7 @@ namespace BIMiconToolbar.Helpers
         /// <param name="suffix"></param>
         /// <returns></returns>
         public static string UpdatePathName(bool IsFile,
-                                            bool ToTitleCase,
+                                            bool toTitleCase,
                                             ComboBoxItem comboItem,
                                             string selectedPath,
                                             string find,
@@ -445,24 +452,12 @@ namespace BIMiconToolbar.Helpers
                 string extension = GetFilePathExtension(originalName);
                 if (extension != "")
                 {             
-                    updatedName = UpdateFileName(selectedPath + "\\" + originalName, prefix, suffix, find, replace);
-                    if (ToTitleCase)
-                    {
-                        string placeholder = "";
-                        Parsing.StringToTitleCase(updatedName, ref placeholder);
-                        updatedName = placeholder;
-                    }   
+                    updatedName = UpdateFileName(selectedPath + "\\" + originalName, prefix, suffix, find, replace, toTitleCase);  
                 }
             }
             else
             {
                 updatedName = UpdateDirectoryName(selectedPath, prefix, suffix, find, replace);
-                if (ToTitleCase)
-                {
-                    string placeholder = "";
-                    Parsing.StringToTitleCase(updatedName, ref placeholder);
-                    updatedName = placeholder;
-                }
             }
 
             return updatedName;

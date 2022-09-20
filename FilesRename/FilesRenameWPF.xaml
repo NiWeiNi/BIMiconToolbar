@@ -62,7 +62,7 @@
 
             <!-- Select case change-->
             <TextBlock Style="{StaticResource Title}">
-                Change to Titlecase?:
+                Change Case:
             </TextBlock>
             <Border Style="{StaticResource radioButtonBorder}">
                 <Grid>
@@ -73,10 +73,10 @@
                     <RadioButton Grid.Column="0" GroupName="changeCase" x:Name="noChange"
                                  ToggleButton.Checked="NoChange_Checked" ToggleButton.Unchecked="NoChange_Unchecked"
                                  IsChecked="True">
-                        No case change
+                        No Case Change
                     </RadioButton>
                     <RadioButton Grid.Column="1" GroupName="changeCase" x:Name="titleCase">
-                        TitleCase
+                        To TitleCase
                     </RadioButton>
                 </Grid>
             </Border>
