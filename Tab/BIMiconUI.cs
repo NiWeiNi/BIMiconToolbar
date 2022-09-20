@@ -69,24 +69,6 @@ namespace BIMiconToolbar.Tab
             // Set the context help when F1 pressed
             pbFilesRename.SetContextualHelp(contextHelpUrl);
             #endregion
-            // File Rename Case
-            #region File Rename Case
-            PushButtonData buttonConvertCase = new PushButtonData(
-               "ConvertCase",
-               "Convert\nCase",
-               assemblyPath,
-               "BIMiconToolbar.ConvertCase.ConvertCase"
-            );
-
-            PushButton pbConvertCase = panelLibrary.AddItem(buttonConvertCase) as PushButton;
-            pbConvertCase.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/ConvertCase/Images/iconConvertCase.png"));
-            pbConvertCase.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/ConvertCase/Images/iconConvertCaseSmall.png"));
-            pbConvertCase.ToolTip = "Convert name of file into lower, upper or Title case.";
-            pbConvertCase.LongDescription = "Change name case of all files of a certain type inside a folder.";
-            pbConvertCase.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
-            // Set the context help when F1 pressed
-            pbConvertCase.SetContextualHelp(contextHelpUrl);
-            #endregion
             // Upgrade Revit Files
             #region Upgrade Revit Files
             PushButtonData buttonFilesUpgrade = new PushButtonData(
