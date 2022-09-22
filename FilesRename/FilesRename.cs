@@ -16,7 +16,6 @@ namespace BIMiconToolbar.FilesRename
                 browserWindow.ShowDialog();
 
                 string selectedPath = browserWindow.selectedPath;
-                //string[] fullPath = new string[] { @"C:\Users\BIMicon\Desktop\test\BIMicon Content" };
 
                 // Check that path is not empty and path is a folder
                 if (selectedPath == null || !Directory.Exists(selectedPath))
@@ -31,8 +30,10 @@ namespace BIMiconToolbar.FilesRename
                     using (FilesRenameWPF customWindow = new FilesRenameWPF(selectedPath))
                     {
                         // Revit application as window's owner
-                        System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(customWindow);
-                        helper.Owner = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
+                        System.Windows.Interop.WindowInteropHelper helper = new System.Windows.Interop.WindowInteropHelper(customWindow)
+                        {
+                            Owner = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle
+                        };
 
                         customWindow.ShowDialog();
 

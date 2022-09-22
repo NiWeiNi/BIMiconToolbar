@@ -190,8 +190,6 @@
       <DependentUpon>MatchGridsWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="NumberByPick\NumberByPick.cs" />
-    <Compile Include="NumberByPick\NumberByPickModel.cs" />
-    <Compile Include="NumberByPick\NumberByPickViewModel.cs" />
     <Compile Include="NumberByPick\NumberByPickWPF.xaml.cs">
       <DependentUpon>NumberByPickWPF.xaml</DependentUpon>
     </Compile>
@@ -226,7 +224,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tab\Auxiliar.cs" />
     <Compile Include="Tab\CommandAvailability.cs" />
-    <Compile Include="TypesCatalogue\TypesCatalogue.cs" />
     <Compile Include="ViewOnSheet\ViewOnSheet.cs" />
     <Compile Include="ViewOnSheet\ViewsOnSheetWPF.xaml.cs">
       <DependentUpon>ViewsOnSheetWPF.xaml</DependentUpon>
@@ -284,8 +281,6 @@
     <Resource Include="NumberByPick\Images\iconNumberByPickSmall.png" />
     <Resource Include="FilesUpgrade\Images\iconFilesUpgrade.png" />
     <Resource Include="FilesUpgrade\Images\iconFilesUpgradeSmall.png" />
-    <Resource Include="TypesCatalogue\Images\iconTypesCatalogue.png" />
-    <Resource Include="TypesCatalogue\Images\iconTypesCatalogueSmall.png" />
     <Content Include="WarningsReport\RevitWarningsClassified.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

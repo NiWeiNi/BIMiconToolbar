@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
+using System.Collections.Generic;
 
 namespace BIMiconToolbar.Helpers
 {
@@ -13,8 +14,6 @@ namespace BIMiconToolbar.Helpers
 		/// <returns></returns>
 		public static ElementId PickLine(UIDocument uidoc)
 		{
-			Document doc = uidoc.Document;
-
 			// Selection filter
 			ISelectionFilter selFilter = new LineSelectionFilter();
 
@@ -22,12 +21,6 @@ namespace BIMiconToolbar.Helpers
 			{
 				// Prompt user to select curve that intersects with rooms
 				ElementId curveId = uidoc.Selection.PickObject(ObjectType.Element, selFilter).ElementId;
-
-				// Retrieve model curve
-				//CurveElement eCurve = doc.GetElement(curveId) as CurveElement;
-				//Curve curve = eCurve.GeometryCurve as Curve;
-
-				// TaskDialog.Show("Curve Picked", curve.Name);
 				return curveId;
 			}
 			catch (Autodesk.Revit.Exceptions.OperationCanceledException e)
@@ -55,6 +48,32 @@ namespace BIMiconToolbar.Helpers
 			{
 				return false;
 			}
+		}
+
+		/// <summary>
+		/// Pick eleemnts in model and store them in order
+		/// </summary>
+		/// <param name="uidoc"></param>
+		/// <returns></returns>
+		public static IList<ElementId> PickOrderedElements(UIDocument uidoc)
+        {
+			IList<ElementId> elementIds = new List<ElementId>();
+			bool flag = true;
+
+			while (flag)
+			{
+				try
+				{
+					Reference reference = uidoc.Selection.PickObject(ObjectType.Element);
+					elementIds.Add(reference.ElementId);
+				}
+				catch
+				{
+					flag = false;
+				}
+			}
+
+			return elementIds;
 		}
 	}
 }
