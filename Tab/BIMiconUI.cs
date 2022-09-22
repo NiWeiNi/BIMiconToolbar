@@ -87,23 +87,6 @@ namespace BIMiconToolbar.Tab
             // Set the context help when F1 pressed
             pbFilesUpgrade.SetContextualHelp(contextHelpUrl);
             #endregion
-            // Create Types Catalogue
-            #region Generate Types Catalogue
-            PushButtonData buttonTypesCatalogue = new PushButtonData(
-               "TypesCatalogue",
-               "Types\nCatalogue",
-               assemblyPath,
-               "BIMiconToolbar.TypesCatalogue.TypesCatalogue"
-            );
-
-            PushButton pbTypesCatalogue = panelLibrary.AddItem(buttonTypesCatalogue) as PushButton;
-            pbTypesCatalogue.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/TypesCatalogue/Images/iconTypesCatalogue.png"));
-            pbTypesCatalogue.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/TypesCatalogue/Images/iconTypesCatalogueSmall.png"));
-            pbTypesCatalogue.ToolTip = "Generates a types catalago from the currently open family or selected family files.";
-            pbTypesCatalogue.LongDescription = "Generates a types catalago from the currently open family or selected family files.";
-            // Set the context help when F1 pressed
-            pbTypesCatalogue.SetContextualHelp(contextHelpUrl);
-            #endregion
             // Family Browser
             #region Family Browser
             //PushButtonData buttonFamilyBrowser = new PushButtonData(
