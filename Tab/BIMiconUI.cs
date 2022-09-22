@@ -87,57 +87,6 @@ namespace BIMiconToolbar.Tab
             // Set the context help when F1 pressed
             pbFilesUpgrade.SetContextualHelp(contextHelpUrl);
             #endregion
-            // Create Materials from Selected Path
-            #region Create Materials from Selected Path
-            PushButtonData buttonCreateMaterials = new PushButtonData(
-               "CreateMaterials",
-               "Create\nMaterials",
-               assemblyPath,
-               "BIMiconToolbar.CreateMaterials.CreateMaterials"
-            );
-
-            PushButton pbCreateMaterials = panelLibrary.AddItem(buttonCreateMaterials) as PushButton;
-            pbCreateMaterials.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/CreateMaterials/Images/iconCreateMaterials.png"));
-            pbCreateMaterials.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/CreateMaterials/Images/iconCreateMaterialsSmall.png"));
-            pbCreateMaterials.ToolTip = "Creates materials from textures in a folder.";
-            pbCreateMaterials.LongDescription = "Creates materials inside Revit according to selected directory.";
-            // Set the context help when F1 pressed
-            pbCreateMaterials.SetContextualHelp(contextHelpUrl);
-            #endregion
-            // Edit material properties
-            #region Edit Material Properties
-            PushButtonData buttonEditMatProperties = new PushButtonData(
-               "EditMaterials",
-               "Edit\nMaterials",
-               assemblyPath,
-               "BIMiconToolbar.EditMatProperties.EditMatProperties"
-            );
-
-            PushButton pbEditMatProperties = panelLibrary.AddItem(buttonEditMatProperties) as PushButton;
-            pbEditMatProperties.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/CreateMaterials/Images/iconCreateMaterials.png"));
-            pbEditMatProperties.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/CreateMaterials/Images/iconCreateMaterialsSmall.png"));
-            pbEditMatProperties.ToolTip = "Edit materials of the current Revit model";
-            pbEditMatProperties.LongDescription = "Edit materials of the current Revit model";
-            // Set the context help when F1 pressed
-            pbEditMatProperties.SetContextualHelp(contextHelpUrl);
-            #endregion
-            // Create Types Catalogue
-            #region Generate Types Catalogue
-            PushButtonData buttonTypesCatalogue = new PushButtonData(
-               "TypesCatalogue",
-               "Types\nCatalogue",
-               assemblyPath,
-               "BIMiconToolbar.TypesCatalogue.TypesCatalogue"
-            );
-
-            PushButton pbTypesCatalogue = panelLibrary.AddItem(buttonTypesCatalogue) as PushButton;
-            pbTypesCatalogue.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/TypesCatalogue/Images/iconTypesCatalogue.png"));
-            pbTypesCatalogue.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/TypesCatalogue/Images/iconTypesCatalogueSmall.png"));
-            pbTypesCatalogue.ToolTip = "Generates a types catalago from the currently open family or selected family files.";
-            pbTypesCatalogue.LongDescription = "Generates a types catalago from the currently open family or selected family files.";
-            // Set the context help when F1 pressed
-            pbTypesCatalogue.SetContextualHelp(contextHelpUrl);
-            #endregion
             // Family Browser
             #region Family Browser
             //PushButtonData buttonFamilyBrowser = new PushButtonData(
