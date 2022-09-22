@@ -190,8 +190,6 @@
       <DependentUpon>MatchGridsWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="NumberByPick\NumberByPick.cs" />
-    <Compile Include="NumberByPick\NumberByPickModel.cs" />
-    <Compile Include="NumberByPick\NumberByPickViewModel.cs" />
     <Compile Include="NumberByPick\NumberByPickWPF.xaml.cs">
       <DependentUpon>NumberByPickWPF.xaml</DependentUpon>
     </Compile>

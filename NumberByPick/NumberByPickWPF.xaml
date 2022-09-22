@@ -15,7 +15,6 @@
         Width="420"
         WindowStartupLocation="CenterScreen">
 
-    <!--Dictionary for style-->
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -24,16 +23,16 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <!--Border to offset window content and main container-->
     <Border Style="{StaticResource SingleContainer}">
         <StackPanel>
+
             <!-- Select curve -->
             <TextBlock Style="{StaticResource FirstTitle}">
-                            Select elements:
+                            Select elements to number:
             </TextBlock>
-            <Button x:Name="selectElements" Content="Select Elements to Number"></Button>
-            
-            <!--Prefix and starting number-->
+            <Button x:Name="selectElements" Click="SelectElements_Click"  Content="Select Elements to Number"></Button>
+
+            <!-- Prefix and start number -->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.8*"/>
@@ -41,21 +40,44 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <textInput:TextInput Grid.Column="0"
-                                     Orientation="Vertical"
-                                     Label="Prefix:"
-                                     Value="{Binding Prefix}"/>
-                <textInput:TextInput Grid.Column="2"
-                                     Orientation="Vertical"
-                                     Label="Starting Number:"
-                                     Value="{Binding StartNumber}"/>
+                <StackPanel Grid.Column="0" >
+                    <TextBlock Style="{StaticResource Title}">
+                        Input prefix:
+                    </TextBlock>
+                    <TextBox x:Name="PrefixTextBox" GotFocus="GotFocus" Style="{StaticResource TextBox}" Text="B"/>
+                </StackPanel>
+
+                <!-- Input for start number -->
+                <StackPanel Grid.Column="2" >
+                    <TextBlock Style="{StaticResource Title}">
+                        Input start number:
+                    </TextBlock>
+                    <TextBox x:Name="StartNumberTextBox" GotFocus="GotFocus" Style="{StaticResource TextBox}" Text="1"/>
+                </StackPanel>
             </Grid>
-            <!--Category selection-->
-            <comboBox:UCComboBox Label="Select category of elements to number:"
-                                 Value="{Binding categories}"/>
-            <!--Parameter selection-->
-            <comboBox:UCComboBox Label="Select parameter to store new numbers:"/>
-            <!--Ok Cancel buttons-->
+
+            <!-- Select parameter -->
+            <TextBlock Style="{StaticResource Title}">
+                Select parameter to store new numbers:
+            </TextBlock>
+            <ComboBox x:Name="comboDisplayParameters"
+                      ItemsSource="{Binding CbParameters}"
+                      SelectedItem="{Binding SelectedComboItemParameters}"
+                      IsSynchronizedWithCurrentItem="True"
+                      Style="{StaticResource comboDisplay}"
+                      SelectionChanged="ComboDisplayParameters_SelectionChanged">
+            </ComboBox>
+
+            <!-- Buttons End -->
+            <Grid Style="{StaticResource MainButtons}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="1" IsDefault="True" Margin="0 0 10 0"></Button>
+                <Button x:Name="cancel" Click="Cancel_Click" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
+            </Grid>
         </StackPanel>
     </Border>
 </Window>
