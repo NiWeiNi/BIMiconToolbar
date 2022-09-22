@@ -177,6 +177,22 @@ namespace BIMiconToolbar.Tab
             // Set the context help when F1 pressed
             pbOpenLinksUnloaded.SetContextualHelp(contextHelpUrl);
 
+            // Section geometry
+            PushButtonData buttonSectionGeometry = new PushButtonData(
+               "Section Geometry",
+               "Section\nGeometry",
+               assemblyPath,
+               "BIMiconToolbar.SectionGeometry.Command"
+            );
+
+            PushButton pbSectionGeometry = panelModel.AddItem(buttonSectionGeometry) as PushButton;
+            pbSectionGeometry.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/OpenLinksUnloaded/Images/iconOpenLinksUnloaded.png"));
+            pbSectionGeometry.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/OpenLinksUnloaded/Images/iconOpenLinksUnloadedSmall.png"));
+            pbSectionGeometry.ToolTip = "Open Revit model with links unloaded.";
+            pbSectionGeometry.LongDescription = "Open selected Revit model with the option to unload selected link types; Revit, IFC, CAD, and so on.";
+            // Set the context help when F1 pressed
+            pbSectionGeometry.SetContextualHelp(contextHelpUrl);
+
             #endregion
 
             /*---Ribbon Panel Modelling---*/

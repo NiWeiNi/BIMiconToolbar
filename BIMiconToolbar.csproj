@@ -219,6 +219,7 @@
     </Compile>
     <Compile Include="RemoveBackups\Helpers\RemoveBackupHelpers.cs" />
     <Compile Include="RemoveBackups\RemoveBackups.cs" />
+    <Compile Include="SectionGeometry\SectionGeometry.cs" />
     <Compile Include="Support\Docs\Docs.cs" />
     <Compile Include="Support\Help\Help.cs" />
     <Compile Include="Support\Version\Version.cs" />
