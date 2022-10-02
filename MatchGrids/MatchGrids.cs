@@ -2,7 +2,6 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System.Collections.Generic;
-using System.Windows;
 
 namespace BIMiconToolbar.MatchGrids
 {
@@ -25,152 +24,214 @@ namespace BIMiconToolbar.MatchGrids
                 copyDims = customWindow.copyDim;
                 selectedView = customWindow.SelectedComboItem.Tag as View;
                 selectedIntIds = customWindow.IntegerIds;
-            }
 
-            // Check that elements have been selected
-            if (selectedIntIds == null)
-            {
-                return Result.Cancelled;
-            }
-            else if (selectedIntIds.Count == 0)
-            {
-                TaskDialog.Show("Warning", "No views have been selected");
-                return Result.Cancelled;
-            }
-            else if (selectedIntIds.Count != 0)
-            {
-                // Collect grids visible in view
-                FilteredElementCollector gridsCollector = new FilteredElementCollector(doc, selectedView.Id)
-                                                        .OfCategory(BuiltInCategory.OST_Grids)
-                                                        .WhereElementIsNotElementType();
-
-                // Grid Ids
-                ICollection<ElementId> gridIds = gridsCollector.ToElementIds();
-
-                // Template for grids display
-                var gridsTemplate = new Dictionary<ElementId, bool[]>();
-
-                // Check each grid
-                foreach (Grid g in gridsCollector)
+                // Check that elements have been selected
+                if (selectedIntIds == null)
                 {
-                    bool end0 = g.IsBubbleVisibleInView(DatumEnds.End0, selectedView);
-                    bool end1 = g.IsBubbleVisibleInView(DatumEnds.End1, selectedView);
-
-                    bool[] endSettings = { end0, end1 };
-
-                    gridsTemplate[g.Id] = endSettings;
+                    return Result.Cancelled;
                 }
-
-                // Retrieve views to be matched
-                List<View> viewsToMatch = new List<View>();
-
-                foreach (int intId in selectedIntIds)
+                else if (selectedIntIds.Count == 0)
                 {
-                    ElementId eId = new ElementId(intId);
-                    View view = doc.GetElement(eId) as View;
-
-                    viewsToMatch.Add(view);
+                    TaskDialog.Show("Warning", "No views have been selected");
+                    return Result.Cancelled;
                 }
-
-                // Transaction
-                using (Transaction gridTransacation = new Transaction(doc, "Match grids"))
+                else if (selectedIntIds.Count != 0)
                 {
-                    gridTransacation.Start();
+                    // Collect grids visible in view
+                    FilteredElementCollector gridsCollector = new FilteredElementCollector(doc, selectedView.Id)
+                                                            .OfCategory(BuiltInCategory.OST_Grids)
+                                                            .WhereElementIsNotElementType();
 
-                    foreach (View vMatch in viewsToMatch)
+                    // Grid Ids
+                    ICollection<ElementId> gridIds = gridsCollector.ToElementIds();
+
+                    // Template for grids display
+                    Dictionary<ElementId, GridSpecsInView> gridsTemplate = new Dictionary<ElementId, GridSpecsInView>();
+
+                    // Check each grid
+                    foreach (Grid g in gridsCollector)
                     {
-                        // Collect grids visible in view
-                        FilteredElementCollector gridsMatchCollector = new FilteredElementCollector(doc, vMatch.Id)
-                                                                .OfCategory(BuiltInCategory.OST_Grids)
-                                                                .WhereElementIsNotElementType();
-
-                        // Match each visible grid in view
-                        foreach (Grid gMatch in gridsMatchCollector)
-                        {
-                            ElementId gId = gMatch.Id;
-
-                            if (gridIds.Contains(gId))
-                            {
-                                bool end0GridMatch = gMatch.IsBubbleVisibleInView(DatumEnds.End0, vMatch);
-                                bool end1GridMatch = gMatch.IsBubbleVisibleInView(DatumEnds.End1, vMatch);
-
-                                bool end0Temp = gridsTemplate[gId][0];
-                                bool end1Temp = gridsTemplate[gId][1];
-
-                                // Match End0
-                                if (end0Temp == true && end0GridMatch == false)
-                                {
-                                    gMatch.ShowBubbleInView(DatumEnds.End0, vMatch);
-                                }
-                                else if (end0Temp == false && end0GridMatch)
-                                {
-                                    gMatch.HideBubbleInView(DatumEnds.End0, vMatch);
-                                }
-
-                                // Match End1
-                                if (end1Temp == true && end1GridMatch == false)
-                                {
-                                    gMatch.ShowBubbleInView(DatumEnds.End1, vMatch);
-                                }
-                                else if (end1Temp == false && end1GridMatch)
-                                {
-                                    gMatch.HideBubbleInView(DatumEnds.End1, vMatch);
-                                }
-                            }
-                        }
+                        GridSpecsInView gridSpecs = new GridSpecsInView(g, selectedView);
+                        gridsTemplate.Add(g.Id, gridSpecs);
                     }
 
-                    // Copy grid dimensions
-                    if (copyDims)
+                    // Retrieve views to be matched
+                    List<View> viewsToMatch = new List<View>();
+
+                    foreach (int intId in selectedIntIds)
                     {
-                        // Collect dimensions in selected view
-                        FilteredElementCollector dimensionsCollector = new FilteredElementCollector(doc, selectedView.Id)
-                                                                .OfCategory(BuiltInCategory.OST_Dimensions)
-                                                                .WhereElementIsNotElementType();
+                        ElementId eId = new ElementId(intId);
+                        View view = doc.GetElement(eId) as View;
 
-                        // Dimensions to copy
-                        List<ElementId> dimsToCopy = new List<ElementId>();
+                        viewsToMatch.Add(view);
+                    }
 
-                        // Check dimensions only take grids as references 
-                        foreach (Dimension d in dimensionsCollector)
+                    // Transaction
+                    using (Transaction gridTransacation = new Transaction(doc, "Match grids"))
+                    {
+                        gridTransacation.Start();
+
+                        foreach (View vMatch in viewsToMatch)
                         {
-                            ReferenceArray dReferences = d.References;
-                            bool gridDim = true;
+                            // Collect grids visible in view
+                            FilteredElementCollector gridsMatchCollector = new FilteredElementCollector(doc, vMatch.Id)
+                                                                    .OfCategory(BuiltInCategory.OST_Grids)
+                                                                    .WhereElementIsNotElementType();
 
-                            foreach (Reference dRef in dReferences)
+                            // Match each visible grid in view
+                            foreach (Grid gMatch in gridsMatchCollector)
                             {
-                                ElementId dRefId = dRef.ElementId;
+                                ElementId gId = gMatch.Id;
 
-                                if (!gridIds.Contains(dRefId))
+                                if (gridIds.Contains(gId))
                                 {
-                                    gridDim = false;
-                                    break;
+                                    bool startGridMatch = gMatch.IsBubbleVisibleInView(DatumEnds.End0, vMatch);
+                                    bool endGridMatch = gMatch.IsBubbleVisibleInView(DatumEnds.End1, vMatch);
+
+                                    bool hasStartBubble = gridsTemplate[gId].StartBubble;
+                                    bool hasEndBubble = gridsTemplate[gId].EndBubble;
+
+                                    // Match Start bubble
+                                    if (hasStartBubble == true && startGridMatch == false)
+                                    {
+                                        gMatch.ShowBubbleInView(DatumEnds.End0, vMatch);
+                                    }
+                                    else if (hasStartBubble == false && startGridMatch)
+                                    {
+                                        gMatch.HideBubbleInView(DatumEnds.End0, vMatch);
+                                    }
+
+                                    // Match End bubble
+                                    if (hasEndBubble == true && endGridMatch == false)
+                                    {
+                                        gMatch.ShowBubbleInView(DatumEnds.End1, vMatch);
+                                    }
+                                    else if (hasEndBubble == false && endGridMatch)
+                                    {
+                                        gMatch.HideBubbleInView(DatumEnds.End1, vMatch);
+                                    }
+
+                                    // Match 2D extension
+                                    DatumExtentType datumExtentTypeStart = gridsTemplate[gId].SelectedGrid
+                                        .GetDatumExtentTypeInView(DatumEnds.End0, vMatch);
+                                    DatumExtentType datumExtentTypeEnd = gridsTemplate[gId].SelectedGrid
+                                        .GetDatumExtentTypeInView(DatumEnds.End1, vMatch);
+
+                                    gMatch.SetDatumExtentType(DatumEnds.End0, vMatch, datumExtentTypeStart);
+                                    gMatch.SetDatumExtentType(DatumEnds.End1, vMatch, datumExtentTypeEnd);
+
+                                    double tempLevel = selectedView.GenLevel.Elevation;
+                                    double matchLevel = vMatch.GenLevel.Elevation;
+
+                                    double diffLevel = matchLevel - tempLevel;
+
+                                    IList<Curve> curves = gridsTemplate[gId].ListCurve;
+                                    Curve curve = curves[0];
+
+                                    Plane planeSelected = selectedView.SketchPlane.GetPlane();
+                                    Plane planeDest = vMatch.SketchPlane.GetPlane();
+
+                                    // Origin grid selected
+                                    Options options = new Options
+                                    {
+                                        View = selectedView
+                                    };
+                                    GeometryElement geoEle = gridsTemplate[gId].SelectedGrid.get_Geometry(options);
+                                    XYZ selOrigin = new XYZ();
+                                    foreach (GeometryObject geoObj in geoEle)
+                                    {
+                                        Line line = geoObj as Line;
+                                        if (line != null)
+                                        {
+                                            selOrigin = line.Origin;
+                                            break;
+                                        }
+                                    }
+
+                                    // Origin grid to match
+                                    Options optMatch = new Options
+                                    {
+                                        View = vMatch
+                                    };
+                                    GeometryElement geoEleMatch = gMatch.get_Geometry(optMatch);
+                                    XYZ matchOrigin = new XYZ();
+                                    foreach (GeometryObject geoObj in geoEleMatch)
+                                    {
+                                        Line line = geoObj as Line;
+                                        if (line != null)
+                                        {
+                                            matchOrigin = line.Origin;
+                                            break;
+                                        }
+                                    }
+
+                                    XYZ gMatchOrigin = gMatch.Curve.GetEndPoint(0);
+
+                                    XYZ dist = planeDest.Origin - planeSelected.Origin;
+
+                                    dist = new XYZ(0, 0, matchOrigin.Z - selOrigin.Z);
+                                    Transform trans = Transform.CreateTranslation(dist);
+
+                                    Curve transCurve = curve.CreateTransformed(trans);
+
+                                    gMatch.SetCurveInView(DatumExtentType.ViewSpecific, vMatch, transCurve);
+
+                                }
+                            }
+                        }
+
+                        // Copy grid dimensions
+                        if (copyDims)
+                        {
+                            // Collect dimensions in selected view
+                            FilteredElementCollector dimensionsCollector = new FilteredElementCollector(doc, selectedView.Id)
+                                                                    .OfCategory(BuiltInCategory.OST_Dimensions)
+                                                                    .WhereElementIsNotElementType();
+
+                            // Dimensions to copy
+                            List<ElementId> dimsToCopy = new List<ElementId>();
+
+                            // Check dimensions only take grids as references 
+                            foreach (Dimension d in dimensionsCollector)
+                            {
+                                ReferenceArray dReferences = d.References;
+                                bool gridDim = true;
+
+                                foreach (Reference dRef in dReferences)
+                                {
+                                    ElementId dRefId = dRef.ElementId;
+
+                                    if (!gridIds.Contains(dRefId))
+                                    {
+                                        gridDim = false;
+                                        break;
+                                    }
+                                }
+
+                                if (gridDim)
+                                {
+                                    dimsToCopy.Add(d.Id);
                                 }
                             }
 
-                            if (gridDim)
+                            // Copy dimensions
+                            if (dimsToCopy.Count > 0)
                             {
-                                dimsToCopy.Add(d.Id);
+                                CopyPasteOptions cp = new CopyPasteOptions();
+
+                                foreach (View v in viewsToMatch)
+                                {
+                                    ElementTransformUtils.CopyElements(selectedView, dimsToCopy, v, null, cp);
+                                }
                             }
                         }
 
-                        // Copy dimensions
-                        if (dimsToCopy.Count > 0)
-                        {
-                            CopyPasteOptions cp = new CopyPasteOptions();
-
-                            foreach (View v in viewsToMatch)
-                            {
-                                ElementTransformUtils.CopyElements(selectedView, dimsToCopy, v, null, cp);
-                            }
-                        }
+                        gridTransacation.Commit();
                     }
-
-                    gridTransacation.Commit();
                 }
-            }
 
-            return Result.Succeeded;
+                return Result.Succeeded;
+            }
         }
     }
 }

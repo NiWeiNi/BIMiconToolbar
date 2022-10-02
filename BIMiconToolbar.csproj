@@ -185,6 +185,7 @@
       <DependentUpon>InteriorElevationsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MarkOrigin\MarkOrigin.cs" />
+    <Compile Include="MatchGrids\GridSpecsInView.cs" />
     <Compile Include="MatchGrids\MatchGrids.cs" />
     <Compile Include="MatchGrids\MatchGridsWPF.xaml.cs">
       <DependentUpon>MatchGridsWPF.xaml</DependentUpon>
