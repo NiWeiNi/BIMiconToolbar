@@ -21,7 +21,7 @@ namespace BIMiconToolbar.MatchGrids
             using (MatchGridsWPF customWindow = new MatchGridsWPF(commandData))
             {
                 customWindow.ShowDialog();
-                copyDims = customWindow.copyDim;
+                copyDims = customWindow.CopyDim;
                 selectedView = customWindow.SelectedComboItem.Tag as View;
                 selectedIntIds = customWindow.IntegerIds;
 
@@ -91,6 +91,60 @@ namespace BIMiconToolbar.MatchGrids
                                     bool hasStartBubble = gridsTemplate[gId].StartBubble;
                                     bool hasEndBubble = gridsTemplate[gId].EndBubble;
 
+                                    IList<Curve> curves = gridsTemplate[gId].ListCurve;
+                                    Curve curve = curves[0];
+
+                                    // Origin grid to match
+                                    Options optMatch = new Options
+                                    {
+                                        View = vMatch
+                                    };
+                                    GeometryElement geoEleMatch = gMatch.get_Geometry(optMatch);
+                                    XYZ matchOrigin = new XYZ();
+                                    foreach (GeometryObject geoObj in geoEleMatch)
+                                    {
+                                        Line line = geoObj as Line;
+                                        if (line != null)
+                                        {
+                                            matchOrigin = line.Origin;
+                                            break;
+                                        }
+                                    }
+
+                                    // Origin grid selected
+                                    Options options = new Options
+                                    {
+                                        View = selectedView
+                                    };
+                                    GeometryElement geoEle = gridsTemplate[gId].SelectedGrid.get_Geometry(options);
+                                    XYZ originPoint = new XYZ();
+                                    foreach (GeometryObject geoObj in geoEle)
+                                    {
+                                        Line line = geoObj as Line;
+                                        if (line != null)
+                                        {
+                                            originPoint = line.Origin;
+                                            break;
+                                        }
+                                    }
+
+                                    // Match grid guide line to view direction
+                                    XYZ viewDir = selectedView.ViewDirection;
+                                    XYZ dist = new XYZ();
+
+                                    if (viewDir.Z == 1 || viewDir.Z == -1)
+                                        dist = new XYZ(0, 0, matchOrigin.Z - originPoint.Z);
+                                    else if (viewDir.Y == 1 || viewDir.Y == -1)
+                                        dist = new XYZ(0, matchOrigin.Y - originPoint.Y, 0);
+                                    else
+                                        dist = new XYZ(matchOrigin.X - originPoint.X, 0, 0);
+                                    
+                                    // Move grid guide line to plane of the view
+                                    Transform trans = Transform.CreateTranslation(dist);
+                                    Curve transCurve = curve.CreateTransformed(trans);
+                                    // Set grid line extensions in view
+                                    gMatch.SetCurveInView(DatumExtentType.ViewSpecific, vMatch, transCurve);
+
                                     // Match Start bubble
                                     if (hasStartBubble == true && startGridMatch == false)
                                     {
@@ -119,63 +173,6 @@ namespace BIMiconToolbar.MatchGrids
 
                                     gMatch.SetDatumExtentType(DatumEnds.End0, vMatch, datumExtentTypeStart);
                                     gMatch.SetDatumExtentType(DatumEnds.End1, vMatch, datumExtentTypeEnd);
-
-                                    double tempLevel = selectedView.GenLevel.Elevation;
-                                    double matchLevel = vMatch.GenLevel.Elevation;
-
-                                    double diffLevel = matchLevel - tempLevel;
-
-                                    IList<Curve> curves = gridsTemplate[gId].ListCurve;
-                                    Curve curve = curves[0];
-
-                                    Plane planeSelected = selectedView.SketchPlane.GetPlane();
-                                    Plane planeDest = vMatch.SketchPlane.GetPlane();
-
-                                    // Origin grid selected
-                                    Options options = new Options
-                                    {
-                                        View = selectedView
-                                    };
-                                    GeometryElement geoEle = gridsTemplate[gId].SelectedGrid.get_Geometry(options);
-                                    XYZ selOrigin = new XYZ();
-                                    foreach (GeometryObject geoObj in geoEle)
-                                    {
-                                        Line line = geoObj as Line;
-                                        if (line != null)
-                                        {
-                                            selOrigin = line.Origin;
-                                            break;
-                                        }
-                                    }
-
-                                    // Origin grid to match
-                                    Options optMatch = new Options
-                                    {
-                                        View = vMatch
-                                    };
-                                    GeometryElement geoEleMatch = gMatch.get_Geometry(optMatch);
-                                    XYZ matchOrigin = new XYZ();
-                                    foreach (GeometryObject geoObj in geoEleMatch)
-                                    {
-                                        Line line = geoObj as Line;
-                                        if (line != null)
-                                        {
-                                            matchOrigin = line.Origin;
-                                            break;
-                                        }
-                                    }
-
-                                    XYZ gMatchOrigin = gMatch.Curve.GetEndPoint(0);
-
-                                    XYZ dist = planeDest.Origin - planeSelected.Origin;
-
-                                    dist = new XYZ(0, 0, matchOrigin.Z - selOrigin.Z);
-                                    Transform trans = Transform.CreateTranslation(dist);
-
-                                    Curve transCurve = curve.CreateTransformed(trans);
-
-                                    gMatch.SetCurveInView(DatumExtentType.ViewSpecific, vMatch, transCurve);
-
                                 }
                             }
                         }
