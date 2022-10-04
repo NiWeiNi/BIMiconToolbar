@@ -7,6 +7,24 @@ namespace BIMiconToolbar.Helpers
     class HelpersGeometry
     {
         /// <summary>
+        /// Check if two vectors are parallel
+        /// </summary>
+        /// <param name="vectorA"></param>
+        /// <param name="vectorB"></param>
+        /// <returns></returns>
+        public static bool AreVectorsParallel(XYZ vectorA, XYZ vectorB)
+        {
+            bool areParallel = false;
+            // Calculate cross product and magnitude of the result
+            XYZ vector = vectorA.CrossProduct(vectorB);
+            double magnitude = Math.Sqrt(Math.Pow(vector.X, 2) + Math.Pow(vector.Y, 2) + Math.Pow(vector.Z, 2));
+            // If magnitude is less than thresshold (due to Revit inaccuracy) then they are parallel
+            if (magnitude < 1.0e-6)
+                areParallel = true;
+            return areParallel;
+        }
+
+        /// <summary>
         /// Function to check if point is inside a rectangle
         /// </summary>
         /// <param name="point"></param>
