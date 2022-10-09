@@ -12,6 +12,8 @@ namespace BIMiconToolbar.MatchGrids
         public IList<Curve> ListCurve { get; }
         public XYZ OriginPoint { get; }
         public Curve UnderlyingCurve { get; }
+        public Leader LeaderStart { get; }
+        public Leader LeaderEnd { get; }
 
         public GridSpecsInView(Grid grid, View view)
         {
@@ -20,6 +22,8 @@ namespace BIMiconToolbar.MatchGrids
             SelectedGrid = grid;
             StartBubble = grid.IsBubbleVisibleInView(DatumEnds.End0, view);
             EndBubble = grid.IsBubbleVisibleInView(DatumEnds.End1, view);
+            LeaderStart = grid.GetLeader(DatumEnds.End0, view);
+            LeaderEnd = grid.GetLeader(DatumEnds.End1, view);
 
             // Origin grid selected
             Options options = new Options

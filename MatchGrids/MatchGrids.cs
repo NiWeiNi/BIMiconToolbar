@@ -165,6 +165,44 @@ namespace BIMiconToolbar.MatchGrids
                                         gMatch.HideBubbleInView(DatumEnds.End1, vMatch);
                                     }
 
+                                    // Match leader start and end
+                                    Leader leaderStart = gridsTemplate[gId].LeaderStart;
+                                    if (leaderStart != null)
+                                    {
+                                        Leader leaderStartMacth = gMatch.GetLeader(DatumEnds.End0, vMatch);
+                                        if (leaderStartMacth == null)
+                                        {
+                                            leaderStartMacth = gMatch.AddLeader(DatumEnds.End0, vMatch);
+                                        }
+                                        else
+                                        {
+                                            XYZ elbowTemplate = leaderStart.Elbow;
+                                            XYZ endTemplate = leaderStart.End;
+                                            leaderStartMacth.Elbow = new XYZ(elbowTemplate.X, elbowTemplate.Y, matchOrigin.Z);
+                                            leaderStartMacth.End = new XYZ(endTemplate.X, endTemplate.Y, matchOrigin.Z);
+
+                                            gMatch.SetLeader(DatumEnds.End0, vMatch, leaderStartMacth);
+                                        }
+                                    }
+                                    Leader leaderEnd = gridsTemplate[gId].LeaderEnd;
+                                    if (leaderEnd != null)
+                                    {
+                                        Leader leaderEndMatch = gMatch.GetLeader(DatumEnds.End1, vMatch);
+                                        if (leaderEndMatch == null)
+                                        {
+                                            leaderEndMatch = gMatch.AddLeader(DatumEnds.End1, vMatch);
+                                        }
+                                        else
+                                        {
+                                            XYZ elbowTemplate = leaderEnd.Elbow;
+                                            XYZ endTemplate = leaderEnd.End;
+                                            leaderEndMatch.Elbow = new XYZ(elbowTemplate.X, elbowTemplate.Y, matchOrigin.Z);
+                                            leaderEndMatch.End = new XYZ(endTemplate.X, endTemplate.Y, matchOrigin.Z);
+
+                                            gMatch.SetLeader(DatumEnds.End1, vMatch, leaderEndMatch);
+                                        }
+                                    }
+
                                     // Match 2D extension
                                     DatumExtentType datumExtentTypeStart = gridsTemplate[gId].SelectedGrid
                                         .GetDatumExtentTypeInView(DatumEnds.End0, vMatch);
