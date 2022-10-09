@@ -21,7 +21,7 @@
     <Border Style="{StaticResource SingleContainer}">
         <StackPanel>
             <TextBlock Style="{StaticResource FirstTitle}">
-                Please select the view to copy grids display:
+                Select the view to copy grids display:
             </TextBlock>
 
             <ComboBox x:Name="comboDisplay"
@@ -31,7 +31,7 @@
             </ComboBox>
 
             <TextBlock Style="{StaticResource Title}">
-                Copy dimensions?
+                Copy dimensions:
             </TextBlock>
 
             <Border Style="{StaticResource radioButtonBorder}">

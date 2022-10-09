@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMiconToolbar.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,7 +22,7 @@ namespace BIMiconToolbar.MatchGrids
         public ComboBoxItem SelectedComboItem { get; set; }
         public IEnumerable<View> FilteredViewsCheckBox { get; set; }
         public List<int> IntegerIds { get; set; }
-        public bool copyDim = false;
+        public bool CopyDim { get; set; }
 
 
         /// <summary>
@@ -36,17 +37,16 @@ namespace BIMiconToolbar.MatchGrids
             DataContext = this;
 
             CbItems = new ObservableCollection<ComboBoxItem>();
+            CopyDim = false;
 
             FilteredElementCollector viewsCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views);
-
             List<View> filteredV = viewsCollector.Cast<View>()
-                                   .Where(sh => 
+                                   .Where(sh =>
                                    sh.ViewType == ViewType.AreaPlan ||
                                    sh.ViewType == ViewType.CeilingPlan ||
                                    sh.ViewType == ViewType.Elevation ||
                                    sh.ViewType == ViewType.FloorPlan ||
-                                   sh.ViewType == ViewType.Section ||
-                                   sh.ViewType == ViewType.ThreeD)
+                                   sh.ViewType == ViewType.Section)
                                    .Where(view => !view.IsTemplate)
                                    .ToList();
 
@@ -74,7 +74,6 @@ namespace BIMiconToolbar.MatchGrids
             // Associate the event-handling method with the SelectedIndexChanged event
             this.comboDisplay.SelectionChanged += new SelectionChangedEventHandler(MyComboChanged);
 
-
             ViewCheckBoxes(doc);
         }
 
@@ -97,9 +96,11 @@ namespace BIMiconToolbar.MatchGrids
             View selectedView= (View)CbItems[selectedItemIndex].Tag;
             ViewType selectedViewType = selectedView.ViewType;
 
+            XYZ viewDirection = selectedView.ViewDirection;
+
             IEnumerable<View> views = FilteredViewsCheckBox
-                                    .Where(v => v.ViewType == selectedViewType)
-                                    .Where(v => v != selectedView);
+                                    .Where(v => v != selectedView)
+                                    .Where(v => HelpersGeometry.AreVectorsParallel(v.ViewDirection, viewDirection));
 
             UpdateViewCheckBoxes(views);
         }
@@ -112,13 +113,15 @@ namespace BIMiconToolbar.MatchGrids
         {
             viewsCheckBox.Children.Clear();
 
-            IOrderedEnumerable<View> orderViews = from View view in views orderby view.Name ascending select view;
+            IOrderedEnumerable<View> orderViews = views.OrderBy(v => v.ViewType).ThenBy(v => v.Name);
 
             foreach (var v in orderViews)
             {
-                CheckBox checkBox = new CheckBox();
-                checkBox.Content = v.Name;
-                checkBox.Name = "ID" + v.Id.ToString();
+                CheckBox checkBox = new CheckBox
+                {
+                    Content = v.ViewType + " - " + v.Name,
+                    Name = "ID" + v.Id.ToString()
+                };
                 viewsCheckBox.Children.Add(checkBox);
             }
         }
@@ -131,13 +134,15 @@ namespace BIMiconToolbar.MatchGrids
         {
             FilteredElementCollector viewsCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views);
 
-            IOrderedEnumerable<View> views = from View view in viewsCollector orderby view.Name ascending select view;
+            IOrderedEnumerable<View> views = from View view in viewsCollector orderby view.ViewType orderby view.Name ascending select view;
 
             foreach (var v in views)
             {
-                CheckBox checkBox = new CheckBox();
-                checkBox.Content = v.Name;
-                checkBox.Name = "ID" + v.Id.ToString();
+                CheckBox checkBox = new CheckBox
+                {
+                    Content = v.Name,
+                    Name = "ID" + v.Id.ToString()
+                };
                 viewsCheckBox.Children.Add(checkBox);
             }
         }
@@ -197,7 +202,7 @@ namespace BIMiconToolbar.MatchGrids
         /// <param name="e"></param>
         private void dimYes_Checked(object sender, RoutedEventArgs e)
         {
-            this.copyDim = !copyDim;
+            this.CopyDim = !CopyDim;
         }
     }
 }
