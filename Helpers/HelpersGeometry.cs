@@ -6,6 +6,20 @@ namespace BIMiconToolbar.Helpers
 {
     class HelpersGeometry
     {
+        public static double AngleBetweenVectors(XYZ vectorA, XYZ vectorB)
+        {
+            double dotProduct = vectorA.X * vectorB.X + vectorA.Y * vectorB.Y + vectorA.Z * vectorB.Z;
+            double modulusProduct = GetVectorModulus(vectorA) * GetVectorModulus(vectorB);
+
+            return Math.Acos(dotProduct / modulusProduct);
+        }
+
+
+        public static double GetVectorModulus(XYZ vector)
+        {
+            return Math.Sqrt(Math.Pow(vector.X, 2) + Math.Pow(vector.Y, 2) + Math.Pow(vector.Z, 2));
+        }
+
         /// <summary>
         /// Check if two vectors are parallel
         /// </summary>

@@ -75,5 +75,23 @@ namespace BIMiconToolbar.Helpers
 
 			return elementIds;
 		}
+
+		/// <summary>
+		/// Create group from element ids
+		/// </summary>
+		/// <param name="doc"></param>
+		/// <param name="elementIds"></param>
+		/// <returns></returns>
+		public static Group CreateGroupFromElementIds(Document doc, ICollection<ElementId> elementIds)
+        {
+			Group group = null;
+
+			if (elementIds.Count > 0)
+			{
+				group = doc.Create.NewGroup(elementIds);
+			}
+
+			return group;
+		}
 	}
 }
