@@ -14,6 +14,7 @@ namespace BIMiconToolbar.MarkOrigin
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
+            UIDocument uidoc = commandData.Application.ActiveUIDocument;
 
             // Retrieve active View
             View activeView = doc.ActiveView;
@@ -52,7 +53,7 @@ namespace BIMiconToolbar.MarkOrigin
                 XYZ transLeftBottom = rotation.OfPoint(leftBottom);
 
                 // Define new points for plan
-                if ((viewDir.Z == 1 || viewDir.Z == -1) && activeView.ViewType != ViewType.ThreeD)
+                if ((viewDir.Z == 1 || viewDir.Z == -1) || activeView.ViewType == ViewType.ThreeD)
                 {
                     transRightTop = new XYZ(sideCoordinate, sideCoordinate, 0);
                     transRightBottom = new XYZ(sideCoordinate, -1 * sideCoordinate, 0);
@@ -67,13 +68,13 @@ namespace BIMiconToolbar.MarkOrigin
                 // Create lines
                 Line diagonal00 = Line.CreateBound(transRightTop, transLeftBottom);
                 Line diagonal01 = Line.CreateBound(transLeftTop, transRightBottom);
-                // Group to store marker
-                Group group = null;
+                // Store marker lines id
                 ICollection<ElementId> elementIds = null;
 
+                // Create markers for type of views
                 if (activeView.ViewType == ViewType.ThreeD)
                 {
-                    Plane originPlane = Plane.CreateByNormalAndOrigin(new XYZ(viewDir.X, viewDir.Y, 0), new XYZ());
+                    Plane originPlane = Plane.CreateByNormalAndOrigin(XYZ.BasisZ, new XYZ());
                     SketchPlane sketchPlane = SketchPlane.Create(doc, originPlane);
                     ModelCurve modelLine00 = doc.Create.NewModelCurve(diagonal00, sketchPlane);
                     ModelCurve modelLine01 = doc.Create.NewModelCurve(diagonal01, sketchPlane);
@@ -96,7 +97,13 @@ namespace BIMiconToolbar.MarkOrigin
                     };
                 }
 
-                group = HelpersSelection.CreateGroupFromElementIds(doc, elementIds);
+                // Create group and highlight marker for easy user location
+                Group group = HelpersSelection.CreateGroupFromElementIds(doc, elementIds);
+                ICollection<ElementId> selectionElIds = new List<ElementId>
+                {
+                    group.Id
+                };
+                uidoc.Selection.SetElementIds(selectionElIds);
 
                 t.Commit();
 
@@ -104,7 +111,7 @@ namespace BIMiconToolbar.MarkOrigin
             }
             else
             {
-                MessageWindows.AlertMessage("Error", "ViewType not supported, please open a supported View \nlike Plan, Section or Drafting View.");
+                MessageWindows.AlertMessage("Error", "ViewType not supported, please open a supported View \nsuch as a Plan, Section or Drafting View.");
 
                 return Result.Failed;
             }
