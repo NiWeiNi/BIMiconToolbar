@@ -88,7 +88,10 @@ namespace BIMiconToolbar.Helpers
 
 			if (elementIds.Count > 0)
 			{
-				group = doc.Create.NewGroup(elementIds);
+				if (doc.IsFamilyDocument)
+					group = doc.FamilyCreate.NewGroup(elementIds);
+				else
+					group = doc.Create.NewGroup(elementIds);
 			}
 
 			return group;

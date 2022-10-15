@@ -69,15 +69,25 @@ namespace BIMiconToolbar.MarkOrigin
                 Line diagonal00 = Line.CreateBound(transRightTop, transLeftBottom);
                 Line diagonal01 = Line.CreateBound(transLeftTop, transRightBottom);
                 // Store marker lines id
-                ICollection<ElementId> elementIds = null;
+                ICollection<ElementId> elementIds;
 
                 // Create markers for type of views
                 if (activeView.ViewType == ViewType.ThreeD)
                 {
                     Plane originPlane = Plane.CreateByNormalAndOrigin(XYZ.BasisZ, new XYZ());
                     SketchPlane sketchPlane = SketchPlane.Create(doc, originPlane);
-                    ModelCurve modelLine00 = doc.Create.NewModelCurve(diagonal00, sketchPlane);
-                    ModelCurve modelLine01 = doc.Create.NewModelCurve(diagonal01, sketchPlane);
+                    ModelCurve modelLine01;
+                    ModelCurve modelLine00;
+                    if (doc.IsFamilyDocument)
+                    {
+                        modelLine00 = doc.FamilyCreate.NewModelCurve(diagonal00, sketchPlane);
+                        modelLine01 = doc.FamilyCreate.NewModelCurve(diagonal01, sketchPlane);
+                    }
+                    else
+                    {
+                        modelLine00 = doc.Create.NewModelCurve(diagonal00, sketchPlane);
+                        modelLine01 = doc.Create.NewModelCurve(diagonal01, sketchPlane);
+                    }
 
                     elementIds = new List<ElementId>
                     {
@@ -87,8 +97,28 @@ namespace BIMiconToolbar.MarkOrigin
                 }
                 else
                 {
-                    DetailCurve detailLine00 = doc.Create.NewDetailCurve(activeView, diagonal00);
-                    DetailCurve detailLine01 = doc.Create.NewDetailCurve(activeView, diagonal01);
+                    DetailCurve detailLine00;
+                    DetailCurve detailLine01;
+                    if (doc.IsFamilyDocument)
+                    {
+                        try
+                        {
+                            detailLine00 = doc.FamilyCreate.NewDetailCurve(activeView, diagonal00);
+                            detailLine01 = doc.FamilyCreate.NewDetailCurve(activeView, diagonal01);
+                        }
+                        catch(Autodesk.Revit.Exceptions.InvalidOperationException)
+                        {
+                            MessageWindows.AlertMessage("Error", "Detail Lines cannot be drawn in this type of document,\n" +
+                                "try a 3D view instead to use Model Lines");
+
+                            return Result.Failed;
+                        }
+                    }
+                    else
+                    {
+                        detailLine00 = doc.Create.NewDetailCurve(activeView, diagonal00);
+                        detailLine01 = doc.Create.NewDetailCurve(activeView, diagonal01);
+                    }
 
                     elementIds = new List<ElementId>
                     {
