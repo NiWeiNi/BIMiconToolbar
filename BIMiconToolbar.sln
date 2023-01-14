@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BIMiconToolbar", "BIMiconToolbar.csproj", "{E78D519D-E550-49E4-BC61-8CA356163B4E}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "BIMiconToolbarSetup", "Setup\BIMiconToolbarSetup.wixproj", "{B2175A4A-DAA3-474F-A96A-F82E67223A4C}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "BIMiconToolbarSetup", "..\WixSetup\BIMiconToolbarSetup.wixproj", "{B2175A4A-DAA3-474F-A96A-F82E67223A4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
