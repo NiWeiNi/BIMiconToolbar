@@ -111,6 +111,7 @@ namespace BIMiconToolbar.MarkOrigin
                             MessageWindows.AlertMessage("Error", "Detail Lines cannot be drawn in this type of document,\n" +
                                 "try a 3D view instead to use Model Lines");
 
+                            t.RollBack();
                             return Result.Failed;
                         }
                     }
