@@ -59,54 +59,47 @@ namespace BIMiconToolbar.Helpers
             // Design option filter
             ElementDesignOptionFilter designOptionFilter = new ElementDesignOptionFilter(ElementId.InvalidElementId);
 
-            // Select elements in phase
+            // Collect all instances in phase in project
             ElementId idPhase = phase.Id;
-            ParameterValueProvider provider = new ParameterValueProvider(new ElementId((int)BuiltInParameter.PHASE_CREATED));
-            FilterNumericRuleEvaluator evaluator = new FilterNumericEquals();
-            FilterElementIdRule rule = new FilterElementIdRule(provider, evaluator, idPhase);
-            ElementParameterFilter paraFilter = new ElementParameterFilter(rule);
+            var instances = new FilteredElementCollector(doc).OfCategory(builtInCategory)
+                                            .WhereElementIsNotElementType().WherePasses(designOptionFilter).Where(e => (e as Element).CreatedPhaseId == idPhase);
 
-            // Collect all windows in project
-            using (FilteredElementCollector instances = new FilteredElementCollector(doc).OfCategory(builtInCategory)
-                                            .WhereElementIsNotElementType().WherePasses(designOptionFilter).WherePasses(paraFilter))
+            string roomNumber = "";
+            // Retrieve rooms from windows
+            foreach (FamilyInstance inst in instances)
             {
-                string roomNumber = "";
-                // Retrieve rooms from windows
-                foreach (FamilyInstance inst in instances)
+                if (builtInCategory == BuiltInCategory.OST_Doors)
                 {
-                    if (builtInCategory == BuiltInCategory.OST_Doors)
+                    if (inst.ToRoom != null)
                     {
-                        if (inst.ToRoom != null)
-                        {
-                            roomNumber = inst.ToRoom.Number;
-                        }
-                        else if (inst.FromRoom != null)
-                        {
-                            roomNumber = inst.FromRoom.Number;
-                        }
+                        roomNumber = inst.ToRoom.Number;
                     }
-                    else
+                    else if (inst.FromRoom != null)
                     {
-                        if (inst.FromRoom != null)
-                        {
-                            roomNumber = inst.FromRoom.Number;
-                        }
-                        else if (inst.ToRoom != null)
-                        {
-                            roomNumber = inst.ToRoom.Number;
-                        }
-                    }
-                    if (numeric)
-                    {
-                        Helpers.InstanceFromToRoomNumber(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
-                    }
-                    else
-                    {
-                        Helpers.InstanceFromToRoom(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
+                        roomNumber = inst.FromRoom.Number;
                     }
                 }
+                else
+                {
+                    if (inst.FromRoom != null)
+                    {
+                        roomNumber = inst.FromRoom.Number;
+                    }
+                    else if (inst.ToRoom != null)
+                    {
+                        roomNumber = inst.ToRoom.Number;
+                    }
+                }
+                if (numeric)
+                {
+                    Helpers.InstanceFromToRoomNumber(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
+                }
+                else
+                {
+                    Helpers.InstanceFromToRoom(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
+                }
             }
-
+            
             // Create transaction and make changes in Revit
             using (Transaction t = new Transaction(doc, "Number Instances"))
             {
