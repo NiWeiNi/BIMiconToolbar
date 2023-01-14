@@ -32,7 +32,7 @@ namespace BIMiconToolbar.NumberByPick
                     return Result.Failed;
                 }
 
-                if (customWindow.Cancel == false && elementIds.Count > 0)
+                if (customWindow.Cancel == false && elementIds != null && elementIds.Count > 0)
                 {
                     Parameter selParameter = customWindow.SelectedComboItemParameters.Tag as Parameter;
 
