@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <RevitAddIns>
         <AddIn Type="Application">
-        <Assembly>/BIMicon/BIMiconToolbar.dll</Assembly>
+        <Assembly>BIMicon/BIMiconToolbar.dll</Assembly>
         <AddInId>20930a82-b8da-47b9-b0ff-7f95a1776313</AddInId>
         <FullClassName>BIMiconToolbar.Main</FullClassName>
 		<Name>BIMicon</Name>
