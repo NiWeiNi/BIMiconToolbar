@@ -66,7 +66,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2020 Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\2020 Debug\</OutputPath>
+    <OutputPath>..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2020\</OutputPath>
     <DefineConstants>DEBUG; DEBUG2020; V2020</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
@@ -165,26 +165,9 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdWindows, Version=2017.11.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2022\AdWindows.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=1.2.0.246, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <HintPath>packages\SharpZipLib.1.2.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2022\RevitAPI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2022\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -197,37 +180,32 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="UIFramework, Version=19.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2021\UIFramework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DuplicateSheets\DuplicateSheets.cs" />
-    <Compile Include="DuplicateSheets\DuplicateSheetsWPF.xaml.cs">
+    <Compile Include="Buttons\DuplicateSheets\DuplicateSheets.cs" />
+    <Compile Include="Buttons\DuplicateSheets\DuplicateSheetsWPF.xaml.cs">
       <DependentUpon>DuplicateSheetsWPF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ExportSchedules\BrowserCheckboxes.xaml.cs">
+    <Compile Include="Buttons\ExportSchedules\BrowserCheckboxes.xaml.cs">
       <DependentUpon>BrowserCheckboxes.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ExportSchedules\ExportSchedules.cs" />
-    <Compile Include="FamilyBrowser\FamilyBrowser.cs" />
-    <Compile Include="FamilyBrowser\FamilyBrowserWPF.xaml.cs">
+    <Compile Include="Buttons\ExportSchedules\ExportSchedules.cs" />
+    <Compile Include="DockedPanels\FamilyBrowser\FamilyBrowser.cs" />
+    <Compile Include="DockedPanels\FamilyBrowser\FamilyBrowserWPF.xaml.cs">
       <DependentUpon>FamilyBrowserWPF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FamilyBrowser\Model\FamilyItemCategory.cs" />
-    <Compile Include="FamilyBrowser\ViewModel\FileExplorer.cs" />
-    <Compile Include="FamilyBrowser\ViewModel\FamilyItem.cs" />
-    <Compile Include="FamilyBrowser\ViewModel\FamilyBrowserStructure.cs" />
-    <Compile Include="FilesRename\FilesRename.cs" />
-    <Compile Include="FilesRename\FilesRenameWPF.xaml.cs">
+    <Compile Include="DockedPanels\FamilyBrowser\Model\FamilyItemCategory.cs" />
+    <Compile Include="DockedPanels\FamilyBrowser\ViewModel\FileExplorer.cs" />
+    <Compile Include="DockedPanels\FamilyBrowser\ViewModel\FamilyItem.cs" />
+    <Compile Include="DockedPanels\FamilyBrowser\ViewModel\FamilyBrowserStructure.cs" />
+    <Compile Include="Buttons\FilesRename\FilesRename.cs" />
+    <Compile Include="Buttons\FilesRename\FilesRenameWPF.xaml.cs">
       <DependentUpon>FilesRenameWPF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FilesUpgrade\FilesUpgrade.cs" />
-    <Compile Include="FloorFinish\FloorFinish.cs" />
-    <Compile Include="FloorFinish\FloorFinishWPF.xaml.cs">
+    <Compile Include="Buttons\FilesUpgrade\FilesUpgrade.cs" />
+    <Compile Include="Buttons\FloorFinish\FloorFinish.cs" />
+    <Compile Include="Buttons\FloorFinish\FloorFinishWPF.xaml.cs">
       <DependentUpon>FloorFinishWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Browser\Browser.xaml.cs">
@@ -281,33 +259,33 @@
     <Compile Include="Helpers\UserControls\SelectFileReferences\View\SelectFileReferencesView.xaml.cs">
       <DependentUpon>SelectFileReferencesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InteriorElevations\InteriorElevations.cs" />
-    <Compile Include="InteriorElevations\InteriorElevationsWindow.xaml.cs">
+    <Compile Include="Buttons\InteriorElevations\InteriorElevations.cs" />
+    <Compile Include="Buttons\InteriorElevations\InteriorElevationsWindow.xaml.cs">
       <DependentUpon>InteriorElevationsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MarkOrigin\MarkOrigin.cs" />
-    <Compile Include="MatchGrids\GridSpecsInView.cs" />
-    <Compile Include="MatchGrids\MatchGrids.cs" />
-    <Compile Include="MatchGrids\MatchGridsWPF.xaml.cs">
+    <Compile Include="Buttons\MarkOrigin\MarkOrigin.cs" />
+    <Compile Include="Buttons\MatchGrids\GridSpecsInView.cs" />
+    <Compile Include="Buttons\MatchGrids\MatchGrids.cs" />
+    <Compile Include="Buttons\MatchGrids\MatchGridsWPF.xaml.cs">
       <DependentUpon>MatchGridsWPF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NumberByPick\NumberByPick.cs" />
-    <Compile Include="NumberByPick\NumberByPickWPF.xaml.cs">
+    <Compile Include="Buttons\NumberByPick\NumberByPick.cs" />
+    <Compile Include="Buttons\NumberByPick\NumberByPickWPF.xaml.cs">
       <DependentUpon>NumberByPickWPF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NumberBySpline\NumberBySpline.cs" />
-    <Compile Include="NumberBySpline\NumberBySplineWPF.xaml.cs">
+    <Compile Include="Buttons\NumberBySpline\NumberBySpline.cs" />
+    <Compile Include="Buttons\NumberBySpline\NumberBySplineWPF.xaml.cs">
       <DependentUpon>NumberBySplineWPF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NumberDoors\NumberDoorsWPF.xaml.cs">
+    <Compile Include="Buttons\NumberDoors\NumberDoorsWPF.xaml.cs">
       <DependentUpon>NumberDoorsWPF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NumberWindows\NumberWindows.cs" />
-    <Compile Include="NumberWindows\NumberWindowsWPF.xaml.cs">
+    <Compile Include="Buttons\NumberWindows\NumberWindows.cs" />
+    <Compile Include="Buttons\NumberWindows\NumberWindowsWPF.xaml.cs">
       <DependentUpon>NumberWindowsWPF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OpenLinksUnloaded\OpenLinksUnloaded.cs" />
-    <Compile Include="OpenLinksUnloaded\OpenLinksUnloadedWPF.xaml.cs">
+    <Compile Include="Buttons\OpenLinksUnloaded\OpenLinksUnloaded.cs" />
+    <Compile Include="Buttons\OpenLinksUnloaded\OpenLinksUnloadedWPF.xaml.cs">
       <DependentUpon>OpenLinksUnloadedWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
@@ -315,37 +293,39 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="RemoveBackups\Helpers\RemoveBackupHelpers.cs" />
-    <Compile Include="RemoveBackups\RemoveBackups.cs" />
-    <Compile Include="Support\Docs\Docs.cs" />
-    <Compile Include="Support\Help\Help.cs" />
-    <Compile Include="Support\Version\Version.cs" />
+    <Compile Include="Buttons\RemoveBackups\Helpers\RemoveBackupHelpers.cs" />
+    <Compile Include="Buttons\RemoveBackups\RemoveBackups.cs" />
+    <Compile Include="Buttons\Support\Docs\Docs.cs" />
+    <Compile Include="Buttons\Support\Help\Help.cs" />
+    <Compile Include="Buttons\Support\Version\Version.cs" />
     <Compile Include="Tab\BIMiconUI.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="NumberDoors\NumberDoors.cs" />
+    <Compile Include="Buttons\NumberDoors\NumberDoors.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tab\Auxiliar.cs" />
     <Compile Include="Tab\CommandAvailability.cs" />
-    <Compile Include="ViewOnSheet\ViewOnSheet.cs" />
-    <Compile Include="ViewOnSheet\ViewsOnSheetWPF.xaml.cs">
+    <Compile Include="Buttons\ViewOnSheet\ViewOnSheet.cs" />
+    <Compile Include="Buttons\ViewOnSheet\ViewsOnSheetWPF.xaml.cs">
       <DependentUpon>ViewsOnSheetWPF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WarningsReport\WarningsReport.cs" />
+    <Compile Include="Buttons\WarningsReport\WarningsReport.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BIMicon.addin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="WarningsReport\Images\iconWarningsReview.png" />
-    <Resource Include="WarningsReport\Images\iconWarningsReviewSmall.png" />
-    <Resource Include="NumberWindows\Images\iconNumberWindows.png" />
-    <Resource Include="NumberWindows\Images\iconNumberWindowsSmall.png" />
-    <Resource Include="NumberDoors\Images\iconNumberDoors.png" />
-    <Resource Include="NumberDoors\Images\iconNumberDoorsSmall.png" />
+    <None Include="SetupBIMiconToolbar\Product.wxs" />
+    <None Include="SetupBIMiconToolbar\SetupBIMiconToolbar.wixproj" />
+    <Resource Include="Buttons\WarningsReport\Images\iconWarningsReview.png" />
+    <Resource Include="Buttons\WarningsReport\Images\iconWarningsReviewSmall.png" />
+    <Resource Include="Buttons\NumberWindows\Images\iconNumberWindows.png" />
+    <Resource Include="Buttons\NumberWindows\Images\iconNumberWindowsSmall.png" />
+    <Resource Include="Buttons\NumberDoors\Images\iconNumberDoors.png" />
+    <Resource Include="Buttons\NumberDoors\Images\iconNumberDoorsSmall.png" />
     <Resource Include="Resources\Logos\iconBIMiconBlack.ico" />
     <Resource Include="iconBIMiconBlack.ico" />
-    <Resource Include="RemoveBackups\Images\iconRemoveBackup.png" />
-    <Resource Include="RemoveBackups\Images\iconRemoveBackupSmall.png" />
+    <Resource Include="Buttons\RemoveBackups\Images\iconRemoveBackup.png" />
+    <Resource Include="Buttons\RemoveBackups\Images\iconRemoveBackupSmall.png" />
     <Resource Include="Helpers\Browser\Images\harddrive.png" />
     <Resource Include="Helpers\Browser\Images\dwg.png" />
     <Resource Include="Helpers\Browser\Images\file.png" />
@@ -356,42 +336,42 @@
     <Resource Include="Helpers\Browser\Images\txt.png" />
     <Resource Include="Helpers\Browser\Images\xls.png" />
     <Resource Include="Resources\Logos\BIMiconRound.ico" />
-    <Resource Include="MatchGrids\Images\iconMatchGrids.png" />
-    <Resource Include="MatchGrids\Images\iconMatchGridsSmall.png" />
-    <Resource Include="ExportSchedules\Images\iconSchedulesExcel.png" />
-    <Resource Include="ExportSchedules\Images\iconSchedulesExcelSmall.png" />
-    <Resource Include="InteriorElevations\Images\iconInteriorElev.png" />
-    <Resource Include="InteriorElevations\Images\iconInteriorElevSmall.png" />
-    <Resource Include="Support\Docs\Images\iconDocSmall.png" />
-    <Resource Include="Support\Help\Images\iconHelpSmall.png" />
-    <Resource Include="Support\Version\Images\iconVersionSmall.png" />
-    <Resource Include="MarkOrigin\Images\iconMarkerOrigin.png" />
-    <Resource Include="MarkOrigin\Images\iconMarkerOriginSmall.png" />
-    <Resource Include="FilesRename\Images\iconFilesRename.png" />
-    <Resource Include="FilesRename\Images\iconFilesRenameSmall.png" />
-    <Resource Include="NumberBySpline\Images\iconNumberBySpline.png" />
-    <Resource Include="NumberBySpline\Images\iconNumberBySplineSmall.png" />
-    <Resource Include="FamilyBrowser\Images\iconFamilyBrowser.png" />
-    <Resource Include="FamilyBrowser\Images\iconFamilyBrowserSmall.png" />
-    <Resource Include="FloorFinish\Images\iconFloorFinish.png" />
-    <Resource Include="FloorFinish\Images\iconFloorFinishSmall.png" />
+    <Resource Include="Buttons\MatchGrids\Images\iconMatchGrids.png" />
+    <Resource Include="Buttons\MatchGrids\Images\iconMatchGridsSmall.png" />
+    <Resource Include="Buttons\ExportSchedules\Images\iconSchedulesExcel.png" />
+    <Resource Include="Buttons\ExportSchedules\Images\iconSchedulesExcelSmall.png" />
+    <Resource Include="Buttons\InteriorElevations\Images\iconInteriorElev.png" />
+    <Resource Include="Buttons\InteriorElevations\Images\iconInteriorElevSmall.png" />
+    <Resource Include="Buttons\Support\Docs\Images\iconDocSmall.png" />
+    <Resource Include="Buttons\Support\Help\Images\iconHelpSmall.png" />
+    <Resource Include="Buttons\Support\Version\Images\iconVersionSmall.png" />
+    <Resource Include="Buttons\MarkOrigin\Images\iconMarkerOrigin.png" />
+    <Resource Include="Buttons\MarkOrigin\Images\iconMarkerOriginSmall.png" />
+    <Resource Include="Buttons\FilesRename\Images\iconFilesRename.png" />
+    <Resource Include="Buttons\FilesRename\Images\iconFilesRenameSmall.png" />
+    <Resource Include="Buttons\NumberBySpline\Images\iconNumberBySpline.png" />
+    <Resource Include="Buttons\NumberBySpline\Images\iconNumberBySplineSmall.png" />
+    <Resource Include="DockedPanels\FamilyBrowser\Images\iconFamilyBrowser.png" />
+    <Resource Include="DockedPanels\FamilyBrowser\Images\iconFamilyBrowserSmall.png" />
+    <Resource Include="Buttons\FloorFinish\Images\iconFloorFinish.png" />
+    <Resource Include="Buttons\FloorFinish\Images\iconFloorFinishSmall.png" />
     <None Include="BIMiconToolbar.jpg" />
-    <Resource Include="OpenLinksUnloaded\Images\iconOpenLinksUnloaded.png" />
-    <Resource Include="OpenLinksUnloaded\Images\iconOpenLinksUnloadedSmall.png" />
+    <Resource Include="Buttons\OpenLinksUnloaded\Images\iconOpenLinksUnloaded.png" />
+    <Resource Include="Buttons\OpenLinksUnloaded\Images\iconOpenLinksUnloadedSmall.png" />
     <Resource Include="Helpers\UserControls\FileBrowser\Images\iconFolderOpen.png" />
-    <Resource Include="NumberByPick\Images\iconNumberByPick.png" />
-    <Resource Include="NumberByPick\Images\iconNumberByPickSmall.png" />
-    <Resource Include="FilesUpgrade\Images\iconFilesUpgrade.png" />
-    <Resource Include="FilesUpgrade\Images\iconFilesUpgradeSmall.png" />
-    <Content Include="WarningsReport\RevitWarningsClassified.json">
+    <Resource Include="Buttons\NumberByPick\Images\iconNumberByPick.png" />
+    <Resource Include="Buttons\NumberByPick\Images\iconNumberByPickSmall.png" />
+    <Resource Include="Buttons\FilesUpgrade\Images\iconFilesUpgrade.png" />
+    <Resource Include="Buttons\FilesUpgrade\Images\iconFilesUpgradeSmall.png" />
+    <Content Include="Buttons\WarningsReport\RevitWarningsClassified.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\Logos\iconBIMiconWhite.ico" />
-    <Resource Include="ViewOnSheet\Images\iconViewOnSheet.png" />
-    <Resource Include="ViewOnSheet\Images\iconViewOnSheetSmall.png" />
-    <Resource Include="DuplicateSheets\Images\iconDupSheets.png" />
-    <Resource Include="DuplicateSheets\Images\iconDupSheetsSmall.png" />
-    <EmbeddedResource Include="NumberDoors\Images\NumberDoorsHelp.mp4" />
+    <Resource Include="Buttons\ViewOnSheet\Images\iconViewOnSheet.png" />
+    <Resource Include="Buttons\ViewOnSheet\Images\iconViewOnSheetSmall.png" />
+    <Resource Include="Buttons\DuplicateSheets\Images\iconDupSheets.png" />
+    <Resource Include="Buttons\DuplicateSheets\Images\iconDupSheetsSmall.png" />
+    <EmbeddedResource Include="Buttons\NumberDoors\Images\NumberDoorsHelp.mp4" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -399,23 +379,23 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DuplicateSheets\DuplicateSheetsWPF.xaml">
+    <Page Include="Buttons\DuplicateSheets\DuplicateSheetsWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ExportSchedules\BrowserCheckboxes.xaml">
+    <Page Include="Buttons\ExportSchedules\BrowserCheckboxes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FamilyBrowser\FamilyBrowserWPF.xaml">
+    <Page Include="DockedPanels\FamilyBrowser\FamilyBrowserWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FilesRename\FilesRenameWPF.xaml">
+    <Page Include="Buttons\FilesRename\FilesRenameWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FloorFinish\FloorFinishWPF.xaml">
+    <Page Include="Buttons\FloorFinish\FloorFinishWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -455,41 +435,86 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="InteriorElevations\InteriorElevationsWindow.xaml">
+    <Page Include="Buttons\InteriorElevations\InteriorElevationsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MatchGrids\MatchGridsWPF.xaml">
+    <Page Include="Buttons\MatchGrids\MatchGridsWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NumberByPick\NumberByPickWPF.xaml">
+    <Page Include="Buttons\NumberByPick\NumberByPickWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NumberBySpline\NumberBySplineWPF.xaml">
+    <Page Include="Buttons\NumberBySpline\NumberBySplineWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NumberDoors\NumberDoorsWPF.xaml">
+    <Page Include="Buttons\NumberDoors\NumberDoorsWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NumberWindows\NumberWindowsWPF.xaml">
+    <Page Include="Buttons\NumberWindows\NumberWindowsWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OpenLinksUnloaded\OpenLinksUnloadedWPF.xaml">
+    <Page Include="Buttons\OpenLinksUnloaded\OpenLinksUnloadedWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewOnSheet\ViewsOnSheetWPF.xaml">
+    <Page Include="Buttons\ViewOnSheet\ViewsOnSheetWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="OpenLinksUnloaded\ViewModel\" />
+    <Folder Include="Buttons\OpenLinksUnloaded\ViewModel\" />
+    <Folder Include="SetupBIMiconToolbar\bin\Debug\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="NPOI">
+      <Version>2.6.0</Version>
+    </PackageReference>
+    <PackageReference Include="PropertyChanged.Fody">
+      <Version>3.2.9</Version>
+    </PackageReference>
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Condition=" '$(Configuration)' == '2023 Release' ">
+      <Version>2023.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Condition=" '$(Configuration)' == '2023 Debug' ">
+      <Version>2023.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Condition=" '$(Configuration)' == '2022 Release' ">
+      <Version>2022.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Condition=" '$(Configuration)' == '2022 Debug' ">
+      <Version>2022.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Condition=" '$(Configuration)' == '2021 Release' ">
+      <Version>2021.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Condition=" '$(Configuration)' == '2021 Debug' ">
+      <Version>2021.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Condition=" '$(Configuration)' == '2020 Release' ">
+      <Version>2020.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Condition=" '$(Configuration)' == '2020 Debug' ">
+      <Version>2020.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Condition=" '$(Configuration)' == '2019 Release' ">
+      <Version>2019.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Revit_All_Main_Versions_API_x64" Condition=" '$(Configuration)' == '2019 Debug' ">
+      <Version>2019.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="SharpZipLib">
+      <Version>1.3.3</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
