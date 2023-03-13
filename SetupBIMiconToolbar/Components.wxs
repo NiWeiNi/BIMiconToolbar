@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+	<Fragment>
+		<?define FSource = PluginRelease\ ?>
+		<?define FSourceWReport = PluginRelease\WarningsReport\ ?>
+
+		<!-- Start menu shortcuts -->
+		<DirectoryRef Id="MyShortcutsDir">
+			<Component Id="StartMenu"
+					Guid="{7884B4E6-B64F-41D6-8AA7-C7603292F82C}">
+
+				<Shortcut Id="WebShortcut"
+						  Name="!(loc.ProductName)"
+						  Description="!(loc.Documentation)"
+						  Target="[URL]"
+						  Icon="IconRound.ico">
+					<Icon Id="IconRound.ico" SourceFile="$(var.BIMiconToolbar.ProjectDir)\Resources\Logos\BIMiconRound.ico"/>
+				</Shortcut>
+				<Shortcut Id="UninstallShortcut"
+						Name="!(loc.UninstallShortcut)"
+						Description= "!(loc.UninstallDescription)"
+						Target="[System64Folder]msiexec.exe"
+						Arguments="/x [ProductCode]" />
+				<RemoveFolder Id="RemoveMyShortcutsDir"
+							On="uninstall" />
+				<RegistryValue Root="HKCU"
+							Key="Software\Microsoft\AwesomeSoftware"
+							Name="installed"
+							Type="integer"
+							Value="1"
+							KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+
+		<!-- Product components -->
+
+		<!-- Revit 2021 -->
+		<!-- Addin file-->
+		<DirectoryRef Id="AddinFileDirectory2021" >
+			<Component Id="AddinFile2021" Guid="{A356E60F-3E78-4DD5-BBF7-A963B1A65627}">
+				<File Id="AddinFileADDIN2021" Name="BIMicon.addin" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+		</DirectoryRef>
+		<!-- Warning classification JSON -->
+		<DirectoryRef Id="WarningsFileDirectory2021" >
+			<Component Id="WarningsFile2021" Guid="{E4DED7A1-F625-4B83-8FDC-623305CD67F7}">
+				<File Id="WarningsFileJSON2021" Name="RevitWarningsClassified.json" KeyPath="yes" Source="$(var.FSourceWReport)"/>
+			</Component>
+		</DirectoryRef>
+
+		<ComponentGroup Id="ProductComponents2021" Directory="MainFilesDirectory2021">
+			<!-- Install files -->
+			<!-- Main components -->
+			<!-- Compilled dll -->
+			<Component Id="MainFile2021" Guid="{D50866F5-3808-401D-8904-92C98805F852}">
+				<File Id="MainFileDLL2021" Name="BIMiconToolbar.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+
+			<!-- 3rd Party Required components -->
+			<!-- ICSharp files -->
+			<Component Id="iCSharpFile2021" Guid="{AE0FDE4E-2359-43E9-BC53-3CA39A97845F}">
+				<File Id="iCSharpDLL2021" Name="ICSharpCode.SharpZipLib.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+
+			<!-- Newtonsoft files -->
+			<Component Id="newtonFile2021" Guid="{FFE962C5-4E1F-4863-9D29-3C7C31DA5ACB}">
+				<File Id="newtonDLL2021" Name="Newtonsoft.Json.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+
+			<!-- NPOI files -->
+			<Component Id="npoiFile2021" Guid="{C54BC6DB-10AE-4D04-B20E-A64F2D68129E}">
+				<File Id="npoiDLL2021" Name="NPOI.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+			<Component Id="npoiOOFile2021" Guid="{E99D0B2C-473D-4726-9390-54441F91D02F}">
+				<File Id="npoiOODLL2021" Name="NPOI.OOXML.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+			<Component Id="npoiOpenFile2021" Guid="{14DF1BF8-8DF8-4417-84AF-F6AB70A847BC}">
+				<File Id="npoiOpen2021" Name="NPOI.OpenXml4Net.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+			<Component Id="npoiOpenForFile2021" Guid="{A0B57240-920E-40C3-9098-772363909D3C}">
+				<File Id="npoiOpenForDLL2021" Name="NPOI.OpenXmlFormats.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+		</ComponentGroup>
+
+		<!-- Revit 2022 -->
+		<!-- Addin file-->
+		<DirectoryRef Id="AddinFileDirectory2022" >
+			<Component Id="AddinFile2022" Guid="{760C05F4-5581-482D-80FE-6AF39E30A252}">
+				<File Id="AddinFileADDIN2022" Name="BIMicon.addin" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+		</DirectoryRef>
+		<!-- Warning classification JSON -->
+		<DirectoryRef Id="WarningsFileDirectory2022" >
+			<Component Id="WarningsFile2022" Guid="{7B90D25A-F957-4DEF-8434-917A529264ED}">
+				<File Id="WarningsFileJSON2022" Name="RevitWarningsClassified.json" KeyPath="yes" Source="$(var.FSourceWReport)"/>
+			</Component>
+		</DirectoryRef>
+
+		<ComponentGroup Id="ProductComponents2022" Directory="MainFilesDirectory2022">
+			<!-- Install files -->
+			<!-- Main components -->
+			<!-- Compilled dll -->
+			<Component Id="MainFile2022" Guid="{FBEC7F76-E7E5-418A-9141-C6D5401BFA61}">
+				<File Id="MainFileDLL2022" Name="BIMiconToolbar.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+
+			<!-- 3rd Party Required components -->
+			<!-- ICSharp files -->
+			<Component Id="iCSharpFile2022" Guid="{BDD4BA11-E658-459A-B897-BAE82707A6C6}">
+				<File Id="iCSharpDLL2022" Name="ICSharpCode.SharpZipLib.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+
+			<!-- Newtonsoft files -->
+			<Component Id="newtonFile2022" Guid="{C7DE5235-AFD8-43B4-B315-EBFA22931CF5}">
+				<File Id="newtonDLL2022" Name="Newtonsoft.Json.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+
+			<!-- NPOI files -->
+			<Component Id="npoiFile2022" Guid="{DA1F3042-1AA8-4056-A59D-FB23BACFA368}">
+				<File Id="npoiDLL2022" Name="NPOI.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+			<Component Id="npoiOOFile2022" Guid="{158BF78B-A736-42AE-829D-743D04336A06}">
+				<File Id="npoiOODLL2022" Name="NPOI.OOXML.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+			<Component Id="npoiOpenFile2022" Guid="{3F1D5914-BB80-4C79-89C7-6A407596AE30}">
+				<File Id="npoiOpen2022" Name="NPOI.OpenXml4Net.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+			<Component Id="npoiOpenForFile2022" Guid="{FB5D5858-771D-47D5-A59A-638ED5752FBE}">
+				<File Id="npoiOpenForDLL2022" Name="NPOI.OpenXmlFormats.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+		</ComponentGroup>
+
+		<!-- Revit 2023 -->
+		<!-- Addin file-->
+		<DirectoryRef Id="AddinFileDirectory2023" >
+			<Component Id="AddinFile2023" Guid="{4CFDF2A7-E366-4867-A68B-E8F4575327E0}">
+				<File Id="AddinFileADDIN2023" Name="BIMicon.addin" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+		</DirectoryRef>
+		<!-- Warning classification JSON -->
+		<DirectoryRef Id="WarningsFileDirectory2023" >
+			<Component Id="WarningsFile2023" Guid="{A2B9496E-E286-453E-85DE-1827652FBCA6}">
+				<File Id="WarningsFileJSON2023" Name="RevitWarningsClassified.json" KeyPath="yes" Source="$(var.FSourceWReport)"/>
+			</Component>
+		</DirectoryRef>
+
+		<ComponentGroup Id="ProductComponents2023" Directory="MainFilesDirectory2023">
+		<!-- Install files -->
+		<!-- Main components -->
+		<!-- Compilled dll -->
+		<Component Id="MainFile2023" Guid="{5F4409FC-5D53-4B98-A2D3-A13270DE7D78}">
+			<File Id="MainFileDLL2023" Name="BIMiconToolbar.dll" KeyPath="yes" Source="$(var.FSource)"/>
+		</Component>
+		<!-- 3rd Party Required components -->
+		<!-- ICSharp files -->
+		<Component Id="iCSharpFile2023" Guid="{60D865F0-9CE9-4A97-A42A-6BDE6AF53228}">
+			<File Id="iCSharpDLL2023" Name="ICSharpCode.SharpZipLib.dll" KeyPath="yes" Source="$(var.FSource)"/>
+		</Component>
+		<!-- Newtonsoft files -->
+		<Component Id="newtonFile2023" Guid="{8165573E-F319-42E2-81FC-5C468DB8CB77}">
+			<File Id="newtonDLL2023" Name="Newtonsoft.Json.dll" KeyPath="yes" Source="$(var.FSource)"/>
+		</Component>
+		<!-- NPOI files -->
+		<Component Id="npoiFile2023" Guid="{99E315D2-89D1-4F09-8FF9-93D36F09588E}">
+			<File Id="npoiDLL2023" Name="NPOI.dll" KeyPath="yes" Source="$(var.FSource)"/>
+		</Component>
+		<Component Id="npoiOOFile2023" Guid="{61A63745-8293-442A-A598-22D79B5F3088}">
+			<File Id="npoiOODLL2023" Name="NPOI.OOXML.dll" KeyPath="yes" Source="$(var.FSource)"/>
+		</Component>
+		<Component Id="npoiOpenFile2023" Guid="{FC690337-4D5D-4EA6-8871-D06AA5D474DE}">
+			<File Id="npoiOpen2023" Name="NPOI.OpenXml4Net.dll" KeyPath="yes" Source="$(var.FSource)"/>
+		</Component>
+		<Component Id="npoiOpenForFile2023" Guid="{5A98527B-F49E-4CE4-9166-0E6B3B1519D3}">
+			<File Id="npoiOpenForDLL2023" Name="NPOI.OpenXmlFormats.dll" KeyPath="yes" Source="$(var.FSource)"/>
+		</Component>
+		</ComponentGroup>
+
+		<ComponentGroup Id="ProductComponents" Directory="MainFilesDirectory">
+			<!-- Install files -->
+			<!-- Main components -->
+			<!-- Compilled dll -->
+			<Component Id="MainFile" Guid="{5F4409FC-5D53-4B98-A2D3-A13270DE7D78}">
+				<File Id="MainFileDLL" Name="BIMiconToolbar.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+
+			<!-- 3rd Party Required components -->
+			<!-- ICSharp files -->
+			<Component Id="iCSharpFile" Guid="{60D865F0-9CE9-4A97-A42A-6BDE6AF53228}">
+				<File Id="iCSharpDLL" Name="ICSharpCode.SharpZipLib.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+
+			<!-- Newtonsoft files -->
+			<Component Id="newtonFile" Guid="{8165573E-F319-42E2-81FC-5C468DB8CB77}">
+				<File Id="newtonDLL" Name="Newtonsoft.Json.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+
+			<!-- NPOI files -->
+			<Component Id="npoiFile" Guid="{99E315D2-89D1-4F09-8FF9-93D36F09588E}">
+				<File Id="npoiDLL" Name="NPOI.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+			<Component Id="npoiOOFile" Guid="{61A63745-8293-442A-A598-22D79B5F3088}">
+				<File Id="npoiOODLL" Name="NPOI.OOXML.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+			<Component Id="npoiOpenFile" Guid="{FC690337-4D5D-4EA6-8871-D06AA5D474DE}">
+				<File Id="npoiOpen" Name="NPOI.OpenXml4Net.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+			<Component Id="npoiOpenForFile" Guid="{5A98527B-F49E-4CE4-9166-0E6B3B1519D3}">
+				<File Id="npoiOpenForDLL" Name="NPOI.OpenXmlFormats.dll" KeyPath="yes" Source="$(var.FSource)"/>
+			</Component>
+		</ComponentGroup>
+
+
+	</Fragment>
+
+</Wix>
