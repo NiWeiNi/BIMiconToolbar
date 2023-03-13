@@ -11,40 +11,23 @@
 							Id="ProgramDataFolderSearch">
 				<DirectorySearch Path="Autodesk\Revit\Addins"
 								Depth="0"
-								AssignToProperty="no"
+								AssignToProperty="yes"
 								Id="MainAddinFolderSearch">
 				</DirectorySearch>
 			</DirectorySearch>
 		</Property>
 
-		<!--<Property Id="ADDIN2021DIRECTORY">
-			<DirectorySearch Path="[CommonAppDataFolder]"
-							Depth="0"
-							AssignToProperty="no"
-							Id="ProgramDataFolderSearch">
-				<DirectorySearch Path="Autodesk\Revit\Addins"
-								Depth="0"
-								AssignToProperty="no"
-								Id="AddinFolderSearch">
-					<DirectorySearch Path="2021"
-									Depth="0"
-									AssignToProperty="yes"
-									Id="Addin2021Search"/>
-				</DirectorySearch>
-			</DirectorySearch>
-		</Property>
-		
-		<Property Id="ADDIN2022DIRECTORY">
-			<DirectorySearchRef Id="AddinFolderSearch"
+		<Property Id="ADDIN2020DIRECTORY">
+			<DirectorySearchRef Id="MainAddinFolderSearch"
 								Parent="ProgramDataFolderSearch"
 								Path="Autodesk\Revit\Addins">
-				<DirectorySearch Path="2022"
+				<DirectorySearch Path="2020"
 								 Depth="0"
 								 AssignToProperty="yes"
-								 Id="Addin2022Search"/>
+								 Id="Addin2020Search"/>
 			</DirectorySearchRef>
-		</Property>-->
-
+		</Property>
+		
 		<Property Id="ADDIN2021DIRECTORY">
 			<DirectorySearchRef Id="MainAddinFolderSearch"
 								Parent="ProgramDataFolderSearch"
@@ -78,16 +61,6 @@
 			</DirectorySearchRef>
 		</Property>
 
-		<!--<Property Id="ADDIN2023DIRECTORY">
-			<DirectorySearchRef Id="AddinFolderSearch"
-								Parent="ProgramDataFolderSearch"
-								Path="Autodesk\Revit\Addins">
-				<DirectorySearch Path="2023"
-								 Depth="0"
-								 AssignToProperty="yes"
-								 Id="Addin2023Search"/>
-			</DirectorySearchRef>
-		</Property>-->
 
 		<!-- Install directory-->
 		<Directory Id="TARGETDIR" Name="SourceDir">
@@ -99,7 +72,15 @@
 
 			<!-- Addin components directory -->
 			<Directory Id="COMPONENTSDIRECTORY">
-				<Directory Id="MainFilesDirectory" Name="!(loc.Company)" />
+				<Directory Id="WarningsFileDirectory" Name="!(loc.Company)" />
+			</Directory>
+
+			<!-- Revit 2020 directory-->
+			<Directory Id="ADDIN2020DIRECTORY">
+				<!-- Addin directory -->
+				<Directory Id="AddinFileDirectory2020" />
+				<!-- Main directory -->
+				<Directory Id="MainFilesDirectory2020" Name="!(loc.Company)" />
 			</Directory>
 
 			<!-- Revit 2021 directory-->
@@ -107,10 +88,7 @@
 				<!-- Addin directory -->
 				<Directory Id="AddinFileDirectory2021" />
 				<!-- Main directory -->
-				<Directory Id="MainFilesDirectory2021" Name="!(loc.Company)">
-					<!-- Warnings directory -->
-					<Directory Id="WarningsFileDirectory2021" Name="WarningsReport" />
-				</Directory>
+				<Directory Id="MainFilesDirectory2021" Name="!(loc.Company)" />
 			</Directory>
 
 			<!-- Revit 2022 directory-->
@@ -118,21 +96,15 @@
 				<!-- Addin directory -->
 				<Directory Id="AddinFileDirectory2022" />
 				<!-- Main directory -->
-				<Directory Id="MainFilesDirectory2022" Name="!(loc.Company)">
-					<!-- Warnings directory -->
-					<Directory Id="WarningsFileDirectory2022" Name="WarningsReport" />
-				</Directory>
+				<Directory Id="MainFilesDirectory2022" Name="!(loc.Company)" />
 			</Directory>
 
-			<!-- Revit 2021 directory-->
+			<!-- Revit 2023 directory-->
 			<Directory Id="ADDIN2023DIRECTORY">
 				<!-- Addin directory -->
 				<Directory Id="AddinFileDirectory2023" />
 				<!-- Main directory -->
-				<Directory Id="MainFilesDirectory2023" Name="!(loc.Company)">
-					<!-- Warnings directory -->
-					<Directory Id="WarningsFileDirectory2023" Name="WarningsReport" />
-				</Directory>
+				<Directory Id="MainFilesDirectory2023" Name="!(loc.Company)" />
 			</Directory>
 
 		</Directory>

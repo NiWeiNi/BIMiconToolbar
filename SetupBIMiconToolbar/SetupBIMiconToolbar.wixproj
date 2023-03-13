@@ -28,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets" />
+    <Folder Include="PluginRelease" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Background.png" />
