@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+	<!-- Define main product -->
+
+	<?define UpgradeCode = 28bebc9f-1f55-46fa-a203-48b3c3a90894?>
+
+	<Product Id="{B7453546-6E65-4900-8969-4A8E33E7A908}"
+			 Name="!(loc.ProductName)"
+			 Language="1033"
+			 Version="!(bind.FileVersion.MainFileDLL2023)"
+			 Manufacturer="!(loc.Company)"
+			 UpgradeCode="$(var.UpgradeCode)">
+
+		<!-- Package details -->
+		<Package InstallerVersion="200"
+				 Comments="!(loc.Copyright)"
+				 Compressed="yes"
+				 Description="!(loc.Description)"
+				 InstallScope="perMachine" />
+
+		<!-- Downgrade error message -->
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+		<SetProperty Id="URL" Value="!(loc.Web)" Sequence="execute" Before="CreateShortcuts" />
+
+		<!-- Include .cab file into .msi file -->
+		<MediaTemplate EmbedCab="yes"/>
+
+		<!-- Use an icon for the installer -->
+		<Icon Id="Icon.ico" SourceFile="..\Resources\Logos\iconBIMiconBlack.ico"/>
+		<Property Id="ARPPRODUCTICON">Icon.ico</Property>
+		<Property Id="ARPURLINFOABOUT">htpps://www.BIMicon.com</Property>
+
+		<!-- Create UI for installer -->
+		<UIRef Id="WixUI_Minimal"/>
+		<WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\Assets\Background.png"/>
+		<WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\Assets\Banner.png"/>
+		<WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\Assets\License.rtf"/>
+
+		<!-- Define components, shortcuts, etc for installer-->
+		<!-- Start menu shortcuts -->
+		<Feature Id="StartMenu" Level="1">
+			<ComponentRef Id="StartMenu"/>
+		</Feature>
+
+		<!-- Main components -->
+		<Feature Id="WarningsFileAll" Title="!(loc.ProductName)" Level="1">
+			<ComponentRef Id="WarningsFile" />
+			<Condition Level="0">
+				<![CDATA[ COMPONENTSDIRECTORY = null]]>
+			</Condition>
+		</Feature>
+
+		<!-- Revit 2021 -->
+		<Feature Id="Toolbar2020" Title="!(loc.ProductName) 2020" Level="1">
+			<ComponentRef Id="AddinFile2020"/>
+			<ComponentGroupRef Id="ProductComponents2020" />
+			<Condition Level="0">
+				<![CDATA[ ADDIN2020DIRECTORY = null]]>
+			</Condition>
+		</Feature>
+		<!-- Revit 2021 -->
+		<Feature Id="Toolbar2021" Title="!(loc.ProductName) 2021" Level="1">
+			<ComponentRef Id="AddinFile2021"/>
+			<ComponentGroupRef Id="ProductComponents2021" />
+			<Condition Level="0">
+				<![CDATA[ ADDIN2021DIRECTORY = null]]>
+			</Condition>
+		</Feature>
+		<!-- Revit 2022 -->
+		<Feature Id="Toolbar2022" Title="!(loc.ProductName) 2022" Level="1">
+			<ComponentRef Id="AddinFile2022"/>
+			<ComponentGroupRef Id="ProductComponents2022" />
+			<Condition Level="0">
+				<![CDATA[ ADDIN2022DIRECTORY = null]]>
+			</Condition>
+		</Feature>
+		<!-- Revit 2023 -->
+		<Feature Id="Toolbar2023" Title="!(loc.ProductName) 2023" Level="1">
+			<ComponentRef Id="AddinFile2023"/>
+			<ComponentGroupRef Id="ProductComponents2023" />
+			<Condition Level="0">
+				<![CDATA[ ADDIN2023DIRECTORY = null]]>
+			</Condition>
+		</Feature>
+
+	</Product>
+
+</Wix>
