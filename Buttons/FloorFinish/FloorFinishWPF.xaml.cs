@@ -36,9 +36,6 @@ namespace BIMiconToolbar.FloorFinish
             DataContext = this;
 
             // Set the input units
-            Units units = doc.GetUnits();
-            FormatOptions fo = units.GetFormatOptions(SpecTypeId.Length);
-
             offsetTextBlock.Text = "Offset from level in " ;
 
             // Populate room checkboxes
@@ -259,18 +256,13 @@ namespace BIMiconToolbar.FloorFinish
                 // Input parsed and converted directly to internal units
                 if (isDouble)
                 {
-                    // Retrieve project length unit
-                    ForgeTypeId fTypeId = Helpers.RevitProjectInfo.ProjectLengthUnit(doc);
-
                     // Assign floor offset to property
-                    FloorOffset = Helpers.UnitsConverter.LengthUnitToInternal(number, fTypeId);
+                    FloorOffset = Helpers.UnitsConverter.ConvertProjectLengthToInternal(doc, number);
                     StringInternalUnits = FloorOffset.ToString();
                     IsExecuteReady = true;
                 }
                 // Input as imperial fractions
-                else if (Helpers.Parsing.IsImperialFraction(newStringNumber) && 
-                    (UnitTypeId.Feet == Helpers.RevitProjectInfo.ProjectLengthUnit(doc) ||
-                    UnitTypeId.Feet == Helpers.RevitProjectInfo.ProjectLengthUnit(doc)))
+                else if (Helpers.Parsing.IsImperialFraction(newStringNumber))
                 {
                     FloorOffset = Helpers.Parsing.ImperialFractionToDecimalFeet(newStringNumber);
                     StringInternalUnits = FloorOffset.ToString();
