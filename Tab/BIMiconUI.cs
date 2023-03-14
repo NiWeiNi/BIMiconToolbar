@@ -43,8 +43,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbRemoveBackups = panelLibrary.AddItem(buttonRemoveBackups) as PushButton;
-            pbRemoveBackups.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/RemoveBackups/Images/iconRemoveBackup.png"));
-            pbRemoveBackups.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/RemoveBackups/Images/iconRemoveBackupSmall.png"));
+            pbRemoveBackups.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/RemoveBackups/Images/iconRemoveBackup.png"));
+            pbRemoveBackups.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/RemoveBackups/Images/iconRemoveBackupSmall.png"));
             pbRemoveBackups.ToolTip = "Remove Revit backup files.";
             pbRemoveBackups.LongDescription = "Remove Revit backup files from selected folder including subfolders.";
             pbRemoveBackups.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
@@ -61,8 +61,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbFilesRename = panelLibrary.AddItem(buttonFilesRename) as PushButton;
-            pbFilesRename.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FilesRename/Images/iconFilesRename.png"));
-            pbFilesRename.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FilesRename/Images/iconFilesRenameSmall.png"));
+            pbFilesRename.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/FilesRename/Images/iconFilesRename.png"));
+            pbFilesRename.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/FilesRename/Images/iconFilesRenameSmall.png"));
             pbFilesRename.ToolTip = "Rename the files inside a folder.";
             pbFilesRename.LongDescription = "Rename all files of a certain type inside a folder.";
             pbFilesRename.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
@@ -79,8 +79,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbFilesUpgrade = panelLibrary.AddItem(buttonFilesUpgrade) as PushButton;
-            pbFilesUpgrade.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FilesUpgrade/Images/iconFilesUpgrade.png"));
-            pbFilesUpgrade.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FilesUpgrade/Images/iconFilesUpgradeSmall.png"));
+            pbFilesUpgrade.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/FilesUpgrade/Images/iconFilesUpgrade.png"));
+            pbFilesUpgrade.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/FilesUpgrade/Images/iconFilesUpgradeSmall.png"));
             pbFilesUpgrade.ToolTip = "Upgrade the files inside a folder.";
             pbFilesUpgrade.LongDescription = "Upgrade all Revit files inside a folder.";
             pbFilesUpgrade.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
@@ -97,8 +97,8 @@ namespace BIMiconToolbar.Tab
             //);
 
             //PushButton pbFamilyBrowser = panelLibrary.AddItem(buttonFamilyBrowser) as PushButton;
-            //pbFamilyBrowser.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FamilyBrowser/Images/iconFamilyBrowser.png"));
-            //pbFamilyBrowser.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FamilyBrowser/Images/iconFamilyBrowserSmall.png"));
+            //pbFamilyBrowser.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/FamilyBrowser/Images/iconFamilyBrowser.png"));
+            //pbFamilyBrowser.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/FamilyBrowser/Images/iconFamilyBrowserSmall.png"));
             //pbFamilyBrowser.ToolTip = "Open a dockable panel to search and load families.";
             //pbFamilyBrowser.LongDescription = "Open a dockable panel that allows searching and browsing families.";
 
@@ -118,8 +118,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbOpenLinksUnloaded = panelModel.AddItem(buttonOpenLinksUnloaded) as PushButton;
-            pbOpenLinksUnloaded.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/OpenLinksUnloaded/Images/iconOpenLinksUnloaded.png"));
-            pbOpenLinksUnloaded.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/OpenLinksUnloaded/Images/iconOpenLinksUnloadedSmall.png"));
+            pbOpenLinksUnloaded.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/OpenLinksUnloaded/Images/iconOpenLinksUnloaded.png"));
+            pbOpenLinksUnloaded.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/OpenLinksUnloaded/Images/iconOpenLinksUnloadedSmall.png"));
             pbOpenLinksUnloaded.ToolTip = "Open Revit model with links unloaded.";
             pbOpenLinksUnloaded.LongDescription = "Open selected Revit model with the option to unload selected link types; Revit, IFC, CAD, and so on.";
             pbOpenLinksUnloaded.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
@@ -139,8 +139,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbFloorFinish = panelModelling.AddItem(buttonFloorFinish) as PushButton;
-            pbFloorFinish.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FloorFinish/Images/iconFloorFinish.png"));
-            pbFloorFinish.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/FloorFinish/Images/iconFloorFinishSmall.png"));
+            pbFloorFinish.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/FloorFinish/Images/iconFloorFinish.png"));
+            pbFloorFinish.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/FloorFinish/Images/iconFloorFinishSmall.png"));
             pbFloorFinish.ToolTip = "Create floor finishes by selecting rooms.";
             pbFloorFinish.LongDescription = "Create floor finishes by selecting rooms and floor type.";
             // Set the context help when F1 pressed
@@ -159,8 +159,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbExportSchedules = panelSchedules.AddItem(buttonExportSchedules) as PushButton;
-            pbExportSchedules.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/ExportSchedules/Images/iconSchedulesExcel.png"));
-            pbExportSchedules.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/ExportSchedules/Images/iconSchedulesExcelSmall.png"));
+            pbExportSchedules.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/ExportSchedules/Images/iconSchedulesExcel.png"));
+            pbExportSchedules.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/ExportSchedules/Images/iconSchedulesExcelSmall.png"));
             pbExportSchedules.ToolTip = "Export selected schedules.";
             pbExportSchedules.LongDescription = "Export selected schedules to the selected destination.";
 
@@ -176,8 +176,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbWarningsReport = panelSchedules.AddItem(buttonWarningsReport) as PushButton;
-            pbWarningsReport.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/WarningsReport/Images/iconWarningsReview.png"));
-            pbWarningsReport.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/WarningsReport/Images/iconWarningsReviewSmall.png"));
+            pbWarningsReport.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/WarningsReport/Images/iconWarningsReview.png"));
+            pbWarningsReport.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/WarningsReport/Images/iconWarningsReviewSmall.png"));
             pbWarningsReport.ToolTip = "Generate Warnings report.";
             pbWarningsReport.LongDescription = "Exports a Warnings report classified by priority.";
 
@@ -198,8 +198,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbDuplicateSheets = panelSheets.AddItem(buttonDuplicateSheets) as PushButton;
-            pbDuplicateSheets.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/DuplicateSheets/Images/iconDupSheets.png"));
-            pbDuplicateSheets.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/DuplicateSheets/Images/iconDupSheetsSmall.png"));
+            pbDuplicateSheets.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/DuplicateSheets/Images/iconDupSheets.png"));
+            pbDuplicateSheets.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/DuplicateSheets/Images/iconDupSheetsSmall.png"));
             pbDuplicateSheets.ToolTip = "Duplicate active sheet.";
             pbDuplicateSheets.LongDescription = "Duplicate current active sheet with detailing and annotation elements.";
 
@@ -215,8 +215,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbViewOnSheet = panelSheets.AddItem(buttonViewOnSheet) as PushButton;
-            pbViewOnSheet.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/ViewOnSheet/Images/iconViewOnSheet.png"));
-            pbViewOnSheet.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/ViewOnSheet/Images/iconViewOnSheetSmall.png"));
+            pbViewOnSheet.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/ViewOnSheet/Images/iconViewOnSheet.png"));
+            pbViewOnSheet.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/ViewOnSheet/Images/iconViewOnSheetSmall.png"));
             pbViewOnSheet.ToolTip = "Place active view on selected sheet.";
             pbViewOnSheet.LongDescription = "Place active view on selected sheet.";
 
@@ -237,17 +237,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbNumberDoors = panelProject.AddItem(buttonNumberDoors) as PushButton;
-            pbNumberDoors.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberDoors/Images/iconNumberDoors.png"));
-            pbNumberDoors.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberDoors/Images/iconNumberDoorsSmall.png"));
-
-            RibbonToolTip numberDoorsToolTip = Auxiliar.ButtonToolTip("NumberDoorsHelp.mp4",
-                                                "BIMiconToolbar.NumberDoors.Images.NumberDoorsHelp.mp4",
-                                                "Number doors according to room number.",
-                                                "Assigns a door number according to room. The primary parameter to use for door number" +
-                                                "is picked from the ToRoom paramter from the door. If there is no room on either side" +
-                                                "of the door, no number will be assigned.");
-
-            Auxiliar.SetRibbonItemToolTip(pbNumberDoors, numberDoorsToolTip);
+            pbNumberDoors.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/NumberDoors/Images/iconNumberDoors.png"));
+            pbNumberDoors.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/NumberDoors/Images/iconNumberDoorsSmall.png"));
 
             // Set the context help when F1 pressed
             pbNumberDoors.SetContextualHelp(contextHelpUrl);
@@ -261,8 +252,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbNumberWindows = panelProject.AddItem(buttonNumberWindows) as PushButton;
-            pbNumberWindows.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberWindows/Images/iconNumberWindows.png"));
-            pbNumberWindows.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberWindows/Images/iconNumberWindowsSmall.png"));
+            pbNumberWindows.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/NumberWindows/Images/iconNumberWindows.png"));
+            pbNumberWindows.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/NumberWindows/Images/iconNumberWindowsSmall.png"));
             pbNumberWindows.ToolTip = "Number windows according to room number.";
             pbNumberWindows.LongDescription = "Assigns a window number according to room. The primary parameter to use for window number" +
                                                 "is picked from the ToRoom paramter from the window. If there is no room on either side" +
@@ -284,8 +275,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbNumberBySpline = numberGroup.AddPushButton(buttonNumberBySpline);
-            pbNumberBySpline.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberBySpline/Images/iconNumberBySpline.png"));
-            pbNumberBySpline.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberBySpline/Images/iconNumberBySpline.png"));
+            pbNumberBySpline.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/NumberBySpline/Images/iconNumberBySpline.png"));
+            pbNumberBySpline.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/NumberBySpline/Images/iconNumberBySpline.png"));
             pbNumberBySpline.ToolTip = "Number elements by intersecting with selected spline.";
             pbNumberBySpline.LongDescription = "Number elements of a selected category by interseting the bounding box with selected spline.";
 
@@ -301,8 +292,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbNumberByPick = numberGroup.AddPushButton(buttonNumberByPick);
-            pbNumberByPick.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberByPick/Images/iconNumberByPick.png"));
-            pbNumberByPick.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/NumberByPick/Images/iconNumberByPick.png"));
+            pbNumberByPick.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/NumberByPick/Images/iconNumberByPick.png"));
+            pbNumberByPick.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/NumberByPick/Images/iconNumberByPick.png"));
             pbNumberByPick.ToolTip = "Number picked elements in order of selection.";
             pbNumberByPick.LongDescription = "Number elements of a selected category by picking order.";
 
@@ -319,8 +310,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbMatchGrids = panelProject.AddItem(buttonMatchGrids) as PushButton;
-            pbMatchGrids.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/MatchGrids/Images/iconMatchGrids.png"));
-            pbMatchGrids.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/MatchGrids/Images/iconMatchGridsSmall.png"));
+            pbMatchGrids.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/MatchGrids/Images/iconMatchGrids.png"));
+            pbMatchGrids.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/MatchGrids/Images/iconMatchGridsSmall.png"));
             pbMatchGrids.ToolTip = "Match grids display from one view to all selected views";
             pbMatchGrids.LongDescription = "Match grids display from one view to all other selected views.";
 
@@ -336,8 +327,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbMarkOrigin = panelProject.AddItem(buttonMarkOrigin) as PushButton;
-            pbMarkOrigin.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/MarkOrigin/Images/iconMarkerOrigin.png"));
-            pbMarkOrigin.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/MarkOrigin/Images/iconMarkerOrigin.png"));
+            pbMarkOrigin.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/MarkOrigin/Images/iconMarkerOrigin.png"));
+            pbMarkOrigin.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/MarkOrigin/Images/iconMarkerOrigin.png"));
             pbMarkOrigin.ToolTip = "Marks in the current view Revit's internal origin";
             pbMarkOrigin.LongDescription = "Marks in the current view Revit's internal origin";
 
@@ -353,8 +344,8 @@ namespace BIMiconToolbar.Tab
             );
 
             PushButton pbInteriorElevations = panelProject.AddItem(buttonInteriorElevations) as PushButton;
-            pbInteriorElevations.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/InteriorElevations/Images/iconInteriorElev.png"));
-            pbInteriorElevations.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/InteriorElevations/Images/iconInteriorElevSmall.png"));
+            pbInteriorElevations.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/InteriorElevations/Images/iconInteriorElev.png"));
+            pbInteriorElevations.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/InteriorElevations/Images/iconInteriorElevSmall.png"));
             pbInteriorElevations.ToolTip = "Creates interior elevations from selected rooms";
             pbInteriorElevations.LongDescription = "Creates interior elevations from selected rooms and place them onto sheets";
 
@@ -392,7 +383,7 @@ namespace BIMiconToolbar.Tab
             PushButton pbHelp = stackedSupport[0] as PushButton;
             pbHelp.ToolTip = "Get Help";
             pbHelp.LongDescription = "Contact us for any query or help";
-            BitmapImage pbHelpImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Support/Help/Images/iconHelpSmall.png"));
+            BitmapImage pbHelpImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/Support/Help/Images/iconHelpSmall.png"));
             pbHelp.Image = pbHelpImage;
             pbHelp.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
@@ -401,7 +392,7 @@ namespace BIMiconToolbar.Tab
             PushButton pbDocumentation = stackedSupport[1] as PushButton;
             pbDocumentation.ToolTip = "Documentation";
             pbDocumentation.LongDescription = "Check our online documentation";
-            BitmapImage pbDocumentationImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Support/Docs/Images/iconDocSmall.png"));
+            BitmapImage pbDocumentationImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/Support/Docs/Images/iconDocSmall.png"));
             pbDocumentation.Image = pbDocumentationImage;
             pbDocumentation.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
@@ -410,7 +401,7 @@ namespace BIMiconToolbar.Tab
             PushButton pbVersion = stackedSupport[2] as PushButton;
             pbVersion.ToolTip = "Display current version";
             pbVersion.LongDescription = "Retrieves current version";
-            BitmapImage pbVersionImageSmall = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Support/Version/Images/iconVersionSmall.png"));
+            BitmapImage pbVersionImageSmall = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/Support/Version/Images/iconVersionSmall.png"));
             pbVersion.Image = pbVersionImageSmall;
             pbVersion.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
