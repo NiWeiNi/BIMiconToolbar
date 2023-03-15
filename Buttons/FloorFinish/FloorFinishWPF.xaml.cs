@@ -160,6 +160,17 @@ namespace BIMiconToolbar.FloorFinish
                     {
                         if (boundaries[i].Count != 0 && i == 0)
                         {
+#if v2023 || v2024
+                            // Floor boundary
+                            List<Curve> curves = new List<Curve>();
+                            foreach (var b in boundaries[i])
+                            {
+                                curves.Append(b.GetCurve());
+                            }
+
+                            CurveLoop curveLoop = CurveLoop.Create(curves);
+
+#else
                             // Floor boundary
                             CurveArray floorBoundary = new CurveArray();
 
@@ -167,12 +178,19 @@ namespace BIMiconToolbar.FloorFinish
                             {
                                 floorBoundary.Append(b.GetCurve());
                             }
+#endif
+
 
                             // Create floor
                             Transaction transaction = new Transaction(doc, "Create Floor");
                             transaction.Start();
 
-                            Floor floor = doc.Create.NewFloor(floorBoundary, SelectedComboItemFloorType.Tag as FloorType, level, false);
+                            Floor floor = null;
+#if v2023 || v2024
+                            floor = Floor.Create(doc, new List<CurveLoop>() { curveLoop }, (SelectedComboItemFloorType.Tag as FloorType).Id, level.Id);
+#else
+                            floor = doc.Create.NewFloor(floorBoundary, SelectedComboItemFloorType.Tag as FloorType, level, false);
+#endif
                             floorElement = floor as Element;
 
                             transaction.Commit();

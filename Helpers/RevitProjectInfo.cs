@@ -27,7 +27,7 @@ namespace BIMiconToolbar.Helpers
 
 #if v2022 || v2023
             ForgeTypeId fTypeId = doc.GetUnits().GetFormatOptions(SpecTypeId.Length).GetUnitTypeId();
-            internalUnits = UnitUtils.ConvertToInternalUnits(number, fTypeId);
+            //internalUnits = UnitUtils.ConvertToInternalUnits(number, fTypeId);
 #else
 
             DisplayUnitType dUT = ProjectLengthUnit(doc);
