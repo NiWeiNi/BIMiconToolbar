@@ -8,7 +8,7 @@
         xmlns:comboBox="clr-namespace:BIMiconToolbar.Helpers.UserControls.LabelComboBox"
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=OK}"
-        Icon="../Resources/Logos/iconBIMiconBlack.ico"
+        Icon="../../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
         Title="Number Elements by Pick" 
         SizeToContent="Height"
@@ -18,7 +18,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="..\Helpers\ResourceDictionaries\DictionaryWindows.xaml" />
+                <ResourceDictionary Source="..\..\Helpers\ResourceDictionaries\DictionaryWindows.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

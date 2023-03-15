@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=OK}"
-        Icon="../Resources/Logos/iconBIMiconBlack.ico"
+        Icon="../../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
         Title="Views On Sheet" Height="520" Width="420"
         WindowStartupLocation="CenterScreen">
@@ -14,7 +14,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="..\Helpers\ResourceDictionaries\DictionaryWindows.xaml" />
+                <ResourceDictionary Source="..\..\Helpers\ResourceDictionaries\DictionaryWindows.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
