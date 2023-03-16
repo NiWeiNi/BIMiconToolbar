@@ -175,7 +175,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2019 Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\2019 Debug\</OutputPath>
-    <DefineConstants>v2019</DefineConstants>
+    <DefineConstants>DEBUG;v2019</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2019 Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -185,7 +187,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2020 Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2020\BIMicon\</OutputPath>
-    <DefineConstants>v2020</DefineConstants>
+    <DefineConstants>DEBUG;v2020</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2020 Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -195,7 +199,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2021 Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\2021 Debug\</OutputPath>
-    <DefineConstants>v2021</DefineConstants>
+    <DefineConstants>DEBUG;v2021</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2021 Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -205,7 +211,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2022 Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\2022 Debug\</OutputPath>
-    <DefineConstants>v2022</DefineConstants>
+    <DefineConstants>DEBUG;v2022</DefineConstants>
+    <ErrorReport>none</ErrorReport>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2022 Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -215,7 +224,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2023 Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2023\BIMicon\</OutputPath>
-    <DefineConstants>v2023</DefineConstants>
+    <DefineConstants>DEBUG;v2023</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2023 Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -225,7 +236,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2024 Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\2024 Debug\</OutputPath>
-    <DefineConstants>v2024</DefineConstants>
+    <DefineConstants>DEBUG;v2024</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2024 Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
