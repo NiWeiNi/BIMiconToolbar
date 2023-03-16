@@ -210,7 +210,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2022 Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\2022 Debug\</OutputPath>
+    <OutputPath>..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2022\QuickEdge\</OutputPath>
     <DefineConstants>DEBUG;v2022</DefineConstants>
     <ErrorReport>none</ErrorReport>
     <DebugType>full</DebugType>
