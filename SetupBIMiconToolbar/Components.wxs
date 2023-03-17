@@ -84,6 +84,9 @@
 			<Component Id="npoiOpenForFile2020" Guid="4dd53701-83ec-4686-a8a0-c08ed88b4074">
 				<File Id="npoiOpenForDLL2020" Name="NPOI.OpenXmlFormats.dll" KeyPath="yes" Source="$(var.FSource2020)"/>
 			</Component>
+			<Component Id="SixLaborsFile2020" Guid="e6e27b22-89fb-401c-8c75-78624e4fcab3">
+				<File Id="SixLaborsDLL2020" Name="SixLabors.Fonts.dll" KeyPath="yes" Source="$(var.FSource2020)"/>
+			</Component>
 		</ComponentGroup>
 
 		<!-- Revit 2021 -->
@@ -125,6 +128,9 @@
 			</Component>
 			<Component Id="npoiOpenForFile2021" Guid="4dd53701-83ec-4686-a8a0-c08edc9b4074">
 				<File Id="npoiOpenForDLL2021" Name="NPOI.OpenXmlFormats.dll" KeyPath="yes" Source="$(var.FSource2021)"/>
+			</Component>
+			<Component Id="SixLaborsFile2021" Guid="e6e27b22-89fb-401c-8c75-77632e4fcab3">
+				<File Id="SixLaborsDLL2021" Name="SixLabors.Fonts.dll" KeyPath="yes" Source="$(var.FSource2021)"/>
 			</Component>
 		</ComponentGroup>
 
@@ -168,6 +174,9 @@
 			<Component Id="npoiOpenForFile2022" Guid="a9869df2-f3df-423b-95e6-7e8a6f84ecb3">
 				<File Id="npoiOpenForDLL2022" Name="NPOI.OpenXmlFormats.dll" KeyPath="yes" Source="$(var.FSource2022)"/>
 			</Component>
+			<Component Id="SixLaborsFile2022" Guid="510a8a4b-eb13-426a-bcf9-f55a609a16f8">
+				<File Id="SixLaborsDLL2022" Name="SixLabors.Fonts.dll" KeyPath="yes" Source="$(var.FSource2022)"/>
+			</Component>
 		</ComponentGroup>
 
 		<!-- Revit 2023 -->
@@ -210,9 +219,10 @@
 			<Component Id="npoiOpenForFile2023" Guid="a989ddf2-f3df-423b-95e6-7e8a6f84ecb3">
 				<File Id="npoiOpenForDLL2023" Name="NPOI.OpenXmlFormats.dll" KeyPath="yes" Source="$(var.FSource2023)"/>
 			</Component>
+			<Component Id="SixLaborsFile2023" Guid="8c98a4a3-e839-4650-b556-5a4f5579b9e9">
+				<File Id="SixLaborsDLL2023" Name="SixLabors.Fonts.dll" KeyPath="yes" Source="$(var.FSource2023)"/>
+			</Component>
 		</ComponentGroup>
-
-		
 
 	</Fragment>
 
