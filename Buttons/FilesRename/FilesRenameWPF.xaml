@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="FilesRenameWPF" Height="690" Width="400"
+        Title="Files Rename" Height="690" Width="400"
         FocusManager.FocusedElement="{Binding ElementName=cancel}"
         Icon="../../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
