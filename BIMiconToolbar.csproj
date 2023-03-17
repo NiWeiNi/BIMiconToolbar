@@ -622,6 +622,11 @@
     <PackageReference Include="SharpZipLib">
       <Version>1.3.3</Version>
     </PackageReference>
+    <PackageReference Include="SonarAnalyzer.CSharp">
+      <Version>8.54.0.64047</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
