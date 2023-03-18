@@ -36,9 +36,6 @@ namespace BIMiconToolbar.FloorFinish
             DataContext = this;
 
             // Set the input units
-            Units units = doc.GetUnits();
-            FormatOptions fo = units.GetFormatOptions(SpecTypeId.Length);
-
             offsetTextBlock.Text = "Offset from level in " ;
 
             // Populate room checkboxes
@@ -163,6 +160,12 @@ namespace BIMiconToolbar.FloorFinish
                     {
                         if (boundaries[i].Count != 0 && i == 0)
                         {
+#if v2023 || v2024
+                            // Floor boundary
+                            List<Curve> curves = new List<Curve>();
+                            curves = boundaries[i].Select(xC => xC.GetCurve()).ToList();
+                            CurveLoop curveLoop = CurveLoop.Create(curves);
+#else
                             // Floor boundary
                             CurveArray floorBoundary = new CurveArray();
 
@@ -170,12 +173,19 @@ namespace BIMiconToolbar.FloorFinish
                             {
                                 floorBoundary.Append(b.GetCurve());
                             }
+#endif
 
                             // Create floor
                             Transaction transaction = new Transaction(doc, "Create Floor");
                             transaction.Start();
 
-                            Floor floor = doc.Create.NewFloor(floorBoundary, SelectedComboItemFloorType.Tag as FloorType, level, false);
+                            Floor floor = null;
+#if v2023 || v2024
+                            List<CurveLoop> profile = new List<CurveLoop>() { curveLoop };
+                            floor = Floor.Create(doc, profile, (SelectedComboItemFloorType.Tag as FloorType).Id, level.Id);
+#else
+                            floor = doc.Create.NewFloor(floorBoundary, SelectedComboItemFloorType.Tag as FloorType, level, false);
+#endif
                             floorElement = floor as Element;
 
                             transaction.Commit();
@@ -259,18 +269,13 @@ namespace BIMiconToolbar.FloorFinish
                 // Input parsed and converted directly to internal units
                 if (isDouble)
                 {
-                    // Retrieve project length unit
-                    ForgeTypeId fTypeId = Helpers.RevitProjectInfo.ProjectLengthUnit(doc);
-
                     // Assign floor offset to property
-                    FloorOffset = Helpers.UnitsConverter.LengthUnitToInternal(number, fTypeId);
+                    FloorOffset = Helpers.UnitsConverter.ConvertProjectLengthToInternal(doc, number);
                     StringInternalUnits = FloorOffset.ToString();
                     IsExecuteReady = true;
                 }
                 // Input as imperial fractions
-                else if (Helpers.Parsing.IsImperialFraction(newStringNumber) && 
-                    (UnitTypeId.Feet == Helpers.RevitProjectInfo.ProjectLengthUnit(doc) ||
-                    UnitTypeId.Feet == Helpers.RevitProjectInfo.ProjectLengthUnit(doc)))
+                else if (Helpers.Parsing.IsImperialFraction(newStringNumber))
                 {
                     FloorOffset = Helpers.Parsing.ImperialFractionToDecimalFeet(newStringNumber);
                     StringInternalUnits = FloorOffset.ToString();

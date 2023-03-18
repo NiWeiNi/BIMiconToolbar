@@ -13,6 +13,7 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>Debug</DefineConstants>
+    <SuppressIces>ICE30</SuppressIces>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -29,11 +30,17 @@
   <ItemGroup>
     <Folder Include="Assets" />
     <Folder Include="PluginRelease" />
+    <Folder Include="PluginRelease\2020" />
+    <Folder Include="PluginRelease\2021" />
+    <Folder Include="PluginRelease\2022" />
+    <Folder Include="PluginRelease\2023" />
+    <Folder Include="PluginRelease\WarningsReport" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Background.png" />
     <Content Include="Assets\Banner.png" />
     <Content Include="Assets\License.rtf" />
+    <Content Include="PluginRelease\WarningsReport\RevitWarningsClassified.json" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixUIExtension">

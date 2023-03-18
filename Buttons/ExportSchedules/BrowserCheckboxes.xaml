@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BIMiconToolbar.Helpers.Browser"
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=OK}"
-        Icon="../Resources/Logos/iconBIMiconBlack.ico"
+        Icon="../../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
         Title="Select Schedules and Destination Folder" 
         Height="520" Width="420"
@@ -15,7 +15,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="..\Helpers\ResourceDictionaries\DictionaryWindows.xaml" />
+                <ResourceDictionary Source="..\..\Helpers\ResourceDictionaries\DictionaryWindows.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
