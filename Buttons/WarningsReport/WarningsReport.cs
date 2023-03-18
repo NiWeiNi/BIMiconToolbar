@@ -35,7 +35,7 @@ namespace BIMiconToolbar.WarningsReport
 
             string[] columnNames = { "Priority", "Warning", "Element Ids", "Date Detected", "Date Solved", "Fixed by" };
 
-            string warningJSONPath = @"C:\ProgramData\Autodesk\Revit\Addins\BIMicon\WarningsReport\RevitWarningsClassified.json";
+            string warningJSONPath = @"C:\ProgramData\Autodesk\Revit\Addins\BIMicon\RevitWarningsClassified.json";
             string warningsJsonString = Helpers.Helpers.WriteSafeReadAllLines(warningJSONPath);
             var warningsJObject = JObject.Parse(warningsJsonString);
 
