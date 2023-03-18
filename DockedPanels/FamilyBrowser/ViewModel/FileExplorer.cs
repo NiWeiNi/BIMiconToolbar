@@ -33,7 +33,7 @@ namespace BIMiconToolbar.FamilyBrowser.ViewModel
 
                 return familyList;
             }
-            catch (Exception e)
+            catch
             {
                 // TODO: Log error
             }

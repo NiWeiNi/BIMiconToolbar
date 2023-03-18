@@ -14,7 +14,7 @@
 
 		<!-- Package details -->
 		<Package InstallerVersion="200"
-				 Comments="!(loc.Copyright)"
+				 Comments="!(loc.Comments)"
 				 Compressed="yes"
 				 Description="!(loc.Description)"
 				 InstallScope="perMachine" />

@@ -175,50 +175,75 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2019 Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\2019 Debug\</OutputPath>
+    <DefineConstants>DEBUG;v2019</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2019 Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\2019 Release\</OutputPath>
+    <DefineConstants>v2019</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2020 Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\2020 Debug\</OutputPath>
+    <OutputPath>..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2020\BIMicon\</OutputPath>
+    <DefineConstants>DEBUG;v2020</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2020 Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\2020 Release\</OutputPath>
+    <OutputPath>SetupBIMiconToolbar\PluginRelease\2020\</OutputPath>
+    <DefineConstants>v2020</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2021 Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\2021 Debug\</OutputPath>
+    <OutputPath>..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2021\BIMicon\</OutputPath>
+    <DefineConstants>DEBUG;v2021</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2021 Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\2021 Release\</OutputPath>
+    <OutputPath>SetupBIMiconToolbar\PluginRelease\2021\</OutputPath>
+    <DefineConstants>v2021</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2022 Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\2022 Debug\</OutputPath>
+    <OutputPath>..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2022\BIMicon\</OutputPath>
+    <DefineConstants>DEBUG;v2022</DefineConstants>
+    <ErrorReport>none</ErrorReport>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2022 Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\2022 Release\</OutputPath>
+    <OutputPath>SetupBIMiconToolbar\PluginRelease\2022\</OutputPath>
+    <DefineConstants>v2022</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2023 Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\2023 Debug\</OutputPath>
+    <OutputPath>..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2023\BIMicon\</OutputPath>
+    <DefineConstants>DEBUG;v2023</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2023 Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\2023 Release\</OutputPath>
+    <OutputPath>SetupBIMiconToolbar\PluginRelease\2023\</OutputPath>
+    <DefineConstants>v2023</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2024 Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\2024 Debug\</OutputPath>
+    <DefineConstants>DEBUG;v2024</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2024 Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\2024 Release\</OutputPath>
+    <DefineConstants>v2024</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -247,39 +272,39 @@
       <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPIUI.dll</HintPath>
       <Private>false</Private>
     </Reference>
-	  <Reference Include="AdWindows">
-		  <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2020\AdWindows.dll</HintPath>
-		  <Private>false</Private>
-	  </Reference>
+    <Reference Include="AdWindows">
+      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2020\AdWindows.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
-	<ItemGroup Condition="$(Configuration.Contains('2021'))">
-		<Reference Include="RevitAPI">
-			<HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2021\RevitAPI.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="RevitAPIUI">
-			<HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2021\RevitAPIUI.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="AdWindows">
-			<HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2021\AdWindows.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-	</ItemGroup>
-	<ItemGroup Condition="$(Configuration.Contains('2022'))">
-		<Reference Include="RevitAPI">
-			<HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2022\RevitAPI.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="RevitAPIUI">
-			<HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2022\RevitAPIUI.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-		<Reference Include="AdWindows">
-			<HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2022\AdWindows.dll</HintPath>
-			<Private>false</Private>
-		</Reference>
-	</ItemGroup>
+  <ItemGroup Condition="$(Configuration.Contains('2021'))">
+    <Reference Include="RevitAPI">
+      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2021\RevitAPI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2021\RevitAPIUI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="AdWindows">
+      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2021\AdWindows.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup Condition="$(Configuration.Contains('2022'))">
+    <Reference Include="RevitAPI">
+      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2022\RevitAPI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2022\RevitAPIUI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="AdWindows">
+      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2022\AdWindows.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
   <ItemGroup Condition="$(Configuration.Contains('2023'))">
     <Reference Include="RevitAPI">
       <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2023\RevitAPI.dll</HintPath>
@@ -289,10 +314,10 @@
       <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2023\RevitAPIUI.dll</HintPath>
       <Private>false</Private>
     </Reference>
-	  <Reference Include="AdWindows">
-		  <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2023\AdWindows.dll</HintPath>
-		  <Private>false</Private>
-	  </Reference>
+    <Reference Include="AdWindows">
+      <HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2023\AdWindows.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buttons\DuplicateSheets\DuplicateSheets.cs" />
@@ -582,6 +607,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Buttons\OpenLinksUnloaded\ViewModel\" />
+    <Folder Include="Models\" />
     <Folder Include="SetupBIMiconToolbar\bin\Debug\" />
   </ItemGroup>
   <ItemGroup>
@@ -596,6 +622,11 @@
     </PackageReference>
     <PackageReference Include="SharpZipLib">
       <Version>1.3.3</Version>
+    </PackageReference>
+    <PackageReference Include="SonarAnalyzer.CSharp">
+      <Version>8.54.0.64047</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
