@@ -17,6 +17,17 @@
 			</DirectorySearch>
 		</Property>
 
+		<Property Id="ADDIN2019DIRECTORY">
+			<DirectorySearchRef Id="MainAddinFolderSearch"
+								Parent="ProgramDataFolderSearch"
+								Path="Autodesk\Revit\Addins">
+				<DirectorySearch Path="2019"
+								 Depth="0"
+								 AssignToProperty="yes"
+								 Id="Addin2019Search"/>
+			</DirectorySearchRef>
+		</Property>
+
 		<Property Id="ADDIN2020DIRECTORY">
 			<DirectorySearchRef Id="MainAddinFolderSearch"
 								Parent="ProgramDataFolderSearch"
@@ -73,6 +84,14 @@
 			<!-- Addin components directory -->
 			<Directory Id="COMPONENTSDIRECTORY">
 				<Directory Id="WarningsFileDirectory" Name="!(loc.Company)" />
+			</Directory>
+
+			<!-- Revit 2019 directory-->
+			<Directory Id="ADDIN2019DIRECTORY">
+				<!-- Addin directory -->
+				<Directory Id="AddinFileDirectory2019" />
+				<!-- Main directory -->
+				<Directory Id="MainFilesDirectory2019" Name="!(loc.Company)" />
 			</Directory>
 
 			<!-- Revit 2020 directory-->

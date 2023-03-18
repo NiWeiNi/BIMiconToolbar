@@ -56,7 +56,15 @@
 			</Condition>
 		</Feature>
 
-		<!-- Revit 2021 -->
+		<!-- Revit 2020 -->
+		<Feature Id="Toolbar2019" Title="!(loc.ProductName) 2019" Level="1">
+			<ComponentRef Id="AddinFile2019"/>
+			<ComponentGroupRef Id="ProductComponents2019" />
+			<Condition Level="0">
+				<![CDATA[ ADDIN2019DIRECTORY = null]]>
+			</Condition>
+		</Feature>
+		<!-- Revit 2020 -->
 		<Feature Id="Toolbar2020" Title="!(loc.ProductName) 2020" Level="1">
 			<ComponentRef Id="AddinFile2020"/>
 			<ComponentGroupRef Id="ProductComponents2020" />

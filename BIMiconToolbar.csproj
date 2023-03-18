@@ -181,7 +181,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2019 Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\2019 Release\</OutputPath>
+    <OutputPath>SetupBIMiconToolbar\PluginRelease\2019\</OutputPath>
     <DefineConstants>v2019</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2020 Debug|x64'">
