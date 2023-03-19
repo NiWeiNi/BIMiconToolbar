@@ -2,6 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
 	<Fragment>
+		<?define FSource2019 = PluginRelease\2019\ ?>
 		<?define FSource2020 = PluginRelease\2020\ ?>
 		<?define FSource2021 = PluginRelease\2021\ ?>
 		<?define FSource2022 = PluginRelease\2022\ ?>
@@ -43,6 +44,54 @@
 				<File Id="WarningsFileJSON" Name="RevitWarningsClassified.json" KeyPath="yes" Source="$(var.FSourceWReport)"/>
 			</Component>
 		</DirectoryRef>
+
+		<!-- Revit 2019 -->
+		<!-- Addin file-->
+		<DirectoryRef Id="AddinFileDirectory2019" >
+			<Component Id="AddinFile2019" Guid="43a8bf03-e276-48a6-9f8b-084537b2286d">
+				<File Id="AddinFileADDIN2019" Name="BIMicon.addin" KeyPath="yes" Source="$(var.FSource2019)"/>
+			</Component>
+		</DirectoryRef>
+
+		<ComponentGroup Id="ProductComponents2019" Directory="MainFilesDirectory2019">
+			<!-- Install files -->
+			<!-- Main components -->
+			<!-- Compilled dll -->
+			<Component Id="MainFile2019" Guid="297a0baa-0dbd-444c-922c-15998dc73747">
+				<File Id="MainFileDLL2019" Name="BIMiconToolbar.dll" KeyPath="yes" Source="$(var.FSource2019)"/>
+			</Component>
+
+			<!-- 3rd Party Required components -->
+			<!-- ICSharp files -->
+			<Component Id="iCSharpFile2019" Guid="7cf4558a-4ae7-4364-80db-6ff86d4779c7">
+				<File Id="iCSharpDLL2019" Name="ICSharpCode.SharpZipLib.dll" KeyPath="yes" Source="$(var.FSource2019)"/>
+			</Component>
+
+			<!-- Newtonsoft files -->
+			<Component Id="newtonFile2019" Guid="765c0a33-6a9d-4625-8db2-ab48660b228a">
+				<File Id="newtonDLL2019" Name="Newtonsoft.Json.dll" KeyPath="yes" Source="$(var.FSource2019)"/>
+			</Component>
+
+			<!-- NPOI files -->
+			<Component Id="npoiFile2019" Guid="68be7265-bd0a-4f03-a2b7-16e2264b73dc">
+				<File Id="npoiDLL2019" Name="NPOI.dll" KeyPath="yes" Source="$(var.FSource2019)"/>
+			</Component>
+			<Component Id="npoiOOFile2019" Guid="ce750891-668f-4b50-b449-e73a72072ae3">
+				<File Id="npoiOODLL2019" Name="NPOI.OOXML.dll" KeyPath="yes" Source="$(var.FSource2019)"/>
+			</Component>
+			<Component Id="npoiOpenFile2019" Guid="8b05051d-8f93-44ac-bd77-7c8c2a43963d">
+				<File Id="npoiOpen2019" Name="NPOI.OpenXml4Net.dll" KeyPath="yes" Source="$(var.FSource2019)"/>
+			</Component>
+			<Component Id="npoiOpenForFile2019" Guid="a8110bad-098c-4b86-b831-8b3c33f43d66">
+				<File Id="npoiOpenForDLL2019" Name="NPOI.OpenXmlFormats.dll" KeyPath="yes" Source="$(var.FSource2019)"/>
+			</Component>
+			<Component Id="SixLaborsFile2019" Guid="bdbf8be9-4138-4008-9c95-801032db284e">
+				<File Id="SixLaborsDLL2019" Name="SixLabors.Fonts.dll" KeyPath="yes" Source="$(var.FSource2019)"/>
+			</Component>
+			<Component Id="SystemNumericsVectorsFile2019" Guid="b700cca8-8b59-4e4d-9e5f-e18c049fb17c">
+				<File Id="SystemNumericsVectorsDLL2019" Name="System.Numerics.Vectors.dll" KeyPath="yes" Source="$(var.FSource2019)"/>
+			</Component>
+		</ComponentGroup>
 
 		<!-- Revit 2020 -->
 		<!-- Addin file-->
@@ -86,6 +135,9 @@
 			</Component>
 			<Component Id="SixLaborsFile2020" Guid="e6e27b22-89fb-401c-8c75-78624e4fcab3">
 				<File Id="SixLaborsDLL2020" Name="SixLabors.Fonts.dll" KeyPath="yes" Source="$(var.FSource2020)"/>
+			</Component>
+			<Component Id="SystemNumericsVectorsFile2020" Guid="012ef3c4-c173-453c-bfb1-081a7866f124">
+				<File Id="SystemNumericsVectorsDLL2020" Name="System.Numerics.Vectors.dll" KeyPath="yes" Source="$(var.FSource2020)"/>
 			</Component>
 		</ComponentGroup>
 
@@ -132,6 +184,9 @@
 			<Component Id="SixLaborsFile2021" Guid="e6e27b22-89fb-401c-8c75-77632e4fcab3">
 				<File Id="SixLaborsDLL2021" Name="SixLabors.Fonts.dll" KeyPath="yes" Source="$(var.FSource2021)"/>
 			</Component>
+			<Component Id="SystemNumericsVectorsFile2021" Guid="62666a4f-d786-430b-82bd-badec1d13d82">
+				<File Id="SystemNumericsVectorsDLL2021" Name="System.Numerics.Vectors.dll" KeyPath="yes" Source="$(var.FSource2021)"/>
+			</Component>
 		</ComponentGroup>
 
 		<!-- Revit 2022 -->
@@ -177,6 +232,9 @@
 			<Component Id="SixLaborsFile2022" Guid="510a8a4b-eb13-426a-bcf9-f55a609a16f8">
 				<File Id="SixLaborsDLL2022" Name="SixLabors.Fonts.dll" KeyPath="yes" Source="$(var.FSource2022)"/>
 			</Component>
+			<Component Id="SystemNumericsVectorsFile2022" Guid="da92ad9a-90eb-40e4-8b67-c1845262cd0a">
+				<File Id="SystemNumericsVectorsDLL2022" Name="System.Numerics.Vectors.dll" KeyPath="yes" Source="$(var.FSource2022)"/>
+			</Component>
 		</ComponentGroup>
 
 		<!-- Revit 2023 -->
@@ -221,6 +279,9 @@
 			</Component>
 			<Component Id="SixLaborsFile2023" Guid="8c98a4a3-e839-4650-b556-5a4f5579b9e9">
 				<File Id="SixLaborsDLL2023" Name="SixLabors.Fonts.dll" KeyPath="yes" Source="$(var.FSource2023)"/>
+			</Component>
+			<Component Id="SystemNumericsVectorsFile2023" Guid="90e633c3-282a-447d-90bf-6f8647b5eea5">
+				<File Id="SystemNumericsVectorsDLL2023" Name="System.Numerics.Vectors.dll" KeyPath="yes" Source="$(var.FSource2023)"/>
 			</Component>
 		</ComponentGroup>
 

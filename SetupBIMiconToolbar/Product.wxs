@@ -5,7 +5,7 @@
 
 	<?define UpgradeCode = 28bebc9f-1f55-46fa-a203-48b3c3a90894?>
 
-	<Product Id="{B7453546-6E65-4900-8969-4A8E33E7A908}"
+	<Product Id="*"
 			 Name="!(loc.ProductName)"
 			 Language="1033"
 			 Version="!(bind.FileVersion.MainFileDLL2023)"
@@ -19,8 +19,12 @@
 				 Description="!(loc.Description)"
 				 InstallScope="perMachine" />
 
-		<!-- Downgrade error message -->
-		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<!-- Uninstall and downgrade error message -->
+		<MajorUpgrade AllowDowngrades="no"
+					  AllowSameVersionUpgrades="yes"
+					  IgnoreRemoveFailure="no"
+					  DowngradeErrorMessage="A newer version of [ProductName] is already installed."
+					  Schedule="afterInstallValidate"/>
 
 		<SetProperty Id="URL" Value="!(loc.Web)" Sequence="execute" Before="CreateShortcuts" />
 
@@ -52,7 +56,15 @@
 			</Condition>
 		</Feature>
 
-		<!-- Revit 2021 -->
+		<!-- Revit 2020 -->
+		<Feature Id="Toolbar2019" Title="!(loc.ProductName) 2019" Level="1">
+			<ComponentRef Id="AddinFile2019"/>
+			<ComponentGroupRef Id="ProductComponents2019" />
+			<Condition Level="0">
+				<![CDATA[ ADDIN2019DIRECTORY = null]]>
+			</Condition>
+		</Feature>
+		<!-- Revit 2020 -->
 		<Feature Id="Toolbar2020" Title="!(loc.ProductName) 2020" Level="1">
 			<ComponentRef Id="AddinFile2020"/>
 			<ComponentGroupRef Id="ProductComponents2020" />
