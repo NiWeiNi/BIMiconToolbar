@@ -88,6 +88,9 @@
 			<Component Id="SixLaborsFile2019" Guid="bdbf8be9-4138-4008-9c95-801032db284e">
 				<File Id="SixLaborsDLL2019" Name="SixLabors.Fonts.dll" KeyPath="yes" Source="$(var.FSource2019)"/>
 			</Component>
+			<Component Id="SystemNumericsVectorsFile2019" Guid="b700cca8-8b59-4e4d-9e5f-e18c049fb17c">
+				<File Id="SystemNumericsVectorsDLL2019" Name="System.Numerics.Vectors.dll" KeyPath="yes" Source="$(var.FSource2019)"/>
+			</Component>
 		</ComponentGroup>
 
 		<!-- Revit 2020 -->
@@ -132,6 +135,9 @@
 			</Component>
 			<Component Id="SixLaborsFile2020" Guid="e6e27b22-89fb-401c-8c75-78624e4fcab3">
 				<File Id="SixLaborsDLL2020" Name="SixLabors.Fonts.dll" KeyPath="yes" Source="$(var.FSource2020)"/>
+			</Component>
+			<Component Id="SystemNumericsVectorsFile2020" Guid="012ef3c4-c173-453c-bfb1-081a7866f124">
+				<File Id="SystemNumericsVectorsDLL2020" Name="System.Numerics.Vectors.dll" KeyPath="yes" Source="$(var.FSource2020)"/>
 			</Component>
 		</ComponentGroup>
 
@@ -178,6 +184,9 @@
 			<Component Id="SixLaborsFile2021" Guid="e6e27b22-89fb-401c-8c75-77632e4fcab3">
 				<File Id="SixLaborsDLL2021" Name="SixLabors.Fonts.dll" KeyPath="yes" Source="$(var.FSource2021)"/>
 			</Component>
+			<Component Id="SystemNumericsVectorsFile2021" Guid="62666a4f-d786-430b-82bd-badec1d13d82">
+				<File Id="SystemNumericsVectorsDLL2021" Name="System.Numerics.Vectors.dll" KeyPath="yes" Source="$(var.FSource2021)"/>
+			</Component>
 		</ComponentGroup>
 
 		<!-- Revit 2022 -->
@@ -223,6 +232,9 @@
 			<Component Id="SixLaborsFile2022" Guid="510a8a4b-eb13-426a-bcf9-f55a609a16f8">
 				<File Id="SixLaborsDLL2022" Name="SixLabors.Fonts.dll" KeyPath="yes" Source="$(var.FSource2022)"/>
 			</Component>
+			<Component Id="SystemNumericsVectorsFile2022" Guid="da92ad9a-90eb-40e4-8b67-c1845262cd0a">
+				<File Id="SystemNumericsVectorsDLL2022" Name="System.Numerics.Vectors.dll" KeyPath="yes" Source="$(var.FSource2022)"/>
+			</Component>
 		</ComponentGroup>
 
 		<!-- Revit 2023 -->
@@ -267,6 +279,9 @@
 			</Component>
 			<Component Id="SixLaborsFile2023" Guid="8c98a4a3-e839-4650-b556-5a4f5579b9e9">
 				<File Id="SixLaborsDLL2023" Name="SixLabors.Fonts.dll" KeyPath="yes" Source="$(var.FSource2023)"/>
+			</Component>
+			<Component Id="SystemNumericsVectorsFile2023" Guid="90e633c3-282a-447d-90bf-6f8647b5eea5">
+				<File Id="SystemNumericsVectorsDLL2023" Name="System.Numerics.Vectors.dll" KeyPath="yes" Source="$(var.FSource2023)"/>
 			</Component>
 		</ComponentGroup>
 
