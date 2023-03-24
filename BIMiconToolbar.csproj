@@ -439,7 +439,7 @@
     <Compile Include="Buttons\OpenLinksUnloaded\OpenLinksUnloadedWPF.xaml.cs">
       <DependentUpon>OpenLinksUnloadedWPF.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\PushButtonIdentityData.cs" />
+    <Compile Include="Tab\Models\PushButtonIdentityData.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -461,6 +461,7 @@
       <DependentUpon>ViewsOnSheetWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="Buttons\WarningsReport\WarningsReport.cs" />
+    <Compile Include="Tab\PushButtonCreation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BIMicon.addin">
