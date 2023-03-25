@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Tab.Models;
+using System;
 using System.Windows.Media.Imaging;
 
 namespace BIMicon.BIMiconToolbar.Tab
@@ -28,8 +29,8 @@ namespace BIMicon.BIMiconToolbar.Tab
             PushButton pushButton = _identityData.RibbonPanelContainer.AddItem(pushButtonData) as PushButton;
 
             // Assign image
-            pushButton.LargeImage = new BitmapImage(_identityData.LargeImageUri);
-            pushButton.Image = new BitmapImage(_identityData.SmallImageUri);
+            pushButton.LargeImage = new BitmapImage(new Uri(_identityData.LargeImagePath));
+            pushButton.Image = new BitmapImage(new Uri(_identityData.SmallImagePath));
             pushButton.ToolTip = _identityData.ToolTip;
             pushButton.LongDescription = _identityData.LongDescription;
             // Set the context help when F1 pressed
