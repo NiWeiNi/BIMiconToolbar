@@ -1,5 +1,4 @@
 ﻿using Autodesk.Revit.UI;
-using System;
 
 namespace BIMicon.BIMiconToolbar.Tab.Models
 {
@@ -13,27 +12,11 @@ namespace BIMicon.BIMiconToolbar.Tab.Models
         public string LongDescription { get; set; }
         public string AvailabilityClass { get; set; }
         public RibbonPanel RibbonPanelContainer { get; set; }
+        public SplitButton SplitButtonContainer { get; set; }
         public ContextualHelp ContextualHelpButton { get; set; }
         public string LargeImagePath { get; set; }
         public string SmallImagePath { get; set; }
 
-        public PushButtonIdentityData(string buttonName, string buttonDisplayName, string assemblyName, string className,
-            string toolTip, string longDescription, string availabilityClass, RibbonPanel ribbonPanel,
-            ContextualHelp contextualHelp, string largeImagePath, string smallImagePath)
-        {
-            ButtonName = buttonName;
-            ButtonDisplayName = buttonDisplayName;
-            AssemblyName = assemblyName;
-            ClassName = className;
-            ToolTip = toolTip;
-            LongDescription = longDescription;
-            AvailabilityClass = availabilityClass;
-
-            RibbonPanelContainer = ribbonPanel;
-            ContextualHelpButton = contextualHelp;
-
-            LargeImagePath = largeImagePath;
-            SmallImagePath = smallImagePath;
-        }
+        public PushButtonIdentityData() { }
     }
 }

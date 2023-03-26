@@ -26,7 +26,13 @@ namespace BIMicon.BIMiconToolbar.Tab
 
         private PushButton CreatePushButton(PushButtonData pushButtonData)
         {
-            PushButton pushButton = _identityData.RibbonPanelContainer.AddItem(pushButtonData) as PushButton;
+            PushButton pushButton;
+            if (_identityData.RibbonPanelContainer != null)
+                pushButton = _identityData.RibbonPanelContainer.AddItem(pushButtonData) as PushButton;
+            else if ((_identityData.SplitButtonContainer != null))
+                pushButton = _identityData.SplitButtonContainer.AddPushButton(pushButtonData) as PushButton;
+            else
+                pushButton = _identityData.RibbonPanelContainer.AddItem(pushButtonData) as PushButton;
 
             // Assign image
             pushButton.LargeImage = new BitmapImage(new Uri(_identityData.LargeImagePath));
