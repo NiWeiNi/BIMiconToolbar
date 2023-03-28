@@ -1,16 +1,15 @@
 ﻿using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Tab.Models;
-using BIMicon.BIMiconToolbar.Tab;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 
-namespace BIMiconToolbar.Tab
+namespace BIMicon.BIMiconToolbar.Tab
 {
     internal class BIMiconUI
     {
-        public static void Toolbar(UIControlledApplication application)
+        public BIMiconUI(UIControlledApplication application)
         {
             // Create tab 
             string tabName = "BIMicon";
@@ -44,7 +43,7 @@ namespace BIMiconToolbar.Tab
                 ClassName = "BIMiconToolbar.RemoveBackups.RemoveBackups",
                 ToolTip = "Remove Revit backup files.",
                 LongDescription = "Remove Revit backup files from selected folder including subfolders.",
-                AvailabilityClass = "BIMiconToolbar.Tab.CommandAvailability",
+                AvailabilityClass = "BIMicon.BIMiconToolbar.Tab.CommandAvailability",
                 RibbonPanelContainer = panelLibrary,
                 ContextualHelpButton = contextHelpUrl,
                 LargeImagePath = "pack://application:,,,/BIMiconToolbar;component/Buttons/RemoveBackups/Images/iconRemoveBackup.png",
@@ -62,7 +61,7 @@ namespace BIMiconToolbar.Tab
                 ClassName = "BIMiconToolbar.FilesRename.FilesRename",
                 ToolTip = "Rename the files inside a folder.",
                 LongDescription = "Rename all files of a certain type inside a folder.",
-                AvailabilityClass = "BIMiconToolbar.Tab.CommandAvailability",
+                AvailabilityClass = "BIMicon.BIMiconToolbar.Tab.CommandAvailability",
                 RibbonPanelContainer = panelLibrary,
                 ContextualHelpButton = contextHelpUrl,
                 LargeImagePath = "pack://application:,,,/BIMiconToolbar;component/Buttons/FilesRename/Images/iconFilesRename.png",
@@ -80,7 +79,7 @@ namespace BIMiconToolbar.Tab
                 ClassName = "BIMiconToolbar.FilesUpgrade.FilesUpgrade",
                 ToolTip = "Upgrade the files inside a folder.",
                 LongDescription = "Upgrade all Revit files inside a folder.",
-                AvailabilityClass = "BIMiconToolbar.Tab.CommandAvailability",
+                AvailabilityClass = "BIMicon.BIMiconToolbar.Tab.CommandAvailability",
                 RibbonPanelContainer = panelLibrary,
                 ContextualHelpButton = contextHelpUrl,
                 LargeImagePath = "pack://application:,,,/BIMiconToolbar;component/Buttons/FilesUpgrade/Images/iconFilesUpgrade.png",
@@ -119,7 +118,7 @@ namespace BIMiconToolbar.Tab
                 ClassName = "BIMiconToolbar.OpenLinksUnloaded.OpenLinksUnloaded",
                 ToolTip = "Open Revit model with links unloaded.",
                 LongDescription = "Open selected Revit model with the option to unload selected link types; Revit, IFC, CAD, and so on.",
-                AvailabilityClass = "BIMiconToolbar.Tab.CommandAvailability",
+                AvailabilityClass = "BIMicon.BIMiconToolbar.Tab.CommandAvailability",
                 RibbonPanelContainer = panelModel,
                 ContextualHelpButton = contextHelpUrl,
                 LargeImagePath = "pack://application:,,,/BIMiconToolbar;component/Buttons/OpenLinksUnloaded/Images/iconOpenLinksUnloaded.png",
@@ -286,82 +285,79 @@ namespace BIMiconToolbar.Tab
             };
             _ = new PushButtonCreation(numberBySplineIdData);
 
-
             // Number by Pick
-            PushButtonData buttonNumberByPick = new PushButtonData(
-            "NumberByPick",
-            "Number\nby Pick",
-            assemblyPath,
-            "BIMiconToolbar.NumberByPick.NumberByPick"
-            );
-
-            PushButton pbNumberByPick = numberGroup.AddPushButton(buttonNumberByPick);
-            pbNumberByPick.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/NumberByPick/Images/iconNumberByPick.png"));
-            pbNumberByPick.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/NumberByPick/Images/iconNumberByPick.png"));
-            pbNumberByPick.ToolTip = "Number picked elements in order of selection.";
-            pbNumberByPick.LongDescription = "Number elements of a selected category by picking order.";
-
-            // Set the context help when F1 pressed
-            pbNumberByPick.SetContextualHelp(contextHelpUrl);
-
+            PushButtonIdentityData numberByPickIdData = new PushButtonIdentityData
+            {
+                ButtonName = "NumberByPick",
+                ButtonDisplayName = "Number\nby Pick",
+                AssemblyName = assemblyPath,
+                ClassName = "BIMiconToolbar.NumberByPick.NumberByPick",
+                ToolTip = "Number picked elements in order of selection.",
+                LongDescription = "Number elements of a selected category by picking order.",
+                AvailabilityClass = null,
+                SplitButtonContainer = numberGroup,
+                ContextualHelpButton = contextHelpUrl,
+                LargeImagePath = "pack://application:,,,/BIMiconToolbar;component/Buttons/NumberByPick/Images/iconNumberByPick.png",
+                SmallImagePath = "pack://application:,,,/BIMiconToolbar;component/Buttons/NumberByPick/Images/iconNumberByPick.png"
+            };
+            _ = new PushButtonCreation(numberByPickIdData);
 
             // Match grids
-            PushButtonData buttonMatchGrids = new PushButtonData(
-               "MatchGrids",
-               "Match\nGrids",
-               assemblyPath,
-               "BIMiconToolbar.MatchGrids.MatchGrids"
-            );
-
-            PushButton pbMatchGrids = panelProject.AddItem(buttonMatchGrids) as PushButton;
-            pbMatchGrids.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/MatchGrids/Images/iconMatchGrids.png"));
-            pbMatchGrids.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/MatchGrids/Images/iconMatchGridsSmall.png"));
-            pbMatchGrids.ToolTip = "Match grids display from one view to all selected views";
-            pbMatchGrids.LongDescription = "Match grids display from one view to all other selected views.";
-
-            // Set the context help when F1 pressed
-            pbMatchGrids.SetContextualHelp(contextHelpUrl);
+            PushButtonIdentityData matchGridsIdData = new PushButtonIdentityData
+            {
+                ButtonName = "MatchGrids",
+                ButtonDisplayName = "Match\nGrids",
+                AssemblyName = assemblyPath,
+                ClassName = "BIMiconToolbar.MatchGrids.MatchGrids",
+                ToolTip = "Match grids display from one view to all selected views",
+                LongDescription = "Match grids display from one view to all other selected views.",
+                AvailabilityClass = null,
+                RibbonPanelContainer = panelProject,
+                ContextualHelpButton = contextHelpUrl,
+                LargeImagePath = "pack://application:,,,/BIMiconToolbar;component/Buttons/MatchGrids/Images/iconMatchGrids.png",
+                SmallImagePath = "pack://application:,,,/BIMiconToolbar;component/Buttons/MatchGrids/Images/iconMatchGridsSmall.png"
+            };
+            _ = new PushButtonCreation(matchGridsIdData);
 
             // Mark Origin
-            PushButtonData buttonMarkOrigin = new PushButtonData(
-               "MarkerOrigin",
-               "Mark\nOrigin",
-               assemblyPath,
-               "BIMiconToolbar.MarkOrigin.MarkOrigin"
-            );
-
-            PushButton pbMarkOrigin = panelProject.AddItem(buttonMarkOrigin) as PushButton;
-            pbMarkOrigin.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/MarkOrigin/Images/iconMarkerOrigin.png"));
-            pbMarkOrigin.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/MarkOrigin/Images/iconMarkerOrigin.png"));
-            pbMarkOrigin.ToolTip = "Marks in the current view Revit's internal origin";
-            pbMarkOrigin.LongDescription = "Marks in the current view Revit's internal origin";
-
-            // Set the context help when F1 pressed
-            pbMarkOrigin.SetContextualHelp(contextHelpUrl);
+            PushButtonIdentityData markOriginIdData = new PushButtonIdentityData
+            {
+                ButtonName = "MarkerOrigin",
+                ButtonDisplayName = "Mark\nOrigin",
+                AssemblyName = assemblyPath,
+                ClassName = "BIMiconToolbar.MarkOrigin.MarkOrigin",
+                ToolTip = "Marks in the current view Revit's internal origin",
+                LongDescription = "Marks in the current view Revit's internal origin.",
+                AvailabilityClass = null,
+                RibbonPanelContainer = panelProject,
+                ContextualHelpButton = contextHelpUrl,
+                LargeImagePath = "pack://application:,,,/BIMiconToolbar;component/Buttons/MarkOrigin/Images/iconMarkerOrigin.png",
+                SmallImagePath = "pack://application:,,,/BIMiconToolbar;component/Buttons/MarkOrigin/Images/iconMarkerOriginSmall.png"
+            };
+            _ = new PushButtonCreation(markOriginIdData);
 
             // Interior Elevations
-            PushButtonData buttonInteriorElevations = new PushButtonData(
-               "InteriorElevations",
-               "Interior\nElevations",
-               assemblyPath,
-               "BIMiconToolbar.InteriorElevations.InteriorElevations"
-            );
-
-            PushButton pbInteriorElevations = panelProject.AddItem(buttonInteriorElevations) as PushButton;
-            pbInteriorElevations.LargeImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/InteriorElevations/Images/iconInteriorElev.png"));
-            pbInteriorElevations.Image = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/InteriorElevations/Images/iconInteriorElevSmall.png"));
-            pbInteriorElevations.ToolTip = "Creates interior elevations from selected rooms";
-            pbInteriorElevations.LongDescription = "Creates interior elevations from selected rooms and place them onto sheets";
-
-            // Set the context help when F1 pressed
-            pbInteriorElevations.SetContextualHelp(contextHelpUrl);
-
+            PushButtonIdentityData interiorElevationsIdData = new PushButtonIdentityData
+            {
+                ButtonName = "InteriorElevations",
+                ButtonDisplayName = "Interior\nElevations",
+                AssemblyName = assemblyPath,
+                ClassName = "BIMiconToolbar.InteriorElevations.InteriorElevations",
+                ToolTip = "Creates interior elevations from selected rooms",
+                LongDescription = "Creates interior elevations from selected rooms and place them onto sheets.",
+                AvailabilityClass = null,
+                RibbonPanelContainer = panelProject,
+                ContextualHelpButton = contextHelpUrl,
+                LargeImagePath = "pack://application:,,,/BIMiconToolbar;component/Buttons/InteriorElevations/Images/iconInteriorElev.png",
+                SmallImagePath = "pack://application:,,,/BIMiconToolbar;component/Buttons/InteriorElevations/Images/iconInteriorElevSmall.png"
+            };
+            _ = new PushButtonCreation(interiorElevationsIdData);
             #endregion
 
             /*--- Ribbon Panel Support ---*/
             #region Panel Support
 
-            //Create buttons for panelSupport
+            // Create buttons for panelSupport
             PushButtonData buttonVersion = new PushButtonData(
                 "Version",
                 "Version",
@@ -381,7 +377,7 @@ namespace BIMiconToolbar.Tab
                 "BIMiconToolbar.Support.Help.Help");
 
             // Stacked items for stacked buttons
-            IList<Autodesk.Revit.UI.RibbonItem> stackedSupport = panelSupport.AddStackedItems(buttonHelp, buttonDocumentation, buttonVersion);
+            IList<RibbonItem> stackedSupport = panelSupport.AddStackedItems(buttonHelp, buttonDocumentation, buttonVersion);
 
             // Defining buttons
             PushButton pbHelp = stackedSupport[0] as PushButton;
@@ -389,7 +385,7 @@ namespace BIMiconToolbar.Tab
             pbHelp.LongDescription = "Contact us for any query or help";
             BitmapImage pbHelpImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/Support/Help/Images/iconHelpSmall.png"));
             pbHelp.Image = pbHelpImage;
-            pbHelp.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
+            pbHelp.AvailabilityClassName = "BIMicon.BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
             pbHelp.SetContextualHelp(contextHelpUrl);
 
@@ -398,7 +394,7 @@ namespace BIMiconToolbar.Tab
             pbDocumentation.LongDescription = "Check our online documentation";
             BitmapImage pbDocumentationImage = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/Support/Docs/Images/iconDocSmall.png"));
             pbDocumentation.Image = pbDocumentationImage;
-            pbDocumentation.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
+            pbDocumentation.AvailabilityClassName = "BIMicon.BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
             pbDocumentation.SetContextualHelp(contextHelpUrl);
 
@@ -407,7 +403,7 @@ namespace BIMiconToolbar.Tab
             pbVersion.LongDescription = "Retrieves current version";
             BitmapImage pbVersionImageSmall = new BitmapImage(new Uri("pack://application:,,,/BIMiconToolbar;component/Buttons/Support/Version/Images/iconVersionSmall.png"));
             pbVersion.Image = pbVersionImageSmall;
-            pbVersion.AvailabilityClassName = "BIMiconToolbar.Tab.CommandAvailability";
+            pbVersion.AvailabilityClassName = "BIMicon.BIMiconToolbar.Tab.CommandAvailability";
             // Set the context help when F1 pressed
             pbVersion.SetContextualHelp(contextHelpUrl);
 

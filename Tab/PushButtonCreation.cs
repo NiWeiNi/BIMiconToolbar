@@ -24,13 +24,14 @@ namespace BIMicon.BIMiconToolbar.Tab
                _identityData.ClassName);
         }
 
-        private PushButton CreatePushButton(PushButtonData pushButtonData)
+        private void CreatePushButton(PushButtonData pushButtonData)
         {
             PushButton pushButton;
+
             if (_identityData.RibbonPanelContainer != null)
                 pushButton = _identityData.RibbonPanelContainer.AddItem(pushButtonData) as PushButton;
             else if ((_identityData.SplitButtonContainer != null))
-                pushButton = _identityData.SplitButtonContainer.AddPushButton(pushButtonData) as PushButton;
+                pushButton = _identityData.SplitButtonContainer.AddPushButton(pushButtonData);
             else
                 pushButton = _identityData.RibbonPanelContainer.AddItem(pushButtonData) as PushButton;
 
@@ -44,8 +45,6 @@ namespace BIMicon.BIMiconToolbar.Tab
             // Set if the button is available when no project is open
             if (_identityData.AvailabilityClass != null)
                 pushButton.AvailabilityClassName = _identityData.AvailabilityClass;
-
-            return pushButton;
         }
     }
 }
