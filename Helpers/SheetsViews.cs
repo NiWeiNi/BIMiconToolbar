@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace BIMiconToolbar.Helpers
+namespace BIMicon.BIMiconToolbar.Helpers
 {
     class SheetsViews
     {

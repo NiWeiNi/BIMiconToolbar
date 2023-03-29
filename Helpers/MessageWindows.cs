@@ -1,6 +1,6 @@
 ﻿using BIMiconToolbar.Helpers.MessageWindow;
 
-namespace BIMiconToolbar.Helpers
+namespace BIMicon.BIMiconToolbar.Helpers
 {
     class MessageWindows
     {

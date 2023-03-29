@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.Helpers
+namespace BIMicon.BIMiconToolbar.Helpers
 {
     class HelpersDirectory
     {

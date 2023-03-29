@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.FloorFinish
+namespace BIMicon.BIMiconToolbar.FloorFinish
 {
     /// <summary>
     /// Interaction logic for FloorFinishWPF.xaml
@@ -260,10 +261,10 @@ namespace BIMiconToolbar.FloorFinish
                 if (isDouble)
                 {
                     // Retrieve project length unit
-                    ForgeTypeId fTypeId = Helpers.RevitProjectInfo.ProjectLengthUnit(doc);
+                    ForgeTypeId fTypeId = RevitProjectInfo.ProjectLengthUnit(doc);
 
                     // Assign floor offset to property
-                    FloorOffset = Helpers.UnitsConverter.LengthUnitToInternal(number, fTypeId);
+                    FloorOffset = UnitsConverter.LengthUnitToInternal(number, fTypeId);
                     StringInternalUnits = FloorOffset.ToString();
                     IsExecuteReady = true;
                 }

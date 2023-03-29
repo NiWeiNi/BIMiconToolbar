@@ -2,7 +2,7 @@
 using Autodesk.Revit.DB;
 using System.Collections.Generic;
 
-namespace BIMiconToolbar.Helpers
+namespace BIMicon.BIMiconToolbar.Helpers
 {
     class RevitDirectories
     {

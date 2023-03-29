@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BIMiconToolbar.Helpers
+namespace BIMicon.BIMiconToolbar.Helpers
 {
     class HelpersView
     {

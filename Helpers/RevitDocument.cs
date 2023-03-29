@@ -1,6 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 
-namespace BIMiconToolbar.Helpers
+namespace BIMicon.BIMiconToolbar.Helpers
 {
     internal class RevitDocument
     {
