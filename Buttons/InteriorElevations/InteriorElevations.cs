@@ -2,6 +2,7 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace BIMiconToolbar.InteriorElevations
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
             // Check document is not a family document
-            if (Helpers.RevitDocument.IsDocumentNotProjectDoc(doc))
+            if (RevitDocument.IsDocumentNotProjectDoc(doc))
             {
                 return Result.Failed;
             }
@@ -108,26 +109,26 @@ namespace BIMiconToolbar.InteriorElevations
                             Room room = doc.GetElement(new ElementId(id)) as Room;
 
                             // Retrieve boundaries
-                            IList<IList<BoundarySegment>> boundaries = Helpers.Helpers.SpatialBoundaries(room);
+                            IList<IList<BoundarySegment>> boundaries = GeneralHelpers.SpatialBoundaries(room);
 
                             // Check boundaries list is not empty
                             if (boundaries != null)
                             {
                                 // Retrieve doc annotation categories
-                                var annoCategories = Helpers.Helpers.AnnoCatIds(doc);
+                                var annoCategories = GeneralHelpers.AnnoCatIds(doc);
 
                                 #region Rectangular rooms without interior boundaries
-                                if (boundaries[0].Count == 4 && boundaries.Count == 1 && Helpers.Helpers.IsRectangle(boundaries[0]))
+                                if (boundaries[0].Count == 4 && boundaries.Count == 1 && GeneralHelpers.IsRectangle(boundaries[0]))
                                 {
                                     // Transaction
                                     Transaction t = new Transaction(doc, "Create Single Marker Interior Elevations");
                                     t.Start();
 
-                                    List<XYZ> points = Helpers.Helpers.BoundaPoints(boundaries);
-                                    XYZ centroid = Helpers.Helpers.Centroid(points);
+                                    List<XYZ> points = GeneralHelpers.BoundaPoints(boundaries);
+                                    XYZ centroid = GeneralHelpers.Centroid(points);
 
                                     // Create sheet
-                                    ViewSheet sheet = Helpers.HelpersView.CreateSheet(doc,
+                                    ViewSheet sheet = HelpersView.CreateSheet(doc,
                                                                                     titleBlock.Id,
                                                                                     room.Number + "-" + "INTERIOR ELEVATIONS");
 
@@ -152,13 +153,13 @@ namespace BIMiconToolbar.InteriorElevations
                                     for (int i = 0; i < 4; i++)
                                     {
                                         // Create elevation
-                                        View view = Helpers.HelpersView.CreateViewElevation(doc, marker, floorPlan, i, viewTemplate,
+                                        View view = HelpersView.CreateViewElevation(doc, marker, floorPlan, i, viewTemplate,
                                                                                             annoCategories);
-                                        Helpers.HelpersView.CreateViewport(doc, sheet, ref viewports, view);
+                                        HelpersView.CreateViewport(doc, sheet, ref viewports, view);
                                     }
 
                                     // Dictionary to store viewport dimensions
-                                    var viewportDims = Helpers.HelpersView.ViewportDimensions(viewports);
+                                    var viewportDims = HelpersView.ViewportDimensions(viewports);
 
                                     // Retrieve overall dimensions
                                     List<double> firstRowX = new List<double>();
@@ -185,7 +186,7 @@ namespace BIMiconToolbar.InteriorElevations
                                     }
 
                                     // Calculate X spacing
-                                    double spacingViewX = Helpers.Helpers.MillimetersToFeet(30);
+                                    double spacingViewX = GeneralHelpers.MillimetersToFeet(30);
                                     double overallX = spacingViewX;
 
                                     if (firstRowX.Sum() > secondRowX.Sum())
@@ -198,7 +199,7 @@ namespace BIMiconToolbar.InteriorElevations
                                     }
 
                                     // Calculate Y spacing
-                                    double spacingViewY = Helpers.Helpers.MillimetersToFeet(30);
+                                    double spacingViewY = GeneralHelpers.MillimetersToFeet(30);
                                     double overallY = spacingViewY;
 
                                     if (firstRowY.Sum() > secondRowY.Sum())
@@ -281,7 +282,7 @@ namespace BIMiconToolbar.InteriorElevations
                                 else
                                 {
                                     // Offset distanceof the elevation marker
-                                    double offsetElevation = Helpers.Helpers.MillimetersToFeet(-1000);
+                                    double offsetElevation = GeneralHelpers.MillimetersToFeet(-1000);
                                     // Vector Z
                                     XYZ zAxis = new XYZ(0, 0, 1);
 
@@ -290,7 +291,7 @@ namespace BIMiconToolbar.InteriorElevations
                                     t2.Start();
 
                                     // Create sheet
-                                    ViewSheet sheet = Helpers.HelpersView.CreateSheet(doc,
+                                    ViewSheet sheet = HelpersView.CreateSheet(doc,
                                                          titleBlock.Id,
                                                          room.Number + "-" + "INTERIOR ELEVATIONS");
 
@@ -323,7 +324,7 @@ namespace BIMiconToolbar.InteriorElevations
                                         ElevationMarker marker = ElevationMarker.CreateElevationMarker(doc, viewFamilyType.Id, offsetCenter, viewTemplate.Scale);
 
                                         // Calculate rotation angle
-                                        double angle = Helpers.Helpers.AngleTwoVectors(new XYZ(0, 100, 0), vec);
+                                        double angle = GeneralHelpers.AngleTwoVectors(new XYZ(0, 100, 0), vec);
 
                                         // Check the component X of the translated vector to new origin is positive
                                         // this means angle to rotate clockwise
@@ -344,7 +345,7 @@ namespace BIMiconToolbar.InteriorElevations
                                         Line zLine = Line.CreateBound(new XYZ(offsetCenter.X, offsetCenter.Y, offsetCenter.Z), new XYZ(offsetCenter.X, offsetCenter.Y, offsetCenter.Z + 10));
 
                                         // Create Elevation View as marker needs to have at least one elevation to rotate
-                                        View view = Helpers.HelpersView.CreateViewElevation(doc, marker, floorPlan, 1, viewTemplate, annoCategories);
+                                        View view = HelpersView.CreateViewElevation(doc, marker, floorPlan, 1, viewTemplate, annoCategories);
 
                                         // Rotate in increments as Revit API adds 180 degrees to certain positive angles
                                         if (angle > 0)
@@ -393,7 +394,7 @@ namespace BIMiconToolbar.InteriorElevations
                                         }
 
                                         // Crop region offset
-                                        double topOffset = Helpers.Helpers.MillimetersToFeet(25);
+                                        double topOffset = GeneralHelpers.MillimetersToFeet(25);
 
                                         // Create curves for crop region
                                         XYZ bottomStartPoint = offsetCurve.GetEndPoint(0);
@@ -426,15 +427,15 @@ namespace BIMiconToolbar.InteriorElevations
                                         doc.Regenerate();
 
                                         // Create viewports
-                                        Helpers.HelpersView.CreateViewport(doc, sheet, ref viewports, view);
+                                        HelpersView.CreateViewport(doc, sheet, ref viewports, view);
                                     }
 
                                     // Final viewport translation coordinates
-                                    sheetDrawingHeight = Helpers.Helpers.MillimetersToFeet(customWindow.SheetDrawingHeight);
-                                    sheetDrawingWidth = Helpers.Helpers.MillimetersToFeet(customWindow.SheetDrawingWidth);
+                                    sheetDrawingHeight = GeneralHelpers.MillimetersToFeet(customWindow.SheetDrawingHeight);
+                                    sheetDrawingWidth = GeneralHelpers.MillimetersToFeet(customWindow.SheetDrawingWidth);
 
-                                    var viewportDims = Helpers.HelpersView.ViewportDimensions(viewports);
-                                    var coordinates = Helpers.HelpersView.ViewportRowsColumns(viewportDims, sheetDrawingWidth, sheetDrawingHeight);
+                                    var viewportDims = HelpersView.ViewportDimensions(viewports);
+                                    var coordinates = HelpersView.ViewportRowsColumns(viewportDims, sheetDrawingWidth, sheetDrawingHeight);
 
                                     for (int i = 0; i < viewports.Count; i++)
                                     {

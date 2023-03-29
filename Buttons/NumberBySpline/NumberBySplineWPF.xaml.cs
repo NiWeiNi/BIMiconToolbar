@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -80,7 +81,7 @@ namespace BIMiconToolbar.NumberBySpline
         {
             this.Hide();
 
-            ElementId selectedCurve = Helpers.HelpersSelection.PickLine(uidoc);
+            ElementId selectedCurve = HelpersSelection.PickLine(uidoc);
 
             CurveId = selectedCurve;
             
@@ -147,7 +148,7 @@ namespace BIMiconToolbar.NumberBySpline
                 Category cat = SelectedComboItemCategories.Tag as Category;
 
                 // Check if elements in category are level based
-                if (Helpers.Parameters.IsElementLevelBased(doc, cat.Id))
+                if (Parameters.IsElementLevelBased(doc, cat.Id))
                 {
                     // Generate UI for user level input
                     if (levelDisplay == false)
@@ -210,7 +211,7 @@ namespace BIMiconToolbar.NumberBySpline
                     }
                 }
                 // Remove level UI if selected category doesn't have level parameter
-                else if (Helpers.Parameters.IsElementLevelBased(doc, cat.Id) == false && levelDisplay == true)
+                else if (Parameters.IsElementLevelBased(doc, cat.Id) == false && levelDisplay == true)
                 {
                     level.Children.Clear();
                     level.UpdateLayout();
@@ -252,7 +253,7 @@ namespace BIMiconToolbar.NumberBySpline
                 .FirstOrDefault();
 
             // Retrieve parameters
-            Parameter[] parameters = Helpers.Parameters.GetParametersOfInstance(element);
+            Parameter[] parameters = Parameters.GetParametersOfInstance(element);
 
             IOrderedEnumerable<Parameter> orderParams = parameters.OrderBy(ph => ph.Definition.Name);
 

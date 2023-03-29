@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 
 namespace BIMiconToolbar.NumberWindows
 {
@@ -12,7 +13,7 @@ namespace BIMiconToolbar.NumberWindows
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
             // Check document is not a family document
-            if (Helpers.RevitDocument.IsDocumentNotProjectDoc(doc))
+            if (RevitDocument.IsDocumentNotProjectDoc(doc))
             {
                 return Result.Failed;
             }
@@ -52,7 +53,7 @@ namespace BIMiconToolbar.NumberWindows
                     }
                     else
                     {
-                        Helpers.Helpers.numberFamilyInstance(doc, phase, numeric, separator, builtInCategory, ref countInstances, parameter);
+                        GeneralHelpers.numberFamilyInstance(doc, phase, numeric, separator, builtInCategory, ref countInstances, parameter);
                     }
 
                     // Display result to user if any window was numbered

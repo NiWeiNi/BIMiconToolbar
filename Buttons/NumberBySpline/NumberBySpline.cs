@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using System.Collections.Generic;
 
 namespace BIMiconToolbar.NumberBySpline
@@ -34,7 +35,7 @@ namespace BIMiconToolbar.NumberBySpline
                     CurveElement eCurve = doc.GetElement(curveId) as CurveElement;
                     Curve curve = eCurve.GeometryCurve as Curve;
 
-                    XYZ[] points = Helpers.HelpersGeometry.DivideEquallySpline(curve, 1000);
+                    XYZ[] points = HelpersGeometry.DivideEquallySpline(curve, 1000);
 
                     // Retrieve elements of selected category
                     Category cat = customWindow.SelectedComboItemCategories.Tag as Category;
@@ -98,7 +99,7 @@ namespace BIMiconToolbar.NumberBySpline
                                 // Element bounding box is valid
                                 if (bBox != null)
                                 {
-                                    int intersResult = Helpers.HelpersGeometry.IsPointInsideRectangle(point, bBox.Min, bBox.Max);
+                                    int intersResult = HelpersGeometry.IsPointInsideRectangle(point, bBox.Min, bBox.Max);
                                     param = selElementsCopy[j].LookupParameter(selParameter.Definition.Name);
                                     bool isParamReadOnly = param.IsReadOnly;
 
@@ -111,7 +112,7 @@ namespace BIMiconToolbar.NumberBySpline
                                     }
                                     else if (isParamReadOnly)
                                     {
-                                        Helpers.MessageWindows.AlertMessage("Warning", "Parameter is read only. Please select another parameter.");
+                                        MessageWindows.AlertMessage("Warning", "Parameter is read only. Please select another parameter.");
                                         tx.RollBack();
                                         // Stop the program
                                         return Result.Failed;
@@ -124,7 +125,7 @@ namespace BIMiconToolbar.NumberBySpline
                         t1.Start();
 
                         // Renumber all elements with unique name
-                        Helpers.Parameters.FillRandomStringParameters(elementsToRenumber.ToArray(), param.Id);
+                        Parameters.FillRandomStringParameters(elementsToRenumber.ToArray(), param.Id);
 
                         foreach (Element el in elementsToRenumber)
                         {

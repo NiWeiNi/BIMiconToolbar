@@ -1,6 +1,7 @@
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using Newtonsoft.Json.Linq;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.Streaming;
@@ -36,7 +37,7 @@ namespace BIMiconToolbar.WarningsReport
             string[] columnNames = { "Priority", "Warning", "Element Ids", "Date Detected", "Date Solved", "Fixed by" };
 
             string warningJSONPath = @"C:\ProgramData\Autodesk\Revit\Addins\BIMicon\RevitWarningsClassified.json";
-            string warningsJsonString = Helpers.Helpers.WriteSafeReadAllLines(warningJSONPath);
+            string warningsJsonString = GeneralHelpers.WriteSafeReadAllLines(warningJSONPath);
             var warningsJObject = JObject.Parse(warningsJsonString);
 
             string critical = string.Join("", warningsJObject.Value<JArray>("Critical").ToObject<string[]>());

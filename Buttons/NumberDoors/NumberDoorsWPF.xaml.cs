@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -50,7 +51,7 @@ namespace BIMiconToolbar.NumberDoors
         /// <param name="doc"></param>
         private void PopulateParameters(Document doc)
         {
-            Parameter[] parameters = Helpers.Parameters.GetParametersOfCategoryByStorageType(doc, BuiltInCategory.OST_Doors);
+            Parameter[] parameters = Parameters.GetParametersOfCategoryByStorageType(doc, BuiltInCategory.OST_Doors);
 
             if (parameters != null)
             {                

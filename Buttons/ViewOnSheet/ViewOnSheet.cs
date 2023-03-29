@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using System.Collections.Generic;
 
 namespace BIMiconToolbar.ViewOnSheet
@@ -33,7 +34,7 @@ namespace BIMiconToolbar.ViewOnSheet
                 List<int> intIds = VOSwindow.listIds;
 
                 // Check if view is already on sheets
-                bool isViewOnSheet = Helpers.Helpers.IsViewOnSheet(doc, activeView);
+                bool isViewOnSheet = GeneralHelpers.IsViewOnSheet(doc, activeView);
                 bool viewPlaced = false;
 
                 // List to store views placed on sheet

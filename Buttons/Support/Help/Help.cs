@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 
 namespace BIMiconToolbar.Support.Help
 {
@@ -10,7 +11,7 @@ namespace BIMiconToolbar.Support.Help
         private readonly string _helpWeb = "https://www.bimicon.com/contact/";
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            Helpers.Helpers.OpenUri(_helpWeb);
+            GeneralHelpers.OpenUri(_helpWeb);
             return Result.Succeeded;
         }
     }

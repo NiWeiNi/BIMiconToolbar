@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace BIMicon.BIMiconToolbar.Helpers
 {
-    class Helpers
+    class GeneralHelpers
     {
         /// <summary>
         /// Check if an array is null or empty
@@ -92,11 +92,11 @@ namespace BIMicon.BIMiconToolbar.Helpers
                 }
                 if (numeric)
                 {
-                    Helpers.InstanceFromToRoomNumber(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
+                    GeneralHelpers.InstanceFromToRoomNumber(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
                 }
                 else
                 {
-                    Helpers.InstanceFromToRoom(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
+                    GeneralHelpers.InstanceFromToRoom(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
                 }
             }
             

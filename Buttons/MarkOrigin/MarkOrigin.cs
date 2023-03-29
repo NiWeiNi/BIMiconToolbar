@@ -1,8 +1,8 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using System.Linq;
-using BIMiconToolbar.Helpers;
 using System;
 using System.Collections.Generic;
 

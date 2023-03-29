@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using System.Collections.Generic;
 
 namespace BIMiconToolbar.NumberByPick
@@ -56,7 +57,7 @@ namespace BIMiconToolbar.NumberByPick
                         t.Start();
 
                         // Renumber all elements with unique name
-                        Helpers.Parameters.FillRandomStringParameters(selElements.ToArray(), param.Id);
+                        Parameters.FillRandomStringParameters(selElements.ToArray(), param.Id);
 
                         foreach (Element el in selElements)
                         {

@@ -1,9 +1,8 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using BIMiconToolbar.Helpers;
+using BIMicon.BIMiconToolbar.Helpers;
 using BIMiconToolbar.Helpers.Browser;
-using BIMiconToolbar.Helpers.MessageWindow;
 using System.IO;
 
 namespace BIMiconToolbar.RemoveBackups
