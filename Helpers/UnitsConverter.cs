@@ -7,12 +7,20 @@ namespace BIMicon.BIMiconToolbar.Helpers
         /// <summary>
         /// Method to convert length units to Internal Units
         /// </summary>
+        /// <param name="doc"></param>
         /// <param name="number"></param>
-        /// <param name="dUT"></param>
         /// <returns></returns>
-        public static double LengthUnitToInternal(double number, ForgeTypeId fTypeId)
+        public static double ConvertProjectLengthToInternal(Document doc, double number)
         {
-            return UnitUtils.ConvertToInternalUnits(number, fTypeId);
+            double internalUnits = 0;
+#if v2022 || v2023
+            ForgeTypeId fTypeId = doc.GetUnits().GetFormatOptions(SpecTypeId.Length).GetUnitTypeId();
+            internalUnits = UnitUtils.ConvertToInternalUnits(number, fTypeId);
+#else
+            Units units = doc.GetUnits();
+            internalUnits = UnitUtils.ConvertToInternalUnits(number, units.GetFormatOptions(UnitType.UT_Length).DisplayUnits);
+#endif
+            return internalUnits;
         }
     }
 }
