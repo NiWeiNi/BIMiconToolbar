@@ -1,8 +1,9 @@
 ﻿using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Tab;
 using BIMiconToolbar.FamilyBrowser;
 using System;
 
-namespace BIMiconToolbar
+namespace BIMicon.BIMiconToolbar
 {
     public class Main : IExternalApplication
     {
@@ -13,7 +14,7 @@ namespace BIMiconToolbar
 
         public Result OnStartup(UIControlledApplication application)
         {
-            Tab.BIMiconUI.Toolbar(application);
+            new BIMiconUI(application);
             //RegisterDockPanel(application);
             return Result.Succeeded;
         }
