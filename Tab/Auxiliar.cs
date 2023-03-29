@@ -4,12 +4,14 @@ using System.Reflection;
 using Autodesk.Windows;
 using RibbonItem = Autodesk.Revit.UI.RibbonItem;
 
-namespace BIMiconToolbar.Tab
+namespace BIMicon.BIMiconToolbar.Tab
 {
     class Auxiliar
     {
-        public static RibbonToolTip ButtonToolTip(string resourceName, string resourcessemblyPath, string buttonContent,
-                                                    string buttonExpandendContent)
+        public static RibbonToolTip ButtonToolTip(string resourceName,
+                                                  string resourcessemblyPath,
+                                                  string buttonContent,
+                                                  string buttonExpandendContent)
         {
             var tempPath = Path.Combine(Path.GetTempPath(), resourceName);
 

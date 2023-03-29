@@ -1,7 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
-namespace BIMiconToolbar.Tab
+namespace BIMicon.BIMiconToolbar.Tab
 {
     class CommandAvailability : IExternalCommandAvailability
     {
