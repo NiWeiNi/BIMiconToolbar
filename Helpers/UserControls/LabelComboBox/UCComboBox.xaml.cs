@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.Helpers.UserControls.LabelComboBox
+namespace BIMicon.BIMiconToolbar.Helpers.UserControls.LabelComboBox
 {
     /// <summary>
     /// Interaction logic for UCComboBox.xaml

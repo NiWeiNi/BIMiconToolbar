@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.ExportSchedules
+namespace BIMicon.BIMiconToolbar.ExportSchedules
 {
     /// <summary>
     /// Interaction logic for BrowserCheckboxes.xaml

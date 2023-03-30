@@ -1,10 +1,10 @@
-﻿using BIMiconToolbar.Helpers.Browser.Data;
+﻿using BIMicon.BIMiconToolbar.Helpers.Browser.Data;
 using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
-namespace BIMiconToolbar.Helpers.Browser
+namespace BIMicon.BIMiconToolbar.Helpers.Browser
 {
     [ValueConversion(typeof(BrowserItemType), typeof(BitmapImage))]
     public class HeaderToImageConverter : IValueConverter

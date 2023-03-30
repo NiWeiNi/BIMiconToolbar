@@ -1,7 +1,7 @@
-﻿using BIMiconToolbar.FamilyBrowser.Model;
+﻿using BIMicon.BIMiconToolbar.FamilyBrowser.Model;
 using System.IO;
 
-namespace BIMiconToolbar.FamilyBrowser.ViewModel
+namespace BIMicon.BIMiconToolbar.FamilyBrowser.ViewModel
 {
     class FamilyItem
     {

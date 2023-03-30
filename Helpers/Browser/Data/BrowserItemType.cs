@@ -1,4 +1,4 @@
-﻿namespace BIMiconToolbar.Helpers.Browser.Data
+﻿namespace BIMicon.BIMiconToolbar.Helpers.Browser.Data
 {
     /// <summary>
     /// The type of a directory item

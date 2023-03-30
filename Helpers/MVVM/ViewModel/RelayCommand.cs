@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace BIMiconToolbar.Helpers.MVVM.ViewModel
+namespace BIMicon.BIMiconToolbar.Helpers.MVVM.ViewModel
 {
     /// <summary>
     /// A basic command that runs an Action

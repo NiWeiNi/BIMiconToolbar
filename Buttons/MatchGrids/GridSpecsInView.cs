@@ -1,7 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using System.Collections.Generic;
 
-namespace BIMiconToolbar.MatchGrids
+namespace BIMicon.BIMiconToolbar.MatchGrids
 {
     internal class GridSpecsInView
     {

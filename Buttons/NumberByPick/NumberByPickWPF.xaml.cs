@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.NumberByPick
+namespace BIMicon.BIMiconToolbar.NumberByPick
 {
     /// <summary>
     /// Interaction logic for NumberByPickWPF.xaml
@@ -45,7 +46,7 @@ namespace BIMiconToolbar.NumberByPick
         {
             this.Hide();
 
-            ElementIds = Helpers.HelpersSelection.PickOrderedElements(UIdoc);
+            ElementIds = HelpersSelection.PickOrderedElements(UIdoc);
 
             if (ElementIds.Count > 0)
             {
@@ -80,7 +81,7 @@ namespace BIMiconToolbar.NumberByPick
             Element element = Doc.GetElement(elementId);
 
             // Retrieve parameters
-            Parameter[] parameters = Helpers.Parameters.GetParametersOfInstance(element);
+            Parameter[] parameters = Parameters.GetParametersOfInstance(element);
 
             IOrderedEnumerable<Parameter> orderParams = parameters.OrderBy(ph => ph.Definition.Name);
 

@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using BIMiconToolbar.Helpers.UserControls.SelectFileReferences.ViewModel;
+using BIMicon.BIMiconToolbar.Helpers;
+using BIMicon.BIMiconToolbar.Helpers.UserControls.SelectFileReferences.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +9,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
-namespace BIMiconToolbar.OpenLinksUnloaded
+namespace BIMicon.BIMiconToolbar.OpenLinksUnloaded
 {
     /// <summary>
     /// Interaction logic for OpenLinksUnloadedWPF.xaml
@@ -76,7 +77,7 @@ namespace BIMiconToolbar.OpenLinksUnloaded
             if (SelectedFilePath == null || SelectedFilePath == "")
             {
                 WarningMessage = "Please select Revit project.";
-                Helpers.MessageWindows.AlertMessage("Warning", WarningMessage);
+                MessageWindows.AlertMessage("Warning", WarningMessage);
             }
             // Execute the program
             else
@@ -116,7 +117,7 @@ namespace BIMiconToolbar.OpenLinksUnloaded
                     }
 
                     // Unload links
-                    Helpers.RevitDirectories.UnloadLinks(modelPath, SelectedFileReferences);
+                    RevitDirectories.UnloadLinks(modelPath, SelectedFileReferences);
 
                     // Properties for saving the file as central
                     WorksharingSaveAsOptions worksharingSaveAsOptions = new WorksharingSaveAsOptions();
@@ -142,7 +143,7 @@ namespace BIMiconToolbar.OpenLinksUnloaded
                     }
                     catch
                     {
-                        Helpers.MessageWindows.AlertMessage("Error", "Close central file and local files before using this tool.");
+                        MessageWindows.AlertMessage("Error", "Close central file and local files before using this tool.");
                     }
 
                     string localName = modelName.Replace(".rvt", "") + " - LinksUnloaded.rvt";
@@ -175,7 +176,7 @@ namespace BIMiconToolbar.OpenLinksUnloaded
                     finalPath = modelPath;
 
                     // Unload links
-                    Helpers.RevitDirectories.UnloadLinks(finalPath, SelectedFileReferences);
+                    RevitDirectories.UnloadLinks(finalPath, SelectedFileReferences);
                 }
 
                 // Open document

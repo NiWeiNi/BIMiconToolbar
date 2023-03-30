@@ -1,9 +1,9 @@
-﻿using BIMiconToolbar.Helpers.Browser.Data;
+﻿using BIMicon.BIMiconToolbar.Helpers.Browser.Data;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace BIMiconToolbar.Helpers.Browser
+namespace BIMicon.BIMiconToolbar.Helpers.Browser
 {
     /// <summary>
     /// A helper class to query information about directories

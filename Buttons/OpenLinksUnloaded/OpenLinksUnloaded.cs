@@ -3,7 +3,7 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
-namespace BIMiconToolbar.OpenLinksUnloaded
+namespace BIMicon.BIMiconToolbar.OpenLinksUnloaded
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class OpenLinksUnloaded : IExternalCommand

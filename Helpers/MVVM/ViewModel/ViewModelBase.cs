@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace BIMiconToolbar.Helpers.MVVM.ViewModel
+namespace BIMicon.BIMiconToolbar.Helpers.MVVM.ViewModel
 {
     /// <summary>
     /// A base view model class that implements property changed

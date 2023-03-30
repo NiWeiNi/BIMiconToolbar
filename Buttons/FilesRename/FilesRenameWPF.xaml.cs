@@ -1,11 +1,11 @@
-﻿using System;
+﻿using BIMicon.BIMiconToolbar.Helpers;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.FilesRename
+namespace BIMicon.BIMiconToolbar.FilesRename
 {
     /// <summary>
     /// Interaction logic for FilesRenameWPF.xaml
@@ -96,7 +96,7 @@ namespace BIMiconToolbar.FilesRename
             this.comboDisplayFileType.IsEnabled = !this.comboDisplayFileType.IsEnabled;
 
             // Switch between display file or folder rename
-            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+            NameDestinationPath = HelpersDirectory.UpdatePathName(filesRenameBool,
                                                                           useTitleCase,
                                                                           SelectedComboItemFileType,
                                                                           SelectedPath,
@@ -114,9 +114,9 @@ namespace BIMiconToolbar.FilesRename
         {
             CbFileType = new ObservableCollection<ComboBoxItem>();
 
-            var files = Helpers.HelpersDirectory.RetrieveFiles(selectedPath);
+            var files = HelpersDirectory.RetrieveFiles(selectedPath);
 
-            var fileTypes = Helpers.HelpersDirectory.GetFilesType(files);
+            var fileTypes = HelpersDirectory.GetFilesType(files);
 
             // Populate the comboBoxes
             bool populateFirst = true;
@@ -148,26 +148,26 @@ namespace BIMiconToolbar.FilesRename
             // Retrieve all files names inside path
             if (filesRenameBool)
             {
-                oldNames = Helpers.HelpersDirectory.GetFilesMatchPattern(SelectedPath, "*" + (string)SelectedComboItemFileType.Content);
+                oldNames = HelpersDirectory.GetFilesMatchPattern(SelectedPath, "*" + (string)SelectedComboItemFileType.Content);
             }
             // Retrieve all folder names inside path
             else
             {
-                oldNames = Helpers.HelpersDirectory.GetDirectoriesFromPath(SelectedPath);
+                oldNames = HelpersDirectory.GetDirectoriesFromPath(SelectedPath);
             }
             
             // Create new names for folders or files
-            string[] newNames = Helpers.HelpersDirectory.CreateNewNames(oldNames, NamePrefix, NameSuffix, NameFind, NameReplace, filesRenameBool, useTitleCase);
+            string[] newNames = HelpersDirectory.CreateNewNames(oldNames, NamePrefix, NameSuffix, NameFind, NameReplace, filesRenameBool, useTitleCase);
 
             // Rename files
             if (filesRenameBool)
             {
-                Helpers.HelpersDirectory.RenameFiles(oldNames, newNames);
+                HelpersDirectory.RenameFiles(oldNames, newNames);
             }
             // Move folders and rename
             else
             {
-                Helpers.HelpersDirectory.MoveDirectories(oldNames, newNames);
+                HelpersDirectory.MoveDirectories(oldNames, newNames);
             }
 
             this.Dispose();
@@ -191,7 +191,7 @@ namespace BIMiconToolbar.FilesRename
         private void PrefixTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             NamePrefix = TextChanged(sender, e);
-            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+            NameDestinationPath = HelpersDirectory.UpdatePathName(filesRenameBool,
                                                               useTitleCase,
                                                               SelectedComboItemFileType,
                                                               SelectedPath,
@@ -209,7 +209,7 @@ namespace BIMiconToolbar.FilesRename
         private void SuffixTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             NameSuffix = TextChanged(sender, e);
-            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+            NameDestinationPath = HelpersDirectory.UpdatePathName(filesRenameBool,
                                                               useTitleCase,
                                                               SelectedComboItemFileType,
                                                               SelectedPath,
@@ -227,7 +227,7 @@ namespace BIMiconToolbar.FilesRename
         private void FindText_TextChanged(object sender, TextChangedEventArgs e)
         {
             NameFind = TextChanged(sender, e);
-            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+            NameDestinationPath = HelpersDirectory.UpdatePathName(filesRenameBool,
                                                               useTitleCase,
                                                               SelectedComboItemFileType,
                                                               SelectedPath,
@@ -245,7 +245,7 @@ namespace BIMiconToolbar.FilesRename
         private void ReplaceText_TextChanged(object sender, TextChangedEventArgs e)
         {
             NameReplace = TextChanged(sender, e);
-            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+            NameDestinationPath = HelpersDirectory.UpdatePathName(filesRenameBool,
                                                               useTitleCase,
                                                               SelectedComboItemFileType,
                                                               SelectedPath,
@@ -265,7 +265,7 @@ namespace BIMiconToolbar.FilesRename
             // Store the content of the textbox
             string stringCheck = (sender as TextBox).Text;
 
-            return Helpers.Parsing.RemoveForbiddenChars(stringCheck);
+            return Parsing.RemoveForbiddenChars(stringCheck);
         }
 
         /// <summary>
@@ -287,7 +287,7 @@ namespace BIMiconToolbar.FilesRename
         /// <param name="e"></param>
         private void ComboDisplayFileType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+            NameDestinationPath = HelpersDirectory.UpdatePathName(filesRenameBool,
                                                               useTitleCase,
                                                               SelectedComboItemFileType,
                                                               SelectedPath,
@@ -301,7 +301,7 @@ namespace BIMiconToolbar.FilesRename
         {
             this.noCaseChange = true;
             this.useTitleCase = false;
-            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+            NameDestinationPath = HelpersDirectory.UpdatePathName(filesRenameBool,
                                                               useTitleCase,
                                                               SelectedComboItemFileType,
                                                               SelectedPath,
@@ -315,7 +315,7 @@ namespace BIMiconToolbar.FilesRename
         {
             this.noCaseChange = false;
             this.useTitleCase = true;
-            NameDestinationPath = Helpers.HelpersDirectory.UpdatePathName(filesRenameBool,
+            NameDestinationPath = HelpersDirectory.UpdatePathName(filesRenameBool,
                                                               useTitleCase,
                                                               SelectedComboItemFileType,
                                                               SelectedPath,

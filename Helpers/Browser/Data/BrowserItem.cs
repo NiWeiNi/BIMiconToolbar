@@ -1,4 +1,4 @@
-﻿namespace BIMiconToolbar.Helpers.Browser.Data
+﻿namespace BIMicon.BIMiconToolbar.Helpers.Browser.Data
 {
     /// <summary>
     /// Information about a directory item; drives, folders, and files

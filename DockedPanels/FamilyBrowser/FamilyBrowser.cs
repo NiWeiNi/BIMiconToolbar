@@ -2,10 +2,10 @@
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using BIMiconToolbar.Helpers;
+using BIMicon.BIMiconToolbar.Helpers;
 using System;
 
-namespace BIMiconToolbar.FamilyBrowser
+namespace BIMicon.BIMiconToolbar.FamilyBrowser
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class FamilyBrowser : IExternalCommand

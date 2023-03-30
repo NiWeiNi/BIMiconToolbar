@@ -3,7 +3,7 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
-namespace BIMiconToolbar.FloorFinish
+namespace BIMicon.BIMiconToolbar.FloorFinish
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class FloorFinish : IExternalCommand

@@ -1,9 +1,8 @@
 ﻿using Autodesk.Revit.DB;
-using BIMiconToolbar.Helpers.UserControls.SelectFileReferences.Model;
-using System.Collections.Generic;
+using BIMicon.BIMiconToolbar.Helpers.UserControls.SelectFileReferences.Model;
 using System.Collections.ObjectModel;
 
-namespace BIMiconToolbar.Helpers.UserControls.SelectFileReferences.ViewModel
+namespace BIMicon.BIMiconToolbar.Helpers.UserControls.SelectFileReferences.ViewModel
 {
     public class SelectFileReferencesViewModel
     {

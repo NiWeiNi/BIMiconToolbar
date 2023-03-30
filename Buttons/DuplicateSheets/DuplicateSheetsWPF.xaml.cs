@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.DuplicateSheets
+namespace BIMicon.BIMiconToolbar.DuplicateSheets
 {
     /// <summary>
     /// Interaction logic for DuplicateSheetsWPF.xaml

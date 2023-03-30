@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.Helpers.UserControls.LabelTextInput
+namespace BIMicon.BIMiconToolbar.Helpers.UserControls.LabelTextInput
 {
     #region DPs
     /// <summary>
