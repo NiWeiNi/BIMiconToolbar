@@ -1,7 +1,7 @@
 ﻿using PropertyChanged;
 using System.ComponentModel;
 
-namespace BIMiconToolbar.Helpers.Browser.ViewModels
+namespace BIMicon.BIMiconToolbar.Helpers.Browser.ViewModels
 {
     /// <summary>
     /// A base view model that fires Property Changed events as needed

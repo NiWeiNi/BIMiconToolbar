@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BIMiconToolbar.Helpers
+namespace BIMicon.BIMiconToolbar.Helpers
 {
     class HelpersView
     {
@@ -164,8 +164,8 @@ namespace BIMiconToolbar.Helpers
             List<double> maxHeights = new List<double>();
 
             // Spacing between viewports
-            double X = Helpers.MillimetersToFeet(30);
-            double Y = Helpers.MillimetersToFeet(30);
+            double X = GeneralHelpers.MillimetersToFeet(30);
+            double Y = GeneralHelpers.MillimetersToFeet(30);
 
             // Count number of elements in dict
             int vpCount = viewportDims.Count;

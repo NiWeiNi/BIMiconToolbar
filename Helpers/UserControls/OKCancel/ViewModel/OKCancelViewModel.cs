@@ -1,7 +1,7 @@
-﻿using BIMiconToolbar.Helpers.MVVM.ViewModel;
+﻿using BIMicon.BIMiconToolbar.Helpers.MVVM.ViewModel;
 using System.Windows.Input;
 
-namespace BIMiconToolbar.Helpers.UserControls.OKCancel.ViewModel
+namespace BIMicon.BIMiconToolbar.Helpers.UserControls.OKCancel.ViewModel
 {
     class OKCancelViewModel : ViewModelBase
     {

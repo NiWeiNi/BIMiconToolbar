@@ -1,8 +1,8 @@
-﻿using BIMiconToolbar.Helpers.UserControls.SelectFileReferences.Model;
+﻿using BIMicon.BIMiconToolbar.Helpers.UserControls.SelectFileReferences.Model;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.Helpers.UserControls.SelectFileReferences
+namespace BIMicon.BIMiconToolbar.Helpers.UserControls.SelectFileReferences
 {
     /// <summary>
     /// Interaction logic for SelectFileLinkTypes.xaml

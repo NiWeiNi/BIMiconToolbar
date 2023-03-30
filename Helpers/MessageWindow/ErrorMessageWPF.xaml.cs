@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace BIMiconToolbar.Helpers.MessageWindow
+namespace BIMicon.BIMiconToolbar.Helpers.MessageWindow
 {
     /// <summary>
     /// Interaction logic for MessageBoxWPF.xaml

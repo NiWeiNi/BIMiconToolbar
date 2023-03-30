@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.FamilyBrowser
+namespace BIMicon.BIMiconToolbar.FamilyBrowser
 {
     /// <summary>
     /// Interaction logic for FamilyBrowserWPF.xaml

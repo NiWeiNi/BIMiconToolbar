@@ -1,10 +1,11 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BIMiconToolbar.DuplicateSheets
+namespace BIMicon.BIMiconToolbar.DuplicateSheets
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class DuplicateSheets : IExternalCommand
@@ -108,7 +109,7 @@ namespace BIMiconToolbar.DuplicateSheets
 
                         // Check if sheet number is in use
                         string oldSheetNumber = sheetPrefix + vSheet.SheetNumber + sheetSuffix;
-                        string sheetNumber = Helpers.SheetsViews.UniqueStringNumberSheet(oldSheetNumber, sheets);
+                        string sheetNumber = SheetsViews.UniqueStringNumberSheet(oldSheetNumber, sheets);
  
                         newsheet.SheetNumber = sheetNumber;
                         newsheet.Name = vSheet.Name;
@@ -158,7 +159,7 @@ namespace BIMiconToolbar.DuplicateSheets
 
                                     // Check if view name is in use
                                     string oldViewName = viewPrefix + origView.Name + viewSuffix;
-                                    string viewName = Helpers.SheetsViews.UniqueStringViewName(oldViewName, views);
+                                    string viewName = SheetsViews.UniqueStringViewName(oldViewName, views);
                                     newView.Name = viewName;
                                 }
 
@@ -225,7 +226,7 @@ namespace BIMiconToolbar.DuplicateSheets
                 // Display result message to user
                 if (viewSheetSuccess.Count > 0)
                 {
-                    Helpers.MessageWindows.AlertMessage("Success", "The following sheets have been duplicated: \n" + string.Join("\n", viewSheetSuccess));
+                    MessageWindows.AlertMessage("Success", "The following sheets have been duplicated: \n" + string.Join("\n", viewSheetSuccess));
                 }
 
                 return Result.Succeeded;

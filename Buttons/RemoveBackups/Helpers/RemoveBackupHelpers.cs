@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Microsoft.VisualBasic.FileIO;
 
-namespace BIMiconToolbar.RemoveBackups.Helpers
+namespace BIMicon.BIMiconToolbar.RemoveBackups.Helpers
 {
     class RemoveBackupHelpers
     {

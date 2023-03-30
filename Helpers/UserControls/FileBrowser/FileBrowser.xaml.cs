@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using UserControl = System.Windows.Controls.UserControl;
 
-namespace BIMiconToolbar.Helpers.UserControls.FileBrowser
+namespace BIMicon.BIMiconToolbar.Helpers.UserControls.FileBrowser
 {
     /// <summary>
     /// Interaction logic for FileBrowser.xaml

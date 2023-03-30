@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.Helpers
+namespace BIMicon.BIMiconToolbar.Helpers
 {
     class HelpersDirectory
     {
@@ -17,7 +17,7 @@ namespace BIMiconToolbar.Helpers
         public static void MoveDirectories(string[] source, string[] destination)
         {
             // Check source list is not empty
-            if (Helpers.IsNullOrEmpty(source) || Helpers.IsNullOrEmpty(destination))
+            if (GeneralHelpers.IsNullOrEmpty(source) || GeneralHelpers.IsNullOrEmpty(destination))
             {
                 // TODO: Log error
             }
@@ -39,7 +39,7 @@ namespace BIMiconToolbar.Helpers
         public static void RenameFiles(string[] source, string[] destination)
         {
             // Check source list is not empty
-            if (Helpers.IsNullOrEmpty(source) || Helpers.IsNullOrEmpty(destination))
+            if (GeneralHelpers.IsNullOrEmpty(source) || GeneralHelpers.IsNullOrEmpty(destination))
             {
                 // TODO: Log error
             }
@@ -205,7 +205,7 @@ namespace BIMiconToolbar.Helpers
         {
             var fileTypes = new List<string>();
 
-            if (Helpers.IsNullOrEmpty(files) != true)
+            if (GeneralHelpers.IsNullOrEmpty(files) != true)
             {
                 foreach (string f in files)
                 {
@@ -254,7 +254,7 @@ namespace BIMiconToolbar.Helpers
 
             string[] folders = GetDirectoriesFromPath(folderPath);
 
-            if (Helpers.IsNullOrEmpty(folders) != true)
+            if (GeneralHelpers.IsNullOrEmpty(folders) != true)
             {
                 // Retrieve name of folder and remove / before name
                 folder = folders[0].Replace(folderPath, "").Remove(0, 1);
@@ -390,7 +390,7 @@ namespace BIMiconToolbar.Helpers
 
             var destinationFiles = new List<string>();
 
-            if (Helpers.IsNullOrEmpty(originalFiles) != true)
+            if (GeneralHelpers.IsNullOrEmpty(originalFiles) != true)
             {
                 foreach (string oFile in originalFiles)
                 {
@@ -431,7 +431,7 @@ namespace BIMiconToolbar.Helpers
                     string stringMatch = comboItem.Content as string;
 
                     string[] fileNames = GetFilesMatchPattern(selectedPath, "*" + stringMatch);
-                    if (Helpers.IsNullOrEmpty(fileNames) != true)
+                    if (GeneralHelpers.IsNullOrEmpty(fileNames) != true)
                     {
                         originalName = fileNames[0].Replace(selectedPath, "").Remove(0, 1);
                     }

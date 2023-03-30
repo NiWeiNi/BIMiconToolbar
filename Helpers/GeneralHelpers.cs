@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace BIMiconToolbar.Helpers
+namespace BIMicon.BIMiconToolbar.Helpers
 {
-    class Helpers
+    class GeneralHelpers
     {
         /// <summary>
         /// Check if an array is null or empty
@@ -92,11 +92,11 @@ namespace BIMiconToolbar.Helpers
                 }
                 if (numeric)
                 {
-                    Helpers.InstanceFromToRoomNumber(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
+                    GeneralHelpers.InstanceFromToRoomNumber(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
                 }
                 else
                 {
-                    Helpers.InstanceFromToRoom(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
+                    GeneralHelpers.InstanceFromToRoom(instancesInRoomCount, roomNumber, separator, instanceNumbers, inst);
                 }
             }
             

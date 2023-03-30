@@ -1,9 +1,10 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using System.Collections.Generic;
 
-namespace BIMiconToolbar.MatchGrids
+namespace BIMicon.BIMiconToolbar.MatchGrids
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class MatchGrids : IExternalCommand
@@ -13,7 +14,7 @@ namespace BIMiconToolbar.MatchGrids
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
             // Check document is not a family document
-            if (Helpers.RevitDocument.IsDocumentNotProjectDoc(doc))
+            if (RevitDocument.IsDocumentNotProjectDoc(doc))
             {
                 return Result.Failed;
             }

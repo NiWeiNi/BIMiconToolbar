@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace BIMiconToolbar.Helpers.Browser.ViewModels
+namespace BIMicon.BIMiconToolbar.Helpers.Browser.ViewModels
 {
     /// <summary>
     /// The view model for the applications main Directory view

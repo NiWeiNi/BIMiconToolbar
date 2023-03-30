@@ -2,11 +2,11 @@
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using BIMiconToolbar.Helpers.Browser;
+using BIMicon.BIMiconToolbar.Helpers.Browser;
 using System.Collections.Generic;
 using System.IO;
 
-namespace BIMiconToolbar.FilesUpgrade
+namespace BIMicon.BIMiconToolbar.FilesUpgrade
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class FilesUpgrade : IExternalCommand
