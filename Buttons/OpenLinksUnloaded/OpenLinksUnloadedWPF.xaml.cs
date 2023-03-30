@@ -1,7 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
-using BIMiconToolbar.Helpers.UserControls.SelectFileReferences.ViewModel;
+using BIMicon.BIMiconToolbar.Helpers.UserControls.SelectFileReferences.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
-namespace BIMiconToolbar.OpenLinksUnloaded
+namespace BIMicon.BIMiconToolbar.OpenLinksUnloaded
 {
     /// <summary>
     /// Interaction logic for OpenLinksUnloadedWPF.xaml

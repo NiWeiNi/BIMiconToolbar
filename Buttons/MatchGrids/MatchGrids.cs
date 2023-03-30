@@ -4,7 +4,7 @@ using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
 using System.Collections.Generic;
 
-namespace BIMiconToolbar.MatchGrids
+namespace BIMicon.BIMiconToolbar.MatchGrids
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class MatchGrids : IExternalCommand

@@ -4,7 +4,7 @@ using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
 using System.Collections.Generic;
 
-namespace BIMiconToolbar.NumberBySpline
+namespace BIMicon.BIMiconToolbar.NumberBySpline
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class NumberBySpline : IExternalCommand

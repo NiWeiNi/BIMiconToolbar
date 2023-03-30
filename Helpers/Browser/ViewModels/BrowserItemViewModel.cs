@@ -1,9 +1,9 @@
-﻿using BIMiconToolbar.Helpers.Browser.Data;
+﻿using BIMicon.BIMiconToolbar.Helpers.Browser.Data;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
-namespace BIMiconToolbar.Helpers.Browser.ViewModels
+namespace BIMicon.BIMiconToolbar.Helpers.Browser.ViewModels
 {
     /// <summary>
     /// A view model for each browser item

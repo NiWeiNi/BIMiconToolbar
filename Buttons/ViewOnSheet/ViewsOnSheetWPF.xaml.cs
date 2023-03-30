@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.ViewOnSheet
+namespace BIMicon.BIMiconToolbar.ViewOnSheet
 {
     /// <summary>
     /// Interaction logic for Window1.xaml

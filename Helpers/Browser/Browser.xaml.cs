@@ -1,8 +1,8 @@
-﻿using BIMiconToolbar.Helpers.Browser.ViewModels;
+﻿using BIMicon.BIMiconToolbar.Helpers.Browser.ViewModels;
 using System;
 using System.Windows;
 
-namespace BIMiconToolbar.Helpers.Browser
+namespace BIMicon.BIMiconToolbar.Helpers.Browser
 {
     /// <summary>
     /// Interaction logic for Window1.xaml

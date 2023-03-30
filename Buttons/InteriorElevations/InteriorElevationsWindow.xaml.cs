@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.InteriorElevations
+namespace BIMicon.BIMiconToolbar.InteriorElevations
 {
     /// <summary>
     /// Interaction logic for InteriorElevationsWindow.xaml

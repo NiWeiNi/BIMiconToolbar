@@ -6,7 +6,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 
-namespace BIMiconToolbar.MarkOrigin
+namespace BIMicon.BIMiconToolbar.MarkOrigin
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class MarkOrigin : IExternalCommand

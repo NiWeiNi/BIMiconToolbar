@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace BIMiconToolbar.WarningsReport
+namespace BIMicon.BIMiconToolbar.WarningsReport
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class WarningsReport : IExternalCommand

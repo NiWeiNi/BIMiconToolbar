@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BIMiconToolbar.InteriorElevations
+namespace BIMicon.BIMiconToolbar.InteriorElevations
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class InteriorElevations : IExternalCommand

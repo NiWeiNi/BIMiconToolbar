@@ -5,7 +5,7 @@ using BIMicon.BIMiconToolbar.Helpers;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BIMiconToolbar.DuplicateSheets
+namespace BIMicon.BIMiconToolbar.DuplicateSheets
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class DuplicateSheets : IExternalCommand

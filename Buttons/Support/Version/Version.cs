@@ -2,7 +2,7 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
-namespace BIMiconToolbar.Support.Version
+namespace BIMicon.BIMiconToolbar.Support.Version
 {
     [TransactionAttribute(TransactionMode.ReadOnly)]
     class Version : IExternalCommand

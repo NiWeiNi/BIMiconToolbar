@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BIMiconToolbar.Helpers.UserControls.SelectFileReferences.View
+namespace BIMicon.BIMiconToolbar.Helpers.UserControls.SelectFileReferences.View
 {
     /// <summary>
     /// Interaction logic for SelectFileReferencesView.xaml

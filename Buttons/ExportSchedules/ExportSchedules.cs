@@ -1,14 +1,14 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using BIMiconToolbar.Helpers.Browser;
+using BIMicon.BIMiconToolbar.Helpers.Browser;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.Streaming;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace BIMiconToolbar.ExportSchedules
+namespace BIMicon.BIMiconToolbar.ExportSchedules
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class ExportSchedules : IExternalCommand

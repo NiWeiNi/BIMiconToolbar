@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.NumberByPick
+namespace BIMicon.BIMiconToolbar.NumberByPick
 {
     /// <summary>
     /// Interaction logic for NumberByPickWPF.xaml

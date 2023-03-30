@@ -2,10 +2,10 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
-using BIMiconToolbar.Helpers.Browser;
+using BIMicon.BIMiconToolbar.Helpers.Browser;
 using System.IO;
 
-namespace BIMiconToolbar.RemoveBackups
+namespace BIMicon.BIMiconToolbar.RemoveBackups
 {
     [TransactionAttribute(TransactionMode.ReadOnly)]
     class RemoveBackups : IExternalCommand

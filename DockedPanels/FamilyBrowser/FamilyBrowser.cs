@@ -5,7 +5,7 @@ using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
 using System;
 
-namespace BIMiconToolbar.FamilyBrowser
+namespace BIMicon.BIMiconToolbar.FamilyBrowser
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class FamilyBrowser : IExternalCommand

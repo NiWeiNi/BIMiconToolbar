@@ -1,10 +1,10 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using BIMiconToolbar.Helpers.Browser;
+using BIMicon.BIMiconToolbar.Helpers.Browser;
 using System.IO;
 
-namespace BIMiconToolbar.FilesRename
+namespace BIMicon.BIMiconToolbar.FilesRename
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class FilesRename : IExternalCommand

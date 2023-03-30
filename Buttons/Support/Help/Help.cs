@@ -3,7 +3,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
 
-namespace BIMiconToolbar.Support.Help
+namespace BIMicon.BIMiconToolbar.Support.Help
 {
     [TransactionAttribute(TransactionMode.ReadOnly)]
     class Help : IExternalCommand

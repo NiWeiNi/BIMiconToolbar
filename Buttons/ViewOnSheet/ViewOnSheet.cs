@@ -4,7 +4,7 @@ using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
 using System.Collections.Generic;
 
-namespace BIMiconToolbar.ViewOnSheet
+namespace BIMicon.BIMiconToolbar.ViewOnSheet
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class ViewOnSheet : IExternalCommand

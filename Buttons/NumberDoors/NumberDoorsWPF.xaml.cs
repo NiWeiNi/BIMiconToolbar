@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.NumberDoors
+namespace BIMicon.BIMiconToolbar.NumberDoors
 {
     /// <summary>
     /// Interaction logic for NumberDoorsWPF.xaml

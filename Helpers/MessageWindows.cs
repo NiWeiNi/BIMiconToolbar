@@ -1,4 +1,4 @@
-﻿using BIMiconToolbar.Helpers.MessageWindow;
+﻿using BIMicon.BIMiconToolbar.Helpers.MessageWindow;
 
 namespace BIMicon.BIMiconToolbar.Helpers
 {

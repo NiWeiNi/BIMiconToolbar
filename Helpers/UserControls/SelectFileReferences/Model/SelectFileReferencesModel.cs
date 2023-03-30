@@ -1,6 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 
-namespace BIMiconToolbar.Helpers.UserControls.SelectFileReferences.Model
+namespace BIMicon.BIMiconToolbar.Helpers.UserControls.SelectFileReferences.Model
 {
     public class SelectFileReferencesModel
     {

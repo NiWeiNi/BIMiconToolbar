@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.MatchGrids
+namespace BIMicon.BIMiconToolbar.MatchGrids
 {
     /// <summary>
     /// Interaction logic for MatchGridsWPF.xaml

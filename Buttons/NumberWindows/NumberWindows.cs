@@ -3,7 +3,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
 
-namespace BIMiconToolbar.NumberWindows
+namespace BIMicon.BIMiconToolbar.NumberWindows
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class NumberWindows : IExternalCommand

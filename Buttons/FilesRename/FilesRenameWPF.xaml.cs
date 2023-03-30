@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BIMiconToolbar.FilesRename
+namespace BIMicon.BIMiconToolbar.FilesRename
 {
     /// <summary>
     /// Interaction logic for FilesRenameWPF.xaml

@@ -4,7 +4,7 @@ using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
 using System.Collections.Generic;
 
-namespace BIMiconToolbar.NumberByPick
+namespace BIMicon.BIMiconToolbar.NumberByPick
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class NumberByPick : IExternalCommand

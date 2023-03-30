@@ -3,7 +3,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
 
-namespace BIMiconToolbar.NumberDoors
+namespace BIMicon.BIMiconToolbar.NumberDoors
 {
     [TransactionAttribute(TransactionMode.Manual)]
     class NumberDoors2020 : IExternalCommand
