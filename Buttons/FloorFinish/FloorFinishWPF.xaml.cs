@@ -179,6 +179,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                             // Create floor
                             Transaction transaction = new Transaction(doc, "Create Floor");
                             transaction.Start();
+                            RevitTransaction.SetWarningDialogSupressor(transaction);
 
                             Floor floor = null;
 #if v2023 || v2024

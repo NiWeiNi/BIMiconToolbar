@@ -1,5 +1,4 @@
-﻿using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.Attributes;
+﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
@@ -10,10 +9,6 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            UIApplication uiApp = commandData.Application;
-            Application app = uiApp.Application;
-            Document doc = uiApp.ActiveUIDocument.Document;
-
             using (FloorFinishWPF customWindow = new FloorFinishWPF(commandData))
             {
                 customWindow.ShowDialog();
