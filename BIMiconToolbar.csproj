@@ -7,7 +7,7 @@
     <ProjectGuid>{E78D519D-E550-49E4-BC61-8CA356163B4E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BIMiconToolbar</RootNamespace>
+    <RootNamespace>BIMicon.BIMiconToolbar</RootNamespace>
     <AssemblyName>BIMiconToolbar</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -387,6 +387,7 @@
     <Compile Include="Helpers\RevitDirectories.cs" />
     <Compile Include="Helpers\RevitDocument.cs" />
     <Compile Include="Helpers\RevitProjectInfo.cs" />
+    <Compile Include="Helpers\RevitTransaction.cs" />
     <Compile Include="Helpers\SheetsViews.cs" />
     <Compile Include="Helpers\UnitsConverter.cs" />
     <Compile Include="Helpers\UserControls\FileBrowser\FileBrowser.xaml.cs">
@@ -439,6 +440,7 @@
     <Compile Include="Buttons\OpenLinksUnloaded\OpenLinksUnloadedWPF.xaml.cs">
       <DependentUpon>OpenLinksUnloadedWPF.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\WarningsPreprocessor.cs" />
     <Compile Include="Tab\Models\PushButtonIdentityData.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
