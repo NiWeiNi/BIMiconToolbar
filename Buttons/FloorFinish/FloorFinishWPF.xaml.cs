@@ -2,12 +2,14 @@
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
+using BIMicon.BIMiconToolbar.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using TreeView = BIMicon.BIMiconToolbar.Models.TreeView;
 
 namespace BIMicon.BIMiconToolbar.FloorFinish
 {
@@ -119,9 +121,23 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                 CheckBox checkBox = new CheckBox();
                 checkBox.Content = room.Number + " - " + room.Name;
                 checkBox.Tag = room;
-                roomsCheckBoxes.Children.Add(checkBox);
+                //roomsCheckBoxes.Children.Add(checkBox);
             }
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var filter = new ElementCategoryFilter(BuiltInCategory.OST_Rooms);
+            var roomsCollector = new FilteredElementCollector(doc).WherePasses(filter)
+                                                                  .Cast<Room>()
+                                                                  .Where(r => r.Area > 0).Cast<Element>().ToList();
+
+            Dictionary<string, List<Element>> dictionaryElements = new Dictionary<string, List<Element>> { { "Rooms", roomsCollector } };
+
+            roomsTreeView.ItemsSource = TreeView.SetTree(dictionaryElements);
+        }
+
+
 
         /// <summary>
         /// ethod to accept user input and close the window
@@ -133,7 +149,9 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
             if (IsExecuteReady)
             {
                 // Retrieve all checked checkboxes
-                IEnumerable<CheckBox> list = this.roomsCheckBoxes.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
+                List<BaseElement> selected = new List<BaseElement>();
+                TreeView treeView = (TreeView)roomsTreeView.Items[0];
+                TreeView.GetTree(treeView, out selected);
 
                 // SpatialElement boundary options
                 SpatialElementBoundaryOptions sEBOpt = new SpatialElementBoundaryOptions();
@@ -143,9 +161,10 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                 tg.Start();
 
                 // Add all checked checkboxes to global variable
-                foreach (var x in list)
+                foreach (BaseElement bE in selected)
                 {
-                    SpatialElement sE = x.Tag as SpatialElement;
+                    Element element = doc.GetElement(new ElementId(bE.Id));
+                    SpatialElement sE = element as SpatialElement;
 
                     // Retrieve level
                     Level level = sE.Level;
