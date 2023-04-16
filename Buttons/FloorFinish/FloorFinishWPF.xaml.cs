@@ -215,6 +215,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                         // Move floor
                         Transaction transaction = new Transaction(doc, "Move floor");
                         transaction.Start();
+                        RevitTransaction.SetWarningDialogSupressor(transaction);
 
                         ElementTransformUtils.MoveElement(doc, floorElement.Id, new XYZ(0, 0, FloorOffset));
 
