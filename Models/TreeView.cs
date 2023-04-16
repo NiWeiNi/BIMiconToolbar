@@ -1,7 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System;
 using System.Linq;
 
 namespace BIMicon.BIMiconToolbar.Models
@@ -88,15 +87,15 @@ namespace BIMicon.BIMiconToolbar.Models
                 TreeView parentTreeView;
                 if (dictionaryElements.Count > 1)
                 {
-                    BaseElement parentEntity = new BaseElement
+                    BaseElement parentBaseElement = new BaseElement
                     {
                         Id = 0,
                         Name = name
                     };
 
-                    parentTreeView = new TreeView(parentEntity.Name)
+                    parentTreeView = new TreeView(parentBaseElement.Name)
                     {
-                        BaseElement = parentEntity
+                        BaseElement = parentBaseElement
                     };
 
                     rootTreeView.Children.Add(parentTreeView);
@@ -106,17 +105,29 @@ namespace BIMicon.BIMiconToolbar.Models
                     parentTreeView = rootTreeView;
                 }
 
-                foreach (Element element in listElements)
+                List<Element> orderedList;
+                if (listElements.FirstOrDefault() is SpatialElement)
+                    orderedList = listElements.OrderBy(x => x.get_Parameter(BuiltInParameter.ROOM_NUMBER).AsString()).ToList();
+                else
+                    orderedList = listElements.OrderBy(x => x.Name).ToList();
+
+                foreach (Element element in orderedList)
                 {
-                    BaseElement childEntity = new BaseElement
+                    string nameDisplay;
+                    if (element is SpatialElement)
+                        nameDisplay = element.get_Parameter(BuiltInParameter.ROOM_NUMBER).AsString() + " - " + element.get_Parameter(BuiltInParameter.ROOM_NAME).AsString();
+                    else
+                        nameDisplay = element.Name;
+
+                    BaseElement childBaseElement = new BaseElement
                     {
                         Id = element.Id.IntegerValue,
-                        Name = element.Name
+                        Name = nameDisplay
                     };
 
-                    TreeView childTreeView = new TreeView(childEntity.Name)
+                    TreeView childTreeView = new TreeView(childBaseElement.Name)
                     {
-                        BaseElement = childEntity
+                        BaseElement = childBaseElement
                     };
 
                     parentTreeView.Children.Add(childTreeView);

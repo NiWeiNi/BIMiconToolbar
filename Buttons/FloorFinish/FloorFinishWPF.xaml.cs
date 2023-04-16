@@ -113,7 +113,6 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
             roomsTreeView.ItemsSource = TreeView.SetTree(dictionaryElements);
         }
 
-
         /// <summary>
         /// Method to accept user input and close the window
         /// </summary>
