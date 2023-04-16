@@ -41,8 +41,6 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
             // Set the input units
             offsetTextBlock.Text = "Offset from level in " ;
 
-            // Populate room checkboxes
-            RoomsCheckBoxes(doc);
             // Populate floor types
             ComboBoxFloorTypes(doc);
 
@@ -68,9 +66,11 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
 
             foreach (var v in floorTypes)
             {
-                ComboBoxItem comb = new ComboBoxItem();
-                comb.Content = v.Name;
-                comb.Tag = v;
+                ComboBoxItem comb = new ComboBoxItem
+                {
+                    Content = v.Name,
+                    Tag = v
+                };
                 CbItemsFloorTypes.Add(comb);
 
                 if (count == 0)
@@ -101,30 +101,6 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
             this.Close();
         }
 
-        /// <summary>
-        /// Dynamically populate checkboxes
-        /// </summary>
-        /// <param name="doc"></param>
-        private void RoomsCheckBoxes(Document doc)
-        {
-
-            var filter = new ElementCategoryFilter(BuiltInCategory.OST_Rooms);
-
-            var roomsCollector = new FilteredElementCollector(doc).WherePasses(filter)
-                                                                  .Cast<Room>()
-                                                                  .Where(r => r.Area > 0);
-
-            IOrderedEnumerable<Room> rooms = from Room room in roomsCollector orderby room.Number ascending select room;
-
-            foreach (var room in rooms)
-            {
-                CheckBox checkBox = new CheckBox();
-                checkBox.Content = room.Number + " - " + room.Name;
-                checkBox.Tag = room;
-                //roomsCheckBoxes.Children.Add(checkBox);
-            }
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var filter = new ElementCategoryFilter(BuiltInCategory.OST_Rooms);
@@ -138,9 +114,8 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
         }
 
 
-
         /// <summary>
-        /// ethod to accept user input and close the window
+        /// Method to accept user input and close the window
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
