@@ -10,7 +10,7 @@
         ResizeMode="NoResize"
         Title="Floor Finish" 
         SizeToContent="Height" 
-        Width="420"
+        Width="360"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -65,9 +65,10 @@
                 Select rooms to create floor finish:
             </TextBlock>
             <Border Style="{StaticResource OuterBorder}">
-                <TreeView Height="287" HorizontalAlignment="Left" x:Name="roomsTreeView"
-                  ItemContainerStyle="{StaticResource TreeViewItemStyle}"
-                  ItemTemplate="{StaticResource CheckBoxItemTemplate}" BorderThickness="0"/>
+                <TreeView x:Name="roomsTreeView"
+                          ItemContainerStyle="{StaticResource TreeViewItemStyle}"
+                          ItemTemplate="{StaticResource CheckBoxItemTemplate}"
+                          BorderThickness="0" />
             </Border>
 
             <!-- Buttons End -->
