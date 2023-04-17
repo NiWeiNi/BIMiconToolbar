@@ -23,7 +23,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
         /// </summary>
         public ObservableCollection<ComboBoxItem> CbItemsFloorTypes { get; set; }
         public ComboBoxItem SelectedComboItemFloorType { get; set; }
-        Document doc { get; set; }
+        Document Doc { get; set; }
         public double FloorOffset { get; set; }
         public string StringInternalUnits { get; set; }
         private bool IsExecuteReady = false;
@@ -33,7 +33,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
         /// </summary>
         public FloorFinishWPF(ExternalCommandData commandData)
         {
-            doc = commandData.Application.ActiveUIDocument.Document;
+            Doc = commandData.Application.ActiveUIDocument.Document;
 
             InitializeComponent();
             DataContext = this;
@@ -42,7 +42,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
             offsetTextBlock.Text = "Offset from level in " ;
 
             // Populate floor types
-            ComboBoxFloorTypes(doc);
+            ComboBoxFloorTypes(Doc);
 
             // Associate the event-handling method with the SelectedIndexChanged event
             this.comboDisplayFloorTypes.SelectionChanged += new SelectionChangedEventHandler(ComboChangedFloorType);
@@ -96,7 +96,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var filter = new ElementCategoryFilter(BuiltInCategory.OST_Rooms);
-            var roomsCollector = new FilteredElementCollector(doc).WherePasses(filter)
+            var roomsCollector = new FilteredElementCollector(Doc).WherePasses(filter)
                                                                   .Cast<Room>()
                                                                   .Where(r => r.Area > 0).Cast<Element>().ToList();
 
@@ -123,13 +123,13 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                 SpatialElementBoundaryOptions sEBOpt = new SpatialElementBoundaryOptions();
 
                 // Group transaction
-                TransactionGroup tg = new TransactionGroup(doc, "Create Floor/s");
+                TransactionGroup tg = new TransactionGroup(Doc, "Create Floor/s");
                 tg.Start();
 
                 // Add all checked checkboxes to global variable
                 foreach (BaseElement bE in selected)
                 {
-                    Element element = doc.GetElement(new ElementId(bE.Id));
+                    Element element = Doc.GetElement(new ElementId(bE.Id));
                     SpatialElement sE = element as SpatialElement;
 
                     // Retrieve level
@@ -162,7 +162,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
 #endif
 
                             // Create floor
-                            Transaction transaction = new Transaction(doc, "Create Floor");
+                            Transaction transaction = new Transaction(Doc, "Create Floor");
                             transaction.Start();
                             RevitTransaction.SetWarningDialogSupressor(transaction);
 
@@ -171,7 +171,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                             List<CurveLoop> profile = new List<CurveLoop>() { curveLoop };
                             floor = Floor.Create(doc, profile, (SelectedComboItemFloorType.Tag as FloorType).Id, level.Id);
 #else
-                            floor = doc.Create.NewFloor(floorBoundary, SelectedComboItemFloorType.Tag as FloorType, level, false);
+                            floor = Doc.Create.NewFloor(floorBoundary, SelectedComboItemFloorType.Tag as FloorType, level, false);
 #endif
                             floorElement = floor as Element;
 
@@ -191,10 +191,10 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                             if (floorElement != null)
                             {
                                 // Create opening
-                                Transaction transaction = new Transaction(doc, "Create Opening");
+                                Transaction transaction = new Transaction(Doc, "Create Opening");
                                 transaction.Start();
 
-                                doc.Create.NewOpening(floorElement, openingBoundary, false);
+                                Doc.Create.NewOpening(floorElement, openingBoundary, false);
 
                                 transaction.Commit();
                             }
@@ -205,11 +205,11 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                     if (FloorOffset != 0)
                     {
                         // Move floor
-                        Transaction transaction = new Transaction(doc, "Move floor");
+                        Transaction transaction = new Transaction(Doc, "Move floor");
                         transaction.Start();
                         RevitTransaction.SetWarningDialogSupressor(transaction);
 
-                        ElementTransformUtils.MoveElement(doc, floorElement.Id, new XYZ(0, 0, FloorOffset));
+                        ElementTransformUtils.MoveElement(Doc, floorElement.Id, new XYZ(0, 0, FloorOffset));
 
                         transaction.Commit();
                     }
@@ -256,7 +256,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                 if (isDouble)
                 {
                     // Assign floor offset to property
-                    FloorOffset = Helpers.UnitsConverter.ConvertProjectLengthToInternal(doc, number);
+                    FloorOffset = Helpers.UnitsConverter.ConvertProjectLengthToInternal(Doc, number);
                     StringInternalUnits = FloorOffset.ToString();
                     IsExecuteReady = true;
                 }
