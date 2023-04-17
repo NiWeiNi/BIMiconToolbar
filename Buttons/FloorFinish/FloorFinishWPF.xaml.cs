@@ -114,6 +114,9 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
         {
             if (IsExecuteReady)
             {
+                // Close window
+                this.Close();
+
                 // Retrieve all checked checkboxes
                 List<BaseElement> selected = new List<BaseElement>();
                 TreeView treeView = (TreeView)roomsTreeView.Items[0];
@@ -214,7 +217,6 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                         transaction.Commit();
                     }
                 }
-
                 tg.Assimilate();
             }
             else
