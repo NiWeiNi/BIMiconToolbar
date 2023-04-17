@@ -9,10 +9,8 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            using (FloorFinishWPF customWindow = new FloorFinishWPF(commandData))
-            {
-                customWindow.ShowDialog();
-            }
+            FloorFinishWPF customWindow = new FloorFinishWPF(commandData);
+            customWindow.ShowDialog();
 
             return Result.Succeeded;
         }

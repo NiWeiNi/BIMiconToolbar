@@ -16,7 +16,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
     /// <summary>
     /// Interaction logic for FloorFinishWPF.xaml
     /// </summary>
-    public partial class FloorFinishWPF : Window, IDisposable
+    public partial class FloorFinishWPF : Window
     {
         /// <summary>
         ///  Properties to store variables
@@ -91,14 +91,6 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
         {
             int selectedItemIndex = CbItemsFloorTypes.IndexOf(SelectedComboItemFloorType);
             SelectedComboItemFloorType = CbItemsFloorTypes[selectedItemIndex];
-        }
-
-        /// <summary>
-        /// Method to dispose of window
-        /// </summary>
-        public void Dispose()
-        {
-            this.Close();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -224,8 +216,6 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                 }
 
                 tg.Assimilate();
-
-                this.Dispose();
             }
             else
             {
@@ -240,7 +230,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
         /// <param name="e"></param>
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Dispose();
+            this.Close();
         }
 
         /// <summary>
