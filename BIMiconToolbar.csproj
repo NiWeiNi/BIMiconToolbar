@@ -469,8 +469,9 @@
     <Compile Include="Buttons\WarningsReport\WarningsReport.cs" />
     <Compile Include="Tab\PushButtonCreation.cs" />
     <Compile Include="WPF\Models\ISelectionStrategy.cs" />
-    <Compile Include="WPF\UserControls\MultiSelectionTreeView.cs" />
-    <Compile Include="WPF\UserControls\MultiSelectionTreeViewItem.cs" />
+    <Compile Include="WPF\UserControls\MultiSelectionTreeViewControl\MultiSelectionTreeView.cs" />
+    <Compile Include="WPF\UserControls\MultiSelectionTreeViewControl\MultiSelectionTreeViewItem.cs" />
+    <Compile Include="WPF\UserControls\MultiSelectionTreeViewControl\ViewModel\TreeItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BIMicon.addin">

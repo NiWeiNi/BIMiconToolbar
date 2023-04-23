@@ -3,6 +3,7 @@ using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
 using BIMicon.BIMiconToolbar.Models;
+using BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -36,7 +37,22 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
             Doc = commandData.Application.ActiveUIDocument.Document;
 
             InitializeComponent();
-            DataContext = this;
+
+            var rootNode = new TreeItemViewModel(null, false) { DisplayName = "rootNode" };
+
+            var filter = new ElementCategoryFilter(BuiltInCategory.OST_Rooms);
+            var roomsCollector = new FilteredElementCollector(Doc).WherePasses(filter)
+                                                                  .Cast<Room>()
+                                                                  .Where(r => r.Area > 0).Cast<Element>().ToList();
+
+            Dictionary<string, List<Element>> dictionaryElements = new Dictionary<string, List<Element>> { { "Rooms", roomsCollector } };
+            foreach (Room room in roomsCollector)
+            {
+                var node = new TreeItemViewModel(rootNode, IsExecuteReady);
+                rootNode.Children.Add(node);
+            }
+
+            DataContext = rootNode;
 
             // Set the input units
             offsetTextBlock.Text = "Offset from level in " ;
@@ -102,7 +118,8 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
 
             Dictionary<string, List<Element>> dictionaryElements = new Dictionary<string, List<Element>> { { "Rooms", roomsCollector } };
 
-            roomsTreeView.ItemsSource = TreeView.SetTree(dictionaryElements);
+            //roomsTreeView.ItemsSource = TreeView.SetTree(dictionaryElements);
+            //multiSelectionTreeView.ItemsSource = TreeView.SetTree(dictionaryElements);
         }
 
         /// <summary>
@@ -119,7 +136,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
 
                 // Retrieve all checked checkboxes
                 List<BaseElement> selected = new List<BaseElement>();
-                TreeView treeView = (TreeView)roomsTreeView.Items[0];
+                TreeView treeView = null;//(TreeView)roomsTreeView.Items[0];
                 TreeView.GetTree(treeView, out selected);
 
                 // SpatialElement boundary options

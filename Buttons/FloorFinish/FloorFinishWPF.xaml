@@ -2,7 +2,8 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:Controls="clr-namespace:BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl"
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../../Resources/Logos/iconBIMiconBlack.ico"
@@ -65,10 +66,14 @@
                 Select rooms to create floor finish:
             </TextBlock>
             <Border Style="{StaticResource OuterBorder}">
-                <TreeView x:Name="roomsTreeView"
+                <!--<TreeView x:Name="roomsTreeView"
                           ItemContainerStyle="{StaticResource TreeViewItemStyle}"
                           ItemTemplate="{StaticResource CheckBoxItemTemplate}"
-                          BorderThickness="0" />
+                          BorderThickness="0" />-->
+                <Controls:MultiSelectionTreeView
+                    x:Name="multiSelectionTreeView"
+                    ItemsSource="{Binding Children}">
+                </Controls:MultiSelectionTreeView>
             </Border>
 
             <!-- Buttons End -->
