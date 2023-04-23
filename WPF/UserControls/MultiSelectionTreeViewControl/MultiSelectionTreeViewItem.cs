@@ -10,6 +10,11 @@ namespace BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl
 {
     internal class MultiSelectionTreeViewItem : HeaderedItemsControl
     {
+        public static DependencyProperty DisplayNameProperty = DependencyProperty.Register(
+            "DisplayName",
+            typeof(string),
+            typeof(MultiSelectionTreeViewItem));
+
         public static DependencyProperty IsExpandedProperty = DependencyProperty.Register(
             "IsExpanded",
             typeof(bool),
@@ -32,6 +37,12 @@ namespace BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl
         {
             get { return (bool)GetValue(IsSelectedProperty); }
             set { SetValue(IsSelectedProperty, value); }
+        }
+
+        public string DisplayName
+        {
+            get { return (string)GetValue(DisplayNameProperty); }
+            set { SetValue(DisplayNameProperty, value); }
         }
 
         private ItemsControl ParentItemsControl

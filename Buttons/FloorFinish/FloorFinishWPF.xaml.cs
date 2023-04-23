@@ -27,7 +27,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
         Document Doc { get; set; }
         public double FloorOffset { get; set; }
         public string StringInternalUnits { get; set; }
-        private bool IsExecuteReady = false;
+        private bool IsExecuteReady = true;
 
         /// <summary>
         /// Method to initialize the window and populate content
@@ -48,7 +48,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
             Dictionary<string, List<Element>> dictionaryElements = new Dictionary<string, List<Element>> { { "Rooms", roomsCollector } };
             foreach (Room room in roomsCollector)
             {
-                var node = new TreeItemViewModel(rootNode, IsExecuteReady);
+                var node = new TreeItemViewModel(rootNode, IsExecuteReady) { DisplayName = room.Name};
                 rootNode.Children.Add(node);
             }
 

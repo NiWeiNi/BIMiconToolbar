@@ -2,8 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:vm="clr-namespace:BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl.ViewModel"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-        xmlns:Controls="clr-namespace:BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl"
+        xmlns:Controls="clr-namespace:BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl" 
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../../Resources/Logos/iconBIMiconBlack.ico"
@@ -19,7 +20,14 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="..\..\Helpers\ResourceDictionaries\DictionaryWindows.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style x:Key="TreeViewItemStyle" TargetType="TreeViewItem">
+            <DataTemplate DataType="{x:Type vm:TreeItemViewModel}" >
+                <StackPanel Orientation="Horizontal">
+                    <Border Background="YellowGreen" CornerRadius="3" Width="16" Height="16"/>
+                    <Label Content="{Binding DisplayName}"/>
+                </StackPanel>
+
+            </DataTemplate>
+            <!--<Style x:Key="TreeViewItemStyle" TargetType="TreeViewItem">
                 <Setter Property="IsExpanded" Value="True" />
                 <Setter Property="IsSelected" Value="{Binding IsInitiallySelected, Mode=OneTime}" />
                 <Setter Property="KeyboardNavigation.AcceptsReturn" Value="True" />
@@ -29,7 +37,7 @@
                     <CheckBox Focusable="False" IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
                     <ContentPresenter Content="{Binding Name, Mode=OneTime}" Margin="2,0" />
                 </StackPanel>
-            </HierarchicalDataTemplate>
+            </HierarchicalDataTemplate>-->
         </ResourceDictionary>
     </Window.Resources>
 
