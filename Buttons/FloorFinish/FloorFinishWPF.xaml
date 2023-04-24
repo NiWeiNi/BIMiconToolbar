@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:vm="clr-namespace:BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl.ViewModel"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-        xmlns:Controls="clr-namespace:BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl" 
+        xmlns:Controls="clr-namespace:BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl" xmlns:models="clr-namespace:BIMicon.BIMiconToolbar.WPF.Models"
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../../Resources/Logos/iconBIMiconBlack.ico"
@@ -23,7 +23,8 @@
             <DataTemplate DataType="{x:Type vm:TreeItemViewModel}" >
                 <StackPanel Orientation="Horizontal">
                     <Border Background="YellowGreen" CornerRadius="3" Width="16" Height="16"/>
-                    <Label Content="{Binding DisplayName}"/>
+                    <TextBox Text="{Binding DisplayName}" />
+                    <models:EditTextBox Text="{Binding DisplayName}"/>
                 </StackPanel>
 
             </DataTemplate>

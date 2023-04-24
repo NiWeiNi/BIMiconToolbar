@@ -1,15 +1,15 @@
-﻿using System;
+﻿using BIMicon.BIMiconToolbar.WPF.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using static BIMicon.BIMiconToolbar.WPF.Models.ISelectionStrategy;
 
 namespace BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl
 {
-    internal class MultiSelectionTreeView : ItemsControl
+    public class MultiSelectionTreeView : ItemsControl
     {
         #region Constants and Fields
 

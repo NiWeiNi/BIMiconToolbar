@@ -468,6 +468,8 @@
     </Compile>
     <Compile Include="Buttons\WarningsReport\WarningsReport.cs" />
     <Compile Include="Tab\PushButtonCreation.cs" />
+    <Compile Include="WPF\Models\EditTextBox.cs" />
+    <Compile Include="WPF\Models\FocusHelper.cs" />
     <Compile Include="WPF\Models\ISelectionStrategy.cs" />
     <Compile Include="WPF\UserControls\MultiSelectionTreeViewControl\MultiSelectionTreeView.cs" />
     <Compile Include="WPF\UserControls\MultiSelectionTreeViewControl\MultiSelectionTreeViewItem.cs" />

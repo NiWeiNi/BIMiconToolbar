@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl
 {
-    internal class MultiSelectionTreeViewItem : HeaderedItemsControl
+    public class MultiSelectionTreeViewItem : HeaderedItemsControl
     {
         public static DependencyProperty DisplayNameProperty = DependencyProperty.Register(
             "DisplayName",
