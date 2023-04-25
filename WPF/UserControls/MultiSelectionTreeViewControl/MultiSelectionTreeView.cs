@@ -17,6 +17,8 @@ namespace BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl
         public event EventHandler SelectionChanged;
         public static readonly DependencyProperty LastSelectedItemProperty;
 
+        internal ISelectionStrategy Selection { get; private set; }
+
         public static DependencyProperty SelectedItemsProperty = DependencyProperty.Register(
             "SelectedItems",
             typeof(IList),
@@ -42,6 +44,147 @@ namespace BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl
             {
                 SetValue(LastSelectedItemPropertyKey, value);
             }
+        }
+
+        internal bool ClearSelectionByRectangle()
+        {
+            foreach (var item in new ArrayList(SelectedItems))
+            {
+                var e = new PreviewSelectionChangedEventArgs(false, item);
+                OnPreviewSelectionChanged(e);
+                if (e.CancelAny) return false;
+            }
+
+            SelectedItems.Clear();
+            return true;
+        }
+
+        protected void OnPreviewSelectionChanged(PreviewSelectionChangedEventArgs e)
+        {
+            var handler = PreviewSelectionChanged;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        internal IEnumerable<MultiSelectionTreeViewItem> GetNodesToSelectBetween(MultiSelectionTreeViewItem firstNode, MultiSelectionTreeViewItem lastNode)
+        {
+            var allNodes = RecursiveTreeViewItemEnumerable(this, false, false).ToList();
+            var firstIndex = allNodes.IndexOf(firstNode);
+            var lastIndex = allNodes.IndexOf(lastNode);
+
+            if (firstIndex >= allNodes.Count)
+            {
+                throw new InvalidOperationException(
+                   "First node index " + firstIndex + "greater or equal than count " + allNodes.Count + ".");
+            }
+
+            if (lastIndex >= allNodes.Count)
+            {
+                throw new InvalidOperationException(
+                   "Last node index " + lastIndex + " greater or equal than count " + allNodes.Count + ".");
+            }
+
+            var nodesToSelect = new List<MultiSelectionTreeViewItem>();
+
+            if (lastIndex == firstIndex)
+            {
+                return new List<MultiSelectionTreeViewItem> { firstNode };
+            }
+
+            if (lastIndex > firstIndex)
+            {
+                for (int i = firstIndex; i <= lastIndex; i++)
+                {
+                    if (allNodes[i].IsVisible)
+                    {
+                        nodesToSelect.Add(allNodes[i]);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = firstIndex; i >= lastIndex; i--)
+                {
+                    if (allNodes[i].IsVisible)
+                    {
+                        nodesToSelect.Add(allNodes[i]);
+                    }
+                }
+            }
+
+            return nodesToSelect;
+        }
+
+        internal MultiSelectionTreeViewItem GetPreviousItem(MultiSelectionTreeViewItem item, List<MultiSelectionTreeViewItem> items)
+        {
+            int indexOfCurrent = item != null ? items.IndexOf(item) : -1;
+            for (int i = indexOfCurrent - 1; i >= 0; i--)
+            {
+                if (items[i].IsVisible)
+                {
+                    return items[i];
+                }
+            }
+            return null;
+        }
+
+        internal MultiSelectionTreeViewItem GetFirstItem(List<MultiSelectionTreeViewItem> items)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].IsVisible)
+                {
+                    return items[i];
+                }
+            }
+            return null;
+        }
+
+        internal MultiSelectionTreeViewItem GetLastItem(List<MultiSelectionTreeViewItem> items)
+        {
+            for (int i = items.Count - 1; i >= 0; i--)
+            {
+                if (items[i].IsVisible)
+                {
+                    return items[i];
+                }
+            }
+            return null;
+        }
+
+        internal MultiSelectionTreeViewItem GetNextItem(MultiSelectionTreeViewItem item, List<MultiSelectionTreeViewItem> items)
+        {
+            int indexOfCurrent = item != null ? items.IndexOf(item) : -1;
+            for (int i = indexOfCurrent + 1; i < items.Count; i++)
+            {
+                if (items[i].IsVisible)
+                {
+                    return items[i];
+                }
+            }
+            return null;
+        }
+
+        public bool ClearSelection()
+        {
+            if (SelectedItems.Count > 0)
+            {
+                // Make a copy of the list and ignore changes to the selection while raising events
+                foreach (var selItem in new ArrayList(SelectedItems))
+                {
+                    var e = new PreviewSelectionChangedEventArgs(false, selItem);
+                    OnPreviewSelectionChanged(e);
+                    if (e.CancelAny)
+                    {
+                        return false;
+                    }
+                }
+
+                SelectedItems.Clear();
+            }
+            return true;
         }
 
         private static void OnSelectedItemsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

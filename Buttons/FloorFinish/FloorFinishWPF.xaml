@@ -23,7 +23,6 @@
             <DataTemplate DataType="{x:Type vm:TreeItemViewModel}" >
                 <StackPanel Orientation="Horizontal">
                     <Border Background="YellowGreen" CornerRadius="3" Width="16" Height="16"/>
-                    <TextBox Text="{Binding DisplayName}" />
                     <models:EditTextBox Text="{Binding DisplayName}"/>
                 </StackPanel>
 
