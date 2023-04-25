@@ -7,13 +7,13 @@ namespace BIMicon.BIMiconToolbar.WPF.Models
 {
     public class EditTextBox : TextBox
     {
-        //#region Private fields
+        #region Private fields
 
-        //private string startText;
+        private string startText;
 
-        //#endregion Private fields
+        #endregion Private fields
 
-        //#region Constructor
+        #region Constructor
 
         //static EditTextBox()
         //{
@@ -25,31 +25,31 @@ namespace BIMicon.BIMiconToolbar.WPF.Models
         //    Loaded += OnTreeViewEditTextBoxLoaded;
         //}
 
-        //#endregion Constructor
+        #endregion Constructor
 
-        //#region Methods
+        #region Methods
 
-        //protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
-        //{
-        //    base.OnGotKeyboardFocus(e);
-        //    startText = Text;
-        //    SelectAll();
-        //}
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            base.OnGotKeyboardFocus(e);
+            startText = Text;
+            SelectAll();
+        }
 
-        //protected override void OnKeyDown(KeyEventArgs e)
-        //{
-        //    base.OnKeyDown(e);
-        //    if (!e.Handled)
-        //    {
-        //        Key key = e.Key;
-        //        switch (key)
-        //        {
-        //            case Key.Escape:
-        //                Text = startText;
-        //                break;
-        //        }
-        //    }
-        //}
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if (!e.Handled)
+            {
+                Key key = e.Key;
+                switch (key)
+                {
+                    case Key.Escape:
+                        Text = startText;
+                        break;
+                }
+            }
+        }
 
         //private void OnTreeViewEditTextBoxLoaded(object sender, RoutedEventArgs e)
         //{
@@ -58,6 +58,6 @@ namespace BIMicon.BIMiconToolbar.WPF.Models
         //    FocusHelper.Focus(this);
         //}
 
-        //#endregion
+        #endregion
     }
 }

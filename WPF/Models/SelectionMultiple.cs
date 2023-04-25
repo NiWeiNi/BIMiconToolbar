@@ -151,7 +151,7 @@ namespace BIMicon.BIMiconToolbar.WPF.Models
             }
             else if (IsShiftKeyDown && treeView.SelectedItems.Count > 0)
             {
-                object firstSelectedItem = lastShiftRoot ?? treeView.SelectedItems[0];
+                object firstSelectedItem = lastShiftRoot ?? treeView.SelectedItems.First();
                 MultiSelectionTreeViewItem shiftRootItem = treeView.GetTreeViewItemsFor(new List<object> { firstSelectedItem }).First();
 
                 var newSelection = treeView.GetNodesToSelectBetween(shiftRootItem, item).Select(n => n.DataContext).ToList();

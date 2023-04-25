@@ -34,6 +34,18 @@ namespace BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl
 
         #endregion
 
+        public IList SelectedItems
+        {
+            get
+            {
+                return (IList)GetValue(SelectedItemsProperty);
+            }
+            set
+            {
+                SetValue(SelectedItemsProperty, value);
+            }
+        }
+
         public object LastSelectedItem
         {
             get
@@ -271,17 +283,7 @@ namespace BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl
                 }
             }
         }
-        public IList SelectedItems
-        {
-            get
-            {
-                return (IList)GetValue(SelectedItemsProperty);
-            }
-            set
-            {
-                SetValue(SelectedItemsProperty, value);
-            }
-        }
+
         private void OnSelectedItemsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)

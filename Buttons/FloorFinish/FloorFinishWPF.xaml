@@ -70,6 +70,10 @@
             </Grid>
 
             <!-- Select rooms -->
+            <TextBlock Margin="0,4,0,0">
+				<Run x:Name="countSelection" Text="{Binding SelectedItems.Count, ElementName=multiSelectionTreeView, Mode=OneWay}"/>
+				<Run>elements selected</Run>
+            </TextBlock>
             <TextBlock Style="{StaticResource Title}">
                 Select rooms to create floor finish:
             </TextBlock>
@@ -80,7 +84,14 @@
                           BorderThickness="0" />-->
                 <Controls:MultiSelectionTreeView
                     x:Name="multiSelectionTreeView"
-                    ItemsSource="{Binding Children}">
+                    ItemsSource="{Binding Children}"
+                    PreviewSelectionChanged="multiSelectionTreeView_PreviewSelectionChanged">
+                    <!--<Controls:MultiSelectionTreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type Controls:MultiSelectionTreeViewItem}">
+                            --><!--<Setter Property="DisplayName" Value="{Binding DisplayName, Mode=TwoWay}"/>
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>--><!--
+                        </Style>
+                    </Controls:MultiSelectionTreeView.ItemContainerStyle>-->
                 </Controls:MultiSelectionTreeView>
             </Border>
 

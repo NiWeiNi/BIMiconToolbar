@@ -3,6 +3,7 @@ using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
 using BIMicon.BIMiconToolbar.Models;
+using BIMicon.BIMiconToolbar.WPF.Models;
 using BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -62,6 +63,27 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
 
             // Associate the event-handling method with the SelectedIndexChanged event
             this.comboDisplayFloorTypes.SelectionChanged += new SelectionChangedEventHandler(ComboChangedFloorType);
+
+            foreach (TreeItemViewModel node in multiSelectionTreeView.Items)
+            {
+                DoSelectAll(node, (n) => true);
+                node.IsSelected = true;
+            }
+
+            //countSelection.Text;
+            //multiSelectionTreeView.SelectedItems.ToString();
+        }
+
+        private void DoSelectAll(TreeItemViewModel node, Func<TreeItemViewModel, bool> selector)
+        {
+            node.IsSelected = selector(node);
+            if (node.Children != null)
+            {
+                foreach (var child in node.Children)
+                {
+                    DoSelectAll(child, selector);
+                }
+            }
         }
 
         /// <summary>
@@ -297,6 +319,17 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
             if (internalTextBox != null)
             {
                 internalTextBox.Text = StringInternalUnits;
+            }
+        }
+
+        private void multiSelectionTreeView_PreviewSelectionChanged(object sender, PreviewSelectionChangedEventArgs e)
+        {
+            // Selection is not locked, apply other conditions.
+            // Require all selected items to be of the same type. If an item of another data
+            // type is already selected, don't include this new item in the selection.
+            if (e.Selecting && multiSelectionTreeView.SelectedItems.Count > 0)
+            {
+                e.CancelThis = e.Item.GetType() != multiSelectionTreeView.SelectedItems[0].GetType();
             }
         }
     }
