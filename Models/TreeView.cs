@@ -154,24 +154,24 @@ namespace BIMicon.BIMiconToolbar.Models
             return treeViewList;
         }
 
-        public static void GetTree(TreeView treeView, out List<BaseElement> selected)
-        {
-            selected = new List<BaseElement>();
+        //public static void GetTree(TreeView treeView, out List<BaseElement> selected)
+        //{
+        //    selected = new List<BaseElement>();
 
-            // Retrieve selected items
-            foreach (TreeView childrenTreeView in treeView.Children)
-            {
-                if (childrenTreeView.Children.Count == 0 && childrenTreeView.IsChecked == true)
-                    selected.Add(childrenTreeView.BaseElement);
-                else if (childrenTreeView.Children.Count > 0)
-                    GetTree(childrenTreeView, out selected);
-            }
+        //    // Retrieve selected items
+        //    foreach (TreeView childrenTreeView in treeView.Children)
+        //    {
+        //        if (childrenTreeView.Children.Count == 0 && childrenTreeView.IsChecked == true)
+        //            selected.Add(childrenTreeView.BaseElement);
+        //        else if (childrenTreeView.Children.Count > 0)
+        //            GetTree(childrenTreeView, out selected);
+        //    }
 
-            //***********************************************************
-            //From your window capture selected your treeview control like:   TreeViewModel root = (TreeViewModel)TreeViewControl.Items[0];
-            //                                                                List<string> selected = new List<string>(TreeViewModel.GetTree());
-            //***********************************************************
-        }
+        //    //***********************************************************
+        //    //From your window capture selected your treeview control like:   TreeViewModel root = (TreeViewModel)TreeViewControl.Items[0];
+        //    //                                                                List<string> selected = new List<string>(TreeViewModel.GetTree());
+        //    //***********************************************************
+        //}
 
         #region INotifyPropertyChanged Members
 

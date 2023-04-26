@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Buttons.FloorFinish;
 
 namespace BIMicon.BIMiconToolbar.FloorFinish
 {
@@ -9,7 +10,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            FloorFinishWPF customWindow = new FloorFinishWPF(commandData);
+            WPFTest customWindow = new WPFTest();
             customWindow.ShowDialog();
 
             return Result.Succeeded;

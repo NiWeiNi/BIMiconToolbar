@@ -247,6 +247,9 @@
     <OutputPath>bin\x64\2024 Release\</OutputPath>
     <DefineConstants>v2024</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
@@ -344,6 +347,10 @@
       <DependentUpon>BrowserCheckboxes.xaml</DependentUpon>
     </Compile>
     <Compile Include="Buttons\ExportSchedules\ExportSchedules.cs" />
+    <Compile Include="Buttons\FloorFinish\FloorFinish.cs" />
+    <Compile Include="Buttons\FloorFinish\WPFTest.xaml.cs">
+      <DependentUpon>WPFTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DockedPanels\FamilyBrowser\FamilyBrowser.cs" />
     <Compile Include="DockedPanels\FamilyBrowser\FamilyBrowserWPF.xaml.cs">
       <DependentUpon>FamilyBrowserWPF.xaml</DependentUpon>
@@ -357,10 +364,6 @@
       <DependentUpon>FilesRenameWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="Buttons\FilesUpgrade\FilesUpgrade.cs" />
-    <Compile Include="Buttons\FloorFinish\FloorFinish.cs" />
-    <Compile Include="Buttons\FloorFinish\FloorFinishWPF.xaml.cs">
-      <DependentUpon>FloorFinishWPF.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Helpers\Browser\Browser.xaml.cs">
       <DependentUpon>Browser.xaml</DependentUpon>
     </Compile>
@@ -474,8 +477,10 @@
     <Compile Include="WPF\Models\ISelectionStrategy.cs" />
     <Compile Include="WPF\Models\ListExtensions.cs" />
     <Compile Include="WPF\Models\SelectionMultiple.cs" />
+    <Compile Include="WPF\Models\TypeTemplateSelector.cs" />
     <Compile Include="WPF\UserControls\MultiSelectionTreeViewControl\MultiSelectionTreeView.cs" />
     <Compile Include="WPF\UserControls\MultiSelectionTreeViewControl\MultiSelectionTreeViewItem.cs" />
+    <Compile Include="WPF\UserControls\MultiSelectionTreeViewControl\ViewModel\ColorItemViewModel.cs" />
     <Compile Include="WPF\UserControls\MultiSelectionTreeViewControl\ViewModel\TreeItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -555,15 +560,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Buttons\FloorFinish\WPFTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DockedPanels\FamilyBrowser\FamilyBrowserWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Buttons\FilesRename\FilesRenameWPF.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Buttons\FloorFinish\FloorFinishWPF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -639,7 +644,6 @@
   <ItemGroup>
     <Folder Include="Buttons\OpenLinksUnloaded\ViewModel\" />
     <Folder Include="SetupBIMiconToolbar\bin\Debug\" />
-    <Folder Include="ViewModel\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">

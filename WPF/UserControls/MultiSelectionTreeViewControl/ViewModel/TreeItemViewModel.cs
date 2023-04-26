@@ -35,7 +35,7 @@ namespace BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl.
         }
 
         // This is used to create the DummyChild instance.
-        private TreeItemViewModel()
+        public TreeItemViewModel()
         {
         }
 
