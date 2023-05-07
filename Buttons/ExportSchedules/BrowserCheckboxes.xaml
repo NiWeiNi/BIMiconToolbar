@@ -29,9 +29,13 @@
                 </TextBlock>
 
                 <Border Style="{StaticResource OuterBorder}">
-                    <ScrollViewer HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible" Width="375">
-                        <StackPanel x:Name="viewSchedules" />
-                    </ScrollViewer>
+                    <ListView x:Name="viewSchedules" BorderThickness="0" ItemsSource="{Binding ViewSchedules}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Border>
             </StackPanel>
 
