@@ -63,6 +63,8 @@ namespace BIMicon.BIMiconToolbar.Buttons.FloorFinish
             node1.IsSelected = true;
             node13.IsSelected = true;
             node14.IsExpanded = true;
+
+            
         }
 
         private void TheTreeView_PreviewSelectionChanged(object sender, PreviewSelectionChangedEventArgs e)

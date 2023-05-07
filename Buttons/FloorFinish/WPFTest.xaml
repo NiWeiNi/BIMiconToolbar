@@ -9,6 +9,7 @@
         xmlns:vm="clr-namespace:BIMicon.BIMiconToolbar.WPF.UserControls.MultiSelectionTreeViewControl.ViewModel"
         xmlns:Controls="clr-namespace:BIMicon.BIMiconToolbar.WPF.Models"
         mc:Ignorable="d"
+        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
         Title="WPFTest" Height="450" Width="800">
 
     <Window.Resources>

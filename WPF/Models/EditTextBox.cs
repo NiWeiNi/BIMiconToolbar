@@ -15,15 +15,15 @@ namespace BIMicon.BIMiconToolbar.WPF.Models
 
         #region Constructor
 
-        //static EditTextBox()
-        //{
-        //    DefaultStyleKeyProperty.OverrideMetadata(typeof(EditTextBox), new FrameworkPropertyMetadata(typeof(EditTextBox)));
-        //}
+        static EditTextBox()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(EditTextBox), new FrameworkPropertyMetadata(typeof(EditTextBox)));
+        }
 
-        //public EditTextBox()
-        //{
-        //    Loaded += OnTreeViewEditTextBoxLoaded;
-        //}
+        public EditTextBox()
+        {
+            Loaded += OnTreeViewEditTextBoxLoaded;
+        }
 
         #endregion Constructor
 
@@ -51,12 +51,12 @@ namespace BIMicon.BIMiconToolbar.WPF.Models
             }
         }
 
-        //private void OnTreeViewEditTextBoxLoaded(object sender, RoutedEventArgs e)
-        //{
-        //    BindingExpression be = GetBindingExpression(TextProperty);
-        //    if (be != null) be.UpdateTarget();
-        //    FocusHelper.Focus(this);
-        //}
+        private void OnTreeViewEditTextBoxLoaded(object sender, RoutedEventArgs e)
+        {
+            BindingExpression be = GetBindingExpression(TextProperty);
+            if (be != null) be.UpdateTarget();
+            FocusHelper.Focus(this);
+        }
 
         #endregion
     }
