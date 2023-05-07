@@ -441,7 +441,6 @@
       <DependentUpon>OpenLinksUnloadedWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\BaseElement.cs" />
-    <Compile Include="Models\TreeView.cs" />
     <Compile Include="Models\WarningsPreprocessor.cs" />
     <Compile Include="Tab\Models\PushButtonIdentityData.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
