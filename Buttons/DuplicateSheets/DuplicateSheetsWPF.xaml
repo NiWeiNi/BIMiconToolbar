@@ -34,9 +34,13 @@
                 </TextBlock>
                 <!-- Scroll to display selectable elements -->
                 <Border Style="{StaticResource OuterBorder}" Margin="0,0,10,0" Height="340">
-                    <ScrollViewer HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible" Width="375">
-                        <StackPanel x:Name="sheets" />
-                    </ScrollViewer>
+                    <ListView x:Name="sheetsList" BorderThickness="0" ItemsSource="{Binding Sheets}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Border>
             </StackPanel>
 
