@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
+using BIMicon.BIMiconToolbar.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +19,24 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
         /// <summary>
         ///  Properties to store ComboBox items
         /// </summary>
+
+        private Document Doc;
+        private ObservableCollection<BaseElement> _views;
+
+        public ObservableCollection<BaseElement> Views
+        {
+            get { return _views; }
+            set { _views = value; }
+        }
+
+        private ObservableCollection<BaseElement> _viewToCopy;
+
+        public ObservableCollection<BaseElement> ViewToCopy
+        {
+            get { return _viewToCopy; }
+            set { _viewToCopy = value; }
+        }
+
         public ObservableCollection<ComboBoxItem> CbItems { get; set; }
         public ComboBoxItem SelectedComboItem { get; set; }
         public IEnumerable<View> FilteredViewsCheckBox { get; set; }
@@ -31,15 +50,57 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
         /// <param name="commandData"></param>
         public MatchGridsWPF(ExternalCommandData commandData)
         {
-            Document doc = commandData.Application.ActiveUIDocument.Document;
+            Doc = commandData.Application.ActiveUIDocument.Document;
+
+            DataContext = this;
+            LoadViews();
 
             InitializeComponent();
-            DataContext = this;
 
             CbItems = new ObservableCollection<ComboBoxItem>();
             CopyDim = false;
 
-            FilteredElementCollector viewsCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views);
+            //FilteredElementCollector viewsCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views);
+            //List<View> filteredV = viewsCollector.Cast<View>()
+            //                       .Where(sh =>
+            //                       sh.ViewType == ViewType.AreaPlan ||
+            //                       sh.ViewType == ViewType.CeilingPlan ||
+            //                       sh.ViewType == ViewType.Elevation ||
+            //                       sh.ViewType == ViewType.FloorPlan ||
+            //                       sh.ViewType == ViewType.Section)
+            //                       .Where(view => !view.IsTemplate)
+            //                       .ToList();
+
+            //IOrderedEnumerable<View> views = filteredV.OrderBy(v => v.ViewType).ThenBy(v => v.Name);
+
+            //FilteredViewsCheckBox = filteredV;
+
+            //int count = 0;
+
+            //foreach (var v in views)
+            //{
+            //    ComboBoxItem comb = new ComboBoxItem();
+            //    comb.Content = v.ViewType + " - " + v.Name;
+            //    comb.Tag = v;
+            //    CbItems.Add(comb);
+
+            //    if (count == 0)
+            //    {
+            //        SelectedComboItem = comb;
+            //    }
+
+            //    count++;
+            //}
+
+            //// Associate the event-handling method with the SelectedIndexChanged event
+            //this.comboDisplay.SelectionChanged += new SelectionChangedEventHandler(MyComboChanged);
+
+            //ViewCheckBoxes(Doc);
+        }
+
+        private void LoadViews()
+        {
+            FilteredElementCollector viewsCollector = new FilteredElementCollector(Doc).OfCategory(BuiltInCategory.OST_Views);
             List<View> filteredV = viewsCollector.Cast<View>()
                                    .Where(sh =>
                                    sh.ViewType == ViewType.AreaPlan ||
@@ -50,31 +111,9 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
                                    .Where(view => !view.IsTemplate)
                                    .ToList();
 
-            IOrderedEnumerable<View> views = filteredV.OrderBy(v => v.ViewType).ThenBy(v => v.Name);
-
-            FilteredViewsCheckBox = filteredV;
-
-            int count = 0;
-
-            foreach (var v in views)
-            {
-                ComboBoxItem comb = new ComboBoxItem();
-                comb.Content = v.ViewType + " - " + v.Name;
-                comb.Tag = v;
-                CbItems.Add(comb);
-
-                if (count == 0)
-                {
-                    SelectedComboItem = comb;
-                }
-
-                count++;
-            }
-
-            // Associate the event-handling method with the SelectedIndexChanged event
-            this.comboDisplay.SelectionChanged += new SelectionChangedEventHandler(MyComboChanged);
-
-            ViewCheckBoxes(doc);
+            Views = new ObservableCollection<BaseElement>(filteredV
+                .OrderBy(v => v.Name)
+                .Select(v => new BaseElement() { Name = v.Name, Id = v.Id.IntegerValue }));
         }
 
         /// <summary>
@@ -102,50 +141,50 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
                                     .Where(v => v != selectedView)
                                     .Where(v => HelpersGeometry.AreVectorsParallel(v.ViewDirection, viewDirection));
 
-            UpdateViewCheckBoxes(views);
+            //UpdateViewCheckBoxes(views);
         }
 
         /// <summary>
         /// Update views for selection
         /// </summary>
         /// <param name="views"></param>
-        private void UpdateViewCheckBoxes(IEnumerable<View> views)
-        {
-            viewsCheckBox.Children.Clear();
+        //private void UpdateViewCheckBoxes(IEnumerable<View> views)
+        //{
+        //    viewsCheckBox.Children.Clear();
 
-            IOrderedEnumerable<View> orderViews = views.OrderBy(v => v.ViewType).ThenBy(v => v.Name);
+        //    IOrderedEnumerable<View> orderViews = views.OrderBy(v => v.ViewType).ThenBy(v => v.Name);
 
-            foreach (var v in orderViews)
-            {
-                CheckBox checkBox = new CheckBox
-                {
-                    Content = v.ViewType + " - " + v.Name,
-                    Name = "ID" + v.Id.ToString()
-                };
-                viewsCheckBox.Children.Add(checkBox);
-            }
-        }
+        //    foreach (var v in orderViews)
+        //    {
+        //        CheckBox checkBox = new CheckBox
+        //        {
+        //            Content = v.ViewType + " - " + v.Name,
+        //            Name = "ID" + v.Id.ToString()
+        //        };
+        //        viewsCheckBox.Children.Add(checkBox);
+        //    }
+        //}
 
         /// <summary>
         /// Dynamically populate checkboxes
         /// </summary>
         /// <param name="doc"></param>
-        private void ViewCheckBoxes(Document doc)
-        {
-            FilteredElementCollector viewsCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views);
+        //private void ViewCheckBoxes(Document doc)
+        //{
+        //    FilteredElementCollector viewsCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views);
 
-            IOrderedEnumerable<View> views = from View view in viewsCollector orderby view.ViewType orderby view.Name ascending select view;
+        //    IOrderedEnumerable<View> views = from View view in viewsCollector orderby view.ViewType orderby view.Name ascending select view;
 
-            foreach (var v in views)
-            {
-                CheckBox checkBox = new CheckBox
-                {
-                    Content = v.Name,
-                    Name = "ID" + v.Id.ToString()
-                };
-                viewsCheckBox.Children.Add(checkBox);
-            }
-        }
+        //    foreach (var v in views)
+        //    {
+        //        CheckBox checkBox = new CheckBox
+        //        {
+        //            Content = v.Name,
+        //            Name = "ID" + v.Id.ToString()
+        //        };
+        //        viewsCheckBox.Children.Add(checkBox);
+        //    }
+        //}
 
         /// <summary>
         /// Set properties once clicked Ok
@@ -155,7 +194,7 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
         private void OK_Click(object sender, RoutedEventArgs e)
         {
             // Retrieve all checked checkboxes
-            IEnumerable<CheckBox> list = this.viewsCheckBox.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
+            IEnumerable<CheckBox> list = null;//this.viewsCheckBox.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
 
             IntegerIds = new List<int>();
 
@@ -175,15 +214,15 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void reset_Click(object sender, RoutedEventArgs e)
-        {
-            var list = this.viewsCheckBox.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
+        //private void reset_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var list = this.viewsCheckBox.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
 
-            foreach (var x in list)
-            {
-                x.IsChecked = false;
-            }
-        }
+        //    foreach (var x in list)
+        //    {
+        //        x.IsChecked = false;
+        //    }
+        //}
 
         /// <summary>
         /// Function to cancel current operation

@@ -25,8 +25,9 @@
                 Please select elevation symbol:
             </TextBlock>
             <ComboBox x:Name="comboDisplayViewType"
-                      ItemsSource="{Binding CbItemsViewType}"
-                      SelectedItem="{Binding SelectedComboItemViewType}"
+                      DisplayMemberPath="Name"
+                      IsSynchronizedWithCurrentItem="True"
+                      ItemsSource="{Binding ViewTypes}"
                       Style="{StaticResource comboDisplay}">
             </ComboBox>
             
@@ -35,8 +36,9 @@
                 Select title block:
             </TextBlock>
             <ComboBox x:Name="comboDisplayTitleBlock"
-                      ItemsSource="{Binding CbItemsTitleBlock}" 
-                      SelectedItem="{Binding SelectedComboItemTitleBlock}"
+                      DisplayMemberPath="Name"
+                      IsSynchronizedWithCurrentItem="True"
+                      ItemsSource="{Binding Titleblocks}" 
                       Style="{StaticResource comboDisplay}">
             </ComboBox>
             
@@ -63,8 +65,9 @@
                 Select view template:
             </TextBlock>
             <ComboBox x:Name="comboDisplayViewTemplate"
-                      ItemsSource="{Binding CbItemsViewTemplate}" 
-                      SelectedItem="{Binding SelectedComboItemViewTemplate}"
+                      DisplayMemberPath="Name"
+                      IsSynchronizedWithCurrentItem="True"
+                      ItemsSource="{Binding ViewTemplates}"
                       Style="{StaticResource comboDisplay}">
             </ComboBox>
             
@@ -73,9 +76,13 @@
                 Select rooms to create interior elevations:
             </TextBlock>
             <Border Style="{StaticResource OuterBorder}">
-                <ScrollViewer HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible" Width="375">
-                    <StackPanel x:Name="roomsCheckBoxes" />
-                </ScrollViewer>
+                <ListView x:Name="roomsList" BorderThickness="0" ItemsSource="{Binding Rooms}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Border>
 
             <!-- Buttons End -->
@@ -85,8 +92,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="0" IsDefault="True" Margin="0 0 10 0"></Button>
-                <Button x:Name="reset" Click="reset_Click"  Content="Reset" Grid.Column="1"  Margin="5 0 5 0"></Button>
+                <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="1" IsDefault="True" Margin="0 0 10 0"></Button>
                 <Button x:Name="cancel" Click="cancel_Click" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
             </Grid>
         </StackPanel>

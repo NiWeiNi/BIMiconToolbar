@@ -56,9 +56,13 @@
             </TextBlock>
 
             <Border Style="{StaticResource OuterBorder}">
-                <ScrollViewer>
-                    <StackPanel x:Name="viewsCheckBox" />
-                </ScrollViewer>
+                <ListView x:Name="viewsList" BorderThickness="0" ItemsSource="{Binding Views}" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Border>
 
             <!-- Buttons End -->
@@ -69,7 +73,6 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="0" IsDefault="True" Margin="0 0 10 0"></Button>
-                <Button x:Name="reset" Click="reset_Click" Content="Reset" Grid.Column="1"  Margin="5 0 5 0"></Button>
                 <Button x:Name="cancel" Click="cancel_Click" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
             </Grid>
         </StackPanel>

@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +19,36 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
         /// <summary>
         ///  Properties to store variables
         /// </summary>
+        private Document Doc;
+        private ObservableCollection<BaseElement> _rooms;
+        public ObservableCollection<BaseElement> Rooms
+        {
+            get { return _rooms; }
+            set { _rooms = value; }
+        }
+        private ObservableCollection<BaseElement> _titleblocks;
+
+        public ObservableCollection<BaseElement> Titleblocks
+        {
+            get { return _titleblocks; }
+            set { _titleblocks = value; }
+        }
+        private ObservableCollection<BaseElement> _viewTemplates;
+
+        public ObservableCollection<BaseElement> ViewTemplates
+        {
+            get { return _viewTemplates; }
+            set { _viewTemplates = value; }
+        }
+
+        private ObservableCollection<BaseElement> _viewTypes;
+
+        public ObservableCollection<BaseElement> ViewTypes
+        {
+            get { return _viewTypes; }
+            set { _viewTypes = value; }
+        }
+
         public ObservableCollection<ComboBoxItem> CbItemsViewType { get; set; }
         public ComboBoxItem SelectedComboItemViewType { get; set; }
         public ObservableCollection<ComboBoxItem> CbItemsTitleBlock { get; set; }
@@ -34,23 +65,77 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
         /// <param name="commandData"></param>
         public InteriorElevationsWindow(ExternalCommandData commandData)
         {
-            Document doc = commandData.Application.ActiveUIDocument.Document;
+            Doc = commandData.Application.ActiveUIDocument.Document;
 
-            InitializeComponent();
+            LoadRooms();
+            LoadTitleblocks();
+            LoadViewTemplates();
+            LoadViewTypes();
+
             DataContext = this;
 
-            // ComboBoxes
-            ComboBoxTitleBlock(doc);
-            ComboBoxViewTemplate(doc);
-            ComboBoxViewType(doc);
+            InitializeComponent();
+        }
 
-            // Check boxes
-            RoomsCheckBoxes(doc);
+        private void LoadViewTemplates()
+        {
+            FilteredElementCollector viewTempsCollector = new FilteredElementCollector(Doc)
+                                                 .OfCategory(BuiltInCategory.OST_Views);
 
-            // Associate the event-handling method with the SelectedIndexChanged event
-            this.comboDisplayViewType.SelectionChanged += new SelectionChangedEventHandler(ComboChangedViewType);
-            this.comboDisplayTitleBlock.SelectionChanged += new SelectionChangedEventHandler(ComboChangedTitleBlock);
-            this.comboDisplayViewTemplate.SelectionChanged += new SelectionChangedEventHandler(ComboChangedViewTemplate);
+            List<View> filteredViewTypes = viewTempsCollector.Cast<View>().Where(sh =>
+                                           sh.IsTemplate).ToList();
+
+            ViewTemplates = new ObservableCollection<BaseElement>(filteredViewTypes
+                .OrderBy(x => x.Name)
+                .Select(x => new BaseElement() { Name = x.Name, Id = x.Id.IntegerValue })
+                .ToList());
+        }
+
+        private void LoadViewTypes()
+        {
+            FilteredElementCollector viewTypesCollector = new FilteredElementCollector(Doc).OfClass(typeof(ViewFamilyType))
+                                                                               .WhereElementIsElementType();
+
+            List<ViewFamilyType> filteredViewTypes = viewTypesCollector.Cast<ViewFamilyType>().Where(sh =>
+                                   sh.ViewFamily == ViewFamily.Elevation).ToList();
+
+            ViewTypes = new ObservableCollection<BaseElement>(filteredViewTypes
+                .OrderBy(x => x.Name)
+                .Select(x => new BaseElement() { Name = x.Name, Id = x.Id.IntegerValue })
+                .ToList());
+        }
+
+        /// <summary>
+        /// Method to load rooms
+        /// </summary>
+        private void LoadRooms()
+        {
+            ElementCategoryFilter filter = new ElementCategoryFilter(BuiltInCategory.OST_Rooms);
+            var roomsCollector = new FilteredElementCollector(Doc)
+                .WherePasses(filter)
+                .Cast<Room>()
+                .Where(r => r.Area > 0)
+                .ToList();
+
+            Rooms = new ObservableCollection<BaseElement>(roomsCollector
+                .OrderBy(x => x.Number)
+                .Select(x => new BaseElement() { Name = x.Number + " - " + x.Name, Id = x.Id.IntegerValue })
+                .ToList());
+        }
+
+        /// <summary>
+        /// Method to polpulate Floor Types Combo boxes
+        /// </summary>
+        private void LoadTitleblocks()
+        {
+            FilteredElementCollector titleBlocksCollector = new FilteredElementCollector(Doc)
+                                                            .OfCategory(BuiltInCategory.OST_TitleBlocks)
+                                                            .WhereElementIsElementType();
+
+            Titleblocks = new ObservableCollection<BaseElement>(titleBlocksCollector
+                .OrderBy(x => x.Name)
+                .Select(x => new BaseElement() { Name = x.Name, Id = x.Id.IntegerValue })
+                .ToList());
         }
 
         /// <summary>
@@ -205,7 +290,7 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
             }
 
             // Retrieve all checked checkboxes
-            IEnumerable<CheckBox> list = this.roomsCheckBoxes.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
+            IEnumerable<CheckBox> list = null;//this.roomsCheckBoxes.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
 
             IntegerIds = new List<int>();
 
@@ -227,12 +312,12 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
         /// <param name="e"></param>
         private void reset_Click(object sender, RoutedEventArgs e)
         {
-            var list = this.roomsCheckBoxes.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
+            //var list = n ;//this.roomsCheckBoxes.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
 
-            foreach (var x in list)
-            {
-                x.IsChecked = false;
-            }
+            //foreach (var x in list)
+            //{
+            //    x.IsChecked = false;
+            //}
         }
 
         /// <summary>
@@ -270,7 +355,7 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
                 CheckBox checkBox = new CheckBox();
                 checkBox.Content = room.Number + " - " + room.Name;
                 checkBox.Name = "ID" + room.Id.ToString();
-                roomsCheckBoxes.Children.Add(checkBox);
+                //roomsCheckBoxes.Children.Add(checkBox);
             }
         }
     }
