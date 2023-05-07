@@ -9,7 +9,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using TreeView = BIMicon.BIMiconToolbar.Models.TreeView;
 
 namespace BIMicon.BIMiconToolbar.FloorFinish
 {
@@ -21,12 +20,29 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
         /// <summary>
         ///  Properties to store variables
         /// </summary>
-        public ObservableCollection<ComboBoxItem> CbItemsFloorTypes { get; set; }
-        public ComboBoxItem SelectedComboItemFloorType { get; set; }
-        Document Doc { get; set; }
+        public ObservableCollection<BaseElement> _floorTypes;
+        public ObservableCollection<BaseElement> FloorTypes
+        {
+            get { return _floorTypes; }
+            set { _floorTypes = value; }
+        }
+        private BaseElement _selectedFloorType;
+
+        public BaseElement SelectedFloorType
+        {
+            get { return _selectedFloorType; }
+            set { _selectedFloorType = value; }
+        }
+        private Document Doc { get; set; }
         public double FloorOffset { get; set; }
         public string StringInternalUnits { get; set; }
         private bool IsExecuteReady = false;
+        private ObservableCollection<BaseElement> _rooms;
+        public ObservableCollection<BaseElement> Rooms
+        {
+            get { return _rooms; }
+            set { _rooms = value; }
+        }
 
         /// <summary>
         /// Method to initialize the window and populate content
@@ -35,74 +51,48 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
         {
             Doc = commandData.Application.ActiveUIDocument.Document;
 
-            InitializeComponent();
             DataContext = this;
+            // Populate floor types and rooms
+            LoadFloorTypes();
+            LoadRooms();
 
+            InitializeComponent();
+            
             // Set the input units
-            offsetTextBlock.Text = "Offset from level in " ;
-
-            // Populate floor types
-            ComboBoxFloorTypes(Doc);
-
-            // Associate the event-handling method with the SelectedIndexChanged event
-            this.comboDisplayFloorTypes.SelectionChanged += new SelectionChangedEventHandler(ComboChangedFloorType);
+            offsetTextBlock.Text = "Offset from level:" ;
         }
 
         /// <summary>
         /// Method to polpulate Floor Types Combo boxes
         /// </summary>
-        /// <param name="doc"></param>
-        private void ComboBoxFloorTypes(Document doc)
+        private void LoadFloorTypes()
         {
-            CbItemsFloorTypes= new ObservableCollection<ComboBoxItem>();
-
-            FilteredElementCollector floorTypesCollector = new FilteredElementCollector(doc)
+            FilteredElementCollector floorTypesCollector = new FilteredElementCollector(Doc)
                                                            .OfCategory(BuiltInCategory.OST_Floors)
                                                            .WhereElementIsElementType();
 
-            IOrderedEnumerable<ElementType> floorTypes = from ElementType fT in floorTypesCollector orderby fT.Name ascending select fT;
-
-            int count = 0;
-
-            foreach (var v in floorTypes)
-            {
-                ComboBoxItem comb = new ComboBoxItem
-                {
-                    Content = v.Name,
-                    Tag = v
-                };
-                CbItemsFloorTypes.Add(comb);
-
-                if (count == 0)
-                {
-                    SelectedComboItemFloorType = comb;
-                }
-
-                count++;
-            }
+            FloorTypes = new ObservableCollection<BaseElement>(floorTypesCollector
+                .OrderBy(x => x.Name)
+                .Select(x => new BaseElement() { Name = x.Name, Id = x.Id.IntegerValue })
+                .ToList());
         }
 
         /// <summary>
-        /// Method to update flor type according to selected floor type
+        /// Method to load rooms
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ComboChangedFloorType(object sender, SelectionChangedEventArgs e)
+        private void LoadRooms()
         {
-            int selectedItemIndex = CbItemsFloorTypes.IndexOf(SelectedComboItemFloorType);
-            SelectedComboItemFloorType = CbItemsFloorTypes[selectedItemIndex];
-        }
+            ElementCategoryFilter filter = new ElementCategoryFilter(BuiltInCategory.OST_Rooms);
+            var roomsCollector = new FilteredElementCollector(Doc)
+                .WherePasses(filter)
+                .Cast<Room>()
+                .Where(r => r.Area > 0)
+                .ToList();
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            var filter = new ElementCategoryFilter(BuiltInCategory.OST_Rooms);
-            var roomsCollector = new FilteredElementCollector(Doc).WherePasses(filter)
-                                                                  .Cast<Room>()
-                                                                  .Where(r => r.Area > 0).Cast<Element>().ToList();
-
-            Dictionary<string, List<Element>> dictionaryElements = new Dictionary<string, List<Element>> { { "Rooms", roomsCollector } };
-
-            roomsTreeView.ItemsSource = TreeView.SetTree(dictionaryElements);
+            Rooms = new ObservableCollection<BaseElement> ( roomsCollector
+                .OrderBy(x => x.Number)
+                .Select(x => new BaseElement() { Name = x.Number + " - " + x.Name, Id = x.Id.IntegerValue })
+                .ToList() );
         }
 
         /// <summary>
@@ -117,11 +107,6 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                 // Close window
                 this.Close();
 
-                // Retrieve all checked checkboxes
-                List<BaseElement> selected = new List<BaseElement>();
-                TreeView treeView = (TreeView)roomsTreeView.Items[0];
-                TreeView.GetTree(treeView, out selected);
-
                 // SpatialElement boundary options
                 SpatialElementBoundaryOptions sEBOpt = new SpatialElementBoundaryOptions();
 
@@ -130,13 +115,16 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                 tg.Start();
 
                 // Add all checked checkboxes to global variable
-                foreach (BaseElement bE in selected)
+                foreach (BaseElement bE in roomsList.SelectedItems)
                 {
                     Element element = Doc.GetElement(new ElementId(bE.Id));
                     SpatialElement sE = element as SpatialElement;
 
                     // Retrieve level
                     Level level = sE.Level;
+
+                    // Retrieve floor type
+                    FloorType selectedFloorType = Doc.GetElement(new ElementId(SelectedFloorType.Id)) as FloorType;
 
                     // Store the floor created with first boundaries
                     Element floorElement = null;
@@ -172,9 +160,9 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                             Floor floor = null;
 #if v2023 || v2024
                             List<CurveLoop> profile = new List<CurveLoop>() { curveLoop };
-                            floor = Floor.Create(doc, profile, (SelectedComboItemFloorType.Tag as FloorType).Id, level.Id);
+                            floor = Floor.Create(doc, profile, selectedFloorType.Id, level.Id);
 #else
-                            floor = Doc.Create.NewFloor(floorBoundary, SelectedComboItemFloorType.Tag as FloorType, level, false);
+                            floor = Doc.Create.NewFloor(floorBoundary, selectedFloorType, level, false);
 #endif
                             floorElement = floor as Element;
 
