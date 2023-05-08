@@ -35,6 +35,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
         }
         private Document Doc { get; set; }
         public double FloorOffset { get; set; }
+        public BaseElement SelectedTitleblock { get; set; }
         public string StringInternalUnits { get; set; }
         private bool IsExecuteReady = false;
         private ObservableCollection<BaseElement> _rooms;

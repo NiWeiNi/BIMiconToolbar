@@ -25,7 +25,7 @@ namespace BIMicon.BIMiconToolbar.DuplicateSheets
 
                 // Retrieve all user input
                 List<int> sheetIds = customWindow.sheetIds;
-                var titleBlockComboBox = customWindow.SelectedComboItemTitleBlock;
+                var titleBlockComboBox = customWindow.SelectedTitleblock;
                 var copyViews = customWindow.copyViews;
                 var optDuplicate = customWindow.optDuplicate;
                 var optDuplicateDetailing = customWindow.optDuplicateDetailing;
@@ -66,9 +66,9 @@ namespace BIMicon.BIMiconToolbar.DuplicateSheets
 
                     // Retrieve title block according to user input
                     FamilyInstance titleblock = null;
-                    if (titleBlockComboBox.Content as string != "Current Title Block")
+                    if (titleBlockComboBox.Name != "Current Title Block")
                     {
-                        titleblock = titleBlockComboBox.Tag as FamilyInstance;
+                        titleblock = doc.GetElement(new ElementId(titleBlockComboBox.Id)) as FamilyInstance;
                     }
                     else
                     {

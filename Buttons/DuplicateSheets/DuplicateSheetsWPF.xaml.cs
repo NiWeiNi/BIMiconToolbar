@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,8 +19,26 @@ namespace BIMicon.BIMiconToolbar.DuplicateSheets
         /// Store selected sheets for main programs use
         /// </summary>
         public List<int> sheetIds = new List<int>();
-        public ObservableCollection<ComboBoxItem> CbTitleBlocks { get; set; }
-        public ComboBoxItem SelectedComboItemTitleBlock { get; set; }
+        private ObservableCollection<BaseElement> _sheets;
+        public ObservableCollection<BaseElement> Sheets
+        {
+            get { return _sheets; }
+            set { _sheets = value; }
+        }
+        private ObservableCollection<BaseElement> _titleblocks;
+
+        public ObservableCollection<BaseElement> Titleblocks
+        {
+            get { return _titleblocks; }
+            set { _titleblocks = value; }
+        }
+        private Document _doc;
+        public Document Doc
+        {
+            get { return _doc; }
+            set { _doc = value; }
+        }
+        public BaseElement SelectedTitleblock { get; set; }
         public Boolean copyViews = true;
         public Boolean optDuplicate = true;
         public Boolean optDuplicateDetailing = false;
@@ -35,17 +54,41 @@ namespace BIMicon.BIMiconToolbar.DuplicateSheets
         /// <param name="commandData"></param>
         public DuplicateSheetsWPF(ExternalCommandData commandData)
         {
-            Document doc = commandData.Application.ActiveUIDocument.Document;
-
-            InitializeComponent();
+            Doc = commandData.Application.ActiveUIDocument.Document;
             DataContext = this;
 
-            // Populate sheet checkboxes
-            SheetCheckboxes(doc);
-            PopulateTitleBlocks(doc);
+            LoadSheets();
+            LoadTitleblocks();
+            InitializeComponent();
+        }
 
-            // Associate the event-handling method with the SelectedIndexChanged event
-            this.comboDisplayTitleBlock.SelectionChanged += new SelectionChangedEventHandler(ComboChangedTitleBlock);
+        private void LoadSheets()
+        {
+            FilteredElementCollector sheetsCollector = new FilteredElementCollector(Doc).OfCategory(BuiltInCategory.OST_Sheets);
+            List<ViewSheet> sheets = sheetsCollector.Cast<ViewSheet>().ToList();
+
+            Sheets = new ObservableCollection<BaseElement>(sheets
+                .OrderBy(x => x.SheetNumber)
+                .Select(x => new BaseElement() { Name = x.SheetNumber + " - " + x.Name, Id = x.Id.IntegerValue })
+                .ToList());
+        }
+
+        /// <summary>
+        /// Method to polpulate Floor Types Combo boxes
+        /// </summary>
+        private void LoadTitleblocks()
+        {
+            FilteredElementCollector titleBlocksCollector = new FilteredElementCollector(Doc)
+                                                            .OfCategory(BuiltInCategory.OST_TitleBlocks)
+                                                            .WhereElementIsElementType();
+            List<BaseElement> titleblocks = titleBlocksCollector
+                .OrderBy(x => x.Name)
+                .Select(x => new BaseElement() { Name = x.Name, Id = x.Id.IntegerValue })
+                .ToList();
+
+            titleblocks.Insert(0, new BaseElement() { Name = "Current Title Block", Id = 0 });
+
+            Titleblocks = new ObservableCollection<BaseElement>(titleblocks);
         }
 
         /// <summary>
@@ -69,78 +112,10 @@ namespace BIMicon.BIMiconToolbar.DuplicateSheets
         }
 
         /// <summary>
-        /// Dynamically populate checkboxes
-        /// </summary>
-        /// <param name="doc"></param>
-        private void SheetCheckboxes(Document doc)
-        {
-            FilteredElementCollector sheetsCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Sheets);
-
-            IOrderedEnumerable<ViewSheet> vSheets = from ViewSheet vSheet in sheetsCollector orderby vSheet.SheetNumber ascending select vSheet;
-
-            foreach (var sheet in vSheets)
-            {
-                CheckBox checkBox = new CheckBox();
-                checkBox.Content = sheet.SheetNumber + " - " + sheet.Name;
-                checkBox.Name = "ID" + sheet.Id.ToString();
-                sheets.Children.Add(checkBox);
-            }
-        }
-
-        /// <summary>
-        /// Function to craete comboBox with title blocks
-        /// </summary>
-        /// <param name="doc"></param>
-        private void PopulateTitleBlocks(Document doc)
-        {
-            CbTitleBlocks = new ObservableCollection<ComboBoxItem>();
-
-            // Select TitleBlocks
-            PhaseArray aPhase = doc.Phases;
-            FilteredElementCollector titleBlocksCollector = new FilteredElementCollector(doc)
-                                                            .OfCategory(BuiltInCategory.OST_TitleBlocks)
-                                                            .WhereElementIsElementType();
-
-            IOrderedEnumerable<FamilySymbol> titleBlocks = titleBlocksCollector.Cast<FamilySymbol>().OrderBy(tb => tb.Family.Name);
-
-            int count = 0;
-
-            foreach (var tb in titleBlocks)
-            {
-                if (count == 0)
-                {
-                    ComboBoxItem combo = new ComboBoxItem();
-                    combo.Content = "Current Title Block";
-                    CbTitleBlocks.Add(combo);
-                    SelectedComboItemTitleBlock = combo;
-                }
-
-                ComboBoxItem comb = new ComboBoxItem();
-                comb.Content = tb.Family.Name + " - " + tb.Name;
-                comb.Tag = tb;
-                CbTitleBlocks.Add(comb);
-
-                count++;
-            }
-        }
-
-        /// <summary>
-        /// Function to update title block
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ComboChangedTitleBlock(object sender, SelectionChangedEventArgs e)
-        {
-            int selectedItemIndex = CbTitleBlocks.IndexOf(SelectedComboItemTitleBlock);
-            SelectedComboItemTitleBlock = CbTitleBlocks[selectedItemIndex];
-        }
-
-        /// <summary>
         /// Function to flag copy views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-
         private void withoutViews_Checked(object sender, RoutedEventArgs e)
         {
             copyViews = !copyViews;
@@ -192,15 +167,10 @@ namespace BIMicon.BIMiconToolbar.DuplicateSheets
         /// <param name="e"></param>
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            // Retrieve all checked checkboxes
-            IEnumerable<CheckBox> list = this.sheets.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
-
             // Add all checked checkboxes to global variable
-            foreach (var x in list)
+            foreach (BaseElement x in sheetsList.SelectedItems)
             {
-                // Retrieve ids of checked sheets
-                int intId = Int32.Parse(x.Name.Replace("ID", ""));
-                sheetIds.Add(intId);
+                sheetIds.Add(x.Id);
             }
 
             // Retrieve user's input for prefixes and suffixes

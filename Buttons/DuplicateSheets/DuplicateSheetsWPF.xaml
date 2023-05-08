@@ -51,8 +51,10 @@
                             Select Title block:
                     </TextBlock>
                     <ComboBox x:Name="comboDisplayTitleBlock"
-                                    ItemsSource="{Binding CbTitleBlocks}"
-                                    SelectedItem="{Binding SelectedComboItemTitleBlock}"
+                                    DisplayMemberPath="Name"
+                                    IsSynchronizedWithCurrentItem="True"
+                                    ItemsSource="{Binding Titleblocks}"
+                                    SelectedItem="{Binding SelectedTitleblock}"
                                     Style="{StaticResource comboDisplay}">
                     </ComboBox>
 
