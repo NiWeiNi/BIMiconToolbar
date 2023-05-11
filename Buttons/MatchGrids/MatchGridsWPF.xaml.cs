@@ -2,12 +2,15 @@
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
 using BIMicon.BIMiconToolbar.Models;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
+using View = Autodesk.Revit.DB.View;
 
 namespace BIMicon.BIMiconToolbar.MatchGrids
 {
@@ -42,6 +45,7 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
         public IEnumerable<View> FilteredViewsCheckBox { get; set; }
         public List<int> IntegerIds { get; set; }
         public bool CopyDim { get; set; }
+        public List<BaseElement> ViewsInProject { get; set; }
 
 
         /// <summary>
@@ -56,14 +60,13 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
             LoadViews();
             InitializeComponent();
 
-            CbItems = new ObservableCollection<ComboBoxItem>();
             CopyDim = false;
         }
 
         private void LoadViews()
         {
             FilteredElementCollector viewsCollector = new FilteredElementCollector(Doc).OfCategory(BuiltInCategory.OST_Views);
-            List<View> filteredV = viewsCollector.Cast<View>()
+            List<View> viewsInProject = viewsCollector.Cast<View>()
                                    .Where(sh =>
                                    sh.ViewType == ViewType.AreaPlan ||
                                    sh.ViewType == ViewType.CeilingPlan ||
@@ -74,11 +77,15 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
                                    .Where(view => !view.IsTemplate)
                                    .ToList();
 
-            ViewToCopy = new ObservableCollection<BaseElement>(filteredV
+            ViewToCopy = new ObservableCollection<BaseElement>(viewsInProject
                 .Select(v => new BaseElement() { Name = v.ViewType.ToString() + " - " + v.Name, Id = v.Id.IntegerValue })
                 .OrderBy(v => v.Name));
 
-            Views = new ObservableCollection<BaseElement>(filteredV
+            Views = new ObservableCollection<BaseElement>(viewsInProject
+                .Select(v => new BaseElement() { Name = v.ViewType.ToString() + " - " + v.Name, Id = v.Id.IntegerValue })
+                .OrderBy(v => v.Name));
+
+            ViewsInProject = new List<BaseElement>(viewsInProject
                 .Select(v => new BaseElement() { Name = v.ViewType.ToString() + " - " + v.Name, Id = v.Id.IntegerValue })
                 .OrderBy(v => v.Name));
         }
@@ -98,17 +105,21 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
         /// <param name="e"></param>
         private void MyComboChanged(object sender, SelectionChangedEventArgs e)
         {
-            //int selectedItemIndex = CbItems.IndexOf(SelectedComboItem);
-            View selectedView= (View)CbItems[0].Tag;
-            ViewType selectedViewType = selectedView.ViewType;
+            Views.Remove(Views.Single(i => i.Id == SelectedViewToCopy.Id));
 
+            View selectedView = Doc.GetElement(new ElementId(SelectedViewToCopy.Id)) as View;
             XYZ viewDirection = selectedView.ViewDirection;
 
-            IEnumerable<View> views = FilteredViewsCheckBox
-                                    .Where(v => v != selectedView)
-                                    .Where(v => HelpersGeometry.AreVectorsParallel(v.ViewDirection, viewDirection));
+            List<BaseElement> selViews = ViewsInProject
+                .Where(x => x.Id != SelectedViewToCopy.Id)
+                .Where(x => !Views.Select(y => y.Id).Contains(x.Id))
+                .Where(x => HelpersGeometry.AreVectorsParallel(viewDirection, (Doc.GetElement(new ElementId(x.Id)) as View).ViewDirection))
+                .ToList();
 
-            //UpdateViewCheckBoxes(views);
+            foreach (BaseElement bs in  selViews)
+            {
+                Views.Add(bs);
+            }
         }
 
         /// <summary>
@@ -118,17 +129,13 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
         /// <param name="e"></param>
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            // Retrieve all checked checkboxes
-            IEnumerable<CheckBox> list = null;//this.viewsCheckBox.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
 
             IntegerIds = new List<int>();
 
             // Add all checked checkboxes to global variable
-            foreach (var x in list)
+            foreach (BaseElement x in viewsList.SelectedItems)
             {
-                // Retrieve ids of checked sheets
-                int intId = Int32.Parse(x.Name.Replace("ID", ""));
-                IntegerIds.Add(intId);
+                IntegerIds.Add(x.Id);
             }
 
             this.Dispose();
