@@ -105,18 +105,18 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
         /// <param name="e"></param>
         private void MyComboChanged(object sender, SelectionChangedEventArgs e)
         {
-            Views.Remove(Views.Single(i => i.Id == SelectedViewToCopy.Id));
+            Views.Clear();
 
             View selectedView = Doc.GetElement(new ElementId(SelectedViewToCopy.Id)) as View;
             XYZ viewDirection = selectedView.ViewDirection;
 
             List<BaseElement> selViews = ViewsInProject
                 .Where(x => x.Id != SelectedViewToCopy.Id)
-                .Where(x => !Views.Select(y => y.Id).Contains(x.Id))
+                //.Where(x => !Views.Select(y => y.Id).Contains(x.Id))
                 .Where(x => HelpersGeometry.AreVectorsParallel(viewDirection, (Doc.GetElement(new ElementId(x.Id)) as View).ViewDirection))
                 .ToList();
 
-            foreach (BaseElement bs in  selViews)
+            foreach (BaseElement bs in selViews)
             {
                 Views.Add(bs);
             }
