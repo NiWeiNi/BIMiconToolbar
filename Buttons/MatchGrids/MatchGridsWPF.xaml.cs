@@ -112,7 +112,6 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
 
             List<BaseElement> selViews = ViewsInProject
                 .Where(x => x.Id != SelectedViewToCopy.Id)
-                //.Where(x => !Views.Select(y => y.Id).Contains(x.Id))
                 .Where(x => HelpersGeometry.AreVectorsParallel(viewDirection, (Doc.GetElement(new ElementId(x.Id)) as View).ViewDirection))
                 .ToList();
 
@@ -159,6 +158,11 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
         private void dimYes_Checked(object sender, RoutedEventArgs e)
         {
             this.CopyDim = !CopyDim;
+        }
+
+        private void searchTbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

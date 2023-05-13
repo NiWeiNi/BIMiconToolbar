@@ -470,6 +470,7 @@
     <Content Include="BIMicon.addin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\iconSearch.png" />
     <None Include="SetupBIMiconToolbar\Product.wxs" />
     <None Include="SetupBIMiconToolbar\SetupBIMiconToolbar.wixproj" />
     <Resource Include="Buttons\WarningsReport\Images\iconWarningsReview.png" />

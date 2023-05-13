@@ -58,15 +58,21 @@
             <TextBlock Style="{StaticResource Title}">
                 Select views to apply grids style:
             </TextBlock>
-
+            
             <Border Style="{StaticResource OuterBorder}">
-                <ListView x:Name="viewsList" BorderThickness="0" ItemsSource="{Binding Views}" >
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" />
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <StackPanel>
+                    <StackPanel Margin="5 0 0 0" Orientation="Horizontal">
+                        <Image Source="/BIMiconToolbar;component/Resources/iconSearch.png" Height="15" Width="15"/>
+                        <TextBox x:Name="searchTbox" FontWeight="DemiBold" Height="25" HorizontalAlignment="Left" Margin="5 10 0 10" Padding="5 0 5 0" VerticalContentAlignment="Center" TextChanged="searchTbox_TextChanged" Width="200"/>
+                    </StackPanel>
+                    <ListView x:Name="viewsList" BorderThickness="0" ItemsSource="{Binding Views}" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
             </Border>
 
             <!-- Buttons End -->
