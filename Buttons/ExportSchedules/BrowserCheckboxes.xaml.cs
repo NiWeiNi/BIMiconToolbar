@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using BIMicon.BIMiconToolbar.Models;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 
 namespace BIMicon.BIMiconToolbar.ExportSchedules
 {
@@ -26,6 +28,7 @@ namespace BIMicon.BIMiconToolbar.ExportSchedules
             get { return _viewSchedules; }
             set { _viewSchedules = value; }
         }
+        public List<BaseElement> FilteredViewSchedules;
 
         public BrowserCheckboxes(ExternalCommandData commandData)
         {
@@ -56,6 +59,11 @@ namespace BIMicon.BIMiconToolbar.ExportSchedules
                 .OrderBy(x => x.Name)
                 .Select(x => new BaseElement() { Name = x.Name, Id = x.Id.IntegerValue })
                 .ToList());
+
+            FilteredViewSchedules = schedules
+                .OrderBy(x => x.Name)
+                .Select(x => new BaseElement() { Name = x.Name, Id = x.Id.IntegerValue })
+                .ToList();
         }
 
         /// <summary>
@@ -74,6 +82,30 @@ namespace BIMicon.BIMiconToolbar.ExportSchedules
             }
 
             this.Dispose();
+        }
+
+        private void searchTbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var FilteredElements = FilteredViewSchedules.Where(x => Parsing.Contains(x.Name, searchTbox.Text, StringComparison.InvariantCultureIgnoreCase));
+
+            // Remove elements not in search term
+            for (int i = ViewSchedules.Count - 1; i >= 0; i--)
+            {
+                var item = ViewSchedules[i];
+                if (!FilteredElements.Contains(item))
+                {
+                    ViewSchedules.Remove(item);
+                }
+            }
+
+            // Bring back elements when input search text changes
+            foreach (var item in FilteredElements)
+            {
+                if (!ViewSchedules.Contains(item))
+                {
+                    ViewSchedules.Add(item);
+                }
+            }
         }
     }
 }

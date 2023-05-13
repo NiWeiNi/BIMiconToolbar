@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using BIMicon.BIMiconToolbar.Models;
 using System;
 using System.Collections.Generic;
@@ -54,6 +55,7 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
         public List<int> IntegerIds { get; set; }
         public double SheetDrawingHeight { get; set; }
         public double SheetDrawingWidth { get; set; }
+        public List<BaseElement> FilteredRooms;
 
         /// <summary>
         /// Main Window
@@ -116,6 +118,11 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
                 .OrderBy(x => x.Number)
                 .Select(x => new BaseElement() { Name = x.Number + " - " + x.Name, Id = x.Id.IntegerValue })
                 .ToList());
+
+            FilteredRooms = roomsCollector
+                .OrderBy(x => x.Number)
+                .Select(x => new BaseElement() { Name = x.Number + " - " + x.Name, Id = x.Id.IntegerValue })
+                .ToList();
         }
 
         /// <summary>
@@ -177,6 +184,30 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
         public void Dispose()
         {
             this.Close();
+        }
+
+        private void searchTbox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            var FilteredElements = FilteredRooms.Where(x => Parsing.Contains(x.Name, searchTbox.Text, StringComparison.InvariantCultureIgnoreCase));
+
+            // Remove elements not in search term
+            for (int i = Rooms.Count - 1; i >= 0; i--)
+            {
+                var item = Rooms[i];
+                if (!FilteredElements.Contains(item))
+                {
+                    Rooms.Remove(item);
+                }
+            }
+
+            // Bring back elements when input search text changes
+            foreach (var item in FilteredElements)
+            {
+                if (!Rooms.Contains(item))
+                {
+                    Rooms.Add(item);
+                }
+            }
         }
     }
 }

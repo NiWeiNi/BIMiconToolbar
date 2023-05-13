@@ -30,17 +30,27 @@
             <StackPanel Grid.Column="0">
                 <!-- Select view type -->
                 <TextBlock Style="{StaticResource FirstTitle}">
-                            Please select sheet/s to duplicate:
+                            Select sheet/s to duplicate:
                 </TextBlock>
                 <!-- Scroll to display selectable elements -->
                 <Border Style="{StaticResource OuterBorder}" Margin="0,0,10,0" Height="340">
-                    <ListView x:Name="sheetsList" BorderThickness="0" ItemsSource="{Binding Sheets}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}" />
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <DockPanel Margin="5 0 5 0" Grid.Row="0">
+                            <Image DockPanel.Dock="Left" Source="/BIMiconToolbar;component/Resources/iconSearch.png" Height="15" Width="15"/>
+                            <TextBox x:Name="searchTbox" FontWeight="DemiBold" Height="25" Margin="5 10 0 10" Padding="5 0 5 0" VerticalContentAlignment="Center" TextChanged="searchTbox_TextChanged" />
+                        </DockPanel>
+                        <ListView x:Name="sheetsList" Grid.Row="1" BorderThickness="0" ItemsSource="{Binding Sheets}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
                 </Border>
             </StackPanel>
 

@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using BIMicon.BIMiconToolbar.Models;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 
 namespace BIMicon.BIMiconToolbar.DuplicateSheets
 {
@@ -47,6 +49,7 @@ namespace BIMicon.BIMiconToolbar.DuplicateSheets
         public string viewSuffix { get; set; }
         public string sheetPrefix { get; set; }
         public string sheetSuffix { get; set; }
+        public List<BaseElement> FilteredSheets;
 
         /// <summary>
         /// Main function to call window
@@ -71,6 +74,11 @@ namespace BIMicon.BIMiconToolbar.DuplicateSheets
                 .OrderBy(x => x.SheetNumber)
                 .Select(x => new BaseElement() { Name = x.SheetNumber + " - " + x.Name, Id = x.Id.IntegerValue })
                 .ToList());
+
+            FilteredSheets = sheets
+                .OrderBy(x => x.SheetNumber)
+                .Select(x => new BaseElement() { Name = x.SheetNumber + " - " + x.Name, Id = x.Id.IntegerValue })
+                .ToList();
         }
 
         /// <summary>
@@ -190,6 +198,30 @@ namespace BIMicon.BIMiconToolbar.DuplicateSheets
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Dispose();
+        }
+
+        private void searchTbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var FilteredElements = FilteredSheets.Where(x => Parsing.Contains(x.Name, searchTbox.Text, StringComparison.InvariantCultureIgnoreCase));
+
+            // Remove elements not in search term
+            for (int i = Sheets.Count - 1; i >= 0; i--)
+            {
+                var item = Sheets[i];
+                if (!FilteredElements.Contains(item))
+                {
+                    Sheets.Remove(item);
+                }
+            }
+
+            // Bring back elements when input search text changes
+            foreach (var item in FilteredElements)
+            {
+                if (!Sheets.Contains(item))
+                {
+                    Sheets.Add(item);
+                }
+            }
         }
     }
 }

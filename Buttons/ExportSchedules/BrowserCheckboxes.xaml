@@ -29,13 +29,23 @@
                 </TextBlock>
 
                 <Border Style="{StaticResource OuterBorder}">
-                    <ListView x:Name="viewSchedules" BorderThickness="0" ItemsSource="{Binding ViewSchedules}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}" />
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <DockPanel Margin="5 0 5 0" Grid.Row="0">
+                            <Image DockPanel.Dock="Left" Source="/BIMiconToolbar;component/Resources/iconSearch.png" Height="15" Width="15"/>
+                            <TextBox x:Name="searchTbox" FontWeight="DemiBold" Height="25" Margin="5 10 0 10" Padding="5 0 5 0" VerticalContentAlignment="Center" TextChanged="searchTbox_TextChanged" />
+                        </DockPanel>
+                        <ListView x:Name="viewSchedules" BorderThickness="0" ItemsSource="{Binding ViewSchedules}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
                 </Border>
             </StackPanel>
 
