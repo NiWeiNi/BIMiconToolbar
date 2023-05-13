@@ -6,6 +6,11 @@ namespace BIMicon.BIMiconToolbar.Helpers
 {
     class Parsing
     {
+        public static bool Contains(string source, string toCheck, StringComparison comp)
+        {
+            return source != null && toCheck != null && source.IndexOf(toCheck, comp) >= 0;
+        }
+
         /// <summary>
         /// Function to return array of replaced strings
         /// </summary>

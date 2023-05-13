@@ -46,6 +46,7 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
         public List<int> IntegerIds { get; set; }
         public bool CopyDim { get; set; }
         public List<BaseElement> ViewsInProject { get; set; }
+        public List<BaseElement> FilteredViewsByComboBox { get; set; }
 
 
         /// <summary>
@@ -110,12 +111,12 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
             View selectedView = Doc.GetElement(new ElementId(SelectedViewToCopy.Id)) as View;
             XYZ viewDirection = selectedView.ViewDirection;
 
-            List<BaseElement> selViews = ViewsInProject
+            FilteredViewsByComboBox = ViewsInProject
                 .Where(x => x.Id != SelectedViewToCopy.Id)
                 .Where(x => HelpersGeometry.AreVectorsParallel(viewDirection, (Doc.GetElement(new ElementId(x.Id)) as View).ViewDirection))
                 .ToList();
 
-            foreach (BaseElement bs in selViews)
+            foreach (BaseElement bs in FilteredViewsByComboBox)
             {
                 Views.Add(bs);
             }
@@ -162,7 +163,26 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
 
         private void searchTbox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            var FilteredElements = FilteredViewsByComboBox.Where(x => Parsing.Contains(x.Name, searchTbox.Text, StringComparison.InvariantCultureIgnoreCase));
 
+            // Remove elements not in search term
+            for (int i = Views.Count - 1; i >= 0; i--)
+            {
+                var item = Views[i];
+                if (!FilteredElements.Contains(item))
+                {
+                    Views.Remove(item);
+                }
+            }
+
+            // Bring back elements when input search text changes
+            foreach (var item in FilteredElements)
+            {
+                if (!Views.Contains(item))
+                {
+                    Views.Add(item);
+                }
+            }
         }
     }
 }
