@@ -45,6 +45,8 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
             set { _rooms = value; }
         }
 
+        public List<BaseElement> FilteredRooms;
+
         /// <summary>
         /// Method to initialize the window and populate content
         /// </summary>
@@ -94,6 +96,11 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                 .OrderBy(x => x.Number)
                 .Select(x => new BaseElement() { Name = x.Number + " - " + x.Name, Id = x.Id.IntegerValue })
                 .ToList() );
+
+            FilteredRooms = roomsCollector
+                .OrderBy(x => x.Number)
+                .Select(x => new BaseElement() { Name = x.Number + " - " + x.Name, Id = x.Id.IntegerValue })
+                .ToList();
         }
 
         /// <summary>
@@ -161,7 +168,7 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
                             Floor floor = null;
 #if v2023 || v2024
                             List<CurveLoop> profile = new List<CurveLoop>() { curveLoop };
-                            floor = Floor.Create(doc, profile, selectedFloorType.Id, level.Id);
+                            floor = Floor.Create(Doc, profile, selectedFloorType.Id, level.Id);
 #else
                             floor = Doc.Create.NewFloor(floorBoundary, selectedFloorType, level, false);
 #endif
@@ -269,6 +276,30 @@ namespace BIMicon.BIMiconToolbar.FloorFinish
             if (internalTextBox != null)
             {
                 internalTextBox.Text = StringInternalUnits;
+            }
+        }
+
+        private void searchTbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var FilteredElements = FilteredRooms.Where(x => Parsing.Contains(x.Name, searchTbox.Text, StringComparison.InvariantCultureIgnoreCase));
+
+            // Remove elements not in search term
+            for (int i = Rooms.Count - 1; i >= 0; i--)
+            {
+                var item = Rooms[i];
+                if (!FilteredElements.Contains(item))
+                {
+                    Rooms.Remove(item);
+                }
+            }
+
+            // Bring back elements when input search text changes
+            foreach (var item in FilteredElements)
+            {
+                if (!Rooms.Contains(item))
+                {
+                    Rooms.Add(item);
+                }
             }
         }
     }
