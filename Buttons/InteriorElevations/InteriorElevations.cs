@@ -36,9 +36,9 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
                 {
                     customWindow.ShowDialog();
                     selectedIntIds = customWindow.IntegerIds;
-                    titleBlock = customWindow.SelectedComboItemTitleBlock.Tag as Element;
-                    viewTemplate = customWindow.SelectedComboItemViewTemplate.Tag as View;
-                    viewFamilyType = customWindow.SelectedComboItemViewType.Tag as ViewFamilyType;
+                    titleBlock = doc.GetElement(new ElementId(customWindow.SelectedTitleblock.Id));
+                    viewTemplate = doc.GetElement(new ElementId(customWindow.SelectedViewTemplate.Id)) as View;
+                    viewFamilyType = doc.GetElement(new ElementId(customWindow.SelectedViewType.Id)) as ViewFamilyType;
 
                     #region Required elements for this tool
 
@@ -92,7 +92,7 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
                         // Select first plan view
                         FilteredElementCollector floorPlansCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views);
                         View floorPlan = floorPlansCollector.Cast<View>().Where(v =>
-                                           v.ViewType == ViewType.FloorPlan).Where(v => v.IsTemplate == false).FirstOrDefault();
+                                           v.ViewType == ViewType.FloorPlan).FirstOrDefault(v => !v.IsTemplate);
 
                         if (floorPlan == null)
                         {
@@ -129,8 +129,8 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
 
                                     // Create sheet
                                     ViewSheet sheet = HelpersView.CreateSheet(doc,
-                                                                                    titleBlock.Id,
-                                                                                    room.Number + "-" + "INTERIOR ELEVATIONS");
+                                                                titleBlock.Id,
+                                                                room.Number + "-" + "INTERIOR ELEVATIONS");
 
                                     // Retrieve title block
                                     FamilyInstance tBlock = new FilteredElementCollector(doc, sheet.Id)

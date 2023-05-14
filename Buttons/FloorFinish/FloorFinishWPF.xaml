@@ -6,7 +6,6 @@
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../../Resources/Logos/iconBIMiconBlack.ico"
-        Loaded="Window_Loaded"
         ResizeMode="NoResize"
         Title="Floor Finish" 
         SizeToContent="Height" 
@@ -18,17 +17,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="..\..\Helpers\ResourceDictionaries\DictionaryWindows.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style x:Key="TreeViewItemStyle" TargetType="TreeViewItem">
-                <Setter Property="IsExpanded" Value="True" />
-                <Setter Property="IsSelected" Value="{Binding IsInitiallySelected, Mode=OneTime}" />
-                <Setter Property="KeyboardNavigation.AcceptsReturn" Value="True" />
-            </Style>
-            <HierarchicalDataTemplate x:Key="CheckBoxItemTemplate" ItemsSource="{Binding Children, Mode=OneTime}">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Focusable="False" IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-                    <ContentPresenter Content="{Binding Name, Mode=OneTime}" Margin="2,0" />
-                </StackPanel>
-            </HierarchicalDataTemplate>
+
         </ResourceDictionary>
     </Window.Resources>
 
@@ -39,8 +28,10 @@
                 Select floor type:
             </TextBlock>
             <ComboBox x:Name="comboDisplayFloorTypes"
-                      ItemsSource="{Binding CbItemsFloorTypes}"
-                      SelectedItem="{Binding SelectedComboItemFloorType}"
+                      DisplayMemberPath="Name"
+                      IsSynchronizedWithCurrentItem="True"
+                      ItemsSource="{Binding FloorTypes}"
+                      SelectedItem="{Binding SelectedFloorType}"
                       Style="{StaticResource comboDisplay}">
             </ComboBox>
 
@@ -65,10 +56,23 @@
                 Select rooms to create floor finish:
             </TextBlock>
             <Border Style="{StaticResource OuterBorder}">
-                <TreeView x:Name="roomsTreeView"
-                          ItemContainerStyle="{StaticResource TreeViewItemStyle}"
-                          ItemTemplate="{StaticResource CheckBoxItemTemplate}"
-                          BorderThickness="0" />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <DockPanel Margin="5 0 5 0" Grid.Row="0">
+                        <Image DockPanel.Dock="Left" Source="/BIMiconToolbar;component/Resources/iconSearch.png" Height="15" Width="15"/>
+                        <TextBox x:Name="searchTbox" FontWeight="DemiBold" Height="25" Margin="5 10 0 10" Padding="5 0 5 0" VerticalContentAlignment="Center" TextChanged="searchTbox_TextChanged" />
+                    </DockPanel>
+                    <ListView x:Name="roomsList" Grid.Row="1" BorderThickness="0" ItemsSource="{Binding Rooms}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
             </Border>
 
             <!-- Buttons End -->

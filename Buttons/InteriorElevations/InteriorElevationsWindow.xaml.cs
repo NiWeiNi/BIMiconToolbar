@@ -1,12 +1,13 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
+using BIMicon.BIMiconToolbar.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace BIMicon.BIMiconToolbar.InteriorElevations
 {
@@ -18,15 +19,43 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
         /// <summary>
         ///  Properties to store variables
         /// </summary>
-        public ObservableCollection<ComboBoxItem> CbItemsViewType { get; set; }
-        public ComboBoxItem SelectedComboItemViewType { get; set; }
-        public ObservableCollection<ComboBoxItem> CbItemsTitleBlock { get; set; }
-        public ComboBoxItem SelectedComboItemTitleBlock { get; set; }
-        public ObservableCollection<ComboBoxItem> CbItemsViewTemplate { get; set; }
-        public ComboBoxItem SelectedComboItemViewTemplate { get; set; }
+        private Document Doc;
+        private ObservableCollection<BaseElement> _rooms;
+        public ObservableCollection<BaseElement> Rooms
+        {
+            get { return _rooms; }
+            set { _rooms = value; }
+        }
+        private ObservableCollection<BaseElement> _titleblocks;
+
+        public ObservableCollection<BaseElement> Titleblocks
+        {
+            get { return _titleblocks; }
+            set { _titleblocks = value; }
+        }
+        private ObservableCollection<BaseElement> _viewTemplates;
+
+        public ObservableCollection<BaseElement> ViewTemplates
+        {
+            get { return _viewTemplates; }
+            set { _viewTemplates = value; }
+        }
+
+        private ObservableCollection<BaseElement> _viewTypes;
+
+        public ObservableCollection<BaseElement> ViewTypes
+        {
+            get { return _viewTypes; }
+            set { _viewTypes = value; }
+        }
+
+        public BaseElement SelectedViewType { get; set; }
+        public BaseElement SelectedTitleblock { get; set; }
+        public BaseElement SelectedViewTemplate { get; set; }
         public List<int> IntegerIds { get; set; }
         public double SheetDrawingHeight { get; set; }
         public double SheetDrawingWidth { get; set; }
+        public List<BaseElement> FilteredRooms;
 
         /// <summary>
         /// Main Window
@@ -34,156 +63,81 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
         /// <param name="commandData"></param>
         public InteriorElevationsWindow(ExternalCommandData commandData)
         {
-            Document doc = commandData.Application.ActiveUIDocument.Document;
-
-            InitializeComponent();
+            Doc = commandData.Application.ActiveUIDocument.Document;
             DataContext = this;
 
-            // ComboBoxes
-            ComboBoxTitleBlock(doc);
-            ComboBoxViewTemplate(doc);
-            ComboBoxViewType(doc);
+            LoadRooms();
+            LoadTitleblocks();
+            LoadViewTemplates();
+            LoadViewTypes();
 
-            // Check boxes
-            RoomsCheckBoxes(doc);
-
-            // Associate the event-handling method with the SelectedIndexChanged event
-            this.comboDisplayViewType.SelectionChanged += new SelectionChangedEventHandler(ComboChangedViewType);
-            this.comboDisplayTitleBlock.SelectionChanged += new SelectionChangedEventHandler(ComboChangedTitleBlock);
-            this.comboDisplayViewTemplate.SelectionChanged += new SelectionChangedEventHandler(ComboChangedViewTemplate);
+            InitializeComponent();
         }
 
-        /// <summary>
-        /// Method to polpulate View Type Combo boxes
-        /// </summary>
-        /// <param name="doc"></param>
-        private void ComboBoxViewType(Document doc)
+        private void LoadViewTemplates()
         {
-            CbItemsViewType = new ObservableCollection<ComboBoxItem>();
-
-            FilteredElementCollector viewTypesCollector = new FilteredElementCollector(doc).OfClass(typeof(ViewFamilyType))
-                                                                                           .WhereElementIsElementType();
-
-            List<ViewFamilyType> filteredViewTypes = viewTypesCollector.Cast<ViewFamilyType>().Where(sh =>
-                                   sh.ViewFamily == ViewFamily.Elevation).ToList();
-
-            IOrderedEnumerable<ViewFamilyType> viewTypes = from ViewFamilyType view in filteredViewTypes orderby view.FamilyName ascending select view;
-
-            int count = 0;
-
-            foreach (var v in viewTypes)
-            {
-                ComboBoxItem comb = new ComboBoxItem();
-                comb.Content = v.Name;
-                comb.Tag = v;
-                CbItemsViewType.Add(comb);
-
-                if (count == 0)
-                {
-                    SelectedComboItemViewType = comb;
-                }
-
-                count++;
-            }
-        }
-
-        /// <summary>
-        /// Method to polpulate View Type Combo boxes
-        /// </summary>
-        /// <param name="doc"></param>
-        private void ComboBoxViewTemplate(Document doc)
-        {
-            CbItemsViewTemplate = new ObservableCollection<ComboBoxItem>();
-
-            FilteredElementCollector viewTempsCollector = new FilteredElementCollector(doc)
-                                                             .OfCategory(BuiltInCategory.OST_Views);
+            FilteredElementCollector viewTempsCollector = new FilteredElementCollector(Doc)
+                                                 .OfCategory(BuiltInCategory.OST_Views);
 
             List<View> filteredViewTypes = viewTempsCollector.Cast<View>().Where(sh =>
                                            sh.IsTemplate).ToList();
 
-            IOrderedEnumerable<View> viewTypes = from View view in filteredViewTypes orderby view.Name ascending select view;
+            ViewTemplates = new ObservableCollection<BaseElement>(filteredViewTypes
+                .OrderBy(x => x.Name)
+                .Select(x => new BaseElement() { Name = x.Name, Id = x.Id.IntegerValue })
+                .ToList());
+        }
 
-            int count = 0;
+        private void LoadViewTypes()
+        {
+            FilteredElementCollector viewTypesCollector = new FilteredElementCollector(Doc).OfClass(typeof(ViewFamilyType))
+                                                                               .WhereElementIsElementType();
 
-            foreach (var v in viewTypes)
-            {
-                ComboBoxItem comb = new ComboBoxItem();
-                comb.Content = v.Name;
-                comb.Tag = v;
-                CbItemsViewTemplate.Add(comb);
+            List<ViewFamilyType> filteredViewTypes = viewTypesCollector.Cast<ViewFamilyType>().Where(sh =>
+                                   sh.ViewFamily == ViewFamily.Elevation).ToList();
 
-                if (count == 0)
-                {
-                    SelectedComboItemViewTemplate = comb;
-                }
-
-                count++;
-            }
+            ViewTypes = new ObservableCollection<BaseElement>(filteredViewTypes
+                .OrderBy(x => x.Name)
+                .Select(x => new BaseElement() { Name = x.Name, Id = x.Id.IntegerValue })
+                .ToList());
         }
 
         /// <summary>
-        /// Method to polpulate Title Block Combo boxes
+        /// Method to load rooms
         /// </summary>
-        /// <param name="doc"></param>
-        private void ComboBoxTitleBlock(Document doc)
+        private void LoadRooms()
         {
-            CbItemsTitleBlock = new ObservableCollection<ComboBoxItem>();
+            ElementCategoryFilter filter = new ElementCategoryFilter(BuiltInCategory.OST_Rooms);
+            var roomsCollector = new FilteredElementCollector(Doc)
+                .WherePasses(filter)
+                .Cast<Room>()
+                .Where(r => r.Area > 0)
+                .ToList();
 
-            FilteredElementCollector titleBlocksCollector = new FilteredElementCollector(doc)
+            Rooms = new ObservableCollection<BaseElement>(roomsCollector
+                .OrderBy(x => x.Number)
+                .Select(x => new BaseElement() { Name = x.Number + " - " + x.Name, Id = x.Id.IntegerValue })
+                .ToList());
+
+            FilteredRooms = roomsCollector
+                .OrderBy(x => x.Number)
+                .Select(x => new BaseElement() { Name = x.Number + " - " + x.Name, Id = x.Id.IntegerValue })
+                .ToList();
+        }
+
+        /// <summary>
+        /// Method to polpulate Floor Types Combo boxes
+        /// </summary>
+        private void LoadTitleblocks()
+        {
+            FilteredElementCollector titleBlocksCollector = new FilteredElementCollector(Doc)
                                                             .OfCategory(BuiltInCategory.OST_TitleBlocks)
                                                             .WhereElementIsElementType();
 
-            IOrderedEnumerable<ElementType> titleBlocks = from ElementType tB in titleBlocksCollector orderby tB.Name ascending select tB;
-
-            int count = 0;
-
-            foreach (var v in titleBlocks)
-            {
-                ComboBoxItem comb = new ComboBoxItem();
-                comb.Content = v.Name;
-                comb.Tag = v;
-                CbItemsTitleBlock.Add(comb);
-
-                if (count == 0)
-                {
-                    SelectedComboItemTitleBlock = comb;
-                }
-
-                count++;
-            }
-        }
-
-        /// <summary>
-        /// Method to update views according to initial view selected
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ComboChangedViewType(object sender, SelectionChangedEventArgs e)
-        {
-            int selectedItemIndex = CbItemsViewType.IndexOf(SelectedComboItemViewType);
-            SelectedComboItemViewType = CbItemsViewType[selectedItemIndex];
-        }
-
-        /// <summary>
-        /// Method to update views according to initial view selected
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ComboChangedTitleBlock(object sender, SelectionChangedEventArgs e)
-        {
-            int selectedItemIndex = CbItemsTitleBlock.IndexOf(SelectedComboItemTitleBlock);
-            SelectedComboItemTitleBlock = CbItemsTitleBlock[selectedItemIndex];
-        }
-
-        /// <summary>
-        /// Method to update views according to initial view selected
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ComboChangedViewTemplate(object sender, SelectionChangedEventArgs e)
-        {
-            int selectedItemIndex = CbItemsViewTemplate.IndexOf(SelectedComboItemViewTemplate);
-            SelectedComboItemViewTemplate = CbItemsViewTemplate[selectedItemIndex];
+            Titleblocks = new ObservableCollection<BaseElement>(titleBlocksCollector
+                .OrderBy(x => x.Name)
+                .Select(x => new BaseElement() { Name = x.Name, Id = x.Id.IntegerValue })
+                .ToList());
         }
 
         /// <summary>
@@ -204,35 +158,14 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
                 TaskDialog.Show("Warning", "Please input a number in Height and Width");
             }
 
-            // Retrieve all checked checkboxes
-            IEnumerable<CheckBox> list = this.roomsCheckBoxes.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
-
             IntegerIds = new List<int>();
-
             // Add all checked checkboxes to global variable
-            foreach (var x in list)
+            foreach (BaseElement x in roomsList.SelectedItems)
             {
-                // Retrieve ids of checked sheets
-                int intId = Int32.Parse(x.Name.Replace("ID", ""));
-                IntegerIds.Add(intId);
+                IntegerIds.Add(x.Id);
             }
 
             this.Dispose();
-        }
-
-        /// <summary>
-        /// Method when click Reset
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void reset_Click(object sender, RoutedEventArgs e)
-        {
-            var list = this.roomsCheckBoxes.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
-
-            foreach (var x in list)
-            {
-                x.IsChecked = false;
-            }
         }
 
         /// <summary>
@@ -253,24 +186,27 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
             this.Close();
         }
 
-        /// <summary>
-        /// Dynamically populate checkboxes
-        /// </summary>
-        /// <param name="doc"></param>
-        private void RoomsCheckBoxes(Document doc)
+        private void searchTbox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            var roomsCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Rooms)
-                                                                  .Cast<Room>()
-                                                                  .Where(r => r.Area > 0);
+            var FilteredElements = FilteredRooms.Where(x => Parsing.Contains(x.Name, searchTbox.Text, StringComparison.InvariantCultureIgnoreCase));
 
-            IOrderedEnumerable<Room> rooms = from Room room in roomsCollector orderby room.Number ascending select room;
-
-            foreach (var room in rooms)
+            // Remove elements not in search term
+            for (int i = Rooms.Count - 1; i >= 0; i--)
             {
-                CheckBox checkBox = new CheckBox();
-                checkBox.Content = room.Number + " - " + room.Name;
-                checkBox.Name = "ID" + room.Id.ToString();
-                roomsCheckBoxes.Children.Add(checkBox);
+                var item = Rooms[i];
+                if (!FilteredElements.Contains(item))
+                {
+                    Rooms.Remove(item);
+                }
+            }
+
+            // Bring back elements when input search text changes
+            foreach (var item in FilteredElements)
+            {
+                if (!Rooms.Contains(item))
+                {
+                    Rooms.Add(item);
+                }
             }
         }
     }

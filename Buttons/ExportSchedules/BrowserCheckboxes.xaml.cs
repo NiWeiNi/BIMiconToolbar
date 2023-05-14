@@ -1,10 +1,14 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
+using BIMicon.BIMiconToolbar.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 
 namespace BIMicon.BIMiconToolbar.ExportSchedules
 {
@@ -17,13 +21,22 @@ namespace BIMicon.BIMiconToolbar.ExportSchedules
         /// Store selected sheets for main programs use
         /// </summary>
         public List<int> listIds { get; set; }
+        public Document Doc { get; set; }
+        private ObservableCollection<BaseElement> _viewSchedules;
+        public ObservableCollection<BaseElement> ViewSchedules
+        {
+            get { return _viewSchedules; }
+            set { _viewSchedules = value; }
+        }
+        public List<BaseElement> FilteredViewSchedules;
 
         public BrowserCheckboxes(ExternalCommandData commandData)
         {
-            Document doc = commandData.Application.ActiveUIDocument.Document;
+            Doc = commandData.Application.ActiveUIDocument.Document;
+            DataContext = this;
 
+            LoadSchedules();
             InitializeComponent();
-            ViewCheckBoxes(doc);
         }
 
         public void Dispose()
@@ -34,25 +47,23 @@ namespace BIMicon.BIMiconToolbar.ExportSchedules
         /// <summary>
         /// Dynamically populate checkboxes
         /// </summary>
-        /// <param name="doc"></param>
-        private void ViewCheckBoxes(Document doc)
+        private void LoadSchedules()
         {
             // Collect schedules
-            FilteredElementCollector viewsCollector = new FilteredElementCollector(doc)
+            FilteredElementCollector viewsCollector = new FilteredElementCollector(Doc)
                                                     .OfCategory(BuiltInCategory.OST_Schedules);
 
-            List<ViewSchedule> schedules = viewsCollector.Cast<ViewSchedule>().Where(sh =>
-                                   sh.Name.Contains(@"<Revision Schedule>") == false).ToList();
+            List<ViewSchedule> schedules = viewsCollector.Cast<ViewSchedule>().Where(sh => !sh.Name.Contains(@"<Revision Schedule>")).ToList();
 
-            IOrderedEnumerable<ViewSchedule> views = from ViewSchedule view in schedules orderby view.Name ascending select view;
+            ViewSchedules = new ObservableCollection<BaseElement>(schedules
+                .OrderBy(x => x.Name)
+                .Select(x => new BaseElement() { Name = x.Name, Id = x.Id.IntegerValue })
+                .ToList());
 
-            foreach (var v in views)
-            {
-                CheckBox checkBox = new CheckBox();
-                checkBox.Content = v.Name;
-                checkBox.Name = "ID" + v.Id.ToString();
-                viewSchedules.Children.Add(checkBox);
-            }
+            FilteredViewSchedules = schedules
+                .OrderBy(x => x.Name)
+                .Select(x => new BaseElement() { Name = x.Name, Id = x.Id.IntegerValue })
+                .ToList();
         }
 
         /// <summary>
@@ -64,18 +75,37 @@ namespace BIMicon.BIMiconToolbar.ExportSchedules
         {
             listIds = new List<int>();
 
-            // Retrieve all checked checkboxes
-            IEnumerable<CheckBox> list = this.viewSchedules.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
-
             // Add all checked checkboxes to global variable
-            foreach (var x in list)
+            foreach (BaseElement x in viewSchedules.SelectedItems)
             {
-                // Retrieve ids of checked sheets
-                int intId = Int32.Parse(x.Name.Replace("ID", ""));
-                listIds.Add(intId);
+                listIds.Add(x.Id);
             }
 
             this.Dispose();
+        }
+
+        private void searchTbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var FilteredElements = FilteredViewSchedules.Where(x => Parsing.Contains(x.Name, searchTbox.Text, StringComparison.InvariantCultureIgnoreCase));
+
+            // Remove elements not in search term
+            for (int i = ViewSchedules.Count - 1; i >= 0; i--)
+            {
+                var item = ViewSchedules[i];
+                if (!FilteredElements.Contains(item))
+                {
+                    ViewSchedules.Remove(item);
+                }
+            }
+
+            // Bring back elements when input search text changes
+            foreach (var item in FilteredElements)
+            {
+                if (!ViewSchedules.Contains(item))
+                {
+                    ViewSchedules.Add(item);
+                }
+            }
         }
     }
 }

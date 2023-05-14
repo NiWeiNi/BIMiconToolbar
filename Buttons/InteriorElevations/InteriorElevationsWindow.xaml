@@ -7,7 +7,7 @@
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
-        Title="Interior Elevations" Height="770" Width="420"
+        Title="Interior Elevations" SizeToContent="Height" Width="750"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -19,77 +19,106 @@
     </Window.Resources>
 
     <Border Style="{StaticResource SingleContainer}">
-        <StackPanel>
-            <!-- Select view type -->
-            <TextBlock Style="{StaticResource FirstTitle}">
-                Please select elevation symbol:
-            </TextBlock>
-            <ComboBox x:Name="comboDisplayViewType"
-                      ItemsSource="{Binding CbItemsViewType}"
-                      SelectedItem="{Binding SelectedComboItemViewType}"
-                      Style="{StaticResource comboDisplay}">
-            </ComboBox>
-            
-            <!-- Select title block -->
-            <TextBlock Style="{StaticResource Title}">
-                Select title block:
-            </TextBlock>
-            <ComboBox x:Name="comboDisplayTitleBlock"
-                      ItemsSource="{Binding CbItemsTitleBlock}" 
-                      SelectedItem="{Binding SelectedComboItemTitleBlock}"
-                      Style="{StaticResource comboDisplay}">
-            </ComboBox>
-            
-            <!-- Input sheet for drawings area-->
-            <Grid Style="{StaticResource SubMenu}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Style="{StaticResource SubTitle}">Drawing Area Height</Label>
-                <TextBox x:Name="Height" Grid.Column="1" Text="580"></TextBox>
-            </Grid>
-            <Grid Style="{StaticResource SubMenu}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Style="{StaticResource SubTitle}">Drawing Area Width</Label>
-                <TextBox x:Name="Width" Grid.Column="1" Text="710"></TextBox>
-            </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-            <!-- Select view template to apply to views -->
-            <TextBlock Style="{StaticResource Title}">
-                Select view template:
-            </TextBlock>
-            <ComboBox x:Name="comboDisplayViewTemplate"
-                      ItemsSource="{Binding CbItemsViewTemplate}" 
-                      SelectedItem="{Binding SelectedComboItemViewTemplate}"
-                      Style="{StaticResource comboDisplay}">
-            </ComboBox>
-            
             <!-- Select rooms -->
-            <TextBlock Style="{StaticResource Title}">
+            <StackPanel Grid.Column="0">
+                <TextBlock Style="{StaticResource FirstTitle}">
                 Select rooms to create interior elevations:
-            </TextBlock>
-            <Border Style="{StaticResource OuterBorder}">
-                <ScrollViewer HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible" Width="375">
-                    <StackPanel x:Name="roomsCheckBoxes" />
-                </ScrollViewer>
-            </Border>
+                </TextBlock>
+                <Border Style="{StaticResource OuterBorder}" Margin="0,0,10,0" Height="340">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <DockPanel Margin="5 0 5 0" Grid.Row="0">
+                            <Image DockPanel.Dock="Left" Source="/BIMiconToolbar;component/Resources/iconSearch.png" Height="15" Width="15"/>
+                            <TextBox x:Name="searchTbox" FontWeight="DemiBold" Height="25" Margin="5 10 0 10" Padding="5 0 5 0" VerticalContentAlignment="Center" TextChanged="searchTbox_TextChanged" />
+                        </DockPanel>
+                        <ListView x:Name="roomsList" Grid.Row="1" BorderThickness="0" ItemsSource="{Binding Rooms}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Border>
+            </StackPanel>
 
-            <!-- Buttons End -->
-            <Grid Style="{StaticResource MainButtons}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="0" IsDefault="True" Margin="0 0 10 0"></Button>
-                <Button x:Name="reset" Click="reset_Click"  Content="Reset" Grid.Column="1"  Margin="5 0 5 0"></Button>
-                <Button x:Name="cancel" Click="cancel_Click" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
-            </Grid>
-        </StackPanel>
+            <StackPanel Grid.Column="1">
+                <!-- Select view type -->
+                <TextBlock Style="{StaticResource FirstTitle}">
+                Please select elevation symbol:
+                </TextBlock>
+                <ComboBox x:Name="comboDisplayViewType"
+                      DisplayMemberPath="Name"
+                      IsSynchronizedWithCurrentItem="True"
+                      ItemsSource="{Binding ViewTypes}"
+                      SelectedItem="{Binding SelectedViewType}"
+                      Style="{StaticResource comboDisplay}">
+                </ComboBox>
+
+                <!-- Select title block -->
+                <TextBlock Style="{StaticResource Title}">
+                Select title block:
+                </TextBlock>
+                <ComboBox x:Name="comboDisplayTitleBlock"
+                      DisplayMemberPath="Name"
+                      IsSynchronizedWithCurrentItem="True"
+                      ItemsSource="{Binding Titleblocks}" 
+                      SelectedItem="{Binding SelectedTitleblock}"
+                      Style="{StaticResource comboDisplay}">
+                </ComboBox>
+
+                <!-- Input sheet for drawings area-->
+                <Grid Style="{StaticResource SubMenu}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Style="{StaticResource SubTitle}">Drawing Area Height</Label>
+                    <TextBox x:Name="Height" Grid.Column="1" Text="580"></TextBox>
+                </Grid>
+                <Grid Style="{StaticResource SubMenu}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Style="{StaticResource SubTitle}">Drawing Area Width</Label>
+                    <TextBox x:Name="Width" Grid.Column="1" Text="710"></TextBox>
+                </Grid>
+
+                <!-- Select view template to apply to views -->
+                <TextBlock Style="{StaticResource Title}">
+                Select view template:
+                </TextBlock>
+                <ComboBox x:Name="comboDisplayViewTemplate"
+                      DisplayMemberPath="Name"
+                      IsSynchronizedWithCurrentItem="True"
+                      ItemsSource="{Binding ViewTemplates}"
+                      SelectedItem="{Binding SelectedViewTemplate}"
+                      Style="{StaticResource comboDisplay}">
+                </ComboBox>
+
+                <!-- Buttons End -->
+                <Grid Style="{StaticResource MainButtons}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="1" IsDefault="True" Margin="0 0 10 0"></Button>
+                    <Button x:Name="cancel" Click="cancel_Click" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
+                </Grid>
+            </StackPanel>
+
+        </Grid>
     </Border>
 
 </Window>
