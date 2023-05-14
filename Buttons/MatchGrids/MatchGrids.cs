@@ -30,7 +30,7 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
                 {
                     customWindow.ShowDialog();
                     copyDims = customWindow.CopyDim;
-                    selectedView = customWindow.SelectedComboItem.Tag as View;
+                    selectedView = doc.GetElement(new ElementId(customWindow.SelectedViewToCopy.Id)) as View;
                     selectedIntIds = customWindow.IntegerIds;
 
                     // Check that elements have been selected

@@ -7,7 +7,8 @@
         FocusManager.FocusedElement="{Binding ElementName=OK}"
         Icon="../../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
-        Title="Views On Sheet" Height="660" Width="420"
+        Title="Match Grids" 
+        Height="660" Width="420"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -25,8 +26,11 @@
             </TextBlock>
 
             <ComboBox x:Name="comboDisplay"
-                      ItemsSource="{Binding CbItems}" 
-                      SelectedItem="{Binding SelectedComboItem}"
+                      DisplayMemberPath="Name"
+                      IsSynchronizedWithCurrentItem="True"
+                      ItemsSource="{Binding ViewToCopy}"
+                      SelectionChanged="MyComboChanged"
+                      SelectedItem="{Binding SelectedViewToCopy}"
                       Style="{StaticResource comboDisplay}">
             </ComboBox>
 
@@ -56,9 +60,23 @@
             </TextBlock>
 
             <Border Style="{StaticResource OuterBorder}">
-                <ScrollViewer>
-                    <StackPanel x:Name="viewsCheckBox" />
-                </ScrollViewer>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <DockPanel Margin="5 0 5 0" Grid.Row="0">
+                        <Image DockPanel.Dock="Left" Source="/BIMiconToolbar;component/Resources/iconSearch.png" Height="15" Width="15"/>
+                        <TextBox x:Name="searchTbox" FontWeight="DemiBold" Height="25" Margin="5 10 0 10" Padding="5 0 5 0" VerticalContentAlignment="Center" TextChanged="searchTbox_TextChanged" />
+                    </DockPanel>
+                    <ListView Grid.Row="1" x:Name="viewsList" BorderThickness="0" ItemsSource="{Binding Views}" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
             </Border>
 
             <!-- Buttons End -->
@@ -68,8 +86,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="0" IsDefault="True" Margin="0 0 10 0"></Button>
-                <Button x:Name="reset" Click="reset_Click" Content="Reset" Grid.Column="1"  Margin="5 0 5 0"></Button>
+                <Button x:Name="OK" Click="OK_Click" Content="OK" Grid.Column="1" IsDefault="True" Margin="0 0 10 0"></Button>
                 <Button x:Name="cancel" Click="cancel_Click" Content="Cancel" Grid.Column="2" Margin="10 0 0 0" IsCancel="True"></Button>
             </Grid>
         </StackPanel>

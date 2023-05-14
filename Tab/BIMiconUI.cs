@@ -362,19 +362,19 @@ namespace BIMicon.BIMiconToolbar.Tab
                 "Version",
                 "Version",
                 assemblyPath,
-                "BIMiconToolbar.Support.Version.Version");
+                "BIMicon.BIMiconToolbar.Support.Version.Version");
 
             PushButtonData buttonDocumentation = new PushButtonData(
                 "Documentation",
                 "Docs",
                 assemblyPath,
-                "BIMiconToolbar.Support.Docs.Docs");
+                "BIMicon.BIMiconToolbar.Support.Docs.Docs");
 
             PushButtonData buttonHelp = new PushButtonData(
                 "Help",
                 "Help",
                 assemblyPath,
-                "BIMiconToolbar.Support.Help.Help");
+                "BIMicon.BIMiconToolbar.Support.Help.Help");
 
             // Stacked items for stacked buttons
             IList<RibbonItem> stackedSupport = panelSupport.AddStackedItems(buttonHelp, buttonDocumentation, buttonVersion);
