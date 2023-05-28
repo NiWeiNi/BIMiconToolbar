@@ -14,7 +14,7 @@ namespace BIMicon.BIMiconToolbar.Tab
         {
             string tabName = "BIMicon";
             // Handle tab creation
-            RevitTabs.CheckRibbonTabExist(tabName, application);
+            RevitRibbon.CheckRibbonTabExist(tabName, application);
 
             // Create ribbon
             RibbonPanel panelLibrary = application.CreateRibbonPanel(tabName, "Library");
