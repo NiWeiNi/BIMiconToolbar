@@ -46,7 +46,8 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
                                    sh.ViewType == ViewType.CeilingPlan ||
                                    sh.ViewType == ViewType.Elevation ||
                                    sh.ViewType == ViewType.FloorPlan ||
-                                   sh.ViewType == ViewType.Section)
+                                   sh.ViewType == ViewType.Section ||
+                                   sh.ViewType == ViewType.EngineeringPlan)
                                    .Where(view => !view.IsTemplate)
                                    .ToList();
 

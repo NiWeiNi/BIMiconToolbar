@@ -387,6 +387,7 @@
     <Compile Include="Helpers\RevitDirectories.cs" />
     <Compile Include="Helpers\RevitDocument.cs" />
     <Compile Include="Helpers\RevitProjectInfo.cs" />
+    <Compile Include="Helpers\RevitRibbon.cs" />
     <Compile Include="Helpers\RevitTransaction.cs" />
     <Compile Include="Helpers\SheetsViews.cs" />
     <Compile Include="Helpers\UnitsConverter.cs" />
