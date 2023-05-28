@@ -96,6 +96,14 @@
 				<![CDATA[ ADDIN2023DIRECTORY = null]]>
 			</Condition>
 		</Feature>
+		<!-- Revit 2024 -->
+		<Feature Id="Toolbar2024" Title="!(loc.ProductName) 2024" Level="1">
+			<ComponentRef Id="AddinFile2024"/>
+			<ComponentGroupRef Id="ProductComponents2024" />
+			<Condition Level="0">
+				<![CDATA[ ADDIN2024DIRECTORY = null]]>
+			</Condition>
+		</Feature>
 
 	</Product>
 
