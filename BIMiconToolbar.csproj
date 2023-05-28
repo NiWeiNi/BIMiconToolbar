@@ -242,7 +242,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2024 Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\2024 Release\</OutputPath>
+    <OutputPath>SetupBIMiconToolbar\PluginRelease\2024\</OutputPath>
     <DefineConstants>v2024</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
@@ -333,6 +333,20 @@
       <Private>false</Private>
     </Reference>
   </ItemGroup>
+	<ItemGroup Condition="$(Configuration.Contains('2024'))">
+		<Reference Include="RevitAPI">
+			<HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2024\RevitAPI.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="RevitAPIUI">
+			<HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2024\RevitAPIUI.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="AdWindows">
+			<HintPath>..\..\..\..\..\Program Files\Autodesk\Revit 2024\AdWindows.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
   <ItemGroup>
     <Compile Include="Buttons\DuplicateSheets\DuplicateSheets.cs" />
     <Compile Include="Buttons\DuplicateSheets\DuplicateSheetsWPF.xaml.cs">
