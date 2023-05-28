@@ -1,10 +1,14 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
+using BIMicon.BIMiconToolbar.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 
 namespace BIMicon.BIMiconToolbar.ViewOnSheet
 {
@@ -13,16 +17,49 @@ namespace BIMicon.BIMiconToolbar.ViewOnSheet
     /// </summary>
     public partial class ViewSheetsWindow : Window, IDisposable
     {
+        private Document _doc;
+        public Document Doc
+        {
+            get { return _doc; }
+            set { _doc = value; }
+        }
+
+        private ObservableCollection<BaseElement> _sheets;
+        public ObservableCollection<BaseElement> Sheets
+        {
+            get { return _sheets; }
+            set { _sheets = value; }
+        }
+
+        public List<BaseElement> FilteredSheets;
+
         /// <summary>
         /// Create window for user input
         /// </summary>
         /// <param name="commandData"></param>
         public ViewSheetsWindow(ExternalCommandData commandData)
         {
-            Document doc = commandData.Application.ActiveUIDocument.Document;
+            Doc = commandData.Application.ActiveUIDocument.Document;
+            DataContext = this;
 
-            InitializeComponent();
-            SheetCheckboxes(doc);
+            LoadSheets();
+            InitializeComponent(); 
+        }
+
+        private void LoadSheets()
+        {
+            FilteredElementCollector sheetsCollector = new FilteredElementCollector(Doc).OfCategory(BuiltInCategory.OST_Sheets);
+            List<ViewSheet> sheets = sheetsCollector.Cast<ViewSheet>().ToList();
+
+            Sheets = new ObservableCollection<BaseElement>(sheets
+                .OrderBy(x => x.SheetNumber)
+                .Select(x => new BaseElement() { Name = x.SheetNumber + " - " + x.Name, Id = x.Id.IntegerValue })
+                .ToList());
+
+            FilteredSheets = sheets
+                .OrderBy(x => x.SheetNumber)
+                .Select(x => new BaseElement() { Name = x.SheetNumber + " - " + x.Name, Id = x.Id.IntegerValue })
+                .ToList();
         }
 
         /// <summary>
@@ -34,43 +71,9 @@ namespace BIMicon.BIMiconToolbar.ViewOnSheet
         }
 
         /// <summary>
-        /// Dynamically populate checkboxes
-        /// </summary>
-        /// <param name="doc"></param>
-        private void SheetCheckboxes(Document doc)
-        {
-            FilteredElementCollector sheetsCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Sheets);
-
-            IOrderedEnumerable<ViewSheet> vSheets =  from ViewSheet vSheet in sheetsCollector orderby vSheet.SheetNumber ascending select vSheet;
-
-            foreach (var sheet in vSheets)
-            {
-                CheckBox checkBox = new CheckBox();
-                checkBox.Content = sheet.SheetNumber + " - " + sheet.Name;
-                checkBox.Name = "ID" + sheet.Id.ToString();
-                sheets.Children.Add(checkBox);
-            }
-        }
-
-        /// <summary>
         /// Store selected sheets for main programs use
         /// </summary>
         public List<int> listIds = new List<int>();
-
-        /// <summary>
-        /// Function to reset selected elements
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Reset_Click(object sender, RoutedEventArgs e)
-        {
-            var list = this.sheets.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
-
-            foreach (var x in list)
-            {
-                x.IsChecked = false;
-            }
-        }
 
         /// <summary>
         /// Cancel button function to exit the window
@@ -89,18 +92,37 @@ namespace BIMicon.BIMiconToolbar.ViewOnSheet
         /// <param name="e"></param>
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            // Retrieve all checked checkboxes
-            IEnumerable<CheckBox> list = this.sheets.Children.OfType<CheckBox>().Where(x => x.IsChecked == true);
-
             // Add all checked checkboxes to global variable
-            foreach (var x in list)
+            foreach (BaseElement x in sheetsList.SelectedItems)
             {
-                // Retrieve ids of checked sheets
-                int intId = Int32.Parse(x.Name.Replace("ID", ""));
-                listIds.Add(intId);
+                listIds.Add(x.Id);
             }
-            
+
             this.Dispose();
+        }
+
+        private void searchTbox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var FilteredElements = FilteredSheets.Where(x => Parsing.Contains(x.Name, searchTbox.Text, StringComparison.InvariantCultureIgnoreCase));
+
+            // Remove elements not in search term
+            for (int i = Sheets.Count - 1; i >= 0; i--)
+            {
+                var item = Sheets[i];
+                if (!FilteredElements.Contains(item))
+                {
+                    Sheets.Remove(item);
+                }
+            }
+
+            // Bring back elements when input search text changes
+            foreach (var item in FilteredElements)
+            {
+                if (!Sheets.Contains(item))
+                {
+                    Sheets.Add(item);
+                }
+            }
         }
     }
 }
