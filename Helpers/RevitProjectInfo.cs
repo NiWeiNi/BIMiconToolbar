@@ -25,7 +25,7 @@ namespace BIMicon.BIMiconToolbar.Helpers
         {
             string unitsRep = null;
 
-#if v2022 || v2023
+#if v2022 || v2023 || v2024
             ForgeTypeId fTypeId = doc.GetUnits().GetFormatOptions(SpecTypeId.Length).GetUnitTypeId();
             //internalUnits = UnitUtils.ConvertToInternalUnits(number, fTypeId);
 #else
@@ -45,7 +45,7 @@ namespace BIMicon.BIMiconToolbar.Helpers
 
         public static dynamic ProjectLengthUnit(Document doc)
         {
-#if v2022 || v2023
+#if v2022 || v2023 || v2024
             Units units = doc.GetUnits();
             FormatOptions fo = units.GetFormatOptions(SpecTypeId.Length);
             ForgeTypeId fTypeId = fo.GetUnitTypeId();

@@ -13,7 +13,7 @@ namespace BIMicon.BIMiconToolbar.Helpers
         public static double ConvertProjectLengthToInternal(Document doc, double number)
         {
             double internalUnits = 0;
-#if v2022 || v2023
+#if v2022 || v2023 || v2024
             ForgeTypeId fTypeId = doc.GetUnits().GetFormatOptions(SpecTypeId.Length).GetUnitTypeId();
             internalUnits = UnitUtils.ConvertToInternalUnits(number, fTypeId);
 #else

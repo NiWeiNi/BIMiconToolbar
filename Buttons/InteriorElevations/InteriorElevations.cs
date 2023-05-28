@@ -54,12 +54,6 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
                         TaskDialog.Show("Warning", "Please load a Elevation and a Title Block");
                         return Result.Cancelled;
                     }
-                    // No title block and view template
-                    else if (titleBlock == null && viewTemplate == null)
-                    {
-                        TaskDialog.Show("Warning", "Please load a Title Block and create a View Template");
-                        return Result.Cancelled;
-                    }
                     // No elevation and view template
                     else if (viewFamilyType == null && viewTemplate == null)
                     {
@@ -79,7 +73,7 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
                         return Result.Cancelled;
                     }
                     // No view template
-                    else if (titleBlock == null)
+                    else if (viewTemplate == null)
                     {
                         TaskDialog.Show("Warning", "Please create a view template");
                         return Result.Cancelled;
@@ -92,7 +86,7 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
                         // Select first plan view
                         FilteredElementCollector floorPlansCollector = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views);
                         View floorPlan = floorPlansCollector.Cast<View>().Where(v =>
-                                           v.ViewType == ViewType.FloorPlan).FirstOrDefault(v => !v.IsTemplate);
+                                           v.ViewType == ViewType.FloorPlan).LastOrDefault(v => !v.IsTemplate);
 
                         if (floorPlan == null)
                         {
@@ -153,8 +147,7 @@ namespace BIMicon.BIMiconToolbar.InteriorElevations
                                     for (int i = 0; i < 4; i++)
                                     {
                                         // Create elevation
-                                        View view = HelpersView.CreateViewElevation(doc, marker, floorPlan, i, viewTemplate,
-                                                                                            annoCategories);
+                                        View view = HelpersView.CreateViewElevation(doc, marker, floorPlan, i, viewTemplate, annoCategories);
                                         HelpersView.CreateViewport(doc, sheet, ref viewports, view);
                                     }
 

@@ -72,6 +72,17 @@
 			</DirectorySearchRef>
 		</Property>
 
+		<Property Id="ADDIN2024DIRECTORY">
+			<DirectorySearchRef Id="MainAddinFolderSearch"
+								Parent="ProgramDataFolderSearch"
+								Path="Autodesk\Revit\Addins">
+				<DirectorySearch Path="2024"
+								 Depth="0"
+								 AssignToProperty="yes"
+								 Id="Addin2024Search"/>
+			</DirectorySearchRef>
+		</Property>
+
 
 		<!-- Install directory-->
 		<Directory Id="TARGETDIR" Name="SourceDir">
@@ -124,6 +135,14 @@
 				<Directory Id="AddinFileDirectory2023" />
 				<!-- Main directory -->
 				<Directory Id="MainFilesDirectory2023" Name="!(loc.Company)" />
+			</Directory>
+
+			<!-- Revit 2024 directory-->
+			<Directory Id="ADDIN2024DIRECTORY">
+				<!-- Addin directory -->
+				<Directory Id="AddinFileDirectory2024" />
+				<!-- Main directory -->
+				<Directory Id="MainFilesDirectory2024" Name="!(loc.Company)" />
 			</Directory>
 
 		</Directory>
