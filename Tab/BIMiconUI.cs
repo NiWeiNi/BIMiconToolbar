@@ -1,4 +1,5 @@
 ﻿using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Helpers;
 using BIMicon.BIMiconToolbar.Tab.Models;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ namespace BIMicon.BIMiconToolbar.Tab
     {
         public BIMiconUI(UIControlledApplication application)
         {
-            // Create tab 
             string tabName = "BIMicon";
-            application.CreateRibbonTab(tabName);
+            // Handle tab creation
+            RevitRibbon.CheckRibbonTabExist(tabName, application);
 
             // Create ribbon
             RibbonPanel panelLibrary = application.CreateRibbonPanel(tabName, "Library");

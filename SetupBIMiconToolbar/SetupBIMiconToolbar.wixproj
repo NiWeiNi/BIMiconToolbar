@@ -36,6 +36,7 @@
     <Folder Include="PluginRelease\2022" />
     <Folder Include="PluginRelease\2023" />
     <Folder Include="PluginRelease\2019" />
+    <Folder Include="PluginRelease\2024" />
     <Folder Include="PluginRelease\WarningsReport" />
   </ItemGroup>
   <ItemGroup>

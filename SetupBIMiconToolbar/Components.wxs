@@ -7,6 +7,7 @@
 		<?define FSource2021 = PluginRelease\2021\ ?>
 		<?define FSource2022 = PluginRelease\2022\ ?>
 		<?define FSource2023 = PluginRelease\2023\ ?>
+		<?define FSource2024 = PluginRelease\2024\ ?>
 		<?define FSourceWReport = PluginRelease\WarningsReport\ ?>
 
 		<!-- Start menu shortcuts -->
@@ -282,6 +283,54 @@
 			</Component>
 			<Component Id="SystemNumericsVectorsFile2023" Guid="90e633c3-282a-447d-90bf-6f8647b5eea5">
 				<File Id="SystemNumericsVectorsDLL2023" Name="System.Numerics.Vectors.dll" KeyPath="yes" Source="$(var.FSource2023)"/>
+			</Component>
+		</ComponentGroup>
+
+		<!-- Revit 2024 -->
+		<!-- Addin file-->
+		<DirectoryRef Id="AddinFileDirectory2024" >
+			<Component Id="AddinFile2024" Guid="d0083eff-b437-4da4-9858-8f2f0a029aa2">
+				<File Id="AddinFileADDIN2024" Name="BIMicon.addin" KeyPath="yes" Source="$(var.FSource2024)"/>
+			</Component>
+		</DirectoryRef>
+
+		<ComponentGroup Id="ProductComponents2024" Directory="MainFilesDirectory2024">
+			<!-- Install files -->
+			<!-- Main components -->
+			<!-- Compilled dll -->
+			<Component Id="MainFile2024" Guid="d903171c-1763-4485-9c45-45ddaf9576a6">
+				<File Id="MainFileDLL2024" Name="BIMiconToolbar.dll" KeyPath="yes" Source="$(var.FSource2024)"/>
+			</Component>
+
+			<!-- 3rd Party Required components -->
+			<!-- ICSharp files -->
+			<Component Id="iCSharpFile2024" Guid="3a2281c2-04ee-4cec-a5b1-a8cc2f3663ef">
+				<File Id="iCSharpDLL2024" Name="ICSharpCode.SharpZipLib.dll" KeyPath="yes" Source="$(var.FSource2024)"/>
+			</Component>
+
+			<!-- Newtonsoft files -->
+			<Component Id="newtonFile2024" Guid="e002a413-5415-4005-bf93-dd309f2923e9">
+				<File Id="newtonDLL2024" Name="Newtonsoft.Json.dll" KeyPath="yes" Source="$(var.FSource2024)"/>
+			</Component>
+
+			<!-- NPOI files -->
+			<Component Id="npoiFile2024" Guid="35e77294-b2a5-4225-a808-ac97a349b042">
+				<File Id="npoiDLL2024" Name="NPOI.dll" KeyPath="yes" Source="$(var.FSource2024)"/>
+			</Component>
+			<Component Id="npoiOOFile2024" Guid="69d2f740-919a-49da-b5d0-7b127e932500">
+				<File Id="npoiOODLL2024" Name="NPOI.OOXML.dll" KeyPath="yes" Source="$(var.FSource2024)"/>
+			</Component>
+			<Component Id="npoiOpenFile2024" Guid="417eff09-b0b8-423c-99ad-016ae33fa4e4">
+				<File Id="npoiOpen2024" Name="NPOI.OpenXml4Net.dll" KeyPath="yes" Source="$(var.FSource2024)"/>
+			</Component>
+			<Component Id="npoiOpenForFile2024" Guid="46c32d59-2367-4ed9-b2f3-7ce8004c80f4">
+				<File Id="npoiOpenForDLL2024" Name="NPOI.OpenXmlFormats.dll" KeyPath="yes" Source="$(var.FSource2024)"/>
+			</Component>
+			<Component Id="SixLaborsFile2024" Guid="0a15ff62-b077-4d45-af64-eda6f1c07cf6">
+				<File Id="SixLaborsDLL2024" Name="SixLabors.Fonts.dll" KeyPath="yes" Source="$(var.FSource2024)"/>
+			</Component>
+			<Component Id="SystemNumericsVectorsFile2024" Guid="940f1c4f-5a37-4766-8523-4f6ead88ab0b">
+				<File Id="SystemNumericsVectorsDLL2024" Name="System.Numerics.Vectors.dll" KeyPath="yes" Source="$(var.FSource2024)"/>
 			</Component>
 		</ComponentGroup>
 
