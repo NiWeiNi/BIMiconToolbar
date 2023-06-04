@@ -356,6 +356,7 @@
       <DependentUpon>BrowserCheckboxes.xaml</DependentUpon>
     </Compile>
     <Compile Include="Buttons\ExportSchedules\ExportSchedules.cs" />
+    <Compile Include="Buttons\MatchGrids\MatchGridsViewModel.cs" />
     <Compile Include="DockedPanels\FamilyBrowser\FamilyBrowser.cs" />
     <Compile Include="DockedPanels\FamilyBrowser\FamilyBrowserWPF.xaml.cs">
       <DependentUpon>FamilyBrowserWPF.xaml</DependentUpon>
@@ -388,9 +389,9 @@
     <Compile Include="Helpers\HelpersDirectory.cs" />
     <Compile Include="Helpers\HelpersGeometry.cs" />
     <Compile Include="Helpers\HelpersSelection.cs" />
-    <Compile Include="Helpers\MVVM\Model\ModelBase.cs" />
-    <Compile Include="Helpers\MVVM\ViewModel\RelayCommand.cs" />
-    <Compile Include="Helpers\MVVM\ViewModel\ViewModelBase.cs" />
+    <Compile Include="Models\MVVM\Model\ModelBase.cs" />
+    <Compile Include="Models\MVVM\ViewModel\RelayCommand.cs" />
+    <Compile Include="Models\MVVM\ViewModel\ViewModelBase.cs" />
     <Compile Include="Helpers\Parsing.cs" />
     <Compile Include="Helpers\HelpersView.cs" />
     <Compile Include="Helpers\MessageWindows.cs" />

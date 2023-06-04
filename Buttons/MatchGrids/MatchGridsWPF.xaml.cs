@@ -2,14 +2,12 @@
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
 using BIMicon.BIMiconToolbar.Models;
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using View = Autodesk.Revit.DB.View;
 
 namespace BIMicon.BIMiconToolbar.MatchGrids
@@ -17,7 +15,7 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
     /// <summary>
     /// Interaction logic for MatchGridsWPF.xaml
     /// </summary>
-    public partial class MatchGridsWPF : Window, IDisposable
+    public partial class MatchGridsWPF : Window
     {
         /// <summary>
         ///  Properties to store ComboBox items
@@ -39,10 +37,7 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
             get { return _viewToCopy; }
             set { _viewToCopy = value; }
         }
-
-        public ObservableCollection<ComboBoxItem> CbItems { get; set; }
         public BaseElement SelectedViewToCopy { get; set; }
-        public IEnumerable<View> FilteredViewsCheckBox { get; set; }
         public List<int> IntegerIds { get; set; }
         public bool CopyDim { get; set; }
         public List<BaseElement> ViewsInProject { get; set; }
@@ -93,14 +88,6 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
         }
 
         /// <summary>
-        /// Make window disposable
-        /// </summary>
-        public void Dispose()
-        {
-            this.Close();
-        }
-
-        /// <summary>
         /// Method to update views according to initial view selected
         /// </summary>
         /// <param name="sender"></param>
@@ -139,7 +126,7 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
                 IntegerIds.Add(x.Id);
             }
 
-            this.Dispose();
+            this.Close();
         }
 
         /// <summary>
@@ -149,7 +136,7 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
         /// <param name="e"></param>
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
-            Dispose();
+            Close();
         }
 
         /// <summary>
