@@ -52,18 +52,11 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
         public MatchGridsWPF(ExternalCommandData commandData)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            //DataContext = this;
-
-            //LoadViews();
 
             MatchGridsViewModel viewModel = new MatchGridsViewModel(doc);
             DataContext = viewModel;
 
             InitializeComponent();
-
-            //CopyDim = false;
-
-
         }
 
         private void LoadViews()

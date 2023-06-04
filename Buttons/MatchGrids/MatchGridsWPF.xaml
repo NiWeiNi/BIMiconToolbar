@@ -43,14 +43,10 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <RadioButton Grid.Column="0" GroupName="copyDims" x:Name="dimYes"
-                                 ToggleButton.Checked="dimYes_Checked" ToggleButton.Unchecked="dimYes_Checked">
-                        Yes
-                    </RadioButton>
+                    <RadioButton Grid.Column="0" GroupName="copyDims" x:Name="dimYes" Content="Yes"
+                                 ToggleButton.Checked="dimYes_Checked" ToggleButton.Unchecked="dimYes_Checked" />
                     <RadioButton Grid.Column="1" GroupName="copyDims" x:Name="dimNo" 
-                                 IsChecked="True" >
-                        No
-                    </RadioButton>
+                                 IsChecked="True" Content="No"/>
                 </Grid>
             </Border>
 

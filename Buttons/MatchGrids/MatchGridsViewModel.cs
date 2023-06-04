@@ -11,7 +11,7 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
     internal class MatchGridsViewModel : ViewModelBase
     {
         private readonly Document _doc;
-        private List<BaseElement> viewsInProject { get; set; }
+        private List<View> viewsInProject { get; set; }
         public ObservableCollection<BaseElement> Views { get; set; }
         public ObservableCollection<BaseElement> ViewsTemplate { get; set; }
         public RelayCommand OKExecute => new RelayCommand(execute => OKExecuteCommand());
@@ -22,36 +22,43 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
             get => _selectedViewTemplate;
             set
             {
-                _selectedViewTemplate = value;
-                //FilterViewsByParallelView();
+                if (value != null)
+                {
+                    _selectedViewTemplate = value;
+                    FilterViewsByParallelView();
+                }
             }
         }
         public MatchGridsViewModel(Document doc) 
         { 
             _doc = doc;
-            LoadViewsForTemplate();
+            LoadViewsInModel();
+            LoadSelectableViews();
         }
 
-        private void LoadViewsForTemplate()
+        private void LoadViewsInModel()
         {
             FilteredElementCollector viewsCollector = new FilteredElementCollector(_doc).OfCategory(BuiltInCategory.OST_Views);
-            List<View> viewsProject = viewsCollector.Cast<View>()
-                                   .Where(sh =>
-                                   sh.ViewType == ViewType.AreaPlan ||
-                                   sh.ViewType == ViewType.CeilingPlan ||
-                                   sh.ViewType == ViewType.Elevation ||
-                                   sh.ViewType == ViewType.EngineeringPlan ||
-                                   sh.ViewType == ViewType.FloorPlan ||
-                                   sh.ViewType == ViewType.Section ||
-                                   sh.ViewType == ViewType.EngineeringPlan)
-                                   .Where(view => !view.IsTemplate)
-                                   .ToList();
+            viewsInProject = viewsCollector.Cast<View>()
+                            .Where(sh =>
+                            sh.ViewType == ViewType.AreaPlan ||
+                            sh.ViewType == ViewType.CeilingPlan ||
+                            sh.ViewType == ViewType.Elevation ||
+                            sh.ViewType == ViewType.EngineeringPlan ||
+                            sh.ViewType == ViewType.FloorPlan ||
+                            sh.ViewType == ViewType.Section ||
+                            sh.ViewType == ViewType.EngineeringPlan)
+                            .Where(view => !view.IsTemplate)
+                            .ToList();
+        }
 
-            ViewsTemplate = new ObservableCollection<BaseElement>(viewsProject
+        private void LoadSelectableViews()
+        {
+            ViewsTemplate = new ObservableCollection<BaseElement>(viewsInProject
                 .Select(v => new BaseElement() { Name = v.ViewType.ToString() + " - " + v.Name, Id = v.Id.IntegerValue })
                 .OrderBy(v => v.Name));
 
-            Views = new ObservableCollection<BaseElement>(viewsProject
+            Views = new ObservableCollection<BaseElement>(viewsInProject
                 .Select(v => new BaseElement() { Name = v.ViewType.ToString() + " - " + v.Name, Id = v.Id.IntegerValue })
                 .OrderBy(v => v.Name));
         }
@@ -64,12 +71,13 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
             XYZ viewDirection = selectedView.ViewDirection;
 
             var FilteredViewsByComboBox = viewsInProject
-                .Where(x => x.Id != _selectedViewTemplate.Id)
-                .Where(x => HelpersGeometry.AreVectorsParallel(viewDirection, (_doc.GetElement(new ElementId(x.Id)) as View).ViewDirection))
+                .Where(x => x.Id.IntegerValue != _selectedViewTemplate.Id)
+                .Where(x => HelpersGeometry.AreVectorsParallel(viewDirection, x.ViewDirection))
                 .ToList();
 
-            foreach (BaseElement bs in FilteredViewsByComboBox)
+            foreach (View v in FilteredViewsByComboBox)
             {
+                BaseElement bs = new BaseElement() { Name = v.ViewType.ToString() + " - " + v.Name, Id = v.Id.IntegerValue };
                 Views.Add(bs);
             }
         }
