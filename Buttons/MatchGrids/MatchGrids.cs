@@ -2,6 +2,7 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
+using BIMicon.BIMiconToolbar.Models.Forms;
 using System.Collections.Generic;
 
 namespace BIMicon.BIMiconToolbar.MatchGrids
@@ -24,6 +25,9 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
                 View selectedView;
                 bool copyDims;
                 List<int> selectedIntIds;
+
+                UserInfoWPF resultWindowWPF = new UserInfoWPF("Info", "A reallyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy looooooooooooooooooooooooooooooooooooooooooooooooooooong Message");
+                resultWindowWPF.ShowDialog();
 
                 // Prompt window to collect user input
                 using (MatchGridsWPF customWindow = new MatchGridsWPF(commandData))
