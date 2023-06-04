@@ -17,6 +17,16 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
             // Check document is not a family document
             if (RevitDocument.IsDocumentNotProjectDoc(doc)) 
                 return Result.Failed;
+
+            else if (true)
+            {
+                // Prompt window to collect user input
+                MatchGridsWPF customWindow = new MatchGridsWPF(commandData);
+                customWindow.ShowDialog();
+
+                return Result.Failed;
+            }
+
             // Continue as document is a project
             else
             {

@@ -13,15 +13,20 @@ namespace BIMicon.BIMiconToolbar.Models.MVVM.ViewModel
         /// <summary>
         /// The action to run
         /// </summary>
-        private Action mAction;
+        private Action<object> execute;
+        private Func<object, bool> canExecute;
 
         #endregion
 
         #region Public Events
         /// <summary>
-        /// The event that is fired when the <see cref="CanExecute(object"/> value has changed
+        /// The event that is fired when the value has changed
         /// </summary>
-        public event EventHandler CanExecuteChanged = (sender, e) => { };
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
 
         #endregion
 
@@ -29,9 +34,10 @@ namespace BIMicon.BIMiconToolbar.Models.MVVM.ViewModel
         /// <summary>
         /// Default constructor
         /// </summary>
-        public RelayCommand(Action action)
+        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
-            mAction = action;
+            this.execute = execute;
+            this.canExecute = canExecute;
         }
 
         #endregion
@@ -44,7 +50,10 @@ namespace BIMicon.BIMiconToolbar.Models.MVVM.ViewModel
         /// <returns></returns>
         public bool CanExecute(object parameter)
         {
-            return true;
+            if (parameter == null)
+                return canExecute == null;
+            else
+                return canExecute(parameter);
         }
 
         /// <summary>
@@ -53,7 +62,7 @@ namespace BIMicon.BIMiconToolbar.Models.MVVM.ViewModel
         /// <param name="parameter"></param>
         public void Execute(object parameter)
         {
-            mAction();
+            execute(parameter);
         }
 
         #endregion

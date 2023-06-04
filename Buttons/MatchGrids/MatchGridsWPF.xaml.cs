@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using BIMicon.BIMiconToolbar.Buttons.MatchGrids;
 using BIMicon.BIMiconToolbar.Helpers;
 using BIMicon.BIMiconToolbar.Models;
 using System;
@@ -50,13 +51,19 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
         /// <param name="commandData"></param>
         public MatchGridsWPF(ExternalCommandData commandData)
         {
-            Doc = commandData.Application.ActiveUIDocument.Document;
-            DataContext = this;
+            Document doc = commandData.Application.ActiveUIDocument.Document;
+            //DataContext = this;
 
-            LoadViews();
+            //LoadViews();
+
+            MatchGridsViewModel viewModel = new MatchGridsViewModel(doc);
+            DataContext = viewModel;
+
             InitializeComponent();
 
-            CopyDim = false;
+            //CopyDim = false;
+
+
         }
 
         private void LoadViews()

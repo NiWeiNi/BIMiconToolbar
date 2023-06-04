@@ -18,7 +18,7 @@ namespace BIMicon.BIMiconToolbar.Helpers.UserControls.OKCancel.ViewModel
 
         public OKCancelViewModel()
         {
-            _okExecute = new RelayCommand(() => OKButtonPress("message"));
+            
         }
     }
 }
