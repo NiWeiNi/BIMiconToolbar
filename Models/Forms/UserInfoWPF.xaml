@@ -16,13 +16,15 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="..\..\Resources\ResourceDictionaries\DictionaryWindows.xaml" />
+                <ResourceDictionary Source="..\..\Resources\ResourceDictionaries\TextBlockStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
 
     <Border Style="{StaticResource SingleContainer}">
         <StackPanel>
-            <TextBlock x:Name="message" TextWrapping="Wrap"/>
+            <TextBlock x:Name="messageTitle" Style="{StaticResource UserInfoTitle}" />
+            <TextBlock x:Name="message" Style="{StaticResource UserInfoMessage}" TextWrapping="Wrap"/>
             
             <!-- Buttons End -->
             <Grid Style="{StaticResource MainButtons}">

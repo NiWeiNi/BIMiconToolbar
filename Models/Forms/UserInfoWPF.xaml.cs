@@ -8,10 +8,11 @@ namespace BIMicon.BIMiconToolbar.Models.Forms
     /// </summary>
     public partial class UserInfoWPF : Window
     {
-        public UserInfoWPF(string title, string message)
+        public UserInfoWPF(string mainTitle, string title, string message)
         {
             InitializeComponent();
-            this.Title = title;
+            this.Title = mainTitle;
+            this.messageTitle.Text = title;
             this.message.Text = message;
         }
 
