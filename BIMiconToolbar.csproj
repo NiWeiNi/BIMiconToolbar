@@ -456,6 +456,9 @@
       <DependentUpon>OpenLinksUnloadedWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\BaseElement.cs" />
+    <Compile Include="Models\Forms\UserInfoWPF.xaml.cs">
+      <DependentUpon>UserInfoWPF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\WarningsPreprocessor.cs" />
     <Compile Include="Tab\Models\PushButtonIdentityData.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -639,6 +642,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Models\Forms\UserInfoWPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Buttons\OpenLinksUnloaded\ViewModel\" />
@@ -668,9 +675,9 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
-  <!--<PropertyGroup>
+  <PropertyGroup>
     <PostBuildEvent Condition="$(Configuration.Contains('Debug'))">
-		  xcopy "$(TargetDir)" "C:\Program Files\pyRevit-Master\extensions\PluginTesting.extension\lib\" /s /r /y
+		  xcopy "$(TargetDir)" "%AppData%\pyRevit-Master\extensions\PluginTesting.extension\lib\" /s /r /y
 	  </PostBuildEvent>
-  </PropertyGroup>-->
+  </PropertyGroup>
 </Project>
