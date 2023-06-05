@@ -18,11 +18,7 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
     /// </summary>
     public partial class MatchGridsWPF : Window
     {
-        /// <summary>
-        ///  Properties to store ComboBox items
-        /// </summary>
 
-        private Document Doc;
         private ObservableCollection<BaseElement> _views;
 
         public ObservableCollection<BaseElement> Views
@@ -31,13 +27,6 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
             set { _views = value; }
         }
 
-        private ObservableCollection<BaseElement> _viewToCopy;
-
-        public ObservableCollection<BaseElement> ViewToCopy
-        {
-            get { return _viewToCopy; }
-            set { _viewToCopy = value; }
-        }
         public BaseElement SelectedViewToCopy { get; set; }
         public List<int> IntegerIds { get; set; }
         public bool CopyDim { get; set; }
@@ -54,60 +43,12 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
             MatchGridsViewModel viewModel = new MatchGridsViewModel(doc);
+            MatchGridsModel model = new MatchGridsModel(viewModel);
+            viewModel.MatchGridsModel = model;
+            viewModel.RequestClose += ViewModel_RequestClose;
             DataContext = viewModel;
 
             InitializeComponent();
-        }
-
-        private void LoadViews()
-        {
-            FilteredElementCollector viewsCollector = new FilteredElementCollector(Doc).OfCategory(BuiltInCategory.OST_Views);
-            List<View> viewsInProject = viewsCollector.Cast<View>()
-                                   .Where(sh =>
-                                   sh.ViewType == ViewType.AreaPlan ||
-                                   sh.ViewType == ViewType.CeilingPlan ||
-                                   sh.ViewType == ViewType.Elevation ||
-                                   sh.ViewType == ViewType.EngineeringPlan ||
-                                   sh.ViewType == ViewType.FloorPlan ||
-                                   sh.ViewType == ViewType.Section ||
-                                   sh.ViewType == ViewType.EngineeringPlan)
-                                   .Where(view => !view.IsTemplate)
-                                   .ToList();
-
-            ViewToCopy = new ObservableCollection<BaseElement>(viewsInProject
-                .Select(v => new BaseElement() { Name = v.ViewType.ToString() + " - " + v.Name, Id = v.Id.IntegerValue })
-                .OrderBy(v => v.Name));
-
-            Views = new ObservableCollection<BaseElement>(viewsInProject
-                .Select(v => new BaseElement() { Name = v.ViewType.ToString() + " - " + v.Name, Id = v.Id.IntegerValue })
-                .OrderBy(v => v.Name));
-
-            ViewsInProject = new List<BaseElement>(viewsInProject
-                .Select(v => new BaseElement() { Name = v.ViewType.ToString() + " - " + v.Name, Id = v.Id.IntegerValue })
-                .OrderBy(v => v.Name));
-        }
-
-        /// <summary>
-        /// Method to update views according to initial view selected
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MyComboChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Views.Clear();
-
-            View selectedView = Doc.GetElement(new ElementId(SelectedViewToCopy.Id)) as View;
-            XYZ viewDirection = selectedView.ViewDirection;
-
-            FilteredViewsByComboBox = ViewsInProject
-                .Where(x => x.Id != SelectedViewToCopy.Id)
-                .Where(x => HelpersGeometry.AreVectorsParallel(viewDirection, (Doc.GetElement(new ElementId(x.Id)) as View).ViewDirection))
-                .ToList();
-
-            foreach (BaseElement bs in FilteredViewsByComboBox)
-            {
-                Views.Add(bs);
-            }
         }
 
         /// <summary>
@@ -117,16 +58,6 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
         /// <param name="e"></param>
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-
-            IntegerIds = new List<int>();
-
-            // Add all checked checkboxes to global variable
-            foreach (BaseElement x in viewsList.SelectedItems)
-            {
-                IntegerIds.Add(x.Id);
-            }
-
-            this.Close();
         }
 
         /// <summary>
@@ -155,6 +86,11 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
             viewmodel.SelectedViews = viewsList.SelectedItems
                 .Cast<BaseElement>()
                 .ToList();
+        }
+
+        private void ViewModel_RequestClose(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

@@ -74,7 +74,7 @@
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <NullableContextOptions>enable</NullableContextOptions>
-	<LangVersion>8.0</LangVersion>
+    <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>SecurityRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -368,6 +368,7 @@
       <DependentUpon>BrowserCheckboxes.xaml</DependentUpon>
     </Compile>
     <Compile Include="Buttons\ExportSchedules\ExportSchedules.cs" />
+    <Compile Include="Buttons\MatchGrids\MatchGridsModel.cs" />
     <Compile Include="Buttons\MatchGrids\MatchGridsViewModel.cs" />
     <Compile Include="DockedPanels\FamilyBrowser\FamilyBrowser.cs" />
     <Compile Include="DockedPanels\FamilyBrowser\FamilyBrowserWPF.xaml.cs">

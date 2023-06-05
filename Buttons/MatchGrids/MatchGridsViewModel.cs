@@ -11,11 +11,12 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
 {
     internal class MatchGridsViewModel : ViewModelBase
     {
-        private readonly Document _doc;
+        public readonly Document Doc;
         private List<View> ViewsInProject { get; set; }
         public ObservableCollection<BaseElement> Views { get; set; }
         public ObservableCollection<BaseElement> ViewsTemplate { get; set; }
         public List<BaseElement> ViewsFiltered { get; set; }
+        public MatchGridsModel MatchGridsModel { get; set; }
         public RelayCommand OKExecute => new RelayCommand(execute => OKExecuteCommand());
         public ICollection<BaseElement> SelectedViews { get; set; }
         private string _searchText;
@@ -46,14 +47,14 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
         }
         public MatchGridsViewModel(Document doc) 
         { 
-            _doc = doc;
+            Doc = doc;
             LoadViewsInModel();
             LoadSelectableViews();
         }
 
         private void LoadViewsInModel()
         {
-            FilteredElementCollector viewsCollector = new FilteredElementCollector(_doc).OfCategory(BuiltInCategory.OST_Views);
+            FilteredElementCollector viewsCollector = new FilteredElementCollector(Doc).OfCategory(BuiltInCategory.OST_Views);
             ViewsInProject = viewsCollector.Cast<View>()
                             .Where(sh =>
                             sh.ViewType == ViewType.AreaPlan ||
@@ -82,7 +83,7 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
         {
             Views.Clear();
 
-            View selectedView = _doc.GetElement(new ElementId(_selectedViewTemplate.Id)) as View;
+            View selectedView = Doc.GetElement(new ElementId(_selectedViewTemplate.Id)) as View;
             XYZ viewDirection = selectedView.ViewDirection;
 
             List<View> FilteredViewsByComboBox = ViewsInProject
@@ -125,7 +126,16 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
 
         public void OKExecuteCommand()
         {
+            MatchGridsModel.Execute();
             MessageWindows.AlertMessage("Warning", "test");
+            OnRequestClose();
+        }
+
+        public event EventHandler RequestClose;
+
+        protected virtual void OnRequestClose()
+        {
+            RequestClose?.Invoke(this, EventArgs.Empty);
         }
     }
 }
