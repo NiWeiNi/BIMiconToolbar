@@ -2,6 +2,7 @@
 using BIMicon.BIMiconToolbar.Helpers;
 using BIMicon.BIMiconToolbar.Models;
 using BIMicon.BIMiconToolbar.Models.MVVM.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,11 +12,25 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
     internal class MatchGridsViewModel : ViewModelBase
     {
         private readonly Document _doc;
-        private List<View> viewsInProject { get; set; }
+        private List<View> ViewsInProject { get; set; }
         public ObservableCollection<BaseElement> Views { get; set; }
         public ObservableCollection<BaseElement> ViewsTemplate { get; set; }
+        public List<BaseElement> ViewsFiltered { get; set; }
         public RelayCommand OKExecute => new RelayCommand(execute => OKExecuteCommand());
-
+        public ICollection<BaseElement> SelectedViews { get; set; }
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                if (value != null)
+                {
+                    _searchText = value;
+                    UpdateSearch();
+                }
+            }
+        }
         private BaseElement _selectedViewTemplate;
         public BaseElement SelectedViewTemplate
         {
@@ -39,7 +54,7 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
         private void LoadViewsInModel()
         {
             FilteredElementCollector viewsCollector = new FilteredElementCollector(_doc).OfCategory(BuiltInCategory.OST_Views);
-            viewsInProject = viewsCollector.Cast<View>()
+            ViewsInProject = viewsCollector.Cast<View>()
                             .Where(sh =>
                             sh.ViewType == ViewType.AreaPlan ||
                             sh.ViewType == ViewType.CeilingPlan ||
@@ -54,11 +69,11 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
 
         private void LoadSelectableViews()
         {
-            ViewsTemplate = new ObservableCollection<BaseElement>(viewsInProject
+            ViewsTemplate = new ObservableCollection<BaseElement>(ViewsInProject
                 .Select(v => new BaseElement() { Name = v.ViewType.ToString() + " - " + v.Name, Id = v.Id.IntegerValue })
                 .OrderBy(v => v.Name));
 
-            Views = new ObservableCollection<BaseElement>(viewsInProject
+            Views = new ObservableCollection<BaseElement>(ViewsInProject
                 .Select(v => new BaseElement() { Name = v.ViewType.ToString() + " - " + v.Name, Id = v.Id.IntegerValue })
                 .OrderBy(v => v.Name));
         }
@@ -70,7 +85,7 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
             View selectedView = _doc.GetElement(new ElementId(_selectedViewTemplate.Id)) as View;
             XYZ viewDirection = selectedView.ViewDirection;
 
-            var FilteredViewsByComboBox = viewsInProject
+            List<View> FilteredViewsByComboBox = ViewsInProject
                 .Where(x => x.Id.IntegerValue != _selectedViewTemplate.Id)
                 .Where(x => HelpersGeometry.AreVectorsParallel(viewDirection, x.ViewDirection))
                 .ToList();
@@ -79,6 +94,32 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
             {
                 BaseElement bs = new BaseElement() { Name = v.ViewType.ToString() + " - " + v.Name, Id = v.Id.IntegerValue };
                 Views.Add(bs);
+            }
+
+            ViewsFiltered = Views.ToList();
+        }
+
+        private void UpdateSearch()
+        {
+            var FilteredElements = ViewsFiltered.Where(x => Parsing.Contains(x.Name, SearchText, StringComparison.InvariantCultureIgnoreCase));
+
+            // Remove elements not in search term
+            for (int i = Views.Count - 1; i >= 0; i--)
+            {
+                var item = Views[i];
+                if (!FilteredElements.Contains(item))
+                {
+                    Views.Remove(item);
+                }
+            }
+
+            // Bring back elements when input search text changes
+            foreach (var item in FilteredElements)
+            {
+                if (!Views.Contains(item))
+                {
+                    Views.Add(item);
+                }
             }
         }
 

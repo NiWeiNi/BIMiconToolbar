@@ -149,28 +149,12 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
             this.CopyDim = !CopyDim;
         }
 
-        private void searchTbox_TextChanged(object sender, TextChangedEventArgs e)
+        private void viewsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var FilteredElements = FilteredViewsByComboBox.Where(x => Parsing.Contains(x.Name, searchTbox.Text, StringComparison.InvariantCultureIgnoreCase));
-
-            // Remove elements not in search term
-            for (int i = Views.Count - 1; i >= 0; i--)
-            {
-                var item = Views[i];
-                if (!FilteredElements.Contains(item))
-                {
-                    Views.Remove(item);
-                }
-            }
-
-            // Bring back elements when input search text changes
-            foreach (var item in FilteredElements)
-            {
-                if (!Views.Contains(item))
-                {
-                    Views.Add(item);
-                }
-            }
+            MatchGridsViewModel viewmodel = (MatchGridsViewModel)DataContext;
+            viewmodel.SelectedViews = viewsList.SelectedItems
+                .Cast<BaseElement>()
+                .ToList();
         }
     }
 }
