@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -34,6 +35,13 @@ namespace BIMicon.BIMiconToolbar.Models.MVVM.ViewModel
             storage = value;
             this.OnPropertyChanged(propertyName);
             return true;
+        }
+
+        public event EventHandler RequestClose;
+
+        protected virtual void OnRequestClose()
+        {
+            RequestClose?.Invoke(this, EventArgs.Empty);
         }
     }
 }

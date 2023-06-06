@@ -130,12 +130,5 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
             MessageWindows.AlertMessage("Warning", "test");
             OnRequestClose();
         }
-
-        public event EventHandler RequestClose;
-
-        protected virtual void OnRequestClose()
-        {
-            RequestClose?.Invoke(this, EventArgs.Empty);
-        }
     }
 }
