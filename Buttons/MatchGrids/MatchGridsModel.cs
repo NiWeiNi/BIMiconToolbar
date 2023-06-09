@@ -2,6 +2,7 @@
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.MatchGrids;
 using BIMicon.BIMiconToolbar.Models;
+using BIMicon.BIMiconToolbar.Models.Forms;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,16 +18,12 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
 
         public Result Execute()
         {
-            List<BaseElement> selectedIntIds = viewModel.SelectedViews.ToList();
+            // Retrieve selected elements from viewModel
+            ICollection<BaseElement> selectedBaseElements = viewModel.SelectedViews;
 
             // Check that elements have been selected
-            if (selectedIntIds == null)
+            if (selectedBaseElements == null)
             {
-                return Result.Cancelled;
-            }
-            else if (selectedIntIds.Count == 0)
-            {
-                TaskDialog.Show("Warning", "No views have been selected");
                 return Result.Cancelled;
             }
             else
@@ -42,7 +39,7 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
             Document doc = viewModel.Doc;
             BaseElement selectedView = viewModel.SelectedViewTemplate;
             bool copyDims = false;
-            List<BaseElement> selectedIntIds = viewModel.SelectedViews.ToList();
+            ICollection<BaseElement> selectedBaseElements = viewModel.SelectedViews;
             ElementId selectedViewId = new ElementId(selectedView.Id);
             View selectedViewTemp = doc.GetElement(selectedViewId) as View;
 
@@ -66,16 +63,7 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
             }
 
             // Retrieve views to be matched
-            List<View> viewsToMatch = new List<View>();
-
-            foreach (BaseElement bE in selectedIntIds)
-            {
-                int intId = bE.Id;
-                ElementId eId = new ElementId(intId);
-                View view = doc.GetElement(eId) as View;
-
-                viewsToMatch.Add(view);
-            }
+            IEnumerable<View> viewsToMatch = selectedBaseElements.Select(bE => doc.GetElement(new ElementId(bE.Id)) as View);
 
             // Transaction
             using (Transaction gridTransacation = new Transaction(doc, "Match grids"))
