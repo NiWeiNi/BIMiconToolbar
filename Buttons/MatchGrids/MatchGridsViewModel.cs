@@ -127,7 +127,6 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
         public void OKExecuteCommand()
         {
             MatchGridsModel.Execute();
-            MessageWindows.AlertMessage("Warning", "test");
             OnRequestClose();
         }
     }
