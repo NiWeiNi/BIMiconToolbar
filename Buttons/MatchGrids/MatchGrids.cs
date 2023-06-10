@@ -21,7 +21,7 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
             else if (true)
             {
                 // Prompt window to collect user input
-                MatchGridsWPF customWindow = new MatchGridsWPF(commandData);
+                MatchGridsView customWindow = new MatchGridsView(commandData);
                 customWindow.ShowDialog();
 
                 return Result.Failed;

@@ -447,8 +447,8 @@
     <Compile Include="Buttons\MarkOrigin\MarkOrigin.cs" />
     <Compile Include="Buttons\MatchGrids\GridSpecsInView.cs" />
     <Compile Include="Buttons\MatchGrids\MatchGrids.cs" />
-    <Compile Include="Buttons\MatchGrids\MatchGridsWPF.xaml.cs">
-      <DependentUpon>MatchGridsWPF.xaml</DependentUpon>
+    <Compile Include="Buttons\MatchGrids\MatchGridsView.xaml.cs">
+      <DependentUpon>MatchGridsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Buttons\NumberByPick\NumberByPick.cs" />
     <Compile Include="Buttons\NumberByPick\NumberByPickWPF.xaml.cs">
@@ -628,7 +628,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Buttons\MatchGrids\MatchGridsWPF.xaml">
+    <Page Include="Buttons\MatchGrids\MatchGridsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

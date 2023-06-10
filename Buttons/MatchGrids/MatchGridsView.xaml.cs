@@ -1,44 +1,26 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Buttons.MatchGrids;
-using BIMicon.BIMiconToolbar.Helpers;
 using BIMicon.BIMiconToolbar.Models;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using View = Autodesk.Revit.DB.View;
 
 namespace BIMicon.BIMiconToolbar.MatchGrids
 {
     /// <summary>
-    /// Interaction logic for MatchGridsWPF.xaml
+    /// Interaction logic for MatchGridsView.xaml
     /// </summary>
-    public partial class MatchGridsWPF : Window
+    public partial class MatchGridsView : Window
     {
-
-        private ObservableCollection<BaseElement> _views;
-
-        public ObservableCollection<BaseElement> Views
-        {
-            get { return _views; }
-            set { _views = value; }
-        }
-
-        public BaseElement SelectedViewToCopy { get; set; }
-        public List<int> IntegerIds { get; set; }
         public bool CopyDim { get; set; }
-        public List<BaseElement> ViewsInProject { get; set; }
-        public List<BaseElement> FilteredViewsByComboBox { get; set; }
-
 
         /// <summary>
         /// MatchGrids main window
         /// </summary>
         /// <param name="commandData"></param>
-        public MatchGridsWPF(ExternalCommandData commandData)
+        public MatchGridsView(ExternalCommandData commandData)
         {
             Document doc = commandData.Application.ActiveUIDocument.Document;
 
@@ -49,15 +31,6 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
             DataContext = viewModel;
 
             InitializeComponent();
-        }
-
-        /// <summary>
-        /// Set properties once clicked Ok
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OK_Click(object sender, RoutedEventArgs e)
-        {
         }
 
         /// <summary>
