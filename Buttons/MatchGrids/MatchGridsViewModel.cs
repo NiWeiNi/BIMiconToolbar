@@ -126,8 +126,18 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
 
         public void OKExecuteCommand()
         {
-            MatchGridsModel.Execute();
-            OnRequestClose();
+            try
+            {
+                MatchGridsModel.Execute();
+            }
+            catch
+            {
+                // TODO: Display error message to user
+            }
+            finally
+            {
+                OnRequestClose();
+            }
         }
     }
 }
