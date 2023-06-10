@@ -147,10 +147,10 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
             }
         }
 
-        private void MatchGrid2DExtension(GridSpecsInView gridSpecs, View vMatch, Grid gridToMatch, DatumEnds datumEnds)
+        private void MatchGrid2DExtents(GridSpecsInView gridSpecs, View vMatch, Grid gridToMatch, DatumEnds datumEnds)
         {
             DatumExtentType datumExtent = gridSpecs.SelectedGrid.GetDatumExtentTypeInView(datumEnds, vMatch);
-            gridToMatch.SetDatumExtentType(DatumEnds.End0, vMatch, datumExtent);
+            gridToMatch.SetDatumExtentType(datumEnds, vMatch, datumExtent);
         }
 
         private void MatchGridLeader(GridSpecsInView gridSpecs, View vMatch, Grid gridToMatch, XYZ matchOrigin, DatumEnds datumEnds)
@@ -180,6 +180,30 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
             }
         }
 
+        private void MatchGridCurve(XYZ matchOrigin, XYZ originPoint, GridSpecsInView gridSpecs, View vMatch, Grid gridToMatch)
+        {
+            // Match grid guide line to view direction
+            XYZ viewDir = _selectedViewTemp.ViewDirection;
+            XYZ dist;
+
+            if (viewDir.Z == 1 || viewDir.Z == -1)
+                dist = new XYZ(0, 0, matchOrigin.Z - originPoint.Z);
+            else if (viewDir.Y == 1 || viewDir.Y == -1)
+                dist = new XYZ(0, matchOrigin.Y - originPoint.Y, 0);
+            else
+                dist = new XYZ(matchOrigin.X - originPoint.X, 0, 0);
+
+            // Curve defined in view
+            IList<Curve> curves = gridSpecs.ListCurve;
+            Curve curve = curves[0];
+
+            // Move grid guide line to plane of the view
+            Transform trans = Transform.CreateTranslation(dist);
+            Curve transCurve = curve.CreateTransformed(trans);
+            // Set grid line extensions in view
+            gridToMatch.SetCurveInView(DatumExtentType.ViewSpecific, vMatch, transCurve);
+        }
+
         private void MatchGrids()
         {
             // List to store grid display settings
@@ -207,59 +231,12 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
                         {
                             GridSpecsInView gridSpecs = gridsTemplates.First(g => g.GridId == gId);
 
-                            IList<Curve> curves = gridSpecs.ListCurve;
-                            Curve curve = curves[0];
+                            // Points from datum plane in grid template and destination grid
+                            XYZ matchOrigin = GetPointInCurve(vMatch, gMatch);
+                            XYZ originPoint = GetPointInCurve(_selectedViewTemp, gridSpecs.SelectedGrid);
 
-                            // Origin grid to match
-                            Options optMatch = new Options
-                            {
-                                View = vMatch
-                            };
-                            GeometryElement geoEleMatch = gMatch.get_Geometry(optMatch);
-                            XYZ matchOrigin = new XYZ();
-                            foreach (GeometryObject geoObj in geoEleMatch)
-                            {
-                                Line line = geoObj as Line;
-                                if (line != null)
-                                {
-                                    matchOrigin = line.Origin;
-                                    break;
-                                }
-                            }
-
-                            // Origin grid selected
-                            Options options = new Options
-                            {
-                                View = _selectedViewTemp
-                            };
-                            GeometryElement geoEle = gridSpecs.SelectedGrid.get_Geometry(options);
-                            XYZ originPoint = new XYZ();
-                            foreach (GeometryObject geoObj in geoEle)
-                            {
-                                Line line = geoObj as Line;
-                                if (line != null)
-                                {
-                                    originPoint = line.Origin;
-                                    break;
-                                }
-                            }
-
-                            // Match grid guide line to view direction
-                            XYZ viewDir = _selectedViewTemp.ViewDirection;
-                            XYZ dist;
-
-                            if (viewDir.Z == 1 || viewDir.Z == -1)
-                                dist = new XYZ(0, 0, matchOrigin.Z - originPoint.Z);
-                            else if (viewDir.Y == 1 || viewDir.Y == -1)
-                                dist = new XYZ(0, matchOrigin.Y - originPoint.Y, 0);
-                            else
-                                dist = new XYZ(matchOrigin.X - originPoint.X, 0, 0);
-
-                            // Move grid guide line to plane of the view
-                            Transform trans = Transform.CreateTranslation(dist);
-                            Curve transCurve = curve.CreateTransformed(trans);
-                            // Set grid line extensions in view
-                            gMatch.SetCurveInView(DatumExtentType.ViewSpecific, vMatch, curve);
+                            // Match grid curve
+                            MatchGridCurve(matchOrigin, originPoint, gridSpecs, vMatch, gMatch);
 
                             // Match start and end bubble
                             MatchGridBubble(gridSpecs, vMatch, gMatch, DatumEnds.End0);
@@ -270,8 +247,8 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
                             MatchGridLeader(gridSpecs, vMatch, gMatch, matchOrigin, DatumEnds.End1);
 
                             // Match 2D extension
-                            MatchGrid2DExtension(gridSpecs, vMatch, gMatch, DatumEnds.End0);
-                            MatchGrid2DExtension(gridSpecs, vMatch, gMatch, DatumEnds.End1);
+                            MatchGrid2DExtents(gridSpecs, vMatch, gMatch, DatumEnds.End0);
+                            MatchGrid2DExtents(gridSpecs, vMatch, gMatch, DatumEnds.End1);
                         }
                     }
                 }
@@ -281,6 +258,27 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
 
                 gridTransacation.Commit();
             }
+        }
+        private XYZ GetPointInCurve(View view, Grid grid)
+        {
+            Options optMatch = new Options { View = view };
+            GeometryElement geoEleMatch = grid.get_Geometry(optMatch);
+            XYZ point = new XYZ();
+            foreach (GeometryObject geoObj in geoEleMatch)
+            {
+                if (geoObj is Line)
+                {
+                    point = (geoObj as Line).Origin;
+                    break;
+                }
+                else if (geoObj is Arc)
+                {
+                    point = (geoObj as Arc).Center;
+                    break;
+                }
+            }
+
+            return point;
         }
     }
 }
