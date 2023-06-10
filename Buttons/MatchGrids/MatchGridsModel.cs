@@ -12,7 +12,6 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
         // Private Properties
         private readonly MatchGridsViewModel _viewModel;
         private Document _doc;
-        private BaseElement _selectedView;
         private bool _copyDims;
         private ICollection<BaseElement> _selectedBaseElements;
 
@@ -61,13 +60,12 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
         {
             // Variables to store user input
             _doc = _viewModel.Doc;
-            _selectedView = _viewModel.SelectedViewTemplate;
             _copyDims = false;
             _selectedBaseElements = _viewModel.SelectedViews;
 
             // Retrieve views to be matched
             _viewsToMatch = _selectedBaseElements.Select(bE => _doc.GetElement(new ElementId(bE.Id)) as View);
-            _selectedViewId = new ElementId(_selectedView.Id);
+            _selectedViewId = new ElementId(_viewModel.SelectedViewTemplate.Id);
             _selectedViewTemp = _doc.GetElement(_selectedViewId) as View;
         }
 
