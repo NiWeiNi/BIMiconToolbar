@@ -2,7 +2,6 @@
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.MatchGrids;
 using BIMicon.BIMiconToolbar.Models;
-using BIMicon.BIMiconToolbar.Models.Forms;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,70 +9,138 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
 {
     internal class MatchGridsModel
     {
-        private readonly MatchGridsViewModel viewModel;
-        public MatchGridsModel(MatchGridsViewModel viewModelCons) 
+        // Private Properties
+        private readonly MatchGridsViewModel _viewModel;
+        private Document _doc;
+        private BaseElement _selectedView;
+        private bool _copyDims;
+        private ICollection<BaseElement> _selectedBaseElements;
+
+        private ElementId _selectedViewId;
+        private View _selectedViewTemp;
+        private IEnumerable<View> _viewsToMatch;
+
+        private FilteredElementCollector _gridsInViewTempCollector;
+        private ICollection<ElementId> _gridIds;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="viewModel"></param>
+        public MatchGridsModel(MatchGridsViewModel viewModel) 
         {
-            viewModel = viewModelCons;
+            _viewModel = viewModel;
         }
 
+        /// <summary>
+        /// Method to run logic
+        /// </summary>
+        /// <returns></returns>
         public Result Execute()
         {
             // Retrieve selected elements from viewModel
-            ICollection<BaseElement> selectedBaseElements = viewModel.SelectedViews;
+            UpdatePropertiesFromViewModel();
 
             // Check that elements have been selected
-            if (selectedBaseElements == null)
+            if (_selectedBaseElements == null)
             {
                 return Result.Cancelled;
             }
             else
             {
+                CollectGrids();
                 MatchGrids();
                 return Result.Succeeded;
             }
         }
 
-        public void MatchGrids()
+        /// <summary>
+        /// Store porperties from viewModel to private porperties in model for easy access
+        /// </summary>
+        private void UpdatePropertiesFromViewModel()
         {
             // Variables to store user input
-            Document doc = viewModel.Doc;
-            BaseElement selectedView = viewModel.SelectedViewTemplate;
-            bool copyDims = false;
-            ICollection<BaseElement> selectedBaseElements = viewModel.SelectedViews;
-            ElementId selectedViewId = new ElementId(selectedView.Id);
-            View selectedViewTemp = doc.GetElement(selectedViewId) as View;
-
-            // Collect grids visible in view
-            FilteredElementCollector gridsCollector = new FilteredElementCollector(doc, selectedViewId)
-                                                    .OfCategory(BuiltInCategory.OST_Grids)
-                                                    .WhereElementIsNotElementType();
-
-            // Grid Ids
-            ICollection<ElementId> gridIds = gridsCollector.ToElementIds();
-
-            // Template for grids display
-            Dictionary<ElementId, GridSpecsInView> gridsTemplate = new Dictionary<ElementId, GridSpecsInView>();
-
-            // Check each grid
-            foreach (Element element in gridsCollector)
-            {
-                Grid g = element as Grid;
-                GridSpecsInView gridSpecs = new GridSpecsInView(g, selectedViewTemp);
-                gridsTemplate.Add(g.Id, gridSpecs);
-            }
+            _doc = _viewModel.Doc;
+            _selectedView = _viewModel.SelectedViewTemplate;
+            _copyDims = false;
+            _selectedBaseElements = _viewModel.SelectedViews;
 
             // Retrieve views to be matched
-            IEnumerable<View> viewsToMatch = selectedBaseElements.Select(bE => doc.GetElement(new ElementId(bE.Id)) as View);
+            _viewsToMatch = _selectedBaseElements.Select(bE => _doc.GetElement(new ElementId(bE.Id)) as View);
+            _selectedViewId = new ElementId(_selectedView.Id);
+            _selectedViewTemp = _doc.GetElement(_selectedViewId) as View;
+        }
+
+        private void CollectGrids()
+        {
+            // Collect grids visible in view
+            _gridsInViewTempCollector = new FilteredElementCollector(_doc, _selectedViewId)
+                                                    .OfCategory(BuiltInCategory.OST_Grids)
+                                                    .WhereElementIsNotElementType();
+            // Grid Ids
+            _gridIds = _gridsInViewTempCollector.ToElementIds();
+        }
+
+        private void CopyDimensions()
+        {
+            // Collect dimensions in selected view
+            FilteredElementCollector dimensionsCollector = new FilteredElementCollector(_doc, _selectedViewId)
+                                                    .OfCategory(BuiltInCategory.OST_Dimensions)
+                                                    .WhereElementIsNotElementType();
+
+            // Dimensions to copy
+            List<ElementId> dimsToCopy = new List<ElementId>();
+
+            // Check dimensions only take grids as references 
+            foreach (Element element in dimensionsCollector)
+            {
+                Dimension d = element as Dimension;
+                ReferenceArray dReferences = d.References;
+                bool gridDim = true;
+
+                foreach (Reference dRef in dReferences)
+                {
+                    ElementId dRefId = dRef.ElementId;
+
+                    if (!_gridIds.Contains(dRefId))
+                    {
+                        gridDim = false;
+                        break;
+                    }
+                }
+
+                if (gridDim)
+                {
+                    dimsToCopy.Add(d.Id);
+                }
+            }
+
+            // Copy dimensions
+            if (dimsToCopy.Count > 0)
+            {
+                CopyPasteOptions cp = new CopyPasteOptions();
+
+                foreach (View v in _viewsToMatch)
+                {
+                    ElementTransformUtils.CopyElements(_selectedViewTemp, dimsToCopy, v, null, cp);
+                }
+            }
+        }
+
+        private void MatchGrids()
+        {
+            // List to store grid display settings
+            IEnumerable<GridSpecsInView> gridsTemplates = _gridsInViewTempCollector.Select(e => new GridSpecsInView((e as Grid), _selectedViewTemp));
 
             // Transaction
-            using (Transaction gridTransacation = new Transaction(doc, "Match grids"))
+            using (Transaction gridTransacation = new Transaction(_doc, "Match grids"))
             {
                 gridTransacation.Start();
 
-                foreach (View vMatch in viewsToMatch)
+                foreach (View vMatch in _viewsToMatch)
                 {
                     // Collect grids visible in view
-                    FilteredElementCollector gridsMatchCollector = new FilteredElementCollector(doc, vMatch.Id)
+                    FilteredElementCollector gridsMatchCollector = new FilteredElementCollector(_doc, vMatch.Id)
                                                             .OfCategory(BuiltInCategory.OST_Grids)
                                                             .WhereElementIsNotElementType();
 
@@ -83,15 +150,17 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
                         ElementId gId = element.Id;
                         Grid gMatch = element as Grid;
 
-                        if (gridIds.Contains(gId))
+                        if (_gridIds.Contains(gId))
                         {
                             bool startGridMatch = gMatch.IsBubbleVisibleInView(DatumEnds.End0, vMatch);
                             bool endGridMatch = gMatch.IsBubbleVisibleInView(DatumEnds.End1, vMatch);
 
-                            bool hasStartBubble = gridsTemplate[gId].StartBubble;
-                            bool hasEndBubble = gridsTemplate[gId].EndBubble;
+                            GridSpecsInView gridSpecs = gridsTemplates.First(g => g.GridId == gId);
 
-                            IList<Curve> curves = gridsTemplate[gId].ListCurve;
+                            bool hasStartBubble = gridSpecs.StartBubble;
+                            bool hasEndBubble = gridSpecs.EndBubble;
+
+                            IList<Curve> curves = gridSpecs.ListCurve;
                             Curve curve = curves[0];
 
                             // Origin grid to match
@@ -114,9 +183,9 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
                             // Origin grid selected
                             Options options = new Options
                             {
-                                View = selectedViewTemp
+                                View = _selectedViewTemp
                             };
-                            GeometryElement geoEle = gridsTemplate[gId].SelectedGrid.get_Geometry(options);
+                            GeometryElement geoEle = gridSpecs.SelectedGrid.get_Geometry(options);
                             XYZ originPoint = new XYZ();
                             foreach (GeometryObject geoObj in geoEle)
                             {
@@ -129,7 +198,7 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
                             }
 
                             // Match grid guide line to view direction
-                            XYZ viewDir = selectedViewTemp.ViewDirection;
+                            XYZ viewDir = _selectedViewTemp.ViewDirection;
                             XYZ dist;
 
                             if (viewDir.Z == 1 || viewDir.Z == -1)
@@ -166,7 +235,7 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
                             }
 
                             // Match leader start and end
-                            Leader leaderStart = gridsTemplate[gId].LeaderStart;
+                            Leader leaderStart = gridSpecs.LeaderStart;
                             if (leaderStart != null)
                             {
                                 Leader leaderStartMacth = gMatch.GetLeader(DatumEnds.End0, vMatch);
@@ -184,7 +253,7 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
                                     gMatch.SetLeader(DatumEnds.End0, vMatch, leaderStartMacth);
                                 }
                             }
-                            Leader leaderEnd = gridsTemplate[gId].LeaderEnd;
+                            Leader leaderEnd = gridSpecs.LeaderEnd;
                             if (leaderEnd != null)
                             {
                                 Leader leaderEndMatch = gMatch.GetLeader(DatumEnds.End1, vMatch);
@@ -204,9 +273,9 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
                             }
 
                             // Match 2D extension
-                            DatumExtentType datumExtentTypeStart = gridsTemplate[gId].SelectedGrid
+                            DatumExtentType datumExtentTypeStart = gridSpecs.SelectedGrid
                                 .GetDatumExtentTypeInView(DatumEnds.End0, vMatch);
-                            DatumExtentType datumExtentTypeEnd = gridsTemplate[gId].SelectedGrid
+                            DatumExtentType datumExtentTypeEnd = gridSpecs.SelectedGrid
                                 .GetDatumExtentTypeInView(DatumEnds.End1, vMatch);
 
                             gMatch.SetDatumExtentType(DatumEnds.End0, vMatch, datumExtentTypeStart);
@@ -215,52 +284,8 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
                     }
                 }
 
-                // Copy grid dimensions
-                if (copyDims)
-                {
-                    // Collect dimensions in selected view
-                    FilteredElementCollector dimensionsCollector = new FilteredElementCollector(doc, selectedViewId)
-                                                            .OfCategory(BuiltInCategory.OST_Dimensions)
-                                                            .WhereElementIsNotElementType();
-
-                    // Dimensions to copy
-                    List<ElementId> dimsToCopy = new List<ElementId>();
-
-                    // Check dimensions only take grids as references 
-                    foreach (Element element in dimensionsCollector)
-                    {
-                        Dimension d = element as Dimension;
-                        ReferenceArray dReferences = d.References;
-                        bool gridDim = true;
-
-                        foreach (Reference dRef in dReferences)
-                        {
-                            ElementId dRefId = dRef.ElementId;
-
-                            if (!gridIds.Contains(dRefId))
-                            {
-                                gridDim = false;
-                                break;
-                            }
-                        }
-
-                        if (gridDim)
-                        {
-                            dimsToCopy.Add(d.Id);
-                        }
-                    }
-
-                    // Copy dimensions
-                    if (dimsToCopy.Count > 0)
-                    {
-                        CopyPasteOptions cp = new CopyPasteOptions();
-
-                        foreach (View v in viewsToMatch)
-                        {
-                            ElementTransformUtils.CopyElements(selectedViewTemp, dimsToCopy, v, null, cp);
-                        }
-                    }
-                }
+                if (_copyDims)
+                    CopyDimensions();
 
                 gridTransacation.Commit();
             }
