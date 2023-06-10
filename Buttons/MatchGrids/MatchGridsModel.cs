@@ -127,6 +127,59 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
             }
         }
 
+        private void MatchGridBubble(GridSpecsInView gridSpecs, View vMatch, Grid gridToMatch, DatumEnds datumEnds)
+        {
+            bool hasBubble;
+            bool hasBubbleGridToMatch = gridToMatch.IsBubbleVisibleInView(datumEnds, vMatch);
+
+            if (datumEnds == DatumEnds.End0)
+                hasBubble = gridSpecs.StartBubble;
+            else
+                hasBubble = gridSpecs.EndBubble;
+
+            if (hasBubble && !hasBubbleGridToMatch)
+            {
+                gridToMatch.ShowBubbleInView(datumEnds, vMatch);
+            }
+            else if (!hasBubble && hasBubbleGridToMatch)
+            {
+                gridToMatch.HideBubbleInView(datumEnds, vMatch);
+            }
+        }
+
+        private void MatchGrid2DExtension(GridSpecsInView gridSpecs, View vMatch, Grid gridToMatch, DatumEnds datumEnds)
+        {
+            DatumExtentType datumExtent = gridSpecs.SelectedGrid.GetDatumExtentTypeInView(datumEnds, vMatch);
+            gridToMatch.SetDatumExtentType(DatumEnds.End0, vMatch, datumExtent);
+        }
+
+        private void MatchGridLeader(GridSpecsInView gridSpecs, View vMatch, Grid gridToMatch, XYZ matchOrigin, DatumEnds datumEnds)
+        {
+            Leader leaderEnd;
+            if (datumEnds == DatumEnds.End0)
+                leaderEnd = gridSpecs.LeaderStart;
+            else
+                leaderEnd = gridSpecs.LeaderEnd;
+
+            if (leaderEnd != null)
+            {
+                Leader leaderEndMatch = gridToMatch.GetLeader(datumEnds, vMatch);
+                if (leaderEndMatch == null)
+                {
+                    leaderEndMatch = gridToMatch.AddLeader(datumEnds, vMatch);
+                }
+                else
+                {
+                    XYZ elbowTemplate = leaderEnd.Elbow;
+                    XYZ endTemplate = leaderEnd.End;
+                    leaderEndMatch.Elbow = new XYZ(elbowTemplate.X, elbowTemplate.Y, matchOrigin.Z);
+                    leaderEndMatch.End = new XYZ(endTemplate.X, endTemplate.Y, matchOrigin.Z);
+
+                    gridToMatch.SetLeader(datumEnds, vMatch, leaderEndMatch);
+                }
+            }
+        }
+
         private void MatchGrids()
         {
             // List to store grid display settings
@@ -152,13 +205,7 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
 
                         if (_gridIds.Contains(gId))
                         {
-                            bool startGridMatch = gMatch.IsBubbleVisibleInView(DatumEnds.End0, vMatch);
-                            bool endGridMatch = gMatch.IsBubbleVisibleInView(DatumEnds.End1, vMatch);
-
                             GridSpecsInView gridSpecs = gridsTemplates.First(g => g.GridId == gId);
-
-                            bool hasStartBubble = gridSpecs.StartBubble;
-                            bool hasEndBubble = gridSpecs.EndBubble;
 
                             IList<Curve> curves = gridSpecs.ListCurve;
                             Curve curve = curves[0];
@@ -212,74 +259,19 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
                             Transform trans = Transform.CreateTranslation(dist);
                             Curve transCurve = curve.CreateTransformed(trans);
                             // Set grid line extensions in view
-                            gMatch.SetCurveInView(DatumExtentType.ViewSpecific, vMatch, transCurve);
+                            gMatch.SetCurveInView(DatumExtentType.ViewSpecific, vMatch, curve);
 
-                            // Match Start bubble
-                            if (hasStartBubble && !startGridMatch)
-                            {
-                                gMatch.ShowBubbleInView(DatumEnds.End0, vMatch);
-                            }
-                            else if (!hasStartBubble && startGridMatch)
-                            {
-                                gMatch.HideBubbleInView(DatumEnds.End0, vMatch);
-                            }
+                            // Match start and end bubble
+                            MatchGridBubble(gridSpecs, vMatch, gMatch, DatumEnds.End0);
+                            MatchGridBubble(gridSpecs, vMatch, gMatch, DatumEnds.End1);
 
-                            // Match End bubble
-                            if (hasEndBubble && !endGridMatch)
-                            {
-                                gMatch.ShowBubbleInView(DatumEnds.End1, vMatch);
-                            }
-                            else if (!hasEndBubble && endGridMatch)
-                            {
-                                gMatch.HideBubbleInView(DatumEnds.End1, vMatch);
-                            }
-
-                            // Match leader start and end
-                            Leader leaderStart = gridSpecs.LeaderStart;
-                            if (leaderStart != null)
-                            {
-                                Leader leaderStartMacth = gMatch.GetLeader(DatumEnds.End0, vMatch);
-                                if (leaderStartMacth == null)
-                                {
-                                    leaderStartMacth = gMatch.AddLeader(DatumEnds.End0, vMatch);
-                                }
-                                else
-                                {
-                                    XYZ elbowTemplate = leaderStart.Elbow;
-                                    XYZ endTemplate = leaderStart.End;
-                                    leaderStartMacth.Elbow = new XYZ(elbowTemplate.X, elbowTemplate.Y, matchOrigin.Z);
-                                    leaderStartMacth.End = new XYZ(endTemplate.X, endTemplate.Y, matchOrigin.Z);
-
-                                    gMatch.SetLeader(DatumEnds.End0, vMatch, leaderStartMacth);
-                                }
-                            }
-                            Leader leaderEnd = gridSpecs.LeaderEnd;
-                            if (leaderEnd != null)
-                            {
-                                Leader leaderEndMatch = gMatch.GetLeader(DatumEnds.End1, vMatch);
-                                if (leaderEndMatch == null)
-                                {
-                                    leaderEndMatch = gMatch.AddLeader(DatumEnds.End1, vMatch);
-                                }
-                                else
-                                {
-                                    XYZ elbowTemplate = leaderEnd.Elbow;
-                                    XYZ endTemplate = leaderEnd.End;
-                                    leaderEndMatch.Elbow = new XYZ(elbowTemplate.X, elbowTemplate.Y, matchOrigin.Z);
-                                    leaderEndMatch.End = new XYZ(endTemplate.X, endTemplate.Y, matchOrigin.Z);
-
-                                    gMatch.SetLeader(DatumEnds.End1, vMatch, leaderEndMatch);
-                                }
-                            }
+                            // Match start and end leader 
+                            MatchGridLeader(gridSpecs, vMatch, gMatch, matchOrigin, DatumEnds.End0);
+                            MatchGridLeader(gridSpecs, vMatch, gMatch, matchOrigin, DatumEnds.End1);
 
                             // Match 2D extension
-                            DatumExtentType datumExtentTypeStart = gridSpecs.SelectedGrid
-                                .GetDatumExtentTypeInView(DatumEnds.End0, vMatch);
-                            DatumExtentType datumExtentTypeEnd = gridSpecs.SelectedGrid
-                                .GetDatumExtentTypeInView(DatumEnds.End1, vMatch);
-
-                            gMatch.SetDatumExtentType(DatumEnds.End0, vMatch, datumExtentTypeStart);
-                            gMatch.SetDatumExtentType(DatumEnds.End1, vMatch, datumExtentTypeEnd);
+                            MatchGrid2DExtension(gridSpecs, vMatch, gMatch, DatumEnds.End0);
+                            MatchGrid2DExtension(gridSpecs, vMatch, gMatch, DatumEnds.End1);
                         }
                     }
                 }
