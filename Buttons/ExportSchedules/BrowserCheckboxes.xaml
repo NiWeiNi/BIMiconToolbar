@@ -9,7 +9,7 @@
         Icon="../../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
         Title="Select Schedules and Destination Folder" 
-        Height="540" Width="420"
+        Height="560" Width="420"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
