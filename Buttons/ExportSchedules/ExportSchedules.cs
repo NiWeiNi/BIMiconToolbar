@@ -19,6 +19,7 @@ namespace BIMicon.BIMiconToolbar.ExportSchedules
 
             // Variables to store user input
             List<int> listIds;
+            bool combineSchedules;
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
             // Variables to store log
@@ -30,6 +31,7 @@ namespace BIMicon.BIMiconToolbar.ExportSchedules
             {
                 customWindow.ShowDialog();
                 listIds = customWindow.listIds;
+                combineSchedules = customWindow.combineCheckbox.IsChecked.Value;
             }
 
             // Check there are schedules selected
@@ -49,6 +51,11 @@ namespace BIMicon.BIMiconToolbar.ExportSchedules
                 }
                 else
                 {
+                    // Create excel file
+                    SXSSFWorkbook workbook = new SXSSFWorkbook();
+                    // File created
+                    bool fileCreated = false;
+
                     // Loop through each selected schedule
                     foreach (int id in listIds)
                     {
@@ -59,11 +66,7 @@ namespace BIMicon.BIMiconToolbar.ExportSchedules
                         int numbRows = sectionData.NumberOfRows;
                         int numbCols = sectionData.NumberOfColumns;
 
-                        // Name of the file
-                        string excelPath = fullPath + @"\" + sched.Name + ".xlsx";
-
-                        // Create excel file
-                        SXSSFWorkbook workbook = new SXSSFWorkbook();
+                        string excelPath;
                         SXSSFSheet excelSheet = (SXSSFSheet)workbook.CreateSheet(sched.Name);
                         excelSheet.SetRandomAccessWindowSize(100);
 
@@ -77,8 +80,23 @@ namespace BIMicon.BIMiconToolbar.ExportSchedules
                         var titleStyle = workbook.CreateCellStyle();
                         titleStyle.SetFont(fontStyle);
 
+                        // Combine schedules into a single file or separate them
+                        if (combineSchedules)
+                        {
+                            // Name of the file
+                            excelPath = fullPath + @"\" + doc.Title + ".xlsx";
+                        }
+                        else
+                        {
+                            // Name of the file
+                            excelPath = fullPath + @"\" + sched.Name + ".xlsx";
+
+                            // Create excel file
+                            workbook = new SXSSFWorkbook();
+                        }
+
                         // Write to excel
-                        using (var fs = new FileStream(excelPath, FileMode.Create, FileAccess.Write))
+                        using (var fs = new FileStream(excelPath, FileMode.OpenOrCreate, FileAccess.Write))
                         {
                             // Write content
                             for (int i = 0; i < numbRows; i++)
