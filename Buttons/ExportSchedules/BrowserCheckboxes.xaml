@@ -9,7 +9,7 @@
         Icon="../../Resources/Logos/iconBIMiconBlack.ico"
         ResizeMode="NoResize"
         Title="Select Schedules and Destination Folder" 
-        Height="520" Width="420"
+        Height="540" Width="420"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -25,7 +25,7 @@
 
             <StackPanel>
                 <TextBlock Style="{StaticResource FirstTitle}">
-                    Please select schedule/s to export to Excel:
+                    Select schedule/s to export to Excel:
                 </TextBlock>
 
                 <Border Style="{StaticResource OuterBorder}">
@@ -47,6 +47,13 @@
                         </ListView>
                     </Grid>
                 </Border>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource FirstTitle}">
+                    Combine schedules into a single file:
+                </TextBlock>
+                <CheckBox x:Name="combineCheckbox" Margin=" 10 0 0 0" VerticalAlignment="Center"/>
             </StackPanel>
 
             <!-- Buttons End-->
