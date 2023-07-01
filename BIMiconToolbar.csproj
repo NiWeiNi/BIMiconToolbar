@@ -669,7 +669,7 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-	  <PostBuildEvent Condition="$(Configuration.Contains('Debug'))">
+    <PostBuildEvent Condition="$(Configuration.Contains('Debug'))">
 		  xcopy "$(TargetDir)" "%AppData%\pyRevit-Master\extensions\PluginTesting.extension\lib\" /s /r /y
 	  </PostBuildEvent>
   </PropertyGroup>
