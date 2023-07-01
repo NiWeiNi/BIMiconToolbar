@@ -53,8 +53,6 @@ namespace BIMicon.BIMiconToolbar.ExportSchedules
                 {
                     // Create excel file
                     SXSSFWorkbook workbook = new SXSSFWorkbook();
-                    // File created
-                    bool fileCreated = false;
 
                     // Loop through each selected schedule
                     foreach (int id in listIds)
@@ -80,23 +78,24 @@ namespace BIMicon.BIMiconToolbar.ExportSchedules
                         var titleStyle = workbook.CreateCellStyle();
                         titleStyle.SetFont(fontStyle);
 
+                        FileStream fs;
+
                         // Combine schedules into a single file or separate them
                         if (combineSchedules)
                         {
                             // Name of the file
                             excelPath = fullPath + @"\" + doc.Title + ".xlsx";
+                            fs = new FileStream(excelPath, FileMode.OpenOrCreate, FileAccess.Write);
                         }
                         else
                         {
                             // Name of the file
                             excelPath = fullPath + @"\" + sched.Name + ".xlsx";
-
-                            // Create excel file
-                            workbook = new SXSSFWorkbook();
+                            fs = new FileStream(excelPath, FileMode.Create, FileAccess.Write);
                         }
 
                         // Write to excel
-                        using (var fs = new FileStream(excelPath, FileMode.OpenOrCreate, FileAccess.Write))
+                        using (fs)
                         {
                             // Write content
                             for (int i = 0; i < numbRows; i++)
