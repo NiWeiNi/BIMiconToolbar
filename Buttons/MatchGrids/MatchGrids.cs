@@ -2,8 +2,6 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
-using BIMicon.BIMiconToolbar.Models.Forms;
-using System.Collections.Generic;
 
 namespace BIMicon.BIMiconToolbar.MatchGrids
 {
@@ -24,7 +22,7 @@ namespace BIMicon.BIMiconToolbar.MatchGrids
                 MatchGridsView customWindow = new MatchGridsView(commandData);
                 customWindow.ShowDialog();
 
-                return Result.Failed;
+                return Result.Succeeded;
             }
         }
     }
