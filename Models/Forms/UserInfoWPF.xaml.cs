@@ -8,12 +8,12 @@ namespace BIMicon.BIMiconToolbar.Models.Forms
     /// </summary>
     public partial class UserInfoWPF : Window
     {
-        public UserInfoWPF(string mainTitle, string title, string message)
+        public UserInfoWPF(Message message)
         {
             InitializeComponent();
-            this.Title = mainTitle;
-            this.messageTitle.Text = title;
-            this.message.Text = message;
+            this.Title = message.Type.ToString();
+            this.messageTitle.Text = message.Title;
+            this.message.Text = message.Content;
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

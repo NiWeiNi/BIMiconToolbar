@@ -1,11 +1,14 @@
 ﻿using Autodesk.Revit.DB;
 using BIMicon.BIMiconToolbar.Helpers;
 using BIMicon.BIMiconToolbar.Models;
+using BIMicon.BIMiconToolbar.Models.Enums;
+using BIMicon.BIMiconToolbar.Models.Forms;
 using BIMicon.BIMiconToolbar.Models.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Message = BIMicon.BIMiconToolbar.Models.Message;
 
 namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
 {
@@ -132,7 +135,9 @@ namespace BIMicon.BIMiconToolbar.Buttons.MatchGrids
             }
             catch
             {
-                // TODO: Display error message to user
+                Message message = new Message(MessageType.Error, "Failed to execute", "Something went wrong");
+                UserInfoWPF userMessage = new UserInfoWPF(message);
+                userMessage.ShowDialog();
             }
             finally
             {

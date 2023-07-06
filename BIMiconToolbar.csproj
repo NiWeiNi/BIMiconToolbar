@@ -402,6 +402,8 @@
     <Compile Include="Helpers\HelpersDirectory.cs" />
     <Compile Include="Helpers\HelpersGeometry.cs" />
     <Compile Include="Helpers\HelpersSelection.cs" />
+    <Compile Include="Models\Enums\MessageType.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\MVVM\Model\ModelBase.cs" />
     <Compile Include="Models\MVVM\ViewModel\RelayCommand.cs" />
     <Compile Include="Models\MVVM\ViewModel\ViewModelBase.cs" />
