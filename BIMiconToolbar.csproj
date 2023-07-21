@@ -51,6 +51,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <NullableContextOptions>enable</NullableContextOptions>
     <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>SecurityRules.ruleset</CodeAnalysisRuleSet>
@@ -61,6 +62,7 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <NullableContextOptions>enable</NullableContextOptions>
     <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
@@ -71,6 +73,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <NullableContextOptions>enable</NullableContextOptions>
     <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>SecurityRules.ruleset</CodeAnalysisRuleSet>
@@ -81,6 +84,7 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <NullableContextOptions>enable</NullableContextOptions>
     <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
@@ -90,6 +94,7 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <NullableContextOptions>enable</NullableContextOptions>
     <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
@@ -100,6 +105,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <NullableContextOptions>enable</NullableContextOptions>
     <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>SecurityRules.ruleset</CodeAnalysisRuleSet>
@@ -111,6 +117,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <NullableContextOptions>enable</NullableContextOptions>
     <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>SecurityRules.ruleset</CodeAnalysisRuleSet>
@@ -121,6 +128,7 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <NullableContextOptions>enable</NullableContextOptions>
     <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
@@ -131,6 +139,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <NullableContextOptions>enable</NullableContextOptions>
     <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>SecurityRules.ruleset</CodeAnalysisRuleSet>
@@ -141,6 +150,7 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <NullableContextOptions>enable</NullableContextOptions>
     <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
@@ -151,6 +161,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <NullableContextOptions>enable</NullableContextOptions>
     <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>SecurityRules.ruleset</CodeAnalysisRuleSet>
@@ -161,6 +172,7 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <NullableContextOptions>enable</NullableContextOptions>
     <LangVersion>8.0</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
@@ -188,7 +200,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\2020 Debug\</OutputPath>
     <DefineConstants>DEBUG;v2020</DefineConstants>
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2020 Release|x64'">
@@ -356,6 +368,8 @@
       <DependentUpon>BrowserCheckboxes.xaml</DependentUpon>
     </Compile>
     <Compile Include="Buttons\ExportSchedules\ExportSchedules.cs" />
+    <Compile Include="Buttons\MatchGrids\MatchGridsModel.cs" />
+    <Compile Include="Buttons\MatchGrids\MatchGridsViewModel.cs" />
     <Compile Include="DockedPanels\FamilyBrowser\FamilyBrowser.cs" />
     <Compile Include="DockedPanels\FamilyBrowser\FamilyBrowserWPF.xaml.cs">
       <DependentUpon>FamilyBrowserWPF.xaml</DependentUpon>
@@ -388,9 +402,11 @@
     <Compile Include="Helpers\HelpersDirectory.cs" />
     <Compile Include="Helpers\HelpersGeometry.cs" />
     <Compile Include="Helpers\HelpersSelection.cs" />
-    <Compile Include="Helpers\MVVM\Model\ModelBase.cs" />
-    <Compile Include="Helpers\MVVM\ViewModel\RelayCommand.cs" />
-    <Compile Include="Helpers\MVVM\ViewModel\ViewModelBase.cs" />
+    <Compile Include="Models\Enums\MessageType.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\MVVM\Model\ModelBase.cs" />
+    <Compile Include="Models\MVVM\ViewModel\RelayCommand.cs" />
+    <Compile Include="Models\MVVM\ViewModel\ViewModelBase.cs" />
     <Compile Include="Helpers\Parsing.cs" />
     <Compile Include="Helpers\HelpersView.cs" />
     <Compile Include="Helpers\MessageWindows.cs" />
@@ -433,8 +449,8 @@
     <Compile Include="Buttons\MarkOrigin\MarkOrigin.cs" />
     <Compile Include="Buttons\MatchGrids\GridSpecsInView.cs" />
     <Compile Include="Buttons\MatchGrids\MatchGrids.cs" />
-    <Compile Include="Buttons\MatchGrids\MatchGridsWPF.xaml.cs">
-      <DependentUpon>MatchGridsWPF.xaml</DependentUpon>
+    <Compile Include="Buttons\MatchGrids\MatchGridsView.xaml.cs">
+      <DependentUpon>MatchGridsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Buttons\NumberByPick\NumberByPick.cs" />
     <Compile Include="Buttons\NumberByPick\NumberByPickWPF.xaml.cs">
@@ -456,6 +472,9 @@
       <DependentUpon>OpenLinksUnloadedWPF.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\BaseElement.cs" />
+    <Compile Include="Models\Forms\UserInfoWPF.xaml.cs">
+      <DependentUpon>UserInfoWPF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\WarningsPreprocessor.cs" />
     <Compile Include="Tab\Models\PushButtonIdentityData.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -579,7 +598,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Helpers\ResourceDictionaries\DictionaryWindows.xaml">
+    <Page Include="Resources\ResourceDictionaries\DictionaryWindows.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -611,7 +630,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Buttons\MatchGrids\MatchGridsWPF.xaml">
+    <Page Include="Buttons\MatchGrids\MatchGridsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -636,6 +655,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Buttons\ViewOnSheet\ViewsOnSheetWPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Models\Forms\UserInfoWPF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\ResourceDictionaries\TextBlockStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

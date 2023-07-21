@@ -2,12 +2,12 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace BIMicon.BIMiconToolbar.Helpers.MVVM.ViewModel
+namespace BIMicon.BIMiconToolbar.Models.MVVM.Model
 {
     /// <summary>
     /// A base view model class that implements property changed
     /// </summary>
-    public abstract class ViewModelBase : INotifyPropertyChanged
+    public abstract class ModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
