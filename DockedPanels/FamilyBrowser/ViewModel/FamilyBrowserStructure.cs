@@ -1,4 +1,4 @@
-﻿using BIMicon.BIMiconToolbar.Helpers.MVVM.ViewModel;
+﻿using BIMicon.BIMiconToolbar.Models.MVVM.ViewModel;
 using System.Collections.Generic;
 using System.IO;
 

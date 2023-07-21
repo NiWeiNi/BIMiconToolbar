@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    
+    <!-- Style for user info title Textblock -->
+    <Style TargetType="TextBlock" x:Key="UserInfoTitle">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Margin" Value="0 5 0 5"/>
+        <Setter Property="FontWeight" Value="DemiBold"/>
+    </Style>
+
+    <!-- Style for user info message Textblock -->
+    <Style TargetType="TextBlock" x:Key="UserInfoMessage">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Margin" Value="0 10 0 20"/>
+    </Style>
+
+</ResourceDictionary>

@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace BIMicon.BIMiconToolbar.Helpers.MVVM.ViewModel
+namespace BIMicon.BIMiconToolbar.Models.MVVM.ViewModel
 {
     /// <summary>
     /// A base view model class that implements property changed
     /// </summary>
-    public abstract class ModelBase : INotifyPropertyChanged
+    public abstract class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -34,6 +35,13 @@ namespace BIMicon.BIMiconToolbar.Helpers.MVVM.ViewModel
             storage = value;
             this.OnPropertyChanged(propertyName);
             return true;
+        }
+
+        public event EventHandler RequestClose;
+
+        protected virtual void OnRequestClose()
+        {
+            RequestClose?.Invoke(this, EventArgs.Empty);
         }
     }
 }
