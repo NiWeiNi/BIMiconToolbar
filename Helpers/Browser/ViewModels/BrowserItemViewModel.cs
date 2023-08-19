@@ -1,4 +1,5 @@
 ﻿using BIMicon.BIMiconToolbar.Helpers.Browser.Data;
+using BIMicon.BIMiconToolbar.Models.MVVM.ViewModel;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -8,7 +9,7 @@ namespace BIMicon.BIMiconToolbar.Helpers.Browser.ViewModels
     /// <summary>
     /// A view model for each browser item
     /// </summary>
-    public class BrowserItemViewModel : BaseViewModel
+    public class BrowserItemViewModel : ViewModelBase
     {
         #region Properties
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using BIMicon.BIMiconToolbar.Models.MVVM.ViewModel;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace BIMicon.BIMiconToolbar.Helpers.Browser.ViewModels
@@ -6,7 +7,7 @@ namespace BIMicon.BIMiconToolbar.Helpers.Browser.ViewModels
     /// <summary>
     /// The view model for the applications main Directory view
     /// </summary>
-    public class BrowserStructureViewModel : BaseViewModel
+    public class BrowserStructureViewModel : ViewModelBase
     {
         #region Public Properties
         /// <summary>
