@@ -3,7 +3,7 @@ using Autodesk.Windows;
 
 namespace BIMicon.BIMiconToolbar.Helpers
 {
-    internal static class RevitRibbon
+    public static class RevitRibbon
     {
         /// <summary>
         /// Method to check to create a tab with given name if it does not exist in the Revit UI

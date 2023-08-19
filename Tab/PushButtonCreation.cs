@@ -5,7 +5,7 @@ using System.Windows.Media.Imaging;
 
 namespace BIMicon.BIMiconToolbar.Tab
 {
-    internal class PushButtonCreation
+    public class PushButtonCreation
     {
         readonly PushButtonIdentityData _identityData;
 

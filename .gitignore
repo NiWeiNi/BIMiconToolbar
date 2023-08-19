@@ -339,3 +339,8 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /BIMiconToolbar.sln
+/SetupBIMiconToolbar/PluginRelease/2024/BIMiconToolbar.dll
+/SetupBIMiconToolbar/PluginRelease/2020/BIMiconToolbar.dll
+/SetupBIMiconToolbar/PluginRelease/2022/BIMiconToolbar.dll
+/SetupBIMiconToolbar/PluginRelease/2020/BIMiconToolbar.dll
+/SetupBIMiconToolbar/PluginRelease/2022/BIMiconToolbar.dll

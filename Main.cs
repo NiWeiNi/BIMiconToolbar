@@ -14,7 +14,7 @@ namespace BIMicon.BIMiconToolbar
 
         public Result OnStartup(UIControlledApplication application)
         {
-            new BIMiconUI(application);
+            new BIMiconTab(application);
             //RegisterDockPanel(application);
             return Result.Succeeded;
         }

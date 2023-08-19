@@ -8,15 +8,15 @@ using System.Windows.Media.Imaging;
 
 namespace BIMicon.BIMiconToolbar.Tab
 {
-    internal class BIMiconUI
+    internal class BIMiconTab
     {
-        public BIMiconUI(UIControlledApplication application)
+        public BIMiconTab(UIControlledApplication application)
         {
-            string tabName = "BIMicon";
             // Handle tab creation
+            string tabName = "BIMicon";
             RevitRibbon.CheckRibbonTabExist(tabName, application);
 
-            // Create ribbon
+            // Create panel
             RibbonPanel panelLibrary = application.CreateRibbonPanel(tabName, "Library");
             RibbonPanel panelModel = application.CreateRibbonPanel(tabName, "Model");
             RibbonPanel panelModelling = application.CreateRibbonPanel(tabName, "Modelling");

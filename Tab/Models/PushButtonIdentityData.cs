@@ -2,7 +2,7 @@
 
 namespace BIMicon.BIMiconToolbar.Tab.Models
 {
-    internal class PushButtonIdentityData
+    public class PushButtonIdentityData
     {
         public string ButtonName { get; set; }
         public string ButtonDisplayName { get; set; }
