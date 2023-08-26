@@ -38,7 +38,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2020 Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\2020 Debug\</OutputPath>
+    <OutputPath>..\..\..\..\..\ProgramData\Autodesk\Revit\Addins\2020\BIMicon\</OutputPath>
     <DefineConstants>DEBUG;v2020</DefineConstants>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -524,13 +524,4 @@
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent Condition="$(Configuration.Contains('Debug'))">
-		  xcopy "$(TargetDir)" "%AppData%\pyRevit-Master\extensions\PluginTesting.extension\lib\" /s /r /y
-	  </PostBuildEvent>
-  </PropertyGroup>
 </Project>
