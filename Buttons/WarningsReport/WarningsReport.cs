@@ -3,8 +3,6 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using BIMicon.BIMiconToolbar.Helpers;
 using Newtonsoft.Json.Linq;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.Streaming;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -93,63 +91,63 @@ namespace BIMicon.BIMiconToolbar.WarningsReport
             string excelPath = desktopPath + @"\Warnings Report.xlsx";
 
             // Create excel file
-            SXSSFWorkbook workbook = new SXSSFWorkbook();
-            SXSSFSheet excelSheet = (SXSSFSheet)workbook.CreateSheet("Sheet1");
-            excelSheet.SetRandomAccessWindowSize(100);
+            //SXSSFWorkbook workbook = new SXSSFWorkbook();
+            //SXSSFSheet excelSheet = (SXSSFSheet)workbook.CreateSheet("Sheet1");
+            //excelSheet.SetRandomAccessWindowSize(100);
 
-            //Create a header row
-            IRow row = excelSheet.CreateRow(0);
+            ////Create a header row
+            //IRow row = excelSheet.CreateRow(0);
 
-            // Style for header
-            var titleHeader = workbook.CreateFont();
-            titleHeader.FontHeightInPoints = 12;
-            titleHeader.IsBold = true;
-            ICellStyle boldStyle = workbook.CreateCellStyle();
-            boldStyle.SetFont(titleHeader);
+            //// Style for header
+            //var titleHeader = workbook.CreateFont();
+            //titleHeader.FontHeightInPoints = 12;
+            //titleHeader.IsBold = true;
+            //ICellStyle boldStyle = workbook.CreateCellStyle();
+            //boldStyle.SetFont(titleHeader);
 
             // Write to excel
-            using (var fs = new FileStream(excelPath, FileMode.Create, FileAccess.Write))
-            {
-                // Write header
-                for (int i = 0; i < columnNames.Count(); i++)
-                {
-                    var cell = row.CreateCell(i);
-                    cell.SetCellValue(columnNames[i]);
-                    cell.CellStyle = boldStyle;
-                }
+            //using (var fs = new FileStream(excelPath, FileMode.Create, FileAccess.Write))
+            //{
+            //    // Write header
+            //    for (int i = 0; i < columnNames.Count(); i++)
+            //    {
+            //        var cell = row.CreateCell(i);
+            //        cell.SetCellValue(columnNames[i]);
+            //        cell.CellStyle = boldStyle;
+            //    }
 
-                // Write content
-                for (int i = 0; i < dataTransfer.Count; i++)
-                {
-                    int numberElements = dataTransfer[i].Count();
-                    row = excelSheet.CreateRow(i + 1);
+            //    // Write content
+            //    for (int i = 0; i < dataTransfer.Count; i++)
+            //    {
+            //        int numberElements = dataTransfer[i].Count();
+            //        row = excelSheet.CreateRow(i + 1);
 
-                    for (int j = 0; j < numberElements; j++)
-                    {
-                        row.CreateCell(j).SetCellValue(dataTransfer[i][j]);
-                    }
-                }
+            //        for (int j = 0; j < numberElements; j++)
+            //        {
+            //            row.CreateCell(j).SetCellValue(dataTransfer[i][j]);
+            //        }
+            //    }
 
-                // Size columns
-                excelSheet.TrackAllColumnsForAutoSizing();
+            //    // Size columns
+            //    excelSheet.TrackAllColumnsForAutoSizing();
 
-                for (int i = 0; i < columnNames.Count(); i++)
-                {
-                    if (i == 1)
-                    {
-                        excelSheet.SetColumnWidth(i, 3800);
-                    }
-                    // Autosize needs to be after column has some data
-                    excelSheet.AutoSizeColumn(i);
-                }
+            //    for (int i = 0; i < columnNames.Count(); i++)
+            //    {
+            //        if (i == 1)
+            //        {
+            //            excelSheet.SetColumnWidth(i, 3800);
+            //        }
+            //        // Autosize needs to be after column has some data
+            //        excelSheet.AutoSizeColumn(i);
+            //    }
 
-                excelSheet.UntrackAllColumnsForAutoSizing();
+            //    excelSheet.UntrackAllColumnsForAutoSizing();
 
-                // Write to file
-                workbook.Write(fs);
+            //    // Write to file
+            //    workbook.Write(fs);
 
-                TaskDialog.Show("Success", "Warnings report created in: " + excelPath);
-            }
+            //    TaskDialog.Show("Success", "Warnings report created in: " + excelPath);
+            //}
             return Result.Succeeded;
         }
     }
